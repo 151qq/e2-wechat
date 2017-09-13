@@ -1,6 +1,8 @@
 
 import axios from 'axios';
 import interfaces from './interfaces';
+import wxLogin from './wx-login'
+import Cookies from 'js-cookie'
 
 const actions = {
 
@@ -19,6 +21,13 @@ const actions = {
   },
 
   request:(option) => {
+
+    let queryObj = wxLogin.getQuery()
+
+    if (queryObj['code' && !Cookies.get('token')) {
+      wxLogin.getToken()
+    }
+
     let method=option.method?option.method:'get';
     let putData={
       url:interfaces.interfaces[option.interface],
@@ -47,15 +56,13 @@ const actions = {
         //common.removeLoading();
         if(response.status == 200 && response.data.success) {
           let status = response.data.success;
+          let url = response.data.result.url;
           console.log("进入状态" + status);
           if (status == 203) { //无认证状态
-            let route = window.location.href;
-            let url = route.substring(route.indexOf("#") + 1);
-            let corpArry = url.split("/");
-            let corpId = corpArry[3];
-            let agentid = corpArry[4];
-            console.log(corpId + "===" + agentid)
-            //window.location.href = "/"+corpId+"/"+agentid+"/authentication";
+            // 跳转授权页
+            
+            wxLogin.getCode(url)
+
             return;
           }
         }
