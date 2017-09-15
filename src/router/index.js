@@ -2,11 +2,13 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-//app整体由店面页和店内页组成 暂时并没有用到嵌套路由
-const routes = [{
-  path: '/service',
-  name: "在线导购",
-  component: resolve => require(["../components/service/service.vue"], resolve)
+
+const routes = [
+
+  {
+    path: '/service',
+    name: "在线导购",
+    component: resolve => require(["../components/service/service.vue"], resolve)
   },
 
   {
@@ -34,6 +36,14 @@ const routes = [{
     }
 
   },
+  {
+    path: '/form/:type',
+    name: "营销任务表单",
+    components: {
+      "subPage": resolve => require(["../components/task/task-form.vue"], resolve)
+    }
+
+  },
 
   {
     path: '/stock',
@@ -55,7 +65,8 @@ const routes = [{
     path: '/work',
     name: "我的工作",
     component: resolve => require(["../components/work/work.vue"], resolve)
-  }, {
+  },
+  {
     path: '/work/album',
     components: {
       "default": resolve => require(["../components/work/work.vue"], resolve),
@@ -72,13 +83,13 @@ const routes = [{
 export default new Router({
   base: "/",
   //mode: 'history',
-  routes
-  // scrollBehavior(to, from, savedPosition) {
-  //     if (savedPosition) {
-  //         return savedPosition
-  //     } else {
-  //         return { x: 0, y: 0 }
-  //     }
-  // }
+  routes,
+   scrollBehavior(to, from, savedPosition) {
+       if (savedPosition) {
+           return savedPosition
+       } else {
+           return { x: 0, y: 0 }
+       }
+   }
 
 })
