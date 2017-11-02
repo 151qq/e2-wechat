@@ -1,6 +1,6 @@
 let wc = window.location;
 //const platform =wc.protocol+'//'+wc.host+'/';
-const platform = "/e2";
+const platform = "/e2-mobile-api";
 export default{
 
   interfaces: {
@@ -15,6 +15,10 @@ export default{
     "saveArticleArea": "siteEdit/saveArticleArea.json",    //保存块
     "stockJson": platform+"/article/articleList.json",       //发布
     "taskJson": platform+"/task/list.json",        //任务
-    "serviceJson": platform+"/mock/message.json"
+    "serviceJson": platform+"/mock/message.json",
+    "wechatAuth": platform+"/authentication/wx468d884c0dc5251a/2.json",
+    "findUserByWeCode": platform+"/findWechatUserByCode.json",
+    "getWechatUserInfo": platform+"/getWechatUserInfo.json"
+
   }
 }

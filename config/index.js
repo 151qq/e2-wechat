@@ -24,17 +24,17 @@ module.exports = {
     dev: {
         env: require('./dev.env'),
         port: 8888,
-        autoOpenBrowser: true,
+        autoOpenBrowser: false,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
 
 
         proxyTable: {
-          '/e2': {
-            target: 'http://112.126.90.50:8085',
+          '/e2-mobile-api': {
+            target: 'http://localhost/',
             changeOrigin: true,
             pathRewrite: {
-              '^/e2': ''
+              '^/e2-mobile-api': ''
             }
           }
 

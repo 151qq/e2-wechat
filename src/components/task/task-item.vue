@@ -8,7 +8,6 @@
                 <!--如果是私聊，只显示一个头像； 如果是群聊，则显示多个头像，flex 控制样式-->
                 <div class="header">
                     <img  :src="item.taskIcon">
-
                 </div>
             </div>
             <div class="desc-box">
@@ -19,12 +18,10 @@
 
               <div class="desc-author">{{item.taskTitle}}</div>
                 <div class="desc-msg">
-                    <span>{{item.taskBeginTime | fmtDate('yyyy-MM-dd hh:ss')}}</span>
+                    <span>{{item.taskBeginTime}}</span>
                 </div>
             </div>
         </router-link>
-
-
 
         <div class="operate-box">
             <div class="operate-unread" v-if="read" v-on:click="toggleMsgRead">标为未读</div>

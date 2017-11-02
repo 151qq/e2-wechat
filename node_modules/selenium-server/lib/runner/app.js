@@ -1,11 +1,12 @@
 var spawn = require('child_process').spawn,
+    self  = require('../selenium-server'),
     fs    = require('fs'),
     wd    = __dirname + '/../..',
     args  = process.argv.slice(2),
     selenium
           = spawn(
               'java',
-              ['-jar', __dirname + '/selenium-server-standalone-3.4.0.jar'].concat(args)
+              ['-jar', self.path].concat(args)
             ),
     ok    = false,
     out   = fs.createWriteStream(wd + '/logs/selenium.out', {flags: 'a'}),

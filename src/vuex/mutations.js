@@ -1,4 +1,15 @@
 const mutations = {
+
+  ['login']: (state, data) => {
+    state.token = data;
+  },
+  ['logout']: (state) => {
+    state.token = null
+  },
+  ['title']: (state, data) => {
+    state.title = data;
+  },
+
     //切换语言 后期需要
     switchLang(state, lang) {
         state.currentLang = lang

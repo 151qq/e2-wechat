@@ -1,8 +1,6 @@
 
 import axios from 'axios';
 import interfaces from './interfaces';
-import wxLogin from './wx-login'
-import Cookies from 'js-cookie'
 
 const actions = {
 
@@ -15,26 +13,55 @@ const actions = {
     var second = date.getSeconds()
     return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
   },
+
+  getCookie: function (key) {
+    var name = key + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1);
+      if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+    }
+    return "";
+  },
+
+  goWechatAuth: function (url) {
+    actions.request({
+      method: 'post',
+      interface: 'wechatAuth',
+      data: {'redirect':url}
+    }).then(res => {
+      var data = res.result.result;
+      if(data.startsWith('https')){
+        console.log(data);
+        window.location.href=data; //转向微信授权
+      }
+    });
+  },
+
+  getTokenByCode: function (code, cb) {
+    actions.request({
+      method: 'post',
+      interface: 'findUserByWeCode',
+      data: {'code':code}
+    }).then(res => {
+      cb(res)
+    });
+  },
+
   range: function (n) {
     n = n.toString()
     return n[1] ? n : '0' + n
   },
 
   request:(option) => {
-
-    let queryObj = wxLogin.getQuery()
-
-    if (queryObj['code' && !Cookies.get('token')) {
-      wxLogin.getToken()
-    }
-
     let method=option.method?option.method:'get';
     let putData={
       url:interfaces.interfaces[option.interface],
       method:method,
-      headers:{
-        token:option.token?option.token:''
-      }
+      // headers:{
+      //   token:option.token?option.token:''
+      // }
     }
     if(method=='get'){
       putData.params = option.data;
@@ -45,30 +72,42 @@ const actions = {
      * 请求拦截：在请求之前执行 比如loading处理
      * */
     return new Promise((resolve,reject)=>{
+
       axios.interceptors.request.use(function (config) {
         //common.loading();
+        //document.cookie = "test=vue";
+        let token = actions.getCookie("e2_enterprise_staff");
+        console.log(token);
+        // if(token){
+        //   config.headers.token = token;  //设置请求的 的header
+        //   config.headers.token = 'token ${store.state.token}';
+        //   console.log(config);
+        // }
         return config;
       })
       /**
        * 请求完成后执行
        * */
-      axios.interceptors.response.use(function (response) {
-        //common.removeLoading();
-        if(response.status == 200 && response.data.success) {
-          let status = response.data.success;
-          let url = response.data.result.url;
-          console.log("进入状态" + status);
-          if (status == 203) { //无认证状态
-            // 跳转授权页
-            
-            wxLogin.getCode(url)
+      axios.interceptors.response.use(
+        response =>{
+         //common.removeLoading();
+            if(response.data.result.authorization == 203){
+              //var url = response.request.responseURL;
+              // var url = window.location.href;
+              // console.log(url);
+              // actions.goWechatAuth(url);
+            }
 
-            return;
+          return response;
+        },
+
+        error => {
+          if(error.response.status){
+            console.log(error.response.status)
           }
         }
-        return response;
 
-      })
+      )
 
       axios(putData).then(res=>{;
         resolve({
@@ -83,8 +122,6 @@ const actions = {
   },
 
   wechatAuth:(jsonData)  =>{
-
-
 
   },
 
