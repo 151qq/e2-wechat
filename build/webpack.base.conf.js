@@ -1,16 +1,37 @@
 var path = require('path')
+var glob = require('glob')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var entries = getEntry('./src/views/**/*.html')
+
+
+
+//获取入口js文件
+function getEntry(globPath) {
+  var entries = {},
+    basename, ext;
+
+  glob.sync(globPath).forEach(function(entry) {
+    ext = path.extname(entry)
+    basename = path.basename(entry, ext);
+    entries[basename] = entry.replace(ext, '_main.js');
+  });
+  return entries;
+}
+
+
+
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-
+console.log(entries)
 module.exports = {
-  entry: {
-    app: './src/main.js'
-  },
+  // entry: {
+  //   app: './src/main.js'
+  // },
+  entry: entries,
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -20,15 +41,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    modules: [
+    modules:[
       resolve('src'),
       resolve('node_modules')
     ],
     alias: {
-      'vue$': 'vue/dist/vue.common.js',
-      'src': resolve('src'),
-      'assets': resolve('src/assets'),
-      'components': resolve('src/components')
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+      'src':resolve('src'),
+      'assets':resolve('src/assets'),
+      'components':resolve('src/components')
     }
   },
   module: {
@@ -46,7 +68,7 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
@@ -54,7 +76,7 @@ module.exports = {
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
-        query: {
+        options: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }

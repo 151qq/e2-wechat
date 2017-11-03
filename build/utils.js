@@ -1,5 +1,6 @@
 var path = require('path')
 var config = require('../config')
+var glob = require('glob')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 exports.assetsPath = function (_path) {
@@ -44,7 +45,7 @@ exports.cssLoaders = function (options) {
     }
   }
 
-  // http://vuejs.github.io/vue-loader/en/configurations/extract-css.html
+  // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
@@ -68,4 +69,32 @@ exports.styleLoaders = function (options) {
     })
   }
   return output
+}
+
+
+//获取js入口文件
+exports.getEntries = function (globPath,type) {
+  var entries = {}
+  var ishtml=type!==undefined?true:false;
+  /**
+   * 读取src目录,并进行路径裁剪
+   */
+  glob.sync(globPath).forEach(function (entry) {
+    if(ishtml){
+      var tmp = entry.split('/').splice(-3)
+      var moduleName = tmp.splice(0,2).join("/");
+      entries[moduleName] = entry
+
+    }
+    else{
+      //js以模块文件作为输出,比如indx.js
+      var basename = path.basename(entry, path.extname(entry));
+      tmp = entry.split('/').splice(-3);
+      pathname = tmp.splice(1, 1);
+      entries[pathname] = entry;
+    }
+  });
+  console.log(entries);
+  // 获取的主入口如下： { main: './src/module/index/main.js', test: './src/module/test/test.js' }
+  return entries;
 }
