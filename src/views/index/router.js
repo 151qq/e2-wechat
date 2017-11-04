@@ -266,6 +266,32 @@ const routers = [
         }
       }
     ]
+  },
+  {
+    // 我的会员
+    path: '/member',
+    name: 'member',
+    component (resolve) {
+      require(["../../components/member/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'member-list',
+        component: resolve => require(["../../components/member/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'detail',
+        name: 'member-detail',
+        component: resolve => require(["../../components/member/itemDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
   }
 ]
 
