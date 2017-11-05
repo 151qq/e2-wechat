@@ -24,18 +24,6 @@
             </router-link>
         </section>
         <section class="weui-cells weui-cells_form">
-            <div class="weui-cell weui-cell_switch">
-                <div class="weui-cell__bd">客户性别</div>
-                <div class="weui-cell__ft">
-                    <label for="switchCP" class="weui-switch-cp">
-                        <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked">
-                        <div class="weui-switch-cp__box">
-                            <span class="text-box-check">男</span>
-                            <span class="text-box-nocheck">女</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
                 <div class="weui-cell__bd">
@@ -46,6 +34,17 @@
                 <div class="weui-cell__hd"><label class="weui-label">微信昵称</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请输入">
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">客户性别</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select2">
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
                 </div>
             </div>
             <div class="weui-cell weui-cell_select weui-cell_select-after">

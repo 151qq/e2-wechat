@@ -1,10 +1,10 @@
-const platform = "/e2-mobile-api";
+const platform = "/e2-platform-api/";
 
 export default{
 
   interfaces: {
     "html5PageSearch": "html5SiteInfo/html5PageSearch.json",      //文章列表接口
-    "uploadArticleAreaImage": "siteEdit/uploadArticleAreaImage.json",   //图片上传接口
+    "uploadArticleAreaImage": platform + "siteEdit/uploadArticleAreaImage.json",   //图片上传接口
     "deleteDraftFile": "html5SiteInfo/deleteDraftFile.json",                       //文章删除接口,参数 html5PageCode,id
     "mediaList": "html5SiteInfo/mediaList.json",
     "getUserInfo": "getUserInfo.json",
@@ -18,6 +18,5 @@ export default{
     "wechatAuth": platform+"/authentication/wx468d884c0dc5251a/2.json",
     "findUserByWeCode": platform+"/findWechatUserByCode.json",
     "getWechatUserInfo": platform+"/getWechatUserInfo.json"
-
   }
 }

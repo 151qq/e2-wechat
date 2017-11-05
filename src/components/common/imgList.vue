@@ -1,10 +1,12 @@
 <template>
     <div class="img-list-box">
         <section class="wx-img-list weui-grids">
-            <img class="weui-grid"
-                v-for="(item, index) in imgList"
-                :src="item"
-                @click="showBigImg(index)">
+            <template v-for="(item, index) in imgList">
+                <img class="weui-grid"
+                    :src="item"
+                    @click="showBigImg(index)">
+                <div class="margin-box" v-if="index % 3 != 2"></div>
+            </template>
         </section>
         <router-link v-if="morePath"
             class="weui-cell weui-cell_access weui-cell_link"
@@ -57,6 +59,17 @@ export default {
         &:before {
             border: none;
         }
+    }
+
+    .weui-grid {
+        width: 33%;
+        margin-bottom: 0.15em;
+    }
+
+    .margin-box {
+        float: left;
+        width: 0.5%;
+        height: 1px;
     }
 }
 </style>
