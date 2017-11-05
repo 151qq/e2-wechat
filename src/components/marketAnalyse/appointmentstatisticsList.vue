@@ -4,7 +4,7 @@
             <div class="weui-panel__bd">
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in listData"
-                        :to="{name: $route.query.type + '-detail', query: {id: item.id}}">
+                        :to="{}">
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb" :src="item.imgUrl">
                     </div>

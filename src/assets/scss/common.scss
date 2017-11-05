@@ -76,5 +76,29 @@
   color: #4c84c4;
 }
 
+.wx-bottom-nav {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  background: #ffffff;
+
+  .wx-nav-item {
+    flex: 1;
+    font-size: 16px;
+    line-height: 2.4;
+    text-align: center;
+    border-left: 1px solid #e5e5e5;
+    color: #000000;
+
+    &:first-child {
+      border: none;
+    }
+  }
+}
+
 
 
