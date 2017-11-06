@@ -1,9 +1,8 @@
 <template>
     <section class="article-list-box page__bd">
-        <div class="weui-panel weui-panel_access"
-                v-for="(item, index) in listData">
-            <div class="year-box weui-panel__hd">{{item.year}}</div>
-            <div class="weui-panel__bd">
+        <template v-for="(item, index) in listData">
+            <div class="weui-cells__title">{{item.year}}</div>
+            <div class="weui-cells">
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(article, index) in item.datas"
                         :to="{name: 'article-detail', query: {id: article.id}}">
@@ -16,7 +15,7 @@
                     </div>
                 </router-link>
             </div>
-        </div>
+        </template>
     </section>
 </template>
 <script>
@@ -75,13 +74,5 @@ export default {
 </script>
 <style lang="scss">
 .article-list-box {
-    .year-box {
-        line-height: 1.47058824;
-        font-size: 17px;
-    }
-
-    .weui-panel {
-        margin-top: 0;
-    }
 }
 </style>

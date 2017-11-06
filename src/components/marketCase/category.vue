@@ -1,9 +1,8 @@
 <template>
     <section class="case-list-box page__bd">
-        <div class="weui-panel weui-panel_access"
-                v-for="(item, index) in listData">
-            <div class="year-box weui-panel__hd">{{item.year}}</div>
-            <div class="weui-panel__bd">
+        <template v-for="(item, index) in listData">
+            <div class="weui-cells__title">{{item.year}}</div>
+            <div class="weui-cells">
                 <div class="weui-media-box weui-media-box_small-appmsg">
                     <div class="weui-cells">
                         <router-link class="weui-cell weui-cell_access"
@@ -15,7 +14,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </section>
 </template>
 <script>
@@ -36,18 +35,18 @@ export default {
                     datas: [
                         {
                             id: 0,
-                            title: '爱谁谁爱啥啥',
+                            title: '微信推广活动方案',
                             type: 'online'
                         },
                         {
                             id: 1,
-                            title: '不知道不明了',
-                            type: 'noline'
+                            title: '地面推广活动方案',
+                            type: 'outline'
                         },
                         {
                             id: 2,
-                            title: '没戏了没戏了',
-                            type: 'outline'
+                            title: '外呼广活动方案',
+                            type: 'noline'
                         }
                     ]
                 },
@@ -80,13 +79,5 @@ export default {
 </script>
 <style lang="scss">
 .case-list-box {
-    .year-box {
-        line-height: 1.47058824;
-        font-size: 17px;
-    }
-
-    .weui-panel {
-        margin-top: 0;
-    }
 }
 </style>

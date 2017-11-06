@@ -6,6 +6,16 @@
         <div class="comments-box">
             <comment></comment>
         </div>
+        <div class="wx-bottom-nav">
+            <router-link class="wx-nav-item"
+                            :to="{}">
+                文章下架
+            </router-link>
+            <router-link class="wx-nav-item"
+                            :to="{}">
+                关闭评论
+            </router-link>
+        </div>
     </section>
 </template>
 <script>

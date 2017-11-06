@@ -28,10 +28,15 @@
 
         <div class="wx-area-title wx-area-mid">产品宣传照片</div>
         <img-list :img-list="productSpreed" :more-path="aproductSpreedPath"></img-list>
+        <div class="wx-area-line"></div>
+        <div class="comments-box">
+            <comment></comment>
+        </div>
     </section>
 </template>
 <script>
 import imgList from '../common/imgList.vue'
+import comment from '../common/comment.vue'
 
 export default {
     data () {
@@ -98,7 +103,8 @@ export default {
         }
     },
     components: {
-        imgList
+        imgList,
+        comment
     }
 }
 </script>

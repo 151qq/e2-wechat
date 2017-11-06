@@ -60,7 +60,7 @@ const routers = [
     ]
   },
   {
-    // 营销方案
+    // 券营销活动
     path: '/marketCase',
     name: 'marketCase',
     component (resolve) {
@@ -103,6 +103,51 @@ const routers = [
         path: 'nolineDetail',
         name: 'noline-detail',
         component: resolve => require(["../../components/marketCase/nolineDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        // 终止活动
+        path: 'stopActivity',
+        name: 'stop-activity',
+        component: resolve => require(["../../components/marketCase/stopActivity.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        // 活动目标
+        path: 'activityTarget',
+        name: 'activity-target',
+        component: resolve => require(["../../components/marketCase/activityTarget.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        // 详细方案
+        path: 'caseDetail',
+        name: 'case-detail',
+        component: resolve => require(["../../components/marketCase/caseDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        // 优惠券
+        path: 'caseCoupon',
+        name: 'case-coupon',
+        component: resolve => require(["../../components/marketCase/caseCoupon.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        // 传播奖励
+        path: 'communicationReward',
+        name: 'communication-reward',
+        component: resolve => require(["../../components/marketCase/communicationReward.vue"], resolve),
         meta: {
           token:false
         }
@@ -240,33 +285,25 @@ const routers = [
     ]
   },
   {
-    // 营销表单
-    path: '/marketForm',
-    name: 'marketForm',
+    // 营销红包
+    path: '/marketPacket',
+    name: 'marketPacket',
     component (resolve) {
-      require(["../../components/marketForm/main.vue"], resolve)
+      require(["../../components/marketPacket/main.vue"], resolve)
     },
     children: [
       {
         path: '',
-        name: 'from-list',
-        component: resolve => require(["../../components/marketForm/itemList.vue"], resolve),
+        name: 'logo-list',
+        component: resolve => require(["../../components/marketPacket/logoList.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'onlineBooking',
-        name: 'outline-booking',
-        component: resolve => require(["../../components/marketForm/onlineBooking.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'personnelRegistration',
-        name: 'personnel-registration',
-        component: resolve => require(["../../components/marketForm/personnelRegistration.vue"], resolve),
+        path: 'giftPoints',
+        name: 'gift-points',
+        component: resolve => require(["../../components/marketPacket/giftPoints.vue"], resolve),
         meta: {
           token:false
         }
@@ -274,33 +311,59 @@ const routers = [
     ]
   },
   {
-    // 聊天记录
-    path: '/chatRecord',
-    name: 'chatRecord',
+    // 推广注册
+    path: '/promotionFranchise',
+    name: 'promotionFranchise',
     component (resolve) {
-      require(["../../components/chatRecord/main.vue"], resolve)
+      require(["../../components/promotionFranchise/main.vue"], resolve)
     },
     children: [
       {
         path: '',
-        name: 'chat-list',
-        component: resolve => require(["../../components/chatRecord/itemList.vue"], resolve),
+        name: 'spreed-join',
+        component: resolve => require(["../../components/promotionFranchise/spreedJoin.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'detail',
-        name: 'chat-detail',
-        component: resolve => require(["../../components/chatRecord/itemDetail.vue"], resolve),
+        path: 'registorConfirm',
+        name: 'registor-confirm',
+        component: resolve => require(["../../components/promotionFranchise/registorConfirm.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
+  },
+  {
+    // 在线预约
+    path: '/onlineBooking',
+    name: 'onlineBooking',
+    component (resolve) {
+      require(["../../components/onlineBooking/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'appointment-confirm',
+        component: resolve => require(["../../components/onlineBooking/appointmentConfirm.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'imgList',
-        name: 'chat-img',
-        component: resolve => require(["../../components/chatRecord/imgList.vue"], resolve),
+        path: 'appointmentCustomer',
+        name: 'appointment-customer',
+        component: resolve => require(["../../components/onlineBooking/appointmentCustomer.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'pageConfirm',
+        name: 'page-confirm',
+        component: resolve => require(["../../components/onlineBooking/pageConfirm.vue"], resolve),
         meta: {
           token:false
         }
