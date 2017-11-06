@@ -395,6 +395,104 @@ const routers = [
         }
       }
     ]
+  },
+  {
+    // 营销任务
+    path: '/marketTask',
+    name: 'marketTask',
+    component (resolve) {
+      require(["../../components/marketTask/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'task-category',
+        component: resolve => require(["../../components/marketTask/category.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'list',
+        name: 'task-list',
+        component: resolve => require(["../../components/marketTask/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'activityTask',
+        name: 'activity-task',
+        component: resolve => require(["../../components/marketTask/activityTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'editTask',
+        name: 'edit-task',
+        component: resolve => require(["../../components/marketTask/editTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'spreedTask',
+        name: 'spreed-task',
+        component: resolve => require(["../../components/marketTask/spreedTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'pushTask',
+        name: 'push-task',
+        component: resolve => require(["../../components/marketTask/pushTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'nolineTask',
+        name: 'noline-task',
+        component: resolve => require(["../../components/marketTask/nolineTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'receiveTask',
+        name: 'receive-task',
+        component: resolve => require(["../../components/marketTask/receiveTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'responseTask',
+        name: 'response-task',
+        component: resolve => require(["../../components/marketTask/responseTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'assignmentTask',
+        name: 'assignment-task',
+        component: resolve => require(["../../components/marketTask/assignmentTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'checkTask',
+        name: 'check-task',
+        component: resolve => require(["../../components/marketTask/checkTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
   }
 ]
 

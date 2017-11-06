@@ -1,7 +1,7 @@
 <template>
     <section class="submit-box" v-if="isShowModal.value" @click.self='hiddenModal'>
-        <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
+        <div class="weui-cells weui-cells_form no-line">
+            <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
                                 placeholder="这一刻的想法..."
@@ -11,7 +11,7 @@
                 </div>
             </div>
         </div>
-        <div class="weui-cell">
+        <div class="weui-cell no-line">
             <div class="weui-uploader">
                 <div class="weui-uploader__bd">
                      <ul class="weui-uploader__files" id="uploaderFiles">
@@ -20,14 +20,7 @@
                             @click="showBigImg(index)">
                                 <img :src="item">
                         </li>
-                        <li class="weui-uploader__input-box">
-                            <input id="uploaderInput"
-                                    class="weui-uploader__input"
-                                    type="file"
-                                    accept="image/*"
-                                    multiple=""
-                                    @change="uploadImg">
-                        </li>
+                        <li class="weui-uploader__input-box"></li>
                     </ul>
                 </div>
             </div>
@@ -109,28 +102,19 @@ export default {
     width: 100%;
     height: 100%;
     background: #ffffff;
-
-    .weui-btn-area {
-        position: absolute;
-        width: 100%;
-        bottom: 15px;
-        left: 0;
-        margin: 0;
-        box-sizing: border-box;
-        padding: 1.17647059em 15px .3em;
-    }
+    z-index: 1001;
 
     .weui-cells {
         margin-top: 0;
+    }
 
-        &:after, &:before {
+    .no-line {
+        &:before {
             height: 0;
             border: none;
         }
-    }
 
-    .weui-cell {
-        &:before {
+        &:after, &:before {
             height: 0;
             border: none;
         }
