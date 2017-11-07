@@ -406,14 +406,6 @@ const routers = [
     children: [
       {
         path: '',
-        name: 'task-category',
-        component: resolve => require(["../../components/marketTask/category.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'list',
         name: 'task-list',
         component: resolve => require(["../../components/marketTask/itemList.vue"], resolve),
         meta: {
@@ -461,6 +453,14 @@ const routers = [
         }
       },
       {
+        path: 'responsenolineTask',
+        name: 'responsenoline-task',
+        component: resolve => require(["../../components/marketTask/responsenolineTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
         path: 'receiveTask',
         name: 'receive-task',
         component: resolve => require(["../../components/marketTask/receiveTask.vue"], resolve),
@@ -488,6 +488,62 @@ const routers = [
         path: 'checkTask',
         name: 'check-task',
         component: resolve => require(["../../components/marketTask/checkTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'nolinecheckTask',
+        name: 'nolinecheck-task',
+        component: resolve => require(["../../components/marketTask/nolinecheckTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'receivecheckTask',
+        name: 'receivecheck-task',
+        component: resolve => require(["../../components/marketTask/receivecheckTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'responsecheckTask',
+        name: 'responsecheck-task',
+        component: resolve => require(["../../components/marketTask/responsecheckTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'qrCode',
+        name: 'qr-code',
+        component: resolve => require(["../../components/marketTask/qrCode.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'tiketList',
+        name: 'tiket-list',
+        component: resolve => require(["../../components/marketTask/tiketList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'userCheck',
+        name: 'user-check',
+        component: resolve => require(["../../components/marketTask/userCheck.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'receiveTiket',
+        name: 'receive-tiket',
+        component: resolve => require(["../../components/marketTask/receiveTiket.vue"], resolve),
         meta: {
           token:false
         }

@@ -14,24 +14,6 @@
                     <input class="weui-input" type="datetime-local" value="" placeholder="">
                 </div>
             </div>
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd">
-                    <label for="" class="weui-label">营销活动</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select" name="select2">
-                        <option value="1">中国</option>
-                        <option value="2">美国</option>
-                        <option value="3">英国</option>
-                    </select>
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入">
-                </div>
-            </div>
         </div>
         <div class="weui-cells__title">详情</div>
         <div class="weui-cells weui-cells_form no-margin">
@@ -60,7 +42,7 @@
         <div class="weui-cells no-margin">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in listData"
-                    :to="{name: 'qr-code'}">
+                    :to="{}">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.imgUrl">
                 </div>
@@ -70,11 +52,23 @@
                 </div>
             </router-link>
         </div>
-
-        <a @click="uploadFile" class="add-file-btn">添加附件</a>
+        <div class="weui-cells__title">潜在客户列表</div>
+        <div class="weui-cells no-margin">
+            <router-link class="weui-media-box weui-media-box_appmsg"
+                    v-for="(item, index) in listData"
+                    :to="{}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="item.imgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.title}}</h4>
+                    <!-- <p class="weui-media-box__desc">{{item.des}}</p> -->
+                </div>
+            </router-link>
+        </div>
 
         <div class="wx-mess-box">
-            <report></report>
+            <report :path-name="'nolinecheck-task'"></report>
         </div>
 
         <div class="wx-bottom-nav">
@@ -118,7 +112,13 @@ export default {
                 {
                     id: 0,
                     imgUrl: '/static/images/detail1.png',
-                    title: '我要去扫二维码',
+                    title: '爱谁谁爱啥啥',
+                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
+                },
+                {
+                    id: 1,
+                    imgUrl: '/static/images/detail1.png',
+                    title: '不知道不明了',
                     des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
                 }
             ],

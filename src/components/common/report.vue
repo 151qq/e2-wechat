@@ -77,6 +77,7 @@ import {getDateDiff} from '../../assets/common/utils.js'
 import submitComment from './submitComment.vue'
 
 export default {
+    props: ['pathName'],
     data () {
         return {
             commentDatas: [
@@ -142,6 +143,10 @@ export default {
             this.isShowModal.value = true
         },
         showCheck (item) {
+            if (this.pathName) {
+                this.$router.push({name: this.pathName})
+                return
+            }
             this.$router.push({name: 'check-task'})
         }
     },

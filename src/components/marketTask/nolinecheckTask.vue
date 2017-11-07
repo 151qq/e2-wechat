@@ -1,62 +1,71 @@
 <template>
-    <section class="point-box page__hd">
-        <div class="weui-cells__title">基本信息</div>
+    <section class="noline-check-box">
+        <div class="weui-cells__title">客户详情</div>
+        <div class="wx-area-text">
+            客户XXX，参加了于2017年12月23日在扬州广陵西路经贸大厦一层举办的推广活动，对XXX产品很有兴趣，并被您添加为会员，请主动联系改客户，促成预约体验。
+        </div>
+        <div class="imgs-box">
+            <img-list :img-list="imgList"></img-list>
+        </div>
+        <div class="weui-cells no-margin">
+            <router-link class="weui-media-box weui-media-box_appmsg"
+                    v-for="(item, index) in listData"
+                    :to="{}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="item.imgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.title}}</h4>
+                    <!-- <p class="weui-media-box__desc">{{item.des}}</p> -->
+                </div>
+            </router-link>
+        </div>
+        <div class="weui-cells">
+            <a class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd weui-cell_primary">15164369647</div>
+                <div class="weui-cell__ft"></div>
+            </a>
+        </div>
+        <div class="weui-cells__title">外呼结果</div>
         <div class="weui-cells weui-cells_form">
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">开始时间</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" value="" placeholder="">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">结束时间</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" value="" placeholder="">
-                </div>
-            </div>
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd">
-                    <label for="" class="weui-label">营销活动</label>
+                    <label for="" class="weui-label">外呼结果</label>
                 </div>
                 <div class="weui-cell__bd">
                     <select class="weui-select" name="select2">
-                        <option value="1">中国</option>
-                        <option value="2">美国</option>
-                        <option value="3">英国</option>
+                        <option value="1">通过</option>
+                        <option value="0" selected="">不通过</option>
                     </select>
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入">
-                </div>
-            </div>
         </div>
-        <div class="weui-cells__title">详情</div>
-        <div class="weui-cells weui-cells_form no-margin">
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入文本内容..." rows="3"></textarea>
-                </div>
-            </div>
-
+        <div class="wx-area-line"></div>
+        <div class="weui-cells weui-cells_form no-line">
             <div class="weui-cell no-line">
-                <div class="weui-uploader">
-                    <div class="weui-uploader__bd">
-                         <ul class="weui-uploader__files" id="uploaderFiles">
-                            <li class="weui-uploader__file"
-                                v-for="(item, index) in imgList"
-                                @click="showBigImg(index)">
-                                    <img :src="item">
-                            </li>
-                            <li class="weui-uploader__input-box" @click="uploadImg"></li>
-                        </ul>
-                    </div>
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea"
+                                placeholder="这一刻的想法..."
+                                rows="3"
+                                v-model="submitCotent"></textarea>
+                    <!-- <div class="weui-textarea-counter"><span>{{fontNum}}</span>/{{totalFont}}</div> -->
                 </div>
             </div>
         </div>
-        <div class="weui-cells__title">附件</div>
+        <div class="weui-cell no-line">
+            <div class="weui-uploader">
+                <div class="weui-uploader__bd">
+                     <ul class="weui-uploader__files" id="uploaderFiles">
+                        <li class="weui-uploader__file"
+                            v-for="(item, index) in imgList"
+                            @click="showBigImg(index)">
+                                <img :src="item">
+                        </li>
+                        <li class="weui-uploader__input-box"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="weui-cells no-margin">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in listData"
@@ -71,25 +80,10 @@
             </router-link>
         </div>
 
-        <a @click="uploadFile" class="add-file-btn">添加附件</a>
+        <a class="add-file-btn">添加附件</a>
 
-        <div class="wx-mess-box">
-            <report></report>
-        </div>
-
-        <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                任务研讨
-            </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                任务红包
-            </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'assignment-task'}">
-                分派任务
-            </router-link>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:">确认</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -101,14 +95,14 @@
 <script>
 import tools from '../../utils/tools'
 import deleteImg from '../common/deleteImg.vue'
-import report from '../common/report.vue'
+import imgList from '../common/imgList.vue'
 
 export default {
+    props: ['isShowModal'],
     data () {
         return {
-            isShowImg: {
-                value: false
-            },
+            fontNum: 0,
+            submitCotent: '',
             imgList: [
                 '/static/images/bench1.png',
                 '/static/images/bench1.png',
@@ -140,8 +134,20 @@ export default {
                     des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
                 }
             ],
+            totalFont: 140,
             nowIndex: '',
-            nowPath: ''
+            nowPath: '',
+            isShowImg: {
+                value: false
+            }
+        }
+    },
+    mounted () {
+        console.log(this.imgList, 'imgList')
+    },
+    watch: {
+        submitCotent () {
+            this.fontNum = this.submitCotent.length
         }
     },
     methods: {
@@ -156,9 +162,6 @@ export default {
                 }
             })
         },
-        uploadFile () {
-
-        },
         showBigImg (index) {
             this.nowIndex = index
             this.nowPath = this.imgList[index]
@@ -170,14 +173,31 @@ export default {
     },
     components: {
         deleteImg,
-        report
+        imgList
     }
 }
 </script>
 <style lang="scss">
-.point-box {
-    .no-margin {
+.noline-check-box {
+    .imgs-box {
+        padding: 0 15px 10px;
+        background: #ffffff;
+    }
+
+    .weui-cells {
         margin-top: 0;
+    }
+
+    .no-line {
+        &:before {
+            height: 0;
+            border: none;
+        }
+
+        &:after, &:before {
+            height: 0;
+            border: none;
+        }
     }
 
     .add-file-btn {
@@ -188,18 +208,6 @@ export default {
         margin: 10px 15px;
         border: 1px solid #e5e5e5;
         border-radius: 5px;
-    }
-
-    .no-line {
-        &:before {
-            height: 0;
-            border: none;
-        }
-
-        &:after {
-            height: 0;
-            border: none;
-        }
     }
 
     .weui-uploader__file {
