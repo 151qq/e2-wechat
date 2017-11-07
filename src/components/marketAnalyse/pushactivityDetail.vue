@@ -2,7 +2,7 @@
     <section class="analyse-detail-box">
         <div class="weui-cells">
             <router-link class="weui-cell weui-cell_access"
-                            :to="{}">
+                            :to="{name: 'activity-progress'}">
                 <div class="weui-cell__bd">活动进程</div>
                 <div class="weui-cell__ft">第23天</div>
             </router-link>

@@ -281,6 +281,14 @@ const routers = [
         meta: {
           token:false
         }
+      },
+      {
+        path: 'activityProgress',
+        name: 'activity-progress',
+        component: resolve => require(["../../components/marketAnalyse/activityProgress.vue"], resolve),
+        meta: {
+          token:false
+        }
       }
     ]
   },
