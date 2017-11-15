@@ -14,157 +14,42 @@
                     <input class="weui-input" type="datetime-local" value="" placeholder="">
                 </div>
             </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">新增潜客</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">新增体验</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入">
-                </div>
-            </div>
         </div>
-        <div class="weui-cells__title">详情</div>
-        <div class="weui-cells weui-cells_form no-margin">
-            <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入文本内容..." rows="3"></textarea>
-                </div>
-            </div>
-
-            <div class="weui-cell no-line">
-                <div class="weui-uploader">
-                    <div class="weui-uploader__bd">
-                         <ul class="weui-uploader__files" id="uploaderFiles">
-                            <li class="weui-uploader__file"
-                                v-for="(item, index) in imgList"
-                                @click="showBigImg(index)">
-                                    <img :src="item">
-                            </li>
-                            <li class="weui-uploader__input-box" @click="uploadImg"></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="weui-cells__title">附件</div>
-        <div class="weui-cells no-margin">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in listData"
-                    :to="{}">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.imgUrl">
-                </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.title}}</h4>
-                    <p class="weui-media-box__desc">{{item.des}}</p>
-                </div>
-            </router-link>
-        </div>
-
-        <a @click="uploadFile" class="add-file-btn">添加附件</a>
-
-        <div class="wx-mess-box">
-            <report></report>
-        </div>
+        
+        <detail-show :detail-data="detailData" :is-edit="true"></detail-show>
 
         <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                任务研讨
-            </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                任务红包
-            </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'assignment-task'}">
-                分派任务
-            </router-link>
+            <a class="wx-nav-item" @click="saveDetail">
+                提交
+            </a>
         </div>
-
-        <delete-img :index="nowIndex"
-                    :img-path="nowPath"
-                    :is-show-img="isShowImg"
-                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
 import tools from '../../utils/tools'
-import deleteImg from '../common/deleteImg.vue'
-import report from '../common/report.vue'
+import detailShow from '../common/detailShow.vue'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
         return {
-            isShowImg: {
-                value: false
-            },
-            imgList: [
-                '/static/images/bench1.png',
-                '/static/images/bench1.png',
-                '/static/images/bench1.png'
-            ],
-            listData: [
-                {
-                    id: 0,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '爱谁谁爱啥啥',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 1,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '不知道不明了',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 2,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '你瞅啥，你看啥',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 3,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '瞅你咋地',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                }
-            ],
-            nowIndex: '',
-            nowPath: ''
         }
     },
+    mounted () {
+        console.log(this.$store)
+    },
+    computed: {
+        ...mapGetters({
+            detailData: 'getDetail'
+        })
+    },
     methods: {
-        uploadImg (e) {
-            console.log(e)
-            tools.upFile(e).then((res) => {
-                if (res.result.success == '1') {
-                    let imgUrl = res.result.result[0]
-                    this.imgList.push(imgUrl)
-                } else {
-
-                }
-            })
-        },
-        uploadFile () {
-
-        },
-        showBigImg (index) {
-            this.nowIndex = index
-            this.nowPath = this.imgList[index]
-            this.isShowImg.value = true
-        },
-        deleteImg (index) {
-            this.imgList.splice(index, 1)
+        saveDetail () {
+            this.$router.push({name: 'activity-detail'})
         }
     },
     components: {
-        deleteImg,
-        report
+        detailShow
     }
 }
 </script>

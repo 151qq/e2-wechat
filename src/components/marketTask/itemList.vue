@@ -16,6 +16,8 @@
             </router-link>
         </div>
 
+        <div></div>
+
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
                             :to="{}">
@@ -46,7 +48,7 @@ export default {
             },
             sheetList: [
                 {
-                    label: '营销活动任务',
+                    label: '通用任务',
                     pathName: 'activity-task'
                 },
                 {
@@ -62,7 +64,7 @@ export default {
                     pathName: 'push-task'
                 },
                 {
-                    label: '外呼任务',
+                    label: '营销活动方案设计任务',
                     pathName: 'noline-task'
                 }
             ]
@@ -105,30 +107,6 @@ export default {
                     date: '2017-09-09 上午 10:23',
                     state: '1',
                     type: 'spreed'
-                },
-                {
-                    id: 1,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '外呼回复',
-                    date: '2017-09-09 上午 10:23',
-                    state: '0',
-                    type: 'responsenoline'
-                },
-                {
-                    id: 2,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '预约接待任务',
-                    date: '2017-09-09 上午 10:23',
-                    state: '1',
-                    type: 'receive'
-                },
-                {
-                    id: 3,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '评论回复任务',
-                    date: '2017-09-09 上午 10:23',
-                    state: '1',
-                    type: 'response'
                 }
             ]
 
@@ -150,39 +128,6 @@ export default {
 .task-list-box {
     .weui-cells {
         margin-top: 0;
-    }
-
-    .show-message-box {
-        .weui-cell__ft {
-            color: #000000;
-            padding: 0;
-
-            &:after {
-                right: -100px;
-            }
-        }
-
-        .no-done {
-            width: 30px;
-            height: 16px;
-            padding: 1px 3px;
-            background: #9E855D;
-            font-size: 12px;
-            color: #ffffff;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .has-done {
-            width: 30px;
-            height: 16px;
-            padding: 1px 3px;
-            background: #999999;
-            font-size: 12px;
-            color: #ffffff;
-            border-radius: 8px;
-            text-align: center;
-        }
     }
 }
 </style>

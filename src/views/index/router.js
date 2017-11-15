@@ -1,5 +1,13 @@
 const routers = [
   {
+    // 详情编辑
+    path: '/detailEdit',
+    name: 'detail-edit',
+    component (resolve) {
+      require(["../../components/common/detailEdit.vue"], resolve)
+    }
+  },
+  {
     // 产品分类
     path: '/productCategory',
     name: 'productCategory',
@@ -69,14 +77,6 @@ const routers = [
     children: [
       {
         path: '',
-        name: 'case-category',
-        component: resolve => require(["../../components/marketCase/category.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'list',
         name: 'case-list',
         component: resolve => require(["../../components/marketCase/itemList.vue"], resolve),
         meta: {
@@ -84,70 +84,9 @@ const routers = [
         }
       },
       {
-        path: 'outlineDetail',
-        name: 'outline-detail',
-        component: resolve => require(["../../components/marketCase/outlineDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'onlineDetail',
-        name: 'online-detail',
-        component: resolve => require(["../../components/marketCase/onlineDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'nolineDetail',
-        name: 'noline-detail',
-        component: resolve => require(["../../components/marketCase/nolineDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        // 终止活动
-        path: 'stopActivity',
-        name: 'stop-activity',
-        component: resolve => require(["../../components/marketCase/stopActivity.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        // 活动目标
-        path: 'activityTarget',
-        name: 'activity-target',
-        component: resolve => require(["../../components/marketCase/activityTarget.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        // 详细方案
         path: 'caseDetail',
         name: 'case-detail',
         component: resolve => require(["../../components/marketCase/caseDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        // 优惠券
-        path: 'caseCoupon',
-        name: 'case-coupon',
-        component: resolve => require(["../../components/marketCase/caseCoupon.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        // 传播奖励
-        path: 'communicationReward',
-        name: 'communication-reward',
-        component: resolve => require(["../../components/marketCase/communicationReward.vue"], resolve),
         meta: {
           token:false
         }
@@ -424,6 +363,14 @@ const routers = [
         path: 'activityTask',
         name: 'activity-task',
         component: resolve => require(["../../components/marketTask/activityTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'activityDetail',
+        name: 'activity-detail',
+        component: resolve => require(["../../components/marketTask/activityDetail.vue"], resolve),
         meta: {
           token:false
         }

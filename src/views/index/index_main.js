@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './router'
+import store from '../../vuex/store'
 import tools from '../../utils/tools'
 import '../../assets/scss/common.scss'
 
@@ -48,5 +49,6 @@ router.beforeEach((to, from, next) => {
 
 new Vue({
     el: '#app',
-    router
+    router,
+    store
 })
