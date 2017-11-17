@@ -90,6 +90,62 @@ const routers = [
         meta: {
           token:false
         }
+      },
+      {
+        path: 'caseStatistics',
+        name: 'case-statistics',
+        component: resolve => require(["../../components/marketCase/caseStatistics.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'caseDate',
+        name: 'case-date',
+        component: resolve => require(["../../components/marketCase/caseDate.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'casePaket',
+        name: 'case-paket',
+        component: resolve => require(["../../components/marketCase/casePaket.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'caseWxspreed',
+        name: 'case-wxspreed',
+        component: resolve => require(["../../components/marketCase/caseWxspreed.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'casePushspreed',
+        name: 'case-pushspreed',
+        component: resolve => require(["../../components/marketCase/casePushspreed.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'caseNoline',
+        name: 'case-noline',
+        component: resolve => require(["../../components/marketCase/caseNoline.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'stopActivity',
+        name: 'stop-activity',
+        component: resolve => require(["../../components/marketCase/stopActivity.vue"], resolve),
+        meta: {
+          token:false
+        }
       }
     ]
   },

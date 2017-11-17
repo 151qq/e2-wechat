@@ -1,7 +1,7 @@
 <template>
     <section class="case-article-list-box page__bd">
         <div class="weui-cells">
-            <router-link class="weui-media-box weui-media-box_appmsg show-message-box"
+            <router-link class="weui-media-box weui-media-box_appmsg show-state-box"
                     v-for="(item, index) in listData"
                     :to="{name: 'case-detail', query: {id: item.id, state: item.state}}">
                 <div class="weui-media-box__hd">
@@ -11,10 +11,10 @@
                     <h4 class="weui-media-box__title">{{item.title}}</h4>
                     <p class="weui-media-box__desc">{{item.des}}</p>
                 </div>
-                <div class="weui-cell__ft no-done" v-if="item.state == '0'">草稿</div>
-                <div class="weui-cell__ft has-done" v-if="item.state == '3'">结束</div>
-                <div class="weui-cell__ft is-doing" v-if="item.state == '2'">执行</div>
-                <div class="weui-cell__ft is-waiting" v-if="item.state == '1'">审核</div>
+                <div class="weui-cell__ft" v-if="item.state == '0'"><span class="no-done">草稿</span></div>
+                <div class="weui-cell__ft" v-if="item.state == '3'"><span class="has-done">结束</span></div>
+                <div class="weui-cell__ft" v-if="item.state == '2'"><span class="is-doing">执行</span></div>
+                <div class="weui-cell__ft" v-if="item.state == '1'"><span class="is-waiting">审核</span></div>
             </router-link>
         </div>
     </section>

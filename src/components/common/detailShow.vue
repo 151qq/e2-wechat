@@ -18,17 +18,7 @@
             </div>
 
             <div class="weui-cell no-line" v-if="detailData.imgList && detailData.imgList.length">
-                <div class="weui-uploader">
-                    <div class="weui-uploader__bd">
-                         <ul class="weui-uploader__files" id="uploaderFiles">
-                            <li class="weui-uploader__file"
-                                v-for="(item, index) in detailData.imgList"
-                                @click="showBigImg(index)">
-                                    <img :src="item">
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <img-list :img-list="detailData.imgList"></img-list>
             </div>
         </div>
         <div class="weui-cells__title" v-if="detailData.fileList && detailData.fileList.length">附件</div>
@@ -54,6 +44,7 @@
 <script>
 import tools from '../../utils/tools'
 import deleteImg from './deleteImg.vue'
+import imgList from './imgList.vue'
 
 export default {
     props: ['detailData', 'isEdit'],
@@ -84,7 +75,8 @@ export default {
         }
     },
     components: {
-        deleteImg
+        deleteImg,
+        imgList
     }
 }
 </script>
