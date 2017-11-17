@@ -35,10 +35,6 @@
                 </div>
             </router-link>
         </div>
-        <delete-img :index="nowIndex"
-                    :img-path="nowPath"
-                    :is-show-img="isShowImg"
-                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
@@ -61,21 +57,9 @@ export default {
     methods: {
         gotoEdit () {
             this.$router.push({name: 'detail-edit'})
-        },
-        hiddenModal () {
-            this.isShowModal.value = false
-        },
-        showBigImg (index) {
-            this.nowIndex = index
-            this.nowPath = this.imgList[index]
-            this.isShowImg.value = true
-        },
-        deleteImg (index) {
-            this.imgList.splice(index, 1)
         }
     },
     components: {
-        deleteImg,
         imgList
     }
 }

@@ -10,6 +10,14 @@
                 <div class="weui-cell__bd">结束时间</div>
                 <div class="weui-cell__ft">2017-09-09 19:28:09</div>
             </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">营销活动</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">分享要求</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
         </div>
         
         <detail-show :detail-data="detailData"></detail-show>

@@ -10,8 +10,18 @@
                 <div class="weui-cell__bd">结束时间</div>
                 <div class="weui-cell__ft">2017-09-09 19:28:09</div>
             </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">营销活动</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">活动地点</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
         </div>
         
+        <gift-show :gift-data="giftData"></gift-show>
+
         <detail-show :detail-data="detailData"></detail-show>
 
         <div class="wx-bottom-nav">
@@ -33,6 +43,7 @@
 <script>
 import tools from '../../utils/tools'
 import detailShow from '../common/detailShow.vue'
+import giftShow from '../common/giftShow.vue'
 
 export default {
     data () {
@@ -70,13 +81,32 @@ export default {
                         des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
                     }
                 ]
-            }
+            },
+            giftData: [
+                {
+                    content: '啊啊啊',
+                    imgList: [
+                        '/static/images/bench1.png',
+                        '/static/images/bench1.png',
+                        '/static/images/bench1.png'
+                    ]
+                },
+                {
+                    content: '我我我',
+                    imgList: [
+                        '/static/images/bench1.png',
+                        '/static/images/bench1.png',
+                        '/static/images/bench1.png'
+                    ]
+                }
+            ]
         }
     },
     methods: {
     },
     components: {
-        detailShow
+        detailShow,
+        giftShow
     }
 }
 </script>

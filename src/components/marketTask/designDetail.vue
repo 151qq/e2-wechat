@@ -10,6 +10,18 @@
                 <div class="weui-cell__bd">结束时间</div>
                 <div class="weui-cell__ft">2017-09-09 19:28:09</div>
             </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">新增潜客</div>
+                <div class="weui-cell__ft">233</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">新增体验</div>
+                <div class="weui-cell__ft">33</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">新增销售</div>
+                <div class="weui-cell__ft">44</div>
+            </div>
         </div>
         
         <detail-show :detail-data="detailData"></detail-show>

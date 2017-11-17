@@ -103,6 +103,19 @@ body {
       border: none;
     }
   }
+
+  .wx-nav-item-60 {
+    width: 60%;
+    text-align: right;
+    font-size: 16px;
+    line-height: 2.4;
+    border-left: 1px solid #e5e5e5;
+    color: #000000;
+
+    &:first-child {
+      border: none;
+    }
+  }
 }
 
 .show-message-box {

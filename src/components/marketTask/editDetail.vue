@@ -10,6 +10,42 @@
                 <div class="weui-cell__bd">结束时间</div>
                 <div class="weui-cell__ft">2017-09-09 19:28:09</div>
             </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">营销活动</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">宣传产品</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">文风要求</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户性别</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户年龄</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户阶层</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户职业</div>
+                <div class="weui-cell__ft">哈哈哈</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户消费习惯</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">客户群</div>
+                <div class="weui-cell__ft">没啥子要求</div>
+            </div>
         </div>
         
         <detail-show :detail-data="detailData"></detail-show>

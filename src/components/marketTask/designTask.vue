@@ -14,6 +14,24 @@
                     <input class="weui-input" type="datetime-local" value="" placeholder="">
                 </div>
             </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">新增潜客</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">新增体验</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">新增销售</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入">
+                </div>
+            </div>
         </div>
         
         <detail-show :detail-data="detailData" :is-edit="true"></detail-show>

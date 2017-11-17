@@ -1,18 +1,18 @@
 <template>
     <section class="task-list-box page__bd">
         <div class="weui-cells">
-            <router-link class="weui-media-box weui-media-box_appmsg show-message-box"
+            <router-link class="weui-media-box weui-media-box_appmsg show-state-box"
                     v-for="(item, index) in listData"
-                    :to="{name: item.type + '-task', query: {id: item.id}}">
+                    :to="{name: item.type + '-detail', query: {id: item.id}}">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.imgUrl">
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.title}}</h4>
-                    <p class="weui-media-box__desc">{{item.des}}</p>
+                    <p class="weui-media-box__desc">{{item.date}}</p>
                 </div>
-                <div class="weui-cell__ft no-done" v-if="item.state == '0'">待办</div>
-                <div class="weui-cell__ft has-done" v-if="item.state == '1'">完成</div>
+                <div class="weui-cell__ft" v-if="item.state == '0'"><span class="no-done">待办</span></div>
+                <div class="weui-cell__ft" v-if="item.state == '1'"><span class="has-done">完成</span></div>
             </router-link>
         </div>
 
@@ -65,7 +65,7 @@ export default {
                 },
                 {
                     label: '营销活动方案设计任务',
-                    pathName: 'noline-task'
+                    pathName: 'design-task'
                 }
             ]
         }
@@ -79,7 +79,7 @@ export default {
                 {
                     id: 0,
                     imgUrl: '/static/images/detail1.png',
-                    title: '营销活动任务',
+                    title: '通用任务',
                     date: '2017-09-09 上午 10:23',
                     state: '0',
                     type: 'activity'
@@ -107,6 +107,14 @@ export default {
                     date: '2017-09-09 上午 10:23',
                     state: '1',
                     type: 'spreed'
+                },
+                {
+                    id: 3,
+                    imgUrl: '/static/images/detail1.png',
+                    title: '营销活动方案设计任务',
+                    date: '2017-09-09 上午 10:23',
+                    state: '1',
+                    type: 'design'
                 }
             ]
 
