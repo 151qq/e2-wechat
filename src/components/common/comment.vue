@@ -29,7 +29,7 @@
                         <div class="comment-btn">
                             <img src="../../assets/images/zan-icon.png">{{item.zanNum}}
                             <img src="../../assets/images/nozan-icon.png">{{item.hateNum}}
-                            <img src="../../assets/images/edit-icon.png">
+                            <img src="../../assets/images/edit-icon.png" @click="showSubmit">
                             <img src="../../assets/images/delete-icon.png">
                         </div>
                     </div>
@@ -77,6 +77,7 @@ import {getDateDiff} from '../../assets/common/utils.js'
 import submitComment from './submitComment.vue'
 
 export default {
+    props: ['commentUrl'],
     data () {
         return {
             commentDatas: [
@@ -136,7 +137,7 @@ export default {
     },
     methods: {
         showSubmit () {
-            this.isShowModal.value = true
+            this.$router.push({name: this.commentUrl})
         }
     },
     filters: {

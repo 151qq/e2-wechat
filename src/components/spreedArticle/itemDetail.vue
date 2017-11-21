@@ -4,16 +4,20 @@
 
         <div class="wx-area-line"></div>
         <div class="comments-box">
-            <comment></comment>
+            <comment :comment-url="'article-comment'"></comment>
         </div>
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
-                            :to="{}">
+                            :to="{name: 'off-shell'}">
                 文章下架
             </router-link>
             <router-link class="wx-nav-item"
                             :to="{}">
                 关闭评论
+            </router-link>
+            <router-link class="wx-nav-item"
+                            :to="{name: 'article-statistics'}">
+                统计分析
             </router-link>
         </div>
     </section>

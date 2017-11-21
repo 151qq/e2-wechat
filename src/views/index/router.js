@@ -24,6 +24,14 @@ const routers = [
     }
   },
   {
+    // 发表
+    path: '/submit-comment',
+    name: 'submit-comment',
+    component (resolve) {
+      require(["../../components/common/submit-comment.vue"], resolve)
+    }
+  },
+  {
     // 产品分类
     path: '/productCategory',
     name: 'productCategory',
@@ -77,6 +85,30 @@ const routers = [
         path: 'detail',
         name: 'article-detail',
         component: resolve => require(["../../components/spreedArticle/itemDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'comment',
+        name: 'article-comment',
+        component: resolve => require(["../../components/spreedArticle/itemComment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'offShell',
+        name: 'off-shell',
+        component: resolve => require(["../../components/spreedArticle/offShell.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'articleStatistics',
+        name: 'article-statistics',
+        component: resolve => require(["../../components/spreedArticle/articleStatistics.vue"], resolve),
         meta: {
           token:false
         }

@@ -128,15 +128,12 @@ export default {
                         submitTime: '2017-18-21'
                     }
                 }
-            ],
-            isShowModal: {
-                value: false
-            }
+            ]
         }
     },
     methods: {
         showSubmit () {
-            this.isShowModal.value = true
+            this.$router.push({name: 'submit-comment'})
         }
     },
     filters: {
