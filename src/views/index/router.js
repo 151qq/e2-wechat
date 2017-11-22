@@ -74,6 +74,48 @@ const routers = [
     ]
   },
   {
+    // 外呼工作
+    path: '/nolineJob',
+    name: 'nolineJob',
+    component (resolve) {
+      require(["../../components/nolineJob/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'noline-list',
+        component: resolve => require(["../../components/nolineJob/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'nolineLog',
+        name: 'log-list',
+        component: resolve => require(["../../components/nolineJob/nolineLog.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'nolineDetail',
+        name: 'noline-detail',
+        component: resolve => require(["../../components/nolineJob/nolineDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'logDetail',
+        name: 'log-detail',
+        component: resolve => require(["../../components/nolineJob/logDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
+  },
+  {
     // 推广文章
     path: '/spreedArticle',
     name: 'spreedArticle',

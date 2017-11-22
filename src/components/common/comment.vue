@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="des-box" v-if="item.commentContent">{{item.commentContent}}</div>
-                <div class="imgs-box" v-if="item.commentImgs.length">
+                <div class="imgs-box" v-if="item.commentImgs && item.commentImgs.length">
                     <img-list :img-list="item.commentImgs"></img-list>
                 </div>
                 <div class="response-box">
@@ -40,11 +40,11 @@
                             {{item.responseComment.commentContent}}
                         </div>
                         <div class="imgs-box"
-                                v-if="item.responseComment.commentImgs.length">
+                                v-if="item.responseComment.commentImgs && item.responseComment.commentImgs.length">
                             <img-list :img-list="item.responseComment.commentImgs"></img-list>
                         </div>
                         <div class="article-box"
-                                v-if="item.responseComment.commentArticles.length">
+                                v-if="item.responseComment.commentArticles && item.responseComment.commentArticles.length">
                             <router-link :to="article.href"
                                         v-for="(article, index) in item.responseComment.commentArticles">
                                 <img :src="article.imgUrl">
