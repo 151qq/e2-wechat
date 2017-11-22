@@ -19,6 +19,14 @@
                 <div class="weui-cell__bd">预约地址</div>
                 <div class="weui-cell__ft">北京是西胡同</div>
             </router-link>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">预约接待</div>
+                <div class="weui-cell__ft">爱谁谁</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">体验产品</div>
+                <div class="weui-cell__ft">爱咋咋地</div>
+            </div>
         </div>
         <div class="weui-cells__title">预约详情</div>
         <div class="weui-cells">
@@ -48,8 +56,21 @@
             </router-link>
         </div>
 
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="/onlineBooking/pageConfirm">预约确认</a>
+        <div v-if="!$route.query.state" class="weui-btn-area">
+            <router-link class="weui-btn weui-btn_primary"
+                    :to="{name: 'check-confirm'}">
+                预约确认
+            </router-link>
+        </div>
+
+        <div v-else class="wx-bottom-nav">
+            <a class="wx-nav-item-20">
+                修改
+            </a>
+            <router-link class="wx-nav-item"
+                            :to="{name: 'page-confirm'}">
+                预约接待汇报
+            </router-link>
         </div>
     </section>
 </template>

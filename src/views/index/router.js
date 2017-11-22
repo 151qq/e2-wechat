@@ -32,6 +32,14 @@ const routers = [
     }
   },
   {
+    // 验证确认
+    path: '/check-confirm',
+    name: 'check-confirm',
+    component (resolve) {
+      require(["../../components/common/check-confirm.vue"], resolve)
+    }
+  },
+  {
     // 产品分类
     path: '/productCategory',
     name: 'productCategory',
@@ -397,6 +405,14 @@ const routers = [
     children: [
       {
         path: '',
+        name: 'appointment-list',
+        component: resolve => require(["../../components/onlineBooking/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'appointmentConfirm',
         name: 'appointment-confirm',
         component: resolve => require(["../../components/onlineBooking/appointmentConfirm.vue"], resolve),
         meta: {

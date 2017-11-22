@@ -16,8 +16,6 @@
             </router-link>
         </div>
 
-        <div></div>
-
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
                             :to="{}">
