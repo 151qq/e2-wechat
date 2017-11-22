@@ -50,7 +50,7 @@
             </div>
         </section>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" href="/promotionFranchise/registorConfirm">确认</a>
+            <a class="weui-btn weui-btn_primary" href="/check-confirm">确认</a>
         </div>
     </section>
 </template>

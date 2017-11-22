@@ -1,9 +1,9 @@
 <template>
-    <section class="case-article-list-box page__bd">
-        <div class="weui-cells">
+    <section class="page__bd">
+        <div class="weui-cells no-margin">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in listData"
-                    :to="{name: 'spreedstatistics-detail', query: {id: item.id}}">
+                    :to="{}">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.imgUrl">
                 </div>
@@ -60,10 +60,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.case-article-list-box {
-    .weui-cells {
-        margin-top: 0;
-    }
-}
-</style>

@@ -1,18 +1,16 @@
 <template>
     <section class="member-list-box page__bd">
-        <div class="weui-panel weui-panel_access"
-            <div class="weui-panel__bd">
-                <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in listData"
-                        :to="{name: 'member-detail', query: {id: item.id}}">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.imgUrl">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.title}}</h4>
-                    </div>
-                </router-link>
-            </div>
+        <div class="weui-cells no-margin">
+            <router-link class="weui-media-box weui-media-box_appmsg"
+                    v-for="(item, index) in listData"
+                    :to="{name: 'member-detail', query: {id: item.id}}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="item.imgUrl">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.title}}</h4>
+                </div>
+            </router-link>
         </div>
     </section>
 </template>

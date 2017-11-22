@@ -54,7 +54,7 @@ export default {
     }
 
     .weui-cell {
-        padding: 10px 0;
+        padding: 10px 15px;
 
         &:before {
             border: none;

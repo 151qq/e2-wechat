@@ -215,128 +215,48 @@ const routers = [
     children: [
       {
         path: '',
-        name: 'analyse-category',
-        component: resolve => require(["../../components/marketAnalyse/category.vue"], resolve),
+        name: 'analyse-list',
+        component: resolve => require(["../../components/marketAnalyse/itemList.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'spreedstatisticsList',
-        name: 'spreedstatistics-list',
-        component: resolve => require(["../../components/marketAnalyse/spreedstatisticsList.vue"], resolve),
+        path: 'analyseDetail',
+        name: 'analyse-detail',
+        component: resolve => require(["../../components/marketAnalyse/analyseDetail.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'spreedactivityList',
-        name: 'spreedactivity-list',
-        component: resolve => require(["../../components/marketAnalyse/spreedactivityList.vue"], resolve),
+        path: 'analyseNoline',
+        name: 'analyse-noline',
+        component: resolve => require(["../../components/marketAnalyse/analyseNoline.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'pushstatisticsList',
-        name: 'pushstatistics-list',
-        component: resolve => require(["../../components/marketAnalyse/pushstatisticsList.vue"], resolve),
+        path: 'analyseWx',
+        name: 'analyse-wx',
+        component: resolve => require(["../../components/marketAnalyse/analyseWx.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'pushactivityList',
-        name: 'pushactivity-list',
-        component: resolve => require(["../../components/marketAnalyse/pushactivityList.vue"], resolve),
+        path: 'analysePush',
+        name: 'analyse-push',
+        component: resolve => require(["../../components/marketAnalyse/analysePush.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'outlinestatisticsList',
-        name: 'outlinestatistics-list',
-        component: resolve => require(["../../components/marketAnalyse/outlinestatisticsList.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'outlinereportList',
-        name: 'outlinereport-list',
-        component: resolve => require(["../../components/marketAnalyse/outlinereportList.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'appointmentstatisticsList',
-        name: 'appointmentstatistics-list',
-        component: resolve => require(["../../components/marketAnalyse/appointmentstatisticsList.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'spreedstatisticsDetail',
-        name: 'spreedstatistics-detail',
-        component: resolve => require(["../../components/marketAnalyse/spreedstatisticsDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'spreedactivityDetail',
-        name: 'spreedactivity-detail',
-        component: resolve => require(["../../components/marketAnalyse/spreedactivityDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'pushstatisticsDetail',
-        name: 'pushstatistics-detail',
-        component: resolve => require(["../../components/marketAnalyse/pushstatisticsDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'pushactivityDetail',
-        name: 'pushactivity-detail',
-        component: resolve => require(["../../components/marketAnalyse/pushactivityDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'outlinestatisticsDetail',
-        name: 'outlinestatistics-detail',
-        component: resolve => require(["../../components/marketAnalyse/outlinestatisticsDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'outlinereportDetail',
-        name: 'outlinereport-detail',
-        component: resolve => require(["../../components/marketAnalyse/outlinereportDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'marketmonthDetail',
-        name: 'marketmonth-detail',
-        component: resolve => require(["../../components/marketAnalyse/marketmonthDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'activityProgress',
-        name: 'activity-progress',
-        component: resolve => require(["../../components/marketAnalyse/activityProgress.vue"], resolve),
+        path: 'analyseSpreed',
+        name: 'analyse-spreed',
+        component: resolve => require(["../../components/marketAnalyse/analyseSpreed.vue"], resolve),
         meta: {
           token:false
         }
@@ -381,14 +301,6 @@ const routers = [
         path: '',
         name: 'spreed-join',
         component: resolve => require(["../../components/promotionFranchise/spreedJoin.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'registorConfirm',
-        name: 'registor-confirm',
-        component: resolve => require(["../../components/promotionFranchise/registorConfirm.vue"], resolve),
         meta: {
           token:false
         }
