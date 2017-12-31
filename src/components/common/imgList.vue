@@ -2,9 +2,9 @@
     <div class="img-list-box">
         <section class="wx-img-list weui-grids">
             <template v-for="(item, index) in imgList">
-                <img class="weui-grid"
-                    :src="item"
-                    @click="showBigImg(index)">
+                <div class="weui-grid" @click="showBigImg(index)">
+                    <img :src="item">
+                </div>
                 <div class="margin-box" v-if="index % 3 != 2"></div>
             </template>
         </section>
@@ -50,6 +50,25 @@ export default {
 
         .weui-grid {
             padding: 0;
+            padding-top: 33%;
+
+            &:after {
+                border: none;
+            }
+
+            &:before {
+                border: none;
+            }
+        }
+    }
+
+    .weui-grids {
+        &:after {
+            border: none;
+        }
+
+        &:before {
+            border: none;
         }
     }
 
@@ -62,8 +81,19 @@ export default {
     }
 
     .weui-grid {
+        position: relative;
         width: 33%;
+        overflow: hidden;
         margin-bottom: 0.15em;
+
+        img {
+            position: absolute;
+            width: 100%;
+            display: block;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
     }
 
     .margin-box {

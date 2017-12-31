@@ -7,6 +7,12 @@
                 <div class="weui-cell__bd">{{item.title}}</div>
                 <div class="weui-cell__ft"></div>
             </router-link>
+            <a class="weui-cell weui-cell_access"
+                    v-for="(item, index) in listData"
+                    :href="'http://www.baidu.com?id=' + item.id">
+                <div class="weui-cell__bd">{{item.title}}</div>
+                <div class="weui-cell__ft"></div>
+            </a>
         </div>
     </section>
 </template>

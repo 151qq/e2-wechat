@@ -1,6 +1,22 @@
 const routers = [
   {
     // 详情编辑
+    path: '/',
+    name: 'home',
+    component (resolve) {
+      require(["./home.vue"], resolve)
+    }
+  },
+  {
+    // 详情编辑
+    path: '/registor',
+    name: 'registor',
+    component (resolve) {
+      require(["./registor.vue"], resolve)
+    }
+  },
+  {
+    // 详情编辑
     path: '/detailEdit',
     name: 'detail-edit',
     component (resolve) {
@@ -38,6 +54,88 @@ const routers = [
     component (resolve) {
       require(["../../components/common/check-confirm.vue"], resolve)
     }
+  },
+  {
+    // 附件分类
+    path: '/attachment',
+    name: 'attachment',
+    component (resolve) {
+      require(["../../components/attachment/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'attachment-list',
+        component: resolve => require(["../../components/attachment/attachmentList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'activityAttachment',
+        name: 'activity-attachment',
+        component: resolve => require(["../../components/attachment/activityAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'taskAttachment',
+        name: 'task-attachment',
+        component: resolve => require(["../../components/attachment/taskAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'articleAttachment',
+        name: 'article-attachment',
+        component: resolve => require(["../../components/attachment/articleAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'productAttachment',
+        name: 'product-attachment',
+        component: resolve => require(["../../components/attachment/productAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'publicizeAttachment',
+        name: 'publicize-attachment',
+        component: resolve => require(["../../components/attachment/publicizeAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'imageAttachment',
+        name: 'image-attachment',
+        component: resolve => require(["../../components/attachment/imageAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'mediaAttachment',
+        name: 'media-attachment',
+        component: resolve => require(["../../components/attachment/mediaAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'reserveAttachment',
+        name: 'reserve-attachment',
+        component: resolve => require(["../../components/attachment/reserveAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
   },
   {
     // 产品分类
@@ -130,38 +228,6 @@ const routers = [
         meta: {
           token:false
         }
-      },
-      {
-        path: 'detail',
-        name: 'article-detail',
-        component: resolve => require(["../../components/spreedArticle/itemDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'comment',
-        name: 'article-comment',
-        component: resolve => require(["../../components/spreedArticle/itemComment.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'offShell',
-        name: 'off-shell',
-        component: resolve => require(["../../components/spreedArticle/offShell.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'articleStatistics',
-        name: 'article-statistics',
-        component: resolve => require(["../../components/spreedArticle/articleStatistics.vue"], resolve),
-        meta: {
-          token:false
-        }
       }
     ]
   },
@@ -190,9 +256,9 @@ const routers = [
         }
       },
       {
-        path: 'caseStatistics',
-        name: 'case-statistics',
-        component: resolve => require(["../../components/marketCase/caseStatistics.vue"], resolve),
+        path: 'couponDetail',
+        name: 'coupon-detail',
+        component: resolve => require(["../../components/marketCase/couponDetail.vue"], resolve),
         meta: {
           token:false
         }
