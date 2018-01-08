@@ -154,17 +154,17 @@ const routers = [
         }
       },
       {
-        path: 'detail',
-        name: 'product-detail',
-        component: resolve => require(["../../components/productCategory/itemDetail.vue"], resolve),
+        path: 'productArticle',
+        name: 'product-article',
+        component: resolve => require(["../../components/productCategory/articleList.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'imgList',
-        name: 'product-img',
-        component: resolve => require(["../../components/productCategory/imgList.vue"], resolve),
+        path: 'detail',
+        name: 'product-detail',
+        component: resolve => require(["../../components/productCategory/itemDetail.vue"], resolve),
         meta: {
           token:false
         }

@@ -8,12 +8,6 @@
                 <div class="margin-box" v-if="index % 3 != 2"></div>
             </template>
         </section>
-        <router-link v-if="morePath"
-            class="weui-cell weui-cell_access weui-cell_link"
-            :to="morePath">
-            <div class="weui-cell__bd">查看更多</div>
-            <div class="weui-cell__ft"></div>
-        </router-link>
 
         <show-big-img :big-imgs="imgList" :is-show-img="isShowImg" :index="index"></show-big-img>
     </div>  
@@ -23,7 +17,7 @@
 import showBigImg from './showBigImg.vue'
 
 export default {
-    props: ['imgList', 'morePath'],
+    props: ['imgList'],
     data () {
         return {
             index: '',
@@ -51,24 +45,6 @@ export default {
         .weui-grid {
             padding: 0;
             padding-top: 33%;
-
-            &:after {
-                border: none;
-            }
-
-            &:before {
-                border: none;
-            }
-        }
-    }
-
-    .weui-grids {
-        &:after {
-            border: none;
-        }
-
-        &:before {
-            border: none;
         }
     }
 
@@ -93,6 +69,14 @@ export default {
             left: 0;
             top: 50%;
             transform: translateY(-50%);
+        }
+
+        .check-btn-box {
+            position: absolute;
+            width: 32px;
+            height: 23px;
+            top: 2px;
+            right: 0px;
         }
     }
 

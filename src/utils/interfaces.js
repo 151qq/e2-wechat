@@ -7,8 +7,13 @@ export default{
     userInfoGet: platform + 'mobile/user/userInfoGet.json',
     corpWechatRedirectUrl: platform + 'corpWechatRedirectUrl.json',
     getCorpWechatUserInfo: platform + 'getCorpWechatUserInfo.json',
+    sentSms: platform + 'customer/sentSms.json',
     
     html5PageList: platform + 'html5PageList.json',
+    html5PageGet: platform + 'html5PageGet.json',
+    listPageArea: platform + 'listPageArea.json',
+    getTemplates: platform +'htmlPageTemplate/templateListPage.json',
+    pageAndHtml5: platform + 'productPage/selectHtml5PageAndHtml5PageTemplateCode.json',
     /**
     * 我的素材库 get
     */

@@ -6,6 +6,7 @@ import store from '../../vuex/store'
 import tools from '../../utils/tools'
 import { mapActions } from 'vuex'
 import jsCookie from 'js-cookie'
+import queryString from 'query-string'
 import '../../assets/scss/common.scss'
 
 Vue.use(VueRouter)
@@ -52,12 +53,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {    
     var e2Token = jsCookie.get('e2_enterprise_staff')
-
     next()
+
+    // 处理jssdk签名,兼容history模式
+    // if (!store.state.iosUrl) {
+    //   store.commit('setUrl', document.URL)
+    // }
 
     // if (!e2Token && to.name != 'registor') {
     //     var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
-
     //     window.location.href = path
     // } else {
     //     next()
@@ -83,33 +87,13 @@ new Vue({
               interface: 'userInfoGet',
               data: {}
             }).then(res => {
-              if (res.result.success == '1') {
-
-                if (res.result.result) {
-                    this.setUserInfo(res.result.result)
-                } else {
-                    jsCookie.remove('e2_enterprise_staff')
-                    var pathData = {
-                        name: 'registor',
-                        query: {
-                            enterpriseCode: jsCookie.get('enterpriseCode'),
-                            agentId: jsCookie.get('agentId'),
-                            redirectUrl: window.location.href
-                        }
-                    }
-                    this.$router.replace(pathData)
-                }
+              if (res.result.success == '1' && res.result.result) {
+                this.setUserInfo(res.result.result)
               } else {
                 jsCookie.remove('e2_enterprise_staff')
-                var pathData = {
-                    name: 'registor',
-                    query: {
-                        enterpriseCode: jsCookie.get('enterpriseCode'),
-                        agentId: jsCookie.get('agentId'),
-                        redirectUrl: window.location.href
-                    }
-                }
-                this.$router.replace(pathData)
+                const parsed = queryString.parse(location.search)
+                var path = '/registor?enterpriseCode=' + parsed.enterpriseCode + '&agentId=' + parsed.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
+                window.location.href = path
               }
             })
         }

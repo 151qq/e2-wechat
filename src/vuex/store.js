@@ -8,7 +8,8 @@ const userStore = new Vuex.Store({
     userInfo: {},
     detailData: {},
     giftData: [],
-    attachmentData: []
+    attachmentData: [],
+    iosUrl: ''
   },
   getters: {
     getUserInfo (state) {
@@ -36,6 +37,9 @@ const userStore = new Vuex.Store({
     },
     setAttachment (state, attachmentData) {
       state.attachmentData = attachmentData
+    },
+    setUrl (state, url) {
+      state.iosUrl = url
     }
   },
   actions: {
@@ -50,6 +54,9 @@ const userStore = new Vuex.Store({
     },
     setAttachment ({ commit }, attachment) {
       commit('setAttachment', attachment)
+    },
+    setUrl ({ commit }, url) {
+      commit('setUrl', url)
     }
   }
 })

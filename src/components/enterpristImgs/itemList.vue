@@ -1,21 +1,13 @@
 <template>
-    <section class="product-list-box page__bd">
+    <section class="enterprise-img-dir page__bd">
         <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <div  class="weui-media-box weui-media-box_appmsg"
-                @click="goToNext(item)"
-                v-for="(item, index) in listData">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.catalogImage">
+            <section class="sou-box">
+                <div class="cover-box" @click="goToNext(item, index)">
+                    <img :src="item.docCover">
                 </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.catalogCname}}</h4>
-                    <p class="weui-media-box__desc">{{item.catalogDesc}}</p>
-                </div>
-                <div class="weui-cell__ft" v-if="item.catalogType == 'dir'">
-                    <img src="/static/images/dir-icon.png">
-                </div>
-            </div>
+                <div class="title-box" v-text="item.docTitle"></div>
+            </section>
         </div>
 
         <!-- <div class="weui-btn-area">
@@ -51,27 +43,15 @@ export default {
     },
     methods: {
         goToNext (item) {
-            if (item.catalogType == 'dir') {
-                var pathData = {
-                    name: 'product-list',
-                    query: {
-                        enterpriseCode: item.enterpriseCode,
-                        catalogCode: item.catalogCode
-                    }
+            var pathData = {
+                name: 'img-list',
+                query: {
+                    enterpriseCode: item.enterpriseCode,
+                    docFolder: item.docCode
                 }
-
-                this.$router.push(pathData)
-            } else {
-                var pathData = {
-                    name: 'product-article',
-                    query: {
-                        enterpriseCode: item.enterpriseCode,
-                        catalogCode: item.catalogCode
-                    }
-                }
-
-                this.$router.push(pathData)
             }
+
+            this.$router.push(pathData)
         },
         showMore (cb) {
             this.pageNumber++
@@ -80,14 +60,14 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                catalogParentCode: this.$route.query.catalogCode,
+                docFolder: 'e2_pic',
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize
             }
 
             util.request({
                 method: 'get',
-                interface: 'pruductCatalogList',
+                interface: 'listPage',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -96,6 +76,11 @@ export default {
                 }
 
                 this.total = res.result.total
+
+                res.result.result.forEach((item) => {
+                    item.docCreateTime = item.docCreateTime.split(' ')[0]
+                })
+
                 if (!cb) {
                     this.listData = res.result.result
                 } else {
@@ -106,3 +91,33 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.enterprise-img-dir {
+    overflow: hidden;
+
+    .sou-box {
+        float: left;
+        width: 46%;
+        margin: 2%;
+
+        .cover-box {
+            height: 160px;
+            overflow: hidden;
+            
+            img {
+                display: block;
+                width: 100%;
+                min-height: 160px;
+            }
+        }
+
+        .title-box {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #000000;
+        }
+    }
+}
+</style>
