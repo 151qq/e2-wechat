@@ -1,6 +1,9 @@
 <template>
     <section class="product-list-box page__bd" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
         <img-list :img-list="listData"></img-list>
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
+        </div>
     </section>
 </template>
 <script>
@@ -10,6 +13,7 @@ import imgList from '../common/imgList.vue'
 export default {
     data () {
         return {
+            isPage: false,
             listData: [],
             pageSize: 20,
             pageNumber: 1,
@@ -18,12 +22,6 @@ export default {
     },
     mounted () {
         this.getList()
-    },
-    watch: {
-        $route () {
-            this.pageNumber = 1
-            this.getList()
-        }
     },
     computed: {
         isLoad () {
@@ -54,6 +52,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 var imgList = []
                 res.result.result.forEach((item) => {
                     imgList.push(item.fileCode)
@@ -66,6 +65,9 @@ export default {
                 }
             })
         }
+    },
+    components: {
+        imgList
     }
 }
 </script>

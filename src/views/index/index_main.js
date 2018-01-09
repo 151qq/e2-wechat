@@ -6,10 +6,13 @@ import store from '../../vuex/store'
 import tools from '../../utils/tools'
 import { mapActions } from 'vuex'
 import jsCookie from 'js-cookie'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 import queryString from 'query-string'
 import '../../assets/scss/common.scss'
 
 Vue.use(VueRouter)
+Vue.use(Element)
 
 window.ISLOAD = true
 

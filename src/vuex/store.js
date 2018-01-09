@@ -8,7 +8,7 @@ const userStore = new Vuex.Store({
     userInfo: {},
     detailData: {},
     giftData: [],
-    attachmentData: [],
+    attachmentData: {},
     iosUrl: ''
   },
   getters: {

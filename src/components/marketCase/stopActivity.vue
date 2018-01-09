@@ -1,49 +1,42 @@
 <template>
     <section class="stop-activity-box">
-        <div class="weui-cells weui-cells_form no-margin">
-            <div class="weui-cell">
+        <div class="weui-cells__title">详情</div>
+        <div class="weui-cells weui-cells_form no-line no-margin">
+            <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
-                            placeholder="请输入文本内容..."
-                            rows="3"
-                            v-model="detailData.content"></textarea>
-                </div>
-            </div>
-
-            <div class="weui-cell no-line">
-                <div class="weui-uploader">
-                    <div class="weui-uploader__bd">
-                         <ul class="weui-uploader__files" id="uploaderFiles">
-                            <li class="weui-uploader__file"
-                                v-for="(item, index) in detailData.imgList"
-                                @click="showBigImg(index)">
-                                    <img :src="item">
-                            </li>
-                            <li class="weui-uploader__input-box" @click="uploadImg"></li>
-                        </ul>
-                    </div>
+                                placeholder="这一刻的想法..."
+                                rows="3"
+                                v-model="commentData.commentContent"></textarea>
                 </div>
             </div>
         </div>
-        <div class="weui-cells__title">附件</div>
-        <div class="weui-cells no-margin">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in detailData.fileList"
-                    :to="{}">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.imgUrl">
+        <div class="weui-cell no-line">
+            <div class="weui-uploader">
+                <div class="weui-uploader__bd">
+                     <ul class="weui-uploader__files" id="uploaderFiles">
+                        <li class="weui-uploader__file"
+                            v-for="(item, index) in commentData.attachments"
+                            @click="showBigImg(index)">
+                                <img :src="item">
+                        </li>
+                        <li @click="chooseImage" class="weui-uploader__input-box"></li>
+                    </ul>
                 </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.title}}</h4>
-                    <p class="weui-media-box__desc">{{item.des}}</p>
-                </div>
-            </router-link>
+            </div>
         </div>
+        
+        <!-- 附件 -->
+        <div class="wx-area-line"></div>
+        <div class="weui-cells__title" @click="gotoAttachment">附件</div>
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
         <a class="add-file-btn">添加附件</a>
 
+        <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="stopActivity">确定</a>
+            <a class="weui-btn weui-btn_primary" @click="submitComment">发布</a>
         </div>
+
         <delete-img :index="nowIndex"
                     :img-path="nowPath"
                     :is-show-img="isShowImg"
@@ -51,99 +44,116 @@
     </section>
 </template>
 <script>
-import tools from '../../utils/tools'
+import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
+import attachmentDetail from '../common/attachmentDetail.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
         return {
-            fontNum: 0,
-            detailData: {
-                content: '',
-                imgList: [
-                    '/static/images/bench1.png',
-                    '/static/images/bench1.png',
-                    '/static/images/bench1.png'
-                ],
-                fileList: [
-                    {
-                        id: 0,
-                        imgUrl: '/static/images/detail1.png',
-                        title: '爱谁谁爱啥啥',
-                        des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                    },
-                    {
-                        id: 1,
-                        imgUrl: '/static/images/detail1.png',
-                        title: '不知道不明了',
-                        des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                    },
-                    {
-                        id: 2,
-                        imgUrl: '/static/images/detail1.png',
-                        title: '你瞅啥，你看啥',
-                        des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                    },
-                    {
-                        id: 3,
-                        imgUrl: '/static/images/detail1.png',
-                        title: '瞅你咋地',
-                        des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                    }
-                ]
+            commentData: {
+                commentContent: '',
+                attachments: []
             },
-            totalFont: 140,
             nowIndex: '',
             nowPath: '',
             isShowImg: {
                 value: false
-            }
+            },
+            serverIdList: [],
+            fileList: []
         }
     },
     mounted () {
+        jsSdk.init()
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        }),
+        ...mapGetters({
+            attachmentData: 'getAttachment'
+        })
     },
     methods: {
-        uploadImg (e) {
-            console.log(e)
-            tools.upFile(e).then((res) => {
-                if (res.result.success == '1') {
-                    let imgUrl = res.result.result[0]
-                    this.imgList.push(imgUrl)
-                } else {
+        ...mapActions([
+          'setAttachment'
+        ]),
+        chooseImage () {
+            var num = 9 - this.commentData.attachments.length
+            jsSdk.chooseImage(num ,(localIds) => {
+                this.commentData.attachments = this.commentData.attachments.concat(localIds).splice(0, 9)
+            })
+        },
+        submitComment () {
+            jsSdk.uploadImgs(this.commentData.attachments, (serverIdList) => {
+                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
+                this.submitFn()
+            })
+        },
+        submitFn () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                eventCode: this.$route.query.eventCode,
+                attachmentImgs: this.serverIdList,
+                eventCancalMemo: this.commentData.commentContent
+            }
 
+            util.request({
+                method: 'post',
+                interface: 'publishComment',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.setAttachment({})
+                    var pathUrl = {
+                        name: 'attachment',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            eventCode: this.$route.query.eventCode
+                        }
+                    }
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
                 }
             })
         },
-        hiddenModal () {
-            this.isShowModal.value = false
+        gotoAttachment () {
+            var pathUrl = {
+                name: 'attachment',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    redirectUrl: window.encodeURIComponent(window.location.href)
+                }
+            }
+            this.$router.push(pathUrl)
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.imgList[index]
+            this.nowPath = this.commentData.attachments[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
-            this.imgList.splice(index, 1)
-        },
-        stopActivity () {
-            this.$router.push({name: 'case-detail', query: {state: '3'}})
+            this.commentData.attachments.splice(index, 1)
         }
     },
     components: {
-        deleteImg
+        deleteImg,
+        attachmentDetail
     }
 }
 </script>
 <style lang="scss">
 .stop-activity-box {
-    .add-file-btn {
-        display: block;
-        font-size: 16px;
-        line-height: 2.5;
-        text-align: center;
-        margin: 10px 15px;
-        border: 1px solid #e5e5e5;
-        border-radius: 5px;
+    background: #ffffff;
+
+    .weui-cells {
+        margin-top: 0;
     }
 
     .no-line {

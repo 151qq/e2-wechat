@@ -4,9 +4,9 @@ export default{
 
   interfaces: {
     saveUserInfo: platform + 'mobile/user/saveUserInfo.json',
-    userInfoGet: platform + 'mobile/user/userInfoGet.json',
+    userInfoGet: platform + '/mobile/user/getEnterpriseUserInfo.json',
     corpWechatRedirectUrl: platform + 'corpWechatRedirectUrl.json',
-    getCorpWechatUserInfo: platform + 'getCorpWechatUserInfo.json',
+    getCorpWechatUserInfo: platform + '/mobile/user/checkUser.json',
     sentSms: platform + 'customer/sentSms.json',
     
     html5PageList: platform + 'html5PageList.json',
@@ -37,6 +37,7 @@ export default{
     eventInfoGet: platform + 'event/eventInfoGet.json',
     eventInfoChangeStatus: platform + 'event/eventInfoChangeStatus.json',
     eventProductList: platform + 'event/eventProductList.json',
+    publistEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
 
 
     couponInfoList: platform + 'coupon/couponInfoList.json',

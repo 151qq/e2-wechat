@@ -13,11 +13,16 @@
                     <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentData.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
 
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
+        </div>
+        
+        <div class="btn-height-box"></div>
         <div class="weui-btn-area">
             <a class="weui-btn weui-btn_primary" @click="saveAttachment">确定</a>
         </div>
@@ -25,84 +30,27 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
         return {
-            listData: [
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第一测试',
-                    eventPlanDesc: '我是第一测试描述'
-                },
-                {
-                    eventPlanCover: '/static/images/detail1.png',
-                    eventPlanTitle: '第二测试',
-                    eventPlanDesc: '我是第二测试描述'
-                }
-            ],
-            attachmentData: [],
+            isPage: false,
+            listData: [],
+            attachmentList: [],
             pageSize: 20,
             pageNumber: 1,
-            total: 30,
+            total: 0,
             userId: ''
         }
     },
     mounted () {
-        // this.getList()
+        this.getList()
     },
     computed: {
+        ...mapGetters({
+            attachmentData: 'getAttachment'
+        }),
         isLoad () {
             return this.total > this.listData.length
         }
@@ -112,16 +60,27 @@ export default {
           'setAttachment'
         ]),
         saveAttachment () {
-            this.setAttachment(this.attachmentData)
-            this.$router.go(-2)
+            var attData = {
+                targetType: this.$route.query.targetType,
+                attachmentList: []
+            }
+
+            if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
+                attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
+            } else {
+                attData.attachmentList = [].concat(this.attachmentList)
+            }
+
+            this.setAttachment(attData)
+            window.location.href = this.$route.query.redirectUrl
         },
         addAttachment (item) {
-            var index = this.attachmentData.indexOf(item)
+            var index = this.attachmentList.indexOf(item)
 
             if (index > -1) {
-                this.attachmentData.splice(index, 1)
+                this.attachmentList.splice(index, 1)
             } else {
-                this.attachmentData.push(item)
+                this.attachmentList.push(item)
             }
         },
         showMore (cb) {
@@ -129,11 +88,6 @@ export default {
             this.getList(cb)
         },
         getList (cb) {
-            setTimeout(() => {
-                this.listData = this.listData.concat([], this.listData)
-                cb()
-            }, 300)
-
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 eventPlanStatus: 'submitted',
@@ -142,7 +96,7 @@ export default {
             }
 
             util.request({
-                method: 'get',
+                method: 'post',
                 interface: 'eventInfoList',
                 data: formData
             }).then(res => {
@@ -152,6 +106,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result
                 } else {

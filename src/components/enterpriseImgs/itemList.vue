@@ -1,13 +1,17 @@
 <template>
     <section class="enterprise-img-dir page__bd">
-        <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
+        <div v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <section class="sou-box">
+            <section class="sou-box" v-for="(item, index) in listData" :key="index">
                 <div class="cover-box" @click="goToNext(item, index)">
                     <img :src="item.docCover">
                 </div>
                 <div class="title-box" v-text="item.docTitle"></div>
             </section>
+        </div>
+
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
         </div>
 
         <!-- <div class="weui-btn-area">
@@ -21,6 +25,7 @@ import util from '../../utils/tools'
 export default {
     data () {
         return {
+            isPage: false,
             listData: [],
             pageSize: 20,
             pageNumber: 1,
@@ -29,12 +34,6 @@ export default {
     },
     mounted () {
         this.getList()
-    },
-    watch: {
-        $route () {
-            this.pageNumber = 1
-            this.getList()
-        }
     },
     computed: {
         isLoad () {
@@ -76,6 +75,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
 
                 res.result.result.forEach((item) => {
                     item.docCreateTime = item.docCreateTime.split(' ')[0]
@@ -115,7 +115,7 @@ export default {
             display: block;
             text-align: center;
             font-size: 14px;
-            line-height: 1.6;
+            line-height: 2;
             color: #000000;
         }
     }

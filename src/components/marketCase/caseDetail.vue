@@ -19,8 +19,9 @@
         <div class="wx-area-text">
             {{base.eventPlanDesc}}
         </div>
+        <div class="wx-area-line"></div>
         <div class="weui-cells__title">活动优惠</div>
-        <div class="weui-cells">
+        <div class="weui-cells" v-if="couponList.length">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in couponList"
                     :to="{name: 'coupon-detail', query: {couponCode: item.couponCode}}">
@@ -33,6 +34,10 @@
                 </div>
             </router-link>
         </div>
+        <div class="null-box" v-if="!couponList.length && isPage">
+            暂无内容！
+        </div>
+        <div class="wx-area-line"></div>
         <div class="weui-cells__title">活动统计</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
@@ -61,6 +66,7 @@
             </div>
         </div>
         <template v-if="base.eventPlanStatus == 'closed'">
+            <div class="wx-area-line"></div>
             <div class="weui-cells__title">活动终止</div>
             <div class="wx-area-text">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.
@@ -83,11 +89,18 @@
                 </router-link>
             </div>
         </template>
-
-        <div class="wx-bottom-nav" v-if="base.eventPlanStatus == 'draft'">
-            <a class="wx-nav-item">
+        
+        <div class="btn-height-box" v-if="base.eventPlanStatus != 'closed'"></div>
+        <div class="wx-bottom-nav" v-if="base.eventPlanStatus != 'closed'">
+            <a class="wx-nav-item" v-if="base.eventPlanStatus == 'draft'" @click="submitCase">
                 发布
             </a>
+
+            <router-link class="wx-nav-item"
+                         v-if="base.eventPlanStatus == 'submitted'"
+                         :to="{name: 'stop-activity', query: {eventCode: $route.query.eventCode, enterpriseCode: $route.query.enterpriseCode, agentId: $route.query.agentId}}">
+                退回
+            </router-link>
         </div>
     </section>
 </template>
@@ -98,6 +111,7 @@ import util from '../../utils/tools'
 export default {
     data () {
         return {
+            isPage: false,
             base: {
                 eventLeads: '',
                 eventHotLeads: '',
@@ -105,6 +119,7 @@ export default {
                 eventPlanDesc: ''
             },
             couponList: [],
+            couponCodeList: [],
             pageNumber: 1,
             pageSize: 20,
             total: 0,
@@ -165,7 +180,7 @@ export default {
                 }
             })
         },
-        getCouponList (type) {
+        getCouponList () {
             var formData = {
                 eventCode: this.$route.query.eventCode
             }
@@ -181,10 +196,37 @@ export default {
                 }
 
                 this.total = res.result.total
-                if (!type) {
-                    this.couponList = res.result.result
+                this.isPage = true
+
+                this.couponList = res.result.result
+                var atts = []
+                res.result.result.forEach((item) => {
+                    atts.push(item.couponCode)
+                })
+                this.couponCodeList = atts
+            })
+        },
+        submitCase () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                eventCode: this.$route.query.eventCode,
+                couponCodes: this.couponCodeList
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'publistEvent',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.$message({
+                      showClose: true,
+                      message: '恭喜你，发布成功！',
+                      type: 'success'
+                    })
+                    this.getBase()
                 } else {
-                    this.couponList = this.couponList.concat(res.result.result)
+                    this.$message.error(res.result.message)
                 }
             })
         }

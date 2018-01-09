@@ -172,6 +172,58 @@ const routers = [
     ]
   },
   {
+    // 企业相册
+    path: '/enterpriseImgs',
+    name: 'enterpriseImgs',
+    component (resolve) {
+      require(["../../components/enterpriseImgs/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'enterprise-dirs',
+        component: resolve => require(["../../components/enterpriseImgs/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'imgList',
+        name: 'img-list',
+        component: resolve => require(["../../components/enterpriseImgs/imgList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
+  },
+  {
+    // 媒体中心
+    path: '/enterpriseMedias',
+    name: 'enterpriseMedias',
+    component (resolve) {
+      require(["../../components/enterpriseMedias/main.vue"], resolve)
+    },
+    children: [
+      {
+        path: '',
+        name: 'enterprise-medias',
+        component: resolve => require(["../../components/enterpriseMedias/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'mediaList',
+        name: 'media-list',
+        component: resolve => require(["../../components/enterpriseMedias/mediaList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      }
+    ]
+  },
+  {
     // 外呼工作
     path: '/nolineJob',
     name: 'nolineJob',
@@ -259,46 +311,6 @@ const routers = [
         path: 'couponDetail',
         name: 'coupon-detail',
         component: resolve => require(["../../components/marketCase/couponDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'caseDate',
-        name: 'case-date',
-        component: resolve => require(["../../components/marketCase/caseDate.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'casePaket',
-        name: 'case-paket',
-        component: resolve => require(["../../components/marketCase/casePaket.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'caseWxspreed',
-        name: 'case-wxspreed',
-        component: resolve => require(["../../components/marketCase/caseWxspreed.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'casePushspreed',
-        name: 'case-pushspreed',
-        component: resolve => require(["../../components/marketCase/casePushspreed.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'caseNoline',
-        name: 'case-noline',
-        component: resolve => require(["../../components/marketCase/caseNoline.vue"], resolve),
         meta: {
           token:false
         }

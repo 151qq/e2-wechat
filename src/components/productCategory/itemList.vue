@@ -18,6 +18,10 @@
             </div>
         </div>
 
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
+        </div>
+
         <!-- <div class="weui-btn-area">
             <a class="weui-btn weui-btn_primary" @click="saveAttachment">确定</a>
         </div> -->
@@ -29,6 +33,7 @@ import util from '../../utils/tools'
 export default {
     data () {
         return {
+            isPage: false,
             listData: [],
             pageSize: 20,
             pageNumber: 1,
@@ -41,6 +46,7 @@ export default {
     watch: {
         $route () {
             this.pageNumber = 1
+            this.isPage = false
             this.getList()
         }
     },
@@ -80,7 +86,7 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                catalogParentCode: this.$route.query.catalogCode,
+                catalogParentCode: this.$route.query.catalogCode ? this.$route.query.catalogCode : 'e2',
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize
             }
@@ -96,6 +102,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result
                 } else {

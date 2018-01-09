@@ -41,9 +41,9 @@
         <div class="weui-cells">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in productList"
-                    :to="{name: 'product-detail', query: {
+                    :to="{name: 'product-article', query: {
                         enterpriseCode: item.enterpriseCode,
-                        productCode: item.catalogCode
+                        catalogCode: item.productCode
                     }}">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.productCover">

@@ -1,10 +1,15 @@
 <template>
     <section class="market-list-box page__bd">
         <div class="weui-cells">
-            <router-link class="weui-cell weui-cell_access"
+            <router-link class="weui-cell_access weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in listData"
-                    :to="{name: item.pathName + '-attachment', query: {enterpriseCode: $route.query.enterpriseCode}}">
-                <div class="weui-cell__bd">{{item.title}}</div>
+                    :to="{name: item.pathName + '-attachment', query: {enterpriseCode: $route.query.enterpriseCode, targetType: item.type, redirectUrl: $route.query.redirectUrl}}">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="item.icon">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.title}}</h4>
+                </div>
                 <div class="weui-cell__ft"></div>
             </router-link>
         </div>
@@ -25,35 +30,51 @@ export default {
             var listDataTL = [
                 {
                     title: '营销活动方案',
-                    pathName: 'activity'
+                    pathName: 'activity',
+                    type: 'attachmen_type_2',
+                    icon: '/static/images/case-icon.png'
                 },
                 {
                     title: '任务列表',
-                    pathName: 'task'
+                    pathName: 'task',
+                    type: 'attachmen_type_3',
+                    icon: '/static/images/task-icon.png'
                 },
                 {
                     title: '推广文章',
-                    pathName: 'article'
+                    pathName: 'article',
+                    type: 'attachmen_type_4',
+                    icon: '/static/images/article-icon.png'
                 },
                 {
                     title: '产品中心',
-                    pathName: 'product'
+                    pathName: 'product',
+                    type: 'attachmen_type_5',
+                    icon: '/static/images/product-icon.png'
                 },
                 {
                     title: '宣传材料',
-                    pathName: 'publicize'
+                    pathName: 'publicize',
+                    type: 'attachmen_type_8',
+                    icon: '/static/images/spreed-icon.png'
                 },
                 {
-                    title: '素材图片',
-                    pathName: 'image'
+                    title: '公司相册',
+                    pathName: 'image',
+                    type: 'attachmen_type_1',
+                    icon: '/static/images/img-icon.png'
                 },
                 {
-                    title: '素材媒体',
-                    pathName: 'media'
+                    title: '宣传视频',
+                    pathName: 'media',
+                    type: 'attachmen_type_7',
+                    icon: '/static/images/media-icon.png'
                 },
                 {
                     title: '预约',
-                    pathName: 'reserve'
+                    pathName: 'reserve',
+                    type: 'attachmen_type_6',
+                    icon: '/static/images/reserve-icon.png'
                 }
             ]
 
