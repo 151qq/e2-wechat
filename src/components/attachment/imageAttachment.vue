@@ -65,7 +65,8 @@ export default {
             }
 
             this.setAttachment(attData)
-            window.location.href = this.$route.query.redirectUrl
+            var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+            this.$router.push(pathUrl)
         },
         addAttachment (item) {
             var index = this.attachmentList.indexOf(item)

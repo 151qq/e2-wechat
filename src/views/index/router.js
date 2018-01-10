@@ -256,9 +256,9 @@ const routers = [
         }
       },
       {
-        path: 'logDetail',
-        name: 'log-detail',
-        component: resolve => require(["../../components/nolineJob/logDetail.vue"], resolve),
+        path: 'nolineComment',
+        name: 'noline-comment',
+        component: resolve => require(["../../components/nolineJob/nolineComment.vue"], resolve),
         meta: {
           token:false
         }

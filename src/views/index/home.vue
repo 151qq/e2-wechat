@@ -17,51 +17,63 @@ export default {
             listData: [
                 {
                     title: '营销活动',
-                    pathName: 'marketCase',
+                    pathName: 'case-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '营销任务',
-                    pathName: 'marketTask',
+                    pathName: 'task-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
+                },
+                {
+                    title: '产品相册',
+                    pathName: 'enterprise-dirs',
+                    enterpriseCode: '20171225151720001',
+                    agentId: '1000007'
+                },
+                {
+                    title: '媒体中心',
+                    pathName: 'enterprise-medias',
+                    enterpriseCode: '20171225151720001',
+                    agentId: '1000007'
                 },
                 {
                     title: '外呼工作',
-                    pathName: 'nolineJob',
+                    pathName: 'noline-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '在线预约',
-                    pathName: 'onlineBooking',
+                    pathName: 'appointment-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '推广文章',
-                    pathName: 'spreedArticle',
+                    pathName: 'article-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '产品中心',
-                    pathName: 'productCategory',
+                    pathName: 'product-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '营销分析',
-                    pathName: 'marketAnalyse',
+                    pathName: 'analyse-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 },
                 {
                     title: '营销红包',
-                    pathName: 'marketPacket',
+                    pathName: 'logo-list',
                     enterpriseCode: '20171225151720001',
-                    agentId: '1'
+                    agentId: '1000007'
                 }
             ]
         }

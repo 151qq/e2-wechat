@@ -97,7 +97,7 @@
         </div>
 
         <div class="null-box" v-if="!attachmentData.attachmentList || !attachmentData.attachmentList.length">
-            暂无附件!
+            暂无内容!
         </div>
     </section>
 </template>

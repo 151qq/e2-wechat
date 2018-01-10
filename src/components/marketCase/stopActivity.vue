@@ -1,6 +1,5 @@
 <template>
     <section class="stop-activity-box">
-        <div class="weui-cells__title">详情</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
@@ -11,27 +10,30 @@
                 </div>
             </div>
         </div>
-        <div class="weui-cell no-line">
-            <div class="weui-uploader">
-                <div class="weui-uploader__bd">
-                     <ul class="weui-uploader__files" id="uploaderFiles">
-                        <li class="weui-uploader__file"
-                            v-for="(item, index) in commentData.attachments"
-                            @click="showBigImg(index)">
-                                <img :src="item">
-                        </li>
-                        <li @click="chooseImage" class="weui-uploader__input-box"></li>
-                    </ul>
+        <div class="weui-cells no-line no-margin">
+            <div class="weui-cell no-line">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                         <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file"
+                                v-for="(item, index) in commentData.imgData.attachmentSourceCodes"
+                                @click="showBigImg(index)">
+                                    <img :src="item">
+                            </li>
+                            <li @click="chooseImage" class="weui-uploader__input-box"></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- 附件 -->
-        <div class="wx-area-line"></div>
-        <div class="weui-cells__title" @click="gotoAttachment">附件</div>
-        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-        <a class="add-file-btn">添加附件</a>
-
+        <div class="weui-cells__title">附件</div>
+        <div class="weui-cells no-line">
+            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+            <a class="add-file-btn" @click="gotoAttachment">添加附件</a>
+        </div>
+        
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
             <a class="weui-btn weui-btn_primary" @click="submitComment">发布</a>
@@ -54,59 +56,72 @@ export default {
     data () {
         return {
             commentData: {
+                attachmentTargetType: 'marketCase',
+                attachmentTargetCode: '',
                 commentContent: '',
-                attachments: []
+                imgData: {
+                    attachmentSourceType: 'attachmen_type_1',
+                    attachmentSourceCodes: []
+                },
+                pageData: {
+                    attachmentSourceType: '',
+                    attachmentSourceCodes: []
+                }
             },
             nowIndex: '',
             nowPath: '',
             isShowImg: {
                 value: false
             },
-            serverIdList: [],
-            fileList: []
+            serverIdList: []
         }
     },
     mounted () {
         jsSdk.init()
+        if (this.detailData.attachmentTargetType) {
+            this.commentData = Object.assign({}, this.detailData)
+        }
     },
     computed: {
         ...mapGetters({
-            userInfo: 'getUserInfo'
-        }),
-        ...mapGetters({
-            attachmentData: 'getAttachment'
+            userInfo: 'getUserInfo',
+            attachmentData: 'getAttachment',
+            detailData: 'getDetail'
         })
     },
     methods: {
         ...mapActions([
-          'setAttachment'
+          'setAttachment',
+          'setDetail'
         ]),
         chooseImage () {
-            var num = 9 - this.commentData.attachments.length
+            var num = 9 - this.commentData.imgData.attachmentSourceCodes.length
             jsSdk.chooseImage(num ,(localIds) => {
-                this.commentData.attachments = this.commentData.attachments.concat(localIds).splice(0, 9)
+                this.commentData.imgData.attachmentSourceCodes = this.commentData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
             })
         },
         submitComment () {
-            jsSdk.uploadImgs(this.commentData.attachments, (serverIdList) => {
+            jsSdk.uploadImgs(this.commentData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
                 this.submitFn()
             })
         },
         submitFn () {
-            var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                eventCode: this.$route.query.eventCode,
-                attachmentImgs: this.serverIdList,
-                eventCancalMemo: this.commentData.commentContent
-            }
+            var formData = Object.assign({}, this.commentData)
+            formData.enterpriseCode = this.$route.query.enterpriseCode
+            formData.agentId = this.$route.query.agentId
+            formData.attachmentTargetCode = this.$route.query.eventCode
+            formData.imgData.attachmentSourceCodes = this.serverIdList
+            formData.pageData.attachmentSourceType = this.attachmentData.targetType
+            formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             util.request({
                 method: 'post',
-                interface: 'publishComment',
+                interface: 'stopEvent',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    this.setDetail({})
                     this.setAttachment({})
                     var pathUrl = {
                         name: 'attachment',
@@ -123,11 +138,14 @@ export default {
             })
         },
         gotoAttachment () {
+            this.setDetail(Object.assign({}, this.commentData))
+
             var pathUrl = {
-                name: 'attachment',
+                name: 'activity-attachment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
+                    type: 'unique-draft',
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }
@@ -135,11 +153,11 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.commentData.attachments[index]
+            this.nowPath = this.commentData.imgData.attachmentSourceCodes[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
-            this.commentData.attachments.splice(index, 1)
+            this.commentData.imgData.attachmentSourceCodes.splice(index, 1)
         }
     },
     components: {
@@ -148,37 +166,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.stop-activity-box {
-    background: #ffffff;
-
-    .weui-cells {
-        margin-top: 0;
-    }
-
-    .no-line {
-        &:before {
-            height: 0;
-            border: none;
-        }
-
-        &:after, &:before {
-            height: 0;
-            border: none;
-        }
-    }
-
-    .weui-uploader__file {
-        background: #e5e5e5;
-        position: relative;
-        overflow: hidden;
-
-        img {
-            position: absolute;
-            width: 100%;
-            top: 50%;
-            transform: translate(0,-50%);
-        }
-    }
-}
-</style>

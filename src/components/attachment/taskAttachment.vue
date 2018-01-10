@@ -38,6 +38,7 @@ export default {
             isPage: false,
             listData: [],
             attachmentList: [],
+            attachmentCodes: [],
             pageSize: 20,
             pageNumber: 1,
             total: 0,
@@ -62,24 +63,31 @@ export default {
         saveAttachment () {
             var attData = {
                 targetType: this.$route.query.targetType,
-                attachmentList: []
+                attachmentList: [],
+                attachmentCodes: []
             }
 
             if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
                 attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
+                attData.attachmentCodes = this.attachmentData.attachmentCodes.concat(this.attachmentCodes)
             } else {
                 attData.attachmentList = [].concat(this.attachmentList)
+                attData.attachmentCodes = [].concat(this.attachmentCodes)
             }
 
             this.setAttachment(attData)
-            window.location.href = this.$route.query.redirectUrl
+
+            var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+            this.$router.push(pathUrl)
         },
         addAttachment (item) {
             var index = this.attachmentList.indexOf(item)
 
             if (index > -1) {
+                this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
+                this.attachmentCodes.push(item.eventCode)
                 this.attachmentList.push(item)
             }
         },

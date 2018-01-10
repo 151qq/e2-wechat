@@ -1,74 +1,106 @@
 <template>
-    <section class="analyse-list-box page__bd">
-        <div class="weui-cells no-margin">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in listData"
-                    :to="{name: 'noline-detail'}">
+    <section class="product-list-box page__bd show-state-box">
+        <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
+            <!-- site.socialmarketingcloud.com  localhost:8890-->
+            <div  class="weui-media-box weui-media-box_appmsg"
+                @click="goToNext(item)"
+                v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.imgUrl">
+                    <img class="weui-media-box__thumb" :src="item.memberImage">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.title}}</h4>
-                    <p class="weui-media-box__desc">{{item.date}}</p>
+                    <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
+                    <p class="weui-media-box__desc">{{item.workBeginTime}}</p>
                 </div>
-            </router-link>
+                <div class="weui-cell__ft" v-if="item.outbandStatus == '0'">
+                    <span class="no-done">待办</span>
+                </div>
+                <div class="weui-cell__ft" v-if="item.outbandStatus == '1'">
+                    <span class="is-doing">完成</span>
+                </div>
+            </div>
         </div>
-        <div class="wx-bottom-nav">
-            <a class="wx-nav-item-20">
-                券
-            </a>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'noline-list'}">
-                外呼工作
-            </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'log-list'}">
-                外呼日志
-            </router-link>
+
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
         </div>
     </section>
 </template>
 <script>
+import util from '../../utils/tools'
+import { mapGetters } from 'vuex'
+
 export default {
     data () {
         return {
-            listData: []
+            isPage: false,
+            listData: [],
+            pageSize: 20,
+            pageNumber: 1,
+            total: 0
         }
     },
     mounted () {
-        this.getData()
+        this.getList()
+    },
+    watch: {
+        $route () {
+            this.pageNumber = 1
+            this.isPage = false
+            this.getList()
+        }
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        }),
+        isLoad () {
+            return this.total > this.listData.length
+        }
     },
     methods: {
-        getData () {
-            var listDataITL = [
-                {
-                    id: 0,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '爱谁谁爱啥啥',
-                    date: '2017-09-08'
-                },
-                {
-                    id: 1,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '不知道不明了',
-                    date: '2017-09-08'
-                },
-                {
-                    id: 2,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '你瞅啥，你看啥',
-                    date: '2017-09-08'
-                },
-                {
-                    id: 3,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '瞅你咋地',
-                    date: '2017-09-08'
+        goToNext (item) {
+            var pathData = {
+                name: 'noline-detail',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    outbandWorkCode: item.outbandWorkCode
                 }
-            ]
+            }
 
-            this.listData = listDataITL
-            console.log(this.listData)
+            this.$router.push(pathData)
+        },
+        showMore (cb) {
+            this.pageNumber++
+            this.getList(cb)
+        },
+        getList (cb) {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                userCode: this.userInfo.userCode,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'outBandWorkList',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '0') {
+                    this.$message.error(res.result.message)
+                    return
+                }
+
+                this.total = res.result.total
+                this.isPage = true
+                if (!cb) {
+                    this.listData = res.result.result
+                } else {
+                    this.listData = this.listData.concat(res.result.result)
+                }
+            })
         }
     }
 }

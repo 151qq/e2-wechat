@@ -4,10 +4,11 @@ export default{
 
   interfaces: {
     saveUserInfo: platform + 'mobile/user/saveUserInfo.json',
-    userInfoGet: platform + '/mobile/user/getEnterpriseUserInfo.json',
+    userInfoGet: platform + 'mobile/user/getEnterpriseUserInfo.json',
     corpWechatRedirectUrl: platform + 'corpWechatRedirectUrl.json',
-    getCorpWechatUserInfo: platform + '/mobile/user/checkUser.json',
+    getCorpWechatUserInfo: platform + 'mobile/user/checkUser.json',
     sentSms: platform + 'customer/sentSms.json',
+    getSignature: platform + 'getSignature.json',
     
     html5PageList: platform + 'html5PageList.json',
     html5PageGet: platform + 'html5PageGet.json',
@@ -38,11 +39,23 @@ export default{
     eventInfoChangeStatus: platform + 'event/eventInfoChangeStatus.json',
     eventProductList: platform + 'event/eventProductList.json',
     publistEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
+    stopEvent: platform + 'event/stopEvent.json',
 
 
     couponInfoList: platform + 'coupon/couponInfoList.json',
     couponInfoGet: platform + 'coupon/couponInfoGet.json',
     couponInfoChangeStatus: platform + 'coupon/couponInfoChangeStatus.json',
-    getCouponType: platform + 'coupon/getCouponType.json'
+    getCouponType: platform + 'coupon/getCouponType.json',
+
+    /**
+    * 外呼 get
+    */
+    outBandWorkList: platform + 'outBandWork/list.json',
+    selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
+    outBandWorkMange: platform + 'outBandWork/mange.json',
+    selectOutBandWorkDetails: platform + 'outBandWork/selectOutBandWorkDetails.json',
+    selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
+    mangeReady: platform + 'outBandWork/mangeReady.json',
+    selectLog: platform + 'log/selectLog.json'
   }
 }

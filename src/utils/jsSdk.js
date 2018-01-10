@@ -7,7 +7,6 @@ const jsSdk = {
         const parsed = queryString.parse(location.search)
         const nonceStr = 'Wm3WZYTPz0wzccnW'
         const timestamp = String(Math.floor(new Date().getTime() / 1000))
-        const appid = parsed.appid
         let url = ''
 
         if (window.__wxjs_is_wkwebview === true) {
@@ -20,7 +19,8 @@ const jsSdk = {
             method: 'post',
             interface: 'getSignature',
             data: {
-                appId: appid,
+                enterpriseCode: parsed.enterpriseCode,
+                agentId: parsed.agentId,
                 noncestr: nonceStr,
                 url: url,
                 timestamp: timestamp
@@ -29,11 +29,12 @@ const jsSdk = {
             if (res.result.success == '1') {
 
                 window.wx.config({
+                    beta: true,
                     debug: true,
-                    appId: appid,
+                    appId: res.result.result.corpId,
                     timestamp: timestamp,
                     nonceStr: nonceStr,
-                    signature: res.result.result,
+                    signature: res.result.result.corpJsdkSign,
                     jsApiList: [
                         'onMenuShareTimeline',
                         'onMenuShareAppMessage',
@@ -43,8 +44,8 @@ const jsSdk = {
                         'chooseImage',
                         'uploadImage',
                         'previewImage',
-                        'getLocalImgData',
-                        'showMenuItems'
+                        'showMenuItems',
+                        'hideAllNonBaseMenuItem'
                     ]
                 })
 

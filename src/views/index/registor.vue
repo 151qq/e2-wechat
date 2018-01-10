@@ -121,7 +121,7 @@ export default {
                 if (res.result.success == '1') {
                     var data = res.result.result
 
-                    if (!data.userCode) {
+                    if (!data) {
                         var path = 'http://site.socialmarketing.com/registor?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&redirectUrl=' + this.$route.query.redirectUrl + '&userId=' + data.userid
 
                         window.location.href = path

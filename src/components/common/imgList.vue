@@ -56,6 +56,22 @@ export default {
         }
     }
 
+    .weui-grids:before {
+        border: none;
+    }
+
+    .weui-grids:after {
+        border: none;
+    }
+
+    .weui-grid:before {
+        border: none;
+    }
+
+    .weui-grid:after {
+        border: none;
+    }
+
     .weui-grid {
         position: relative;
         width: 33%;

@@ -1,5 +1,6 @@
 <template>
     <section class="case-target">
+        <div class="height-1"></div>
         <div class="weui-cells__title">活动目标</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
@@ -19,7 +20,6 @@
         <div class="wx-area-text">
             {{base.eventPlanDesc}}
         </div>
-        <div class="wx-area-line"></div>
         <div class="weui-cells__title">活动优惠</div>
         <div class="weui-cells" v-if="couponList.length">
             <router-link class="weui-media-box weui-media-box_appmsg"
@@ -37,7 +37,6 @@
         <div class="null-box" v-if="!couponList.length && isPage">
             暂无内容！
         </div>
-        <div class="wx-area-line"></div>
         <div class="weui-cells__title">活动统计</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
@@ -65,33 +64,34 @@
                 <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
             </div>
         </div>
-        <template v-if="base.eventPlanStatus == 'closed'">
-            <div class="wx-area-line"></div>
+        <template v-if="base.eventPlanStatus == 'cancelled'">
             <div class="weui-cells__title">活动终止</div>
+            <div class="wx-area-text">{{base.eventCancalMemo}}</div>
             <div class="wx-area-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.
-            </div>
-            <div class="wx-area-text">
-                <img-list :img-list="stopImgs"></img-list>
+                <img-list :img-list="base.imgData"></img-list>
             </div>
             <div class="weui-cells__title">附件</div>
             <div class="weui-cells no-margin">
                 <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in fileList"
-                        :to="{}">
+                        v-for="(item, index) in base.pageData"
+                        :to="{name: 'case-detail', query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                eventCode: item.eventCode
+                            }}">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.imgUrl">
+                        <img class="weui-media-box__thumb" :src="item.eventPlanCover">
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.title}}</h4>
-                        <p class="weui-media-box__desc">{{item.des}}</p>
+                        <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
                     </div>
                 </router-link>
             </div>
         </template>
         
-        <div class="btn-height-box" v-if="base.eventPlanStatus != 'closed'"></div>
-        <div class="wx-bottom-nav" v-if="base.eventPlanStatus != 'closed'">
+        <div class="btn-height-box" v-if="base.eventPlanStatus != 'cancelled' && base.eventPlanStatus != 'end'"></div>
+        <div class="wx-bottom-nav" v-if="base.eventPlanStatus != 'cancelled' && base.eventPlanStatus != 'end'">
             <a class="wx-nav-item" v-if="base.eventPlanStatus == 'draft'" @click="submitCase">
                 发布
             </a>
@@ -116,51 +116,27 @@ export default {
                 eventLeads: '',
                 eventHotLeads: '',
                 eventSalesOpp: '',
-                eventPlanDesc: ''
+                eventPlanDesc: '',
+                eventCancalMemo: '',
+                imgData: [],
+                pageData: []
             },
             couponList: [],
             couponCodeList: [],
             pageNumber: 1,
             pageSize: 20,
-            total: 0,
-            stopImgs: [
-                '/static/images/bench1.png',
-                '/static/images/bench1.png',
-                '/static/images/bench1.png',
-                '/static/images/bench1.png',
-                '/static/images/bench1.png'
-            ],
-            fileList: [
-                {
-                    id: 0,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '爱谁谁爱啥啥',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 1,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '不知道不明了',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 2,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '你瞅啥，你看啥',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                },
-                {
-                    id: 3,
-                    imgUrl: '/static/images/detail1.png',
-                    title: '瞅你咋地',
-                    des: '由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。'
-                }
-            ]
+            total: 0
         }
     },
     mounted () {
         this.getBase()
         this.getCouponList()
+    },
+    watch: {
+        $route () {
+            this.getBase()
+            this.getCouponList()
+        }
     },
     methods: {
         getBase () {

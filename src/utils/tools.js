@@ -1,8 +1,16 @@
-
+import queryString from 'query-string'
 import axios from 'axios';
 import interfaces from './interfaces';
 
 const tools = {
+  formDataUrl (url) {
+    var a =  document.createElement('a')
+    a.href = url
+    return {
+      path: a.pathname,
+      query: queryString.parse(a.search)
+    }
+  },
   formDataDate (str) {
       var dateStr = new Date(str)
       var year = dateStr.getFullYear()

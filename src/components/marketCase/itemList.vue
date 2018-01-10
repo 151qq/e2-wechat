@@ -24,7 +24,7 @@
                 <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'submitted'">
                     <span class="is-doing">发布</span>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'closed'">
+                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'cancelled'">
                     <span class="is-waiting">终止</span>
                 </div>
             </router-link>

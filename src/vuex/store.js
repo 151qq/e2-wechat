@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 const userStore = new Vuex.Store({
   state: {
-    userInfo: {},
+    userInfo: {
+      userCode: '15164369647'
+    },
     detailData: {},
     giftData: [],
     attachmentData: {},

@@ -19,15 +19,7 @@
 export default {
     data () {
         return {
-            listData: []
-        }
-    },
-    mounted () {
-        this.getData()
-    },
-    methods: {
-        getData () {
-            var listDataTL = [
+            listData: [
                 {
                     title: '营销活动方案',
                     pathName: 'activity',
@@ -58,18 +50,18 @@ export default {
                     type: 'attachmen_type_8',
                     icon: '/static/images/spreed-icon.png'
                 },
-                {
-                    title: '公司相册',
-                    pathName: 'image',
-                    type: 'attachmen_type_1',
-                    icon: '/static/images/img-icon.png'
-                },
-                {
-                    title: '宣传视频',
-                    pathName: 'media',
-                    type: 'attachmen_type_7',
-                    icon: '/static/images/media-icon.png'
-                },
+                // {
+                //     title: '公司相册',
+                //     pathName: 'image',
+                //     type: 'attachmen_type_1',
+                //     icon: '/static/images/img-icon.png'
+                // },
+                // {
+                //     title: '宣传视频',
+                //     pathName: 'media',
+                //     type: 'attachmen_type_7',
+                //     icon: '/static/images/media-icon.png'
+                // },
                 {
                     title: '预约',
                     pathName: 'reserve',
@@ -77,8 +69,6 @@ export default {
                     icon: '/static/images/reserve-icon.png'
                 }
             ]
-
-            this.listData = listDataTL
         }
     }
 }
