@@ -41,9 +41,11 @@
                 券
             </a>
             <router-link class="wx-nav-item"
+                         v-if="base.outbandStatus == '0'"
                          :to="{name: 'noline-comment', query: {
                             enterpriseCode: $route.query.enterpriseCode,
                             agentId: $route.query.agentId,
+                            outbandWorkType: '0',
                             outbandWorkCode: $route.query.outbandWorkCode
                          }}">
                 外呼会报

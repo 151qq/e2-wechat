@@ -56,6 +56,22 @@ const routers = [
     }
   },
   {
+    // 地图搜索
+    path: '/search-map',
+    name: 'search-map',
+    component (resolve) {
+      require(["../../components/common/search-map.vue"], resolve)
+    }
+  },
+  {
+    // 选择用户
+    path: '/user-list',
+    name: 'user-list',
+    component (resolve) {
+      require(["../../components/common/user-list.vue"], resolve)
+    }
+  },
+  {
     // 附件分类
     path: '/attachment',
     name: 'attachment',
@@ -240,9 +256,9 @@ const routers = [
         }
       },
       {
-        path: 'nolineLog',
-        name: 'log-list',
-        component: resolve => require(["../../components/nolineJob/nolineLog.vue"], resolve),
+        path: 'nolineRemark',
+        name: 'noline-remark',
+        component: resolve => require(["../../components/nolineJob/nolineRemark.vue"], resolve),
         meta: {
           token:false
         }
@@ -429,40 +445,40 @@ const routers = [
   },
   {
     // 在线预约
-    path: '/onlineBooking',
-    name: 'onlineBooking',
+    path: '/reserve',
+    name: 'reserve',
     component (resolve) {
-      require(["../../components/onlineBooking/main.vue"], resolve)
+      require(["../../components/reserve/main.vue"], resolve)
     },
     children: [
       {
         path: '',
-        name: 'appointment-list',
-        component: resolve => require(["../../components/onlineBooking/itemList.vue"], resolve),
+        name: 'reserve-list',
+        component: resolve => require(["../../components/reserve/itemList.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'appointmentConfirm',
-        name: 'appointment-confirm',
-        component: resolve => require(["../../components/onlineBooking/appointmentConfirm.vue"], resolve),
+        path: 'addReserve',
+        name: 'add-reserve',
+        component: resolve => require(["../../components/reserve/addReserve.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'appointmentCustomer',
-        name: 'appointment-customer',
-        component: resolve => require(["../../components/onlineBooking/appointmentCustomer.vue"], resolve),
+        path: 'reserveSummary',
+        name: 'reserve-summary',
+        component: resolve => require(["../../components/reserve/reserveSummary.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'pageConfirm',
-        name: 'page-confirm',
-        component: resolve => require(["../../components/onlineBooking/pageConfirm.vue"], resolve),
+        path: 'reserveDetail',
+        name: 'reserve-detail',
+        component: resolve => require(["../../components/reserve/reserveDetail.vue"], resolve),
         meta: {
           token:false
         }

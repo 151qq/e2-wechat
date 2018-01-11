@@ -1,50 +1,59 @@
 <template>
     <section class="member-detail-box">
-        <div class="wx-area-img">
-            <img :src="coverImg">
-        </div>
-        <div class="avatar-box">
-            <div class="img-box">
-                <img :src="base.memberImage">
+        <section class="weui-cells weui-cells_form no-line no-margin">
+            <!-- <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">预约人</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入" v-model="formData.reserverName">
+                </div>
             </div>
-            <div class="name-box">
-                {{base.memberWechatNickname + '-' + base.memberMobile}}
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="tel" placeholder="请输入" v-model="formData.reserverMobile">
+                </div>
+            </div> -->
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">预约人</div>
+                <div class="weui-cell__ft">{{base.reserverName}}</div>
             </div>
-        </div>
-        <section class="weui-cells weui-cells_form">
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">预约手机</div>
+                <div class="weui-cell__ft">{{base.reserverMobile}}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.reserveBeginTime">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.receptionEndTime">
+                </div>
+            </div>
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd">
-                    <label for="" class="weui-label">外呼结果</label>
+                    <label for="" class="weui-label">接待结果</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <select class="weui-select" v-model="formData.outbandResult">
+                    <select class="weui-select" v-model="formData.receptionResult">
                         <option v-for="(item, index) in selectList.result"
                                 :key="index"
                                 :value="item.key">{{item.value}}</option>
                     </select>
                 </div>
             </div>
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd">
-                    <label for="" class="weui-label">外呼方式</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select" v-model="formData.outbandRealType">
-                        <option v-for="(item, index) in selectList.type"
-                                :key="index"
-                                :value="item.key">{{item.value}}</option>
-                    </select>
-                </div>
-            </div>
         </section>
-        <div class="weui-cells__title">外呼备忘</div>
+        <div class="weui-cells__title">接待备忘</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
                                 placeholder="这一刻的想法..."
                                 rows="3"
-                                v-model="formData.outbandMemo"></textarea>
+                                v-model="formData.receptionMemo"></textarea>
                 </div>
             </div>
         </div>
@@ -66,12 +75,12 @@
         </div>
         
         <!-- 附件 -->
-        <div class="weui-cells__title">预约记录</div>
+        <div class="weui-cells__title">体验产品</div>
         <div class="weui-cells no-line">
             <attachment-detail :attachment-data="attachmentData"></attachment-detail>
             <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
-
+        
         <div class="weui-cells__title">客户洞察</div>
         <section class="weui-cells weui-cells_form">
             <div class="weui-cell">
@@ -177,7 +186,7 @@
                 </div>
             </div> -->
         </section>
-        
+
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
             <a class="weui-btn weui-btn_primary" @click="submitComment">提交</a>
@@ -199,21 +208,19 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data () {
         return {
-            coverImg: '',
             base: {
-                memberImage: '',
-                memberMobile: '',
-                memberCode: '',
-                memberWechatNickname: '',
-                memberReferCode: '',
-                outbandRealType: ''
+                reserverName: '',
+                reserverMobile: ''
             },
             formData: {
-                outbandResult: '',
-                outbandRealType: '',
+                reserveCode: '',
+                reserverName: '',
+                reserverMobile: '',
                 enterpriseCode: '',
-                outbandWorkCode: '',
-                reserve_code: '',
+                receptionResult: '',
+                receptionEndTime: '',
+                receptionBeginTime: '',
+                receptionMemo: '',
                 name: '',
                 age: '',
                 consumeDecisionType: '',
@@ -221,15 +228,14 @@ export default {
                 education: '',
                 gender: '',
                 shoppingGuide: '',
-                attachmentTargetType: 'nolineJob',
+                attachmentTargetType: 'reception',
                 attachmentTargetCode: '',
-                outbandMemo: '',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
                 },
                 pageData: {
-                    attachmentSourceType: 'attachmen_type_6',
+                    attachmentSourceType: 'attachmen_type_5',
                     attachmentSourceCodes: []
                 }
             },
@@ -254,13 +260,11 @@ export default {
         }
     },
     mounted () {
-        this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
         }
         this.getData()
-        this.getSelectOut()
         this.getTags()
     },
     computed: {
@@ -289,20 +293,18 @@ export default {
         },
         submitFn () {
             var formData = Object.assign({}, this.formData)
-            formData.outbandWorkType = this.$route.query.outbandWorkType
             formData.userCode = this.userInfo.userCode
-            formData.memberCode = this.base.memberCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.outbandWorkCode = this.$route.query.outbandWorkCode
-            formData.attachmentTargetCode = this.$route.query.outbandWorkCode
             formData.imgData.attachmentSourceCodes = this.serverIdList
+            formData.reserveCode = this.$route.query.reserveCode
+            formData.attachmentTargetCode = this.$route.query.reserveCode
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             util.request({
                 method: 'post',
-                interface: 'outBandWorkMange',
+                interface: 'listResponseReserveInfo',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
@@ -313,7 +315,7 @@ export default {
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
                             agentId: this.$route.query.agentId,
-                            outbandWorkCode: this.$route.query.outbandWorkCode
+                            outbandCode: this.$route.query.outbandCode
                         }
                     }
                     this.$router.replace(pathUrl)
@@ -324,12 +326,13 @@ export default {
         },
         getData () {
             var formData = {
-                outbandWorkCode: this.$route.query.outbandWorkCode
+                enterpriseCode: this.$route.query.enterpriseCode,
+                reserveCode: this.$route.query.reserveCode
             }
 
             util.request({
                 method: 'get',
-                interface: 'selectOutBandWork',
+                interface: 'selectAll',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
@@ -369,11 +372,11 @@ export default {
             this.setDetail(Object.assign({}, this.formData))
 
             var pathUrl = {
-                name: 'reserve-attachment',
+                name: 'product-attachment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    targetType: 'attachmen_type_6',
+                    targetType: 'attachmen_type_5',
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }

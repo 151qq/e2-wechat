@@ -6,11 +6,14 @@ Vue.use(Vuex)
 const userStore = new Vuex.Store({
   state: {
     userInfo: {
-      userCode: '15164369647'
+      userCode: '15164369647',
+      userLoginName: '杨宁'
     },
     detailData: {},
     giftData: [],
     attachmentData: {},
+    mapData: {},
+    userData: {},
     iosUrl: ''
   },
   getters: {
@@ -25,6 +28,12 @@ const userStore = new Vuex.Store({
     },
     getAttachment (state) {
       return state.attachmentData
+    },
+    getMapInfo (state) {
+      return state.mapData
+    },
+    getUser (state) {
+      return state.userData
     }
   },
   mutations: {
@@ -39,6 +48,12 @@ const userStore = new Vuex.Store({
     },
     setAttachment (state, attachmentData) {
       state.attachmentData = attachmentData
+    },
+    setUser (state, userData) {
+      state.userData = userData
+    },
+    setMapInfo (state, mapData) {
+      state.mapData = mapData
     },
     setUrl (state, url) {
       state.iosUrl = url
@@ -56,6 +71,12 @@ const userStore = new Vuex.Store({
     },
     setAttachment ({ commit }, attachment) {
       commit('setAttachment', attachment)
+    },
+    setUser ({ commit }, userData) {
+      commit('setUser', userData)
+    },
+    setMapInfo ({ commit }, mapData) {
+      commit('setMapInfo', mapData)
     },
     setUrl ({ commit }, url) {
       commit('setUrl', url)

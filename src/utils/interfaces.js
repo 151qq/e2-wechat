@@ -9,6 +9,7 @@ export default{
     getCorpWechatUserInfo: platform + 'mobile/user/checkUser.json',
     sentSms: platform + 'customer/sentSms.json',
     getSignature: platform + 'getSignature.json',
+    selectUserInfoOfPage: platform + 'mobile/user/selectUserInfoOfPage.json',
     
     html5PageList: platform + 'html5PageList.json',
     html5PageGet: platform + 'html5PageGet.json',
@@ -56,6 +57,17 @@ export default{
     selectOutBandWorkDetails: platform + 'outBandWork/selectOutBandWorkDetails.json',
     selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
     mangeReady: platform + 'outBandWork/mangeReady.json',
-    selectLog: platform + 'log/selectLog.json'
+    selectLog: platform + 'log/selectLog.json',
+    selectOutBandWork1: platform + 'outBandWork/selectOutBandWork1.json',
+
+    selectAllTagDef: platform + 'tagDef/selectAllTagDef.json',
+
+    /**
+    * 预约 get
+    */
+    selectByReceptionCode: platform + 'reserveInfo/selectByReceptionCode.json',
+    insertReserveInfo: platform + 'reserveInfo/insertReserveInfo.json',
+    selectAll: platform + 'reserveInfo/selectAll.json',
+    listResponseReserveInfo: platform + 'reserveInfo/listResponseReserveInfo.json'
   }
 }

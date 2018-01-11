@@ -6,14 +6,13 @@
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.pageCover">
+                    <img class="weui-media-box__thumb" :src="item.userImage">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    <h4 class="weui-media-box__title">{{item.userLoginName}}</h4>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="userList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -37,8 +36,8 @@ export default {
         return {
             isPage: false,
             listData: [],
-            attachmentList: [],
-            attachmentCodes: [],
+            userList: [],
+            userCodes: [],
             pageSize: 20,
             pageNumber: 1,
             total: 0,
@@ -50,7 +49,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            attachmentData: 'getAttachment'
+            userData: 'getUser'
         }),
         isLoad () {
             return this.total > this.listData.length
@@ -58,21 +57,20 @@ export default {
     },
     methods: {
         ...mapActions([
-          'setAttachment'
+          'setUser'
         ]),
         saveAttachment () {
             var attData = {
-                targetType: this.$route.query.targetType,
-                attachmentList: [],
-                attachmentCodes: []
+                userList: [],
+                userCodes: []
             }
 
-            if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
-                attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
-                attData.attachmentCodes = this.attachmentData.attachmentCodes.concat(this.attachmentCodes)
+            if (this.$route.query.type != 'unique') {
+                attData.userList = this.userData.userList.concat(this.userList)
+                attData.userCodes = this.userData.userCodes.concat(this.userCodes)
             } else {
-                attData.attachmentList = [].concat(this.attachmentList)
-                attData.attachmentCodes = [].concat(this.attachmentCodes)
+                attData.userList = [].concat(this.userList)
+                attData.userCodes = [].concat(this.userCodes)
             }
 
             this.setAttachment(attData)
@@ -81,14 +79,22 @@ export default {
             this.$router.push(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.userList.indexOf(item)
 
             if (index > -1) {
-                this.attachmentCodes.splice(index, 1)
-                this.attachmentList.splice(index, 1)
+                this.userCodes.splice(index, 1)
+                this.userList.splice(index, 1)
             } else {
-                this.attachmentCodes.push(item.pageCode)
-                this.attachmentList.push(item)
+                if (this.attachmentData.length == 1 && this.$route.query.type == 'unique') {
+                    this.$message({
+                      showClose: true,
+                      message: '最多选中一个用户！',
+                      type: 'warning'
+                    })
+                    return false
+                }
+                this.userCodes.push(item.userCode)
+                this.userList.push(item)
             }
         },
         showMore (cb) {
@@ -98,15 +104,13 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                pageType: 'product_introduction',
-                pageStatus: '1',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
             util.request({
                 method: 'get',
-                interface: 'html5PageList',
+                interface: 'selectUserInfoOfPage',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -115,6 +119,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result
                 } else {

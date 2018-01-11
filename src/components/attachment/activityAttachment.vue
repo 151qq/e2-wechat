@@ -87,6 +87,14 @@ export default {
                 this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
+                if (this.attachmentData.length == 1 && this.$route.query.type == 'unique-draft') {
+                    this.$message({
+                      showClose: true,
+                      message: '最多选中一条！',
+                      type: 'warning'
+                    })
+                    return false
+                }
                 this.attachmentCodes.push(item.eventCode)
                 this.attachmentList.push(item)
             }
@@ -101,6 +109,10 @@ export default {
                 eventPlanStatus: 'submitted',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
+            }
+
+            if (this.$route.query.type == 'unique-draft') {
+                formData.eventPlanStatus = 'draft'
             }
 
             util.request({
