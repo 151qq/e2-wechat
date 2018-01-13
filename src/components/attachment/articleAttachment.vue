@@ -62,7 +62,7 @@ export default {
         ]),
         saveAttachment () {
             var attData = {
-                targetType: this.$route.query.targetType,
+                targetType: 'attachmen_type_4',
                 attachmentList: [],
                 attachmentCodes: []
             }
@@ -76,7 +76,7 @@ export default {
             }
 
             this.setAttachment(attData)
-
+            
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
             this.$router.push(pathUrl)
         },
@@ -115,6 +115,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result
                 } else {

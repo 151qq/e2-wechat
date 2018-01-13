@@ -68,6 +68,27 @@ export default{
     selectByReceptionCode: platform + 'reserveInfo/selectByReceptionCode.json',
     insertReserveInfo: platform + 'reserveInfo/insertReserveInfo.json',
     selectAll: platform + 'reserveInfo/selectAll.json',
-    listResponseReserveInfo: platform + 'reserveInfo/listResponseReserveInfo.json'
+    listResponseReserveInfo: platform + 'reserveInfo/listResponseReserveInfo.json',
+
+    /**
+    * 任务 get
+    */
+    getPendingTasks: platform + 'mobile/task/getPendingTasks.json',
+    getSendedTasks: platform + 'mobile/task/getSendedTasks.json',
+    getTask: platform + 'mobile/task/getTask.json',
+    saveTask: platform + 'mobile/task/saveTask.json',
+    sendTask: platform + 'mobile/task/sendTask.json',
+    getTaskReports: platform + 'mobile/task/getTaskReports.json',
+    saveTaskReport: platform + 'mobile/task/saveTaskReport.json',
+    deleteTaskReport: platform + 'mobile/task/deleteTaskReport.json',
+    getTaskPageEdit: platform + 'mobile/task/getTaskPageEdit.json',
+    saveTaskPageEdit: platform + 'mobile/task/saveTaskPageEdit.json',
+    delPageEdit: platform + 'mobile/task/delPageEdit.json',
+    getPageScenario: platform + 'mobile/task/getPageScenario.json',
+
+    /**
+    * 附件 get
+    */
+    getAttachments: platform + 'mobile/attachment/attachmentList.json'
   }
 }

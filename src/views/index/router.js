@@ -1,6 +1,6 @@
 const routers = [
   {
-    // 详情编辑
+    // 首页
     path: '/',
     name: 'home',
     component (resolve) {
@@ -8,51 +8,11 @@ const routers = [
     }
   },
   {
-    // 详情编辑
+    // 注册
     path: '/registor',
     name: 'registor',
     component (resolve) {
       require(["./registor.vue"], resolve)
-    }
-  },
-  {
-    // 详情编辑
-    path: '/detailEdit',
-    name: 'detail-edit',
-    component (resolve) {
-      require(["../../components/common/detailEdit.vue"], resolve)
-    }
-  },
-  {
-    // 礼品递推
-    path: '/giftEdit',
-    name: 'gift-edit',
-    component (resolve) {
-      require(["../../components/common/giftEdit.vue"], resolve)
-    }
-  },
-  {
-    // 发表
-    path: '/comment-chat',
-    name: 'comment-chat',
-    component (resolve) {
-      require(["../../components/common/comment-chat.vue"], resolve)
-    }
-  },
-  {
-    // 发表
-    path: '/submit-comment',
-    name: 'submit-comment',
-    component (resolve) {
-      require(["../../components/common/submit-comment.vue"], resolve)
-    }
-  },
-  {
-    // 验证确认
-    path: '/check-confirm',
-    name: 'check-confirm',
-    component (resolve) {
-      require(["../../components/common/check-confirm.vue"], resolve)
     }
   },
   {
@@ -112,33 +72,17 @@ const routers = [
         }
       },
       {
+        path: 'partyAttachment',
+        name: 'party-attachment',
+        component: resolve => require(["../../components/attachment/partyAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
         path: 'productAttachment',
         name: 'product-attachment',
         component: resolve => require(["../../components/attachment/productAttachment.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'publicizeAttachment',
-        name: 'publicize-attachment',
-        component: resolve => require(["../../components/attachment/publicizeAttachment.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'imageAttachment',
-        name: 'image-attachment',
-        component: resolve => require(["../../components/attachment/imageAttachment.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'mediaAttachment',
-        name: 'media-attachment',
-        component: resolve => require(["../../components/attachment/mediaAttachment.vue"], resolve),
         meta: {
           token:false
         }
@@ -155,16 +99,16 @@ const routers = [
   },
   {
     // 产品分类
-    path: '/productCategory',
-    name: 'productCategory',
+    path: '/productCenter',
+    name: 'productCenter',
     component (resolve) {
-      require(["../../components/productCategory/main.vue"], resolve)
+      require(["../../components/productCenter/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'product-list',
-        component: resolve => require(["../../components/productCategory/itemList.vue"], resolve),
+        component: resolve => require(["../../components/productCenter/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -172,7 +116,7 @@ const routers = [
       {
         path: 'productArticle',
         name: 'product-article',
-        component: resolve => require(["../../components/productCategory/articleList.vue"], resolve),
+        component: resolve => require(["../../components/productCenter/articleList.vue"], resolve),
         meta: {
           token:false
         }
@@ -180,7 +124,7 @@ const routers = [
       {
         path: 'detail',
         name: 'product-detail',
-        component: resolve => require(["../../components/productCategory/itemDetail.vue"], resolve),
+        component: resolve => require(["../../components/productCenter/itemDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -189,16 +133,16 @@ const routers = [
   },
   {
     // 企业相册
-    path: '/enterpriseImgs',
-    name: 'enterpriseImgs',
+    path: '/enterpriseAlbum',
+    name: 'enterpriseAlbum',
     component (resolve) {
-      require(["../../components/enterpriseImgs/main.vue"], resolve)
+      require(["../../components/enterpriseAlbum/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'enterprise-dirs',
-        component: resolve => require(["../../components/enterpriseImgs/itemList.vue"], resolve),
+        component: resolve => require(["../../components/enterpriseAlbum/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -206,25 +150,7 @@ const routers = [
       {
         path: 'imgList',
         name: 'img-list',
-        component: resolve => require(["../../components/enterpriseImgs/imgList.vue"], resolve),
-        meta: {
-          token:false
-        }
-      }
-    ]
-  },
-  {
-    // 媒体中心
-    path: '/enterpriseMedias',
-    name: 'enterpriseMedias',
-    component (resolve) {
-      require(["../../components/enterpriseMedias/main.vue"], resolve)
-    },
-    children: [
-      {
-        path: '',
-        name: 'enterprise-medias',
-        component: resolve => require(["../../components/enterpriseMedias/itemList.vue"], resolve),
+        component: resolve => require(["../../components/enterpriseAlbum/imgList.vue"], resolve),
         meta: {
           token:false
         }
@@ -232,7 +158,7 @@ const routers = [
       {
         path: 'mediaList',
         name: 'media-list',
-        component: resolve => require(["../../components/enterpriseMedias/mediaList.vue"], resolve),
+        component: resolve => require(["../../components/enterpriseAlbum/mediaList.vue"], resolve),
         meta: {
           token:false
         }
@@ -241,16 +167,16 @@ const routers = [
   },
   {
     // 外呼工作
-    path: '/nolineJob',
-    name: 'nolineJob',
+    path: '/outbandWork',
+    name: 'outbandWork',
     component (resolve) {
-      require(["../../components/nolineJob/main.vue"], resolve)
+      require(["../../components/outbandWork/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'noline-list',
-        component: resolve => require(["../../components/nolineJob/itemList.vue"], resolve),
+        component: resolve => require(["../../components/outbandWork/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -258,7 +184,7 @@ const routers = [
       {
         path: 'nolineRemark',
         name: 'noline-remark',
-        component: resolve => require(["../../components/nolineJob/nolineRemark.vue"], resolve),
+        component: resolve => require(["../../components/outbandWork/nolineRemark.vue"], resolve),
         meta: {
           token:false
         }
@@ -266,7 +192,7 @@ const routers = [
       {
         path: 'nolineDetail',
         name: 'noline-detail',
-        component: resolve => require(["../../components/nolineJob/nolineDetail.vue"], resolve),
+        component: resolve => require(["../../components/outbandWork/nolineDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -274,7 +200,7 @@ const routers = [
       {
         path: 'nolineComment',
         name: 'noline-comment',
-        component: resolve => require(["../../components/nolineJob/nolineComment.vue"], resolve),
+        component: resolve => require(["../../components/outbandWork/nolineComment.vue"], resolve),
         meta: {
           token:false
         }
@@ -283,16 +209,24 @@ const routers = [
   },
   {
     // 推广文章
-    path: '/spreedArticle',
-    name: 'spreedArticle',
+    path: '/spreadPage',
+    name: 'spreadPage',
     component (resolve) {
-      require(["../../components/spreedArticle/main.vue"], resolve)
+      require(["../../components/spreadPage/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'article-list',
-        component: resolve => require(["../../components/spreedArticle/itemList.vue"], resolve),
+        component: resolve => require(["../../components/spreadPage/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'articleDetail',
+        name: 'article-detail',
+        component: resolve => require(["../../components/spreadPage/articleDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -301,16 +235,16 @@ const routers = [
   },
   {
     // 券营销活动
-    path: '/marketCase',
-    name: 'marketCase',
+    path: '/couponEvent',
+    name: 'couponEvent',
     component (resolve) {
-      require(["../../components/marketCase/main.vue"], resolve)
+      require(["../../components/couponEvent/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'case-list',
-        component: resolve => require(["../../components/marketCase/itemList.vue"], resolve),
+        component: resolve => require(["../../components/couponEvent/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -318,7 +252,7 @@ const routers = [
       {
         path: 'caseDetail',
         name: 'case-detail',
-        component: resolve => require(["../../components/marketCase/caseDetail.vue"], resolve),
+        component: resolve => require(["../../components/couponEvent/caseDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -326,7 +260,7 @@ const routers = [
       {
         path: 'couponDetail',
         name: 'coupon-detail',
-        component: resolve => require(["../../components/marketCase/couponDetail.vue"], resolve),
+        component: resolve => require(["../../components/couponEvent/couponDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -334,7 +268,7 @@ const routers = [
       {
         path: 'stopActivity',
         name: 'stop-activity',
-        component: resolve => require(["../../components/marketCase/stopActivity.vue"], resolve),
+        component: resolve => require(["../../components/couponEvent/stopActivity.vue"], resolve),
         meta: {
           token:false
         }
@@ -343,16 +277,16 @@ const routers = [
   },
   {
     // 营销分析
-    path: '/marketAnalyse',
-    name: 'marketAnalyse',
+    path: '/marketingAnalysis',
+    name: 'marketingAnalysis',
     component (resolve) {
-      require(["../../components/marketAnalyse/main.vue"], resolve)
+      require(["../../components/marketingAnalysis/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'analyse-list',
-        component: resolve => require(["../../components/marketAnalyse/itemList.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -360,7 +294,7 @@ const routers = [
       {
         path: 'analyseDetail',
         name: 'analyse-detail',
-        component: resolve => require(["../../components/marketAnalyse/analyseDetail.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/analyseDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -368,7 +302,7 @@ const routers = [
       {
         path: 'analyseNoline',
         name: 'analyse-noline',
-        component: resolve => require(["../../components/marketAnalyse/analyseNoline.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/analyseNoline.vue"], resolve),
         meta: {
           token:false
         }
@@ -376,7 +310,7 @@ const routers = [
       {
         path: 'analyseWx',
         name: 'analyse-wx',
-        component: resolve => require(["../../components/marketAnalyse/analyseWx.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/analyseWx.vue"], resolve),
         meta: {
           token:false
         }
@@ -384,7 +318,7 @@ const routers = [
       {
         path: 'analysePush',
         name: 'analyse-push',
-        component: resolve => require(["../../components/marketAnalyse/analysePush.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/analysePush.vue"], resolve),
         meta: {
           token:false
         }
@@ -392,7 +326,7 @@ const routers = [
       {
         path: 'analyseSpreed',
         name: 'analyse-spreed',
-        component: resolve => require(["../../components/marketAnalyse/analyseSpreed.vue"], resolve),
+        component: resolve => require(["../../components/marketingAnalysis/analyseSpreed.vue"], resolve),
         meta: {
           token:false
         }
@@ -401,16 +335,16 @@ const routers = [
   },
   {
     // 营销红包
-    path: '/marketPacket',
-    name: 'marketPacket',
+    path: '/myConfig',
+    name: 'myConfig',
     component (resolve) {
-      require(["../../components/marketPacket/main.vue"], resolve)
+      require(["../../components/myConfig/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'logo-list',
-        component: resolve => require(["../../components/marketPacket/logoList.vue"], resolve),
+        component: resolve => require(["../../components/myConfig/logoList.vue"], resolve),
         meta: {
           token:false
         }
@@ -418,7 +352,7 @@ const routers = [
       {
         path: 'giftPoints',
         name: 'gift-points',
-        component: resolve => require(["../../components/marketPacket/giftPoints.vue"], resolve),
+        component: resolve => require(["../../components/myConfig/giftPoints.vue"], resolve),
         meta: {
           token:false
         }
@@ -427,16 +361,16 @@ const routers = [
   },
   {
     // 推广注册
-    path: '/promotionFranchise',
-    name: 'promotionFranchise',
+    path: '/adChannel',
+    name: 'adChannel',
     component (resolve) {
-      require(["../../components/promotionFranchise/main.vue"], resolve)
+      require(["../../components/adChannel/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'spreed-join',
-        component: resolve => require(["../../components/promotionFranchise/spreedJoin.vue"], resolve),
+        component: resolve => require(["../../components/adChannel/spreedJoin.vue"], resolve),
         meta: {
           token:false
         }
@@ -445,16 +379,16 @@ const routers = [
   },
   {
     // 在线预约
-    path: '/reserve',
-    name: 'reserve',
+    path: '/reserveOnline',
+    name: 'reserveOnline',
     component (resolve) {
-      require(["../../components/reserve/main.vue"], resolve)
+      require(["../../components/reserveOnline/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'reserve-list',
-        component: resolve => require(["../../components/reserve/itemList.vue"], resolve),
+        component: resolve => require(["../../components/reserveOnline/itemList.vue"], resolve),
         meta: {
           token:false
         }
@@ -462,7 +396,7 @@ const routers = [
       {
         path: 'addReserve',
         name: 'add-reserve',
-        component: resolve => require(["../../components/reserve/addReserve.vue"], resolve),
+        component: resolve => require(["../../components/reserveOnline/addReserve.vue"], resolve),
         meta: {
           token:false
         }
@@ -470,7 +404,7 @@ const routers = [
       {
         path: 'reserveSummary',
         name: 'reserve-summary',
-        component: resolve => require(["../../components/reserve/reserveSummary.vue"], resolve),
+        component: resolve => require(["../../components/reserveOnline/reserveSummary.vue"], resolve),
         meta: {
           token:false
         }
@@ -478,7 +412,7 @@ const routers = [
       {
         path: 'reserveDetail',
         name: 'reserve-detail',
-        component: resolve => require(["../../components/reserve/reserveDetail.vue"], resolve),
+        component: resolve => require(["../../components/reserveOnline/reserveDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -487,24 +421,24 @@ const routers = [
   },
   {
     // 我的会员
-    path: '/member',
-    name: 'member',
+    path: '/partyTool',
+    name: 'partyTool',
     component (resolve) {
-      require(["../../components/member/main.vue"], resolve)
+      require(["../../components/partyTool/main.vue"], resolve)
     },
     children: [
       {
         path: '',
-        name: 'member-list',
-        component: resolve => require(["../../components/member/itemList.vue"], resolve),
+        name: 'party-list',
+        component: resolve => require(["../../components/partyTool/itemList.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
         path: 'detail',
-        name: 'member-detail',
-        component: resolve => require(["../../components/member/itemDetail.vue"], resolve),
+        name: 'party-detail',
+        component: resolve => require(["../../components/partyTool/itemDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -513,16 +447,32 @@ const routers = [
   },
   {
     // 营销任务
-    path: '/marketTask',
-    name: 'marketTask',
+    path: '/taskManagement',
+    name: 'taskManagement',
     component (resolve) {
-      require(["../../components/marketTask/main.vue"], resolve)
+      require(["../../components/taskManagement/main.vue"], resolve)
     },
     children: [
       {
         path: '',
         name: 'task-list',
-        component: resolve => require(["../../components/marketTask/itemList.vue"], resolve),
+        component: resolve => require(["../../components/taskManagement/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'submitTask',
+        name: 'submit-task',
+        component: resolve => require(["../../components/taskManagement/submitTask.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'editComment',
+        name: 'edit-comment',
+        component: resolve => require(["../../components/taskManagement/editComment.vue"], resolve),
         meta: {
           token:false
         }
@@ -530,7 +480,7 @@ const routers = [
       {
         path: 'activityTask',
         name: 'activity-task',
-        component: resolve => require(["../../components/marketTask/activityTask.vue"], resolve),
+        component: resolve => require(["../../components/taskManagement/activityTask.vue"], resolve),
         meta: {
           token:false
         }
@@ -538,7 +488,7 @@ const routers = [
       {
         path: 'activityDetail',
         name: 'activity-detail',
-        component: resolve => require(["../../components/marketTask/activityDetail.vue"], resolve),
+        component: resolve => require(["../../components/taskManagement/activityDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -546,7 +496,7 @@ const routers = [
       {
         path: 'editTask',
         name: 'edit-task',
-        component: resolve => require(["../../components/marketTask/editTask.vue"], resolve),
+        component: resolve => require(["../../components/taskManagement/editTask.vue"], resolve),
         meta: {
           token:false
         }
@@ -554,55 +504,7 @@ const routers = [
       {
         path: 'editDetail',
         name: 'edit-detail',
-        component: resolve => require(["../../components/marketTask/editDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'spreedTask',
-        name: 'spreed-task',
-        component: resolve => require(["../../components/marketTask/spreedTask.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'spreedDetail',
-        name: 'spreed-detail',
-        component: resolve => require(["../../components/marketTask/spreedDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'pushTask',
-        name: 'push-task',
-        component: resolve => require(["../../components/marketTask/pushTask.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'pushDetail',
-        name: 'push-detail',
-        component: resolve => require(["../../components/marketTask/pushDetail.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'designTask',
-        name: 'design-task',
-        component: resolve => require(["../../components/marketTask/designTask.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'designDetail',
-        name: 'design-detail',
-        component: resolve => require(["../../components/marketTask/designDetail.vue"], resolve),
+        component: resolve => require(["../../components/taskManagement/editDetail.vue"], resolve),
         meta: {
           token:false
         }

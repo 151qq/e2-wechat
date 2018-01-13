@@ -62,7 +62,7 @@ export default {
         ]),
         saveAttachment () {
             var attData = {
-                targetType: this.$route.query.targetType,
+                targetType: 'attachmen_type_2',
                 attachmentList: [],
                 attachmentCodes: []
             }

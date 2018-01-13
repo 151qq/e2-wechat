@@ -11,6 +11,7 @@ const userStore = new Vuex.Store({
     },
     detailData: {},
     giftData: [],
+    attachmentPage: {},
     attachmentData: {},
     mapData: {},
     userData: {},
@@ -28,6 +29,9 @@ const userStore = new Vuex.Store({
     },
     getAttachment (state) {
       return state.attachmentData
+    },
+    getAttachmentPage (state) {
+      return state.attachmentPage
     },
     getMapInfo (state) {
       return state.mapData
@@ -48,6 +52,9 @@ const userStore = new Vuex.Store({
     },
     setAttachment (state, attachmentData) {
       state.attachmentData = attachmentData
+    },
+    setAttachmentPage (state, attachmentPage) {
+      state.attachmentPage = attachmentPage
     },
     setUser (state, userData) {
       state.userData = userData
@@ -71,6 +78,9 @@ const userStore = new Vuex.Store({
     },
     setAttachment ({ commit }, attachment) {
       commit('setAttachment', attachment)
+    },
+    setAttachmentPage ({ commit }, attachmentPage) {
+      commit('setAttachmentPage', attachmentPage)
     },
     setUser ({ commit }, userData) {
       commit('setUser', userData)

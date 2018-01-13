@@ -10,6 +10,9 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import queryString from 'query-string'
 import '../../assets/scss/common.scss'
+import FastClick from 'fastclick'
+
+FastClick.attach(document.body)
 
 Vue.use(VueRouter)
 Vue.use(Element)

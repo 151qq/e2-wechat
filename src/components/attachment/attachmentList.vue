@@ -45,28 +45,16 @@ export default {
                     icon: '/static/images/product-icon.png'
                 },
                 {
-                    title: '宣传材料',
-                    pathName: 'publicize',
-                    type: 'attachmen_type_8',
-                    icon: '/static/images/spreed-icon.png'
-                },
-                // {
-                //     title: '公司相册',
-                //     pathName: 'image',
-                //     type: 'attachmen_type_1',
-                //     icon: '/static/images/img-icon.png'
-                // },
-                // {
-                //     title: '宣传视频',
-                //     pathName: 'media',
-                //     type: 'attachmen_type_7',
-                //     icon: '/static/images/media-icon.png'
-                // },
-                {
                     title: '预约',
                     pathName: 'reserve',
                     type: 'attachmen_type_6',
                     icon: '/static/images/reserve-icon.png'
+                },
+                {
+                    title: '地推活动',
+                    pathName: 'party',
+                    type: 'attachmen_type_7',
+                    icon: '/static/images/spreed-icon.png'
                 }
             ]
         }

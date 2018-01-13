@@ -29,10 +29,10 @@
             </router-link>
         </div>
 
-        <div class="weui-cells__title">预约详情</div>
-        <div class="wx-area-text">{{base.reserveDesc}}</div>
+        <div class="weui-cells__title">外呼汇报</div>
+        <div class="wx-area-text">{{base.outbandMemo}}</div>
         <div class="wx-area-text">
-            <img-list :img-list="base.reserveImgData"></img-list>
+            <img-list :img-list="base.imgData"></img-list>
         </div>
         <div class="weui-cells__title">预约产品</div>
         <div class="weui-cells no-margin">

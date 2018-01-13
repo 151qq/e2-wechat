@@ -65,7 +65,7 @@ export default {
                 userCodes: []
             }
 
-            if (this.$route.query.type != 'unique') {
+            if (this.$route.query.type != 'unique' && this.userData.userList) {
                 attData.userList = this.userData.userList.concat(this.userList)
                 attData.userCodes = this.userData.userCodes.concat(this.userCodes)
             } else {
@@ -73,7 +73,16 @@ export default {
                 attData.userCodes = [].concat(this.userCodes)
             }
 
-            this.setAttachment(attData)
+            if (attData.userList.length > 1 && this.$route.query.type == 'unique') {
+                this.$message({
+                  showClose: true,
+                  message: '最多选中一个用户！',
+                  type: 'warning'
+                })
+                return false
+            }
+
+            this.setUser(attData)
 
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
             this.$router.push(pathUrl)
@@ -85,14 +94,6 @@ export default {
                 this.userCodes.splice(index, 1)
                 this.userList.splice(index, 1)
             } else {
-                if (this.attachmentData.length == 1 && this.$route.query.type == 'unique') {
-                    this.$message({
-                      showClose: true,
-                      message: '最多选中一个用户！',
-                      type: 'warning'
-                    })
-                    return false
-                }
                 this.userCodes.push(item.userCode)
                 this.userList.push(item)
             }

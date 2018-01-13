@@ -50,7 +50,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            attachmentData: 'getAttachment'
+            attachmentData: 'getAttachment',
+            attachmentPage: 'getAttachmentPage'
         }),
         isLoad () {
             return this.total > this.listData.length
@@ -58,24 +59,36 @@ export default {
     },
     methods: {
         ...mapActions([
-          'setAttachment'
+          'setAttachment',
+          'setAttachmentPage'
         ]),
         saveAttachment () {
             var attData = {
-                targetType: this.$route.query.targetType,
+                targetType: 'attachmen_type_5',
                 attachmentList: [],
                 attachmentCodes: []
             }
 
-            if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
-                attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
-                attData.attachmentCodes = this.attachmentData.attachmentCodes.concat(this.attachmentCodes)
+            var data = this.attachmentData
+
+            if (this.$route.query.isPage) {
+                data = this.attachmentPage
+            }
+
+            if (data.targetType && data.attachmentList && data.targetType == attData.targetType) {
+                attData.attachmentList = data.attachmentList.concat(this.attachmentList)
+                attData.attachmentCodes = data.attachmentCodes.concat(this.attachmentCodes)
             } else {
                 attData.attachmentList = [].concat(this.attachmentList)
                 attData.attachmentCodes = [].concat(this.attachmentCodes)
             }
 
-            this.setAttachment(attData)
+            if (this.$route.query.isPage) {
+                console.log(attData, 'attData')
+                this.setAttachmentPage(attData)
+            } else {
+                this.setAttachment(attData)
+            }
 
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
             this.$router.push(pathUrl)
@@ -115,6 +128,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result
                 } else {

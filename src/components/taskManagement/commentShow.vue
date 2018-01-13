@@ -7,6 +7,7 @@
             </div>
         </div>
         <section class="comment-b"
+                    v-if="commentList.length"
                     :id="'comment-' + item.taskReportFloor"
                     v-for="(item, index) in commentList">
             <div class="avatar-box">
@@ -34,19 +35,8 @@
                      v-if="item.status == '1' && item.imgData && item.imgData.length">
                     <img-list :img-list="item.imgData"></img-list>
                 </div>
-                <div class="weui-cells"
-                     v-if="item.status == '1' && item.pageData && item.pageData.length">
-                    <router-link class="weui-media-box weui-media-box_appmsg"
-                            v-for="(item, index) in item.pageData"
-                            :to="{}">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" :src="item.imgUrl">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{item.title}}</h4>
-                            <p class="weui-media-box__desc">{{item.des}}</p>
-                        </div>
-                    </router-link>
+                <div class="article-box" v-if="item.status == '1' && item.pageData && item.pageData.length">
+                    <attachment-show :attachment-data="item"></attachment-show>
                 </div>
                 <div class="response-box">
                     <div class="top-box">
@@ -66,11 +56,15 @@
                 </div>
             </div>
         </section>
+        <div class="null-box" v-if="!commentList.length && isPage">
+            暂无内容！
+        </div>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import imgList from './imgList.vue'
+import imgList from '../common/imgList.vue'
+import attachmentShow from '../common/attachmentShow.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
 
@@ -78,6 +72,7 @@ export default {
     props: ['commentUrl', 'textTitle'],
     data () {
         return {
+            isPage: false,
             commentList: [],
             commentsLen: ''
         }
@@ -118,13 +113,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.commentList = res.result.result
-                    var len = this.commentList.length
-
-                    if (this.commentsLen !== '' && len > this.commentsLen) {
-                        this.$emit('submitSuccess')
-                    }
-
-                    this.commentsLen = len
+                    this.isPage = true
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -150,7 +139,8 @@ export default {
         getDateDiff
     },
     components: {
-        imgList
+        imgList,
+        attachmentShow
     }
 }
 </script>
@@ -242,6 +232,19 @@ export default {
             }
         }
 
+        .article-box {
+            margin-top: 10px;
+
+            .weui-media-box {
+                padding: 10px;
+            }
+
+            .weui-media-box_appmsg .weui-media-box__hd {
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+
         .response-box {
             margin-top: 10px;
 
@@ -281,27 +284,6 @@ export default {
                         margin-left: 5px;
                         line-height: 16px;
                     }
-                }
-            }
-
-            .article-box {
-                a {
-                    display: flex;
-                    margin-top: 10px;
-                    align-items: center;
-                }
-
-                img {
-                    display: block;
-                    width: 40px;
-                    height: 40px;
-                    margin-right: 10px;
-                }
-
-                .article-title-box {
-                    flex: 1;
-                    font-size: 14px;
-                    color: #000000;
                 }
             }
 
