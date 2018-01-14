@@ -26,7 +26,7 @@
         <attachment-show :attachment-data="attachmentData"></attachment-show>
 
         <div class="wx-area-padding">
-            <comment-show :comment-url="'edit-comment'" :text-title="textTitle"></comment-show>
+            <comment-show :comment-url="commentUrl" :text-title="textTitle"></comment-show>
         </div>
 
         <!-- <div class="btn-height-box"></div>
@@ -69,6 +69,7 @@ export default {
                 imgData: [],
                 pageData: []
             },
+            commentUrl: 'edit-comment',
             attachmentData: {
                 sourceType: '',
                 imgData: [],
@@ -79,12 +80,10 @@ export default {
     },
     mounted () {
         this.getBase()
-        this.getAttachments()
     },
     watch: {
         $route () {
             this.getBase()
-            this.getAttachments()
         }
     },
     computed: {
@@ -106,6 +105,11 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result
+                    if (this.base.taskType == '4') {
+                        this.commentUrl = 'res-comment'
+                    }
+
+                    this.getAttachments()
                 } else {
                     this.$message.error(res.result.message)
                 }

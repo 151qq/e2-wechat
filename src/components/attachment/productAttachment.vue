@@ -84,7 +84,6 @@ export default {
             }
 
             if (this.$route.query.isPage) {
-                console.log(attData, 'attData')
                 this.setAttachmentPage(attData)
             } else {
                 this.setAttachment(attData)

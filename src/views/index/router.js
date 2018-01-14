@@ -350,9 +350,25 @@ const routers = [
         }
       },
       {
-        path: 'giftPoints',
-        name: 'gift-points',
-        component: resolve => require(["../../components/myConfig/giftPoints.vue"], resolve),
+        path: 'userInfo',
+        name: 'user-info',
+        component: resolve => require(["../../components/myConfig/userInfo.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'setRole',
+        name: 'set-role',
+        component: resolve => require(["../../components/myConfig/setRole.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'submitRole',
+        name: 'submit-role',
+        component: resolve => require(["../../components/myConfig/submitRole.vue"], resolve),
         meta: {
           token:false
         }
@@ -473,6 +489,14 @@ const routers = [
         path: 'editComment',
         name: 'edit-comment',
         component: resolve => require(["../../components/taskManagement/editComment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'resComment',
+        name: 'res-comment',
+        component: resolve => require(["../../components/taskManagement/resComment.vue"], resolve),
         meta: {
           token:false
         }

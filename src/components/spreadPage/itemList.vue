@@ -2,18 +2,16 @@
     <section class="article-list-box page__bd">
         <div class="weui-cells no-margin">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <template v-for="(article, index) in listData">
+            <template v-for="(item, index) in listData">
                 <a class="weui-media-box weui-media-box_appmsg"
                     v-if="item.pageStatus == '1'"
                     :href="'http://site.socialmarketingcloud.com/spreedArticle/detail?enterpriseCode=' + item.enterpriseCode + '&pageCode=' + item.pageCode + '&appid=' + item.appId + '&templateCode=' + item.templateCode + '&S=' + userInfo.userCode + '&C=e2nochannel&T=e2nospread'">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.bgTaskImg">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
-                        <p class="weui-media-box__desc">
-                            {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
-                        </p>
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                     </div>
                 </a>
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -42,6 +40,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -55,6 +54,11 @@ export default {
     },
     mounted () {
         this.getList()
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     },
     methods: {
         getList (type) {

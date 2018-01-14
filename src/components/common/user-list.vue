@@ -84,8 +84,13 @@ export default {
 
             this.setUser(attData)
 
-            var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.push(pathUrl)
+            // 是否是给用户授权角色
+            if (this.$route.query.roleCode) {
+                this.setRole()
+            } else {
+                var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                this.$router.push(pathUrl)
+            }
         },
         addAttachment (item) {
             var index = this.userList.indexOf(item)
@@ -125,6 +130,26 @@ export default {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
+                }
+            })
+        },
+        setRole () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                roleCode: this.$route.query.roleCode,
+                userCodes: this.userCodes
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'authorizeUserRole',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
                 }
             })
         }

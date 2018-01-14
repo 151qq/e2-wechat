@@ -1,12 +1,25 @@
 <template>
     <section class="stop-activity-box">
+        <div class="height-1"></div>
+        <group title="基本信息" label-width="105px">
+            <selector title="评论情绪"
+                    placeholder="请选择"
+                    :options="tagList.content_emotion"
+                    :value-map="valueMap"
+                    v-model="commentData.commentEmotion"></selector>
+            <selector title="评论操作"
+                      placeholder="请选择"
+                      :options="operateList"
+                      v-model="commentData.commentAction"></selector>
+        </group>
+        <div class="weui-cells__title">内容</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
                                 placeholder="这一刻的想法..."
                                 rows="3"
-                                v-model="commentData.taskReportText"></textarea>
+                                v-model="commentData.commentContent"></textarea>
                 </div>
             </div>
         </div>
@@ -51,13 +64,16 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { Group, Selector} from 'vux'
 
 export default {
     data () {
         return {
             commentData: {
-                attachmentTargetType: 'responseComment',
-                taskReportText: '',
+                commentEmotion: '',
+                commentAction: '',
+                attachmentTargetType: 'taskComment',
+                commentContent: '',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
@@ -72,7 +88,21 @@ export default {
             isShowImg: {
                 value: false
             },
-            serverIdList: []
+            serverIdList: [],
+            valueMap: ['tagValue', 'tagValueCname'],
+            operateList: [
+                {
+                    value: '保存',
+                    key: '1'
+                },
+                {
+                    value: '删除',
+                    key: '0'
+                }
+            ],
+            tagList: {
+                content_emotion: []
+            }
         }
     },
     mounted () {
@@ -80,6 +110,8 @@ export default {
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }
+
+        this.getTags()
     },
     computed: {
         ...mapGetters({
@@ -110,33 +142,40 @@ export default {
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
             formData.userCode = this.userInfo.userCode
-            formData.taskReportFloor = this.$route.query.taskReportFloor
             formData.taskCode = this.$route.query.taskCode
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
-            if (this.$route.query.commentTitle) {
-                formData.taskReportParent = this.$route.query.taskReportParent
-            }
-
             util.request({
                 method: 'post',
-                interface: 'saveTaskReport',
+                interface: 'saveTaskReportComment',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
                     var pathUrl = {
-                        name: 'activity-detail',
+                        name: 'task-list',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            taskCode: this.$route.query.taskCode
+                            agentId: this.$route.query.agentId
                         }
                     }
                     this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getTags () {
+            util.request({
+                method: 'get',
+                interface: 'selectAllTagDef',
+                data: {}
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.tagList = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -166,7 +205,9 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail
+        attachmentDetail,
+        Group,
+        Selector
     }
 }
 </script>

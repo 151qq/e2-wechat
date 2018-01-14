@@ -10,6 +10,10 @@ export default{
     sentSms: platform + 'customer/sentSms.json',
     getSignature: platform + 'getSignature.json',
     selectUserInfoOfPage: platform + 'mobile/user/selectUserInfoOfPage.json',
+    allRole: platform + 'mobile/authorize/allRole.json',
+    authorizeUserRole: platform + 'mobile/authorize/authorizeUserRole.json',
+    delectUserRole: platform + 'mobile/authorize/delectUserRole.json',
+    sendUserRoleMsg: platform + 'mobile/authorize/sendUserRoleMsg.json',
     
     html5PageList: platform + 'html5PageList.json',
     html5PageGet: platform + 'html5PageGet.json',
@@ -85,6 +89,8 @@ export default{
     saveTaskPageEdit: platform + 'mobile/task/saveTaskPageEdit.json',
     delPageEdit: platform + 'mobile/task/delPageEdit.json',
     getPageScenario: platform + 'mobile/task/getPageScenario.json',
+
+    saveTaskReportComment: platform + 'mobile/task/saveTaskReportComment.json',
 
     /**
     * 附件 get

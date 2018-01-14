@@ -30,7 +30,7 @@
         <template v-if="['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1">
             <div class="weui-cells__title">宣传产品</div>
             <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentPage"></attachment-detail>
+                <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
                 <a class="add-file-btn" @click="gotoArticle">添加</a>
             </div>
         </template>
@@ -38,7 +38,7 @@
         <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1">
             <div class="weui-cells__title">线下活动</div>
             <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentPage"></attachment-detail>
+                <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
                 <a class="add-file-btn" @click="gotoParty">添加</a>
             </div>
         </template>
@@ -415,7 +415,6 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    type: 'unique',
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }

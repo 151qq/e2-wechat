@@ -3,10 +3,10 @@
         <div class="weui-cells no-line no-margin">
             <div class="wx-upload-img"
                 @click="showBigImg">
-                    <img :src="formData.mediaId">
+                    <img :src="formData.picUrl">
             </div>
 
-            <div v-if="!formData.mediaId" class="wx-uploader"></div>
+            <div v-if="!formData.picUrl" class="wx-uploader"></div>
             
             <a class="add-file-btn" @click="chooseImage">添加图片</a>
         </div>
@@ -43,11 +43,11 @@ export default {
     data () {
         return {
             formData: {
-                taskCode: '',
-                taskReceiver: [],
+                roleCode: '',
+                userCodes: [],
                 message: '',
                 url: '',
-                mediaId: ''
+                picUrl: ''
             },
             nowIndex: '',
             nowPath: '',
@@ -88,24 +88,17 @@ export default {
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.taskCode = this.$route.query.taskCode
-            formData.taskReceiver = this.userData.userCodes
-            formData.mediaId = this.serverId
+            formData.roleCode = this.$route.query.roleCode
+            formData.userCodes = this.userData.userCodes
+            formData.picUrl = this.serverId
 
-            var pathUrl = window.location.href
-
-            var pathData = util.formDataUrl(pathUrl)
-            if (pathData.query.taskType == '1') {
-                pathUrl = pathUrl.replace('submitTask', 'editTask')
-            } else {
-                pathUrl = pathUrl.replace('submitTask', 'editTask')
-            }
+            var pathUrl = window.location.href.replace('submitRole', 'setRole')
 
             formData.url = window.encodeURIComponent(pathUrl)
 
             util.request({
                 method: 'post',
-                interface: 'sendTask',
+                interface: 'sendUserRoleMsg',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
@@ -117,11 +110,11 @@ export default {
             })
         },
         showBigImg () {
-            this.nowPath = this.formData.mediaId
+            this.nowPath = this.formData.picUrl
             this.isShowImg.value = true
         },
         deleteImg (index) {
-            this.formData.mediaId = ''
+            this.formData.picUrl = ''
         }
     },
     components: {
