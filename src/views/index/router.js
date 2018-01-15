@@ -88,6 +88,14 @@ const routers = [
         }
       },
       {
+        path: 'couponAttachment',
+        name: 'coupon-attachment',
+        component: resolve => require(["../../components/attachment/couponAttachment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
         path: 'reserveAttachment',
         name: 'reserve-attachment',
         component: resolve => require(["../../components/attachment/reserveAttachment.vue"], resolve),
@@ -377,16 +385,24 @@ const routers = [
   },
   {
     // 推广注册
-    path: '/adChannel',
-    name: 'adChannel',
+    path: '/wxPromotion',
+    name: 'wxPromotion',
     component (resolve) {
-      require(["../../components/adChannel/main.vue"], resolve)
+      require(["../../components/wxPromotion/main.vue"], resolve)
     },
     children: [
       {
         path: '',
-        name: 'spreed-join',
-        component: resolve => require(["../../components/adChannel/spreedJoin.vue"], resolve),
+        name: 'channel-list',
+        component: resolve => require(["../../components/wxPromotion/itemList.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'channelDetail',
+        name: 'channel-detail',
+        component: resolve => require(["../../components/wxPromotion/channelDetail.vue"], resolve),
         meta: {
           token:false
         }
@@ -436,7 +452,7 @@ const routers = [
     ]
   },
   {
-    // 我的会员
+    // 地推活动
     path: '/partyTool',
     name: 'partyTool',
     component (resolve) {
@@ -452,9 +468,17 @@ const routers = [
         }
       },
       {
-        path: 'detail',
+        path: 'partyDetail',
         name: 'party-detail',
-        component: resolve => require(["../../components/partyTool/itemDetail.vue"], resolve),
+        component: resolve => require(["../../components/partyTool/partyDetail.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'newParty',
+        name: 'new-party',
+        component: resolve => require(["../../components/partyTool/newParty.vue"], resolve),
         meta: {
           token:false
         }

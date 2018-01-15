@@ -180,17 +180,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-.reserve-detail-box {
-    .mapBox {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0 15px;
-
-        img {
-            display: block;
-            width: 100%;
-        }
-    }
-}
-</style>

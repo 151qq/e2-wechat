@@ -87,6 +87,8 @@ export default {
             // 是否是给用户授权角色
             if (this.$route.query.roleCode) {
                 this.setRole()
+            } else if (this.$route.query.partyCode) {
+                this.sendParty()
             } else {
                 var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
                 this.$router.push(pathUrl)
@@ -143,6 +145,27 @@ export default {
             util.request({
                 method: 'post',
                 interface: 'authorizeUserRole',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        sendParty () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode,
+                userCodes: this.userCodes,
+                url: this.$route.query.redirectUrl
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'sendParyMessage',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {

@@ -46,7 +46,7 @@ export default{
     publistEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
     stopEvent: platform + 'event/stopEvent.json',
 
-
+    couponGroupList: platform + 'couponGroup/couponGroupList.json',
     couponInfoList: platform + 'coupon/couponInfoList.json',
     couponInfoGet: platform + 'coupon/couponInfoGet.json',
     couponInfoChangeStatus: platform + 'coupon/couponInfoChangeStatus.json',
@@ -95,6 +95,23 @@ export default{
     /**
     * 附件 get
     */
-    getAttachments: platform + 'mobile/attachment/attachmentList.json'
+    getAttachments: platform + 'mobile/attachment/attachmentList.json',
+
+    /**
+    * 推广 get
+    */
+    getChannels: platform + 'organizePromoterInfo/selectMemberInfoByEnterpriseCode.json',
+    getChannelInfo: platform + 'organizePromoterInfo/selectOrganizePromoterInfo.json',
+    deleteChannel: platform + 'organizePromoterInfo/deleteOrganizePromoterInfo.json',
+    getPromoterAccuntType: platform + 'organizePromoterInfo/getPromoterAccuntType.json',
+    updateChannel: platform + 'organizePromoterInfo/manageOrganizePromoterInfo.json',
+    updateChannelStatus: platform + 'organizePromoterInfo/updateOrganizePromoterInfoOfAdChannelStatus.json',
+
+    /**
+    * 地推 get
+    */
+    partyInfoList: platform + 'partyInfo/partyInfoList.json',
+    savePartyInfo: platform + 'partyInfo/savePartyInfo.json',
+    sendParyMessage: platform + 'partyInfo/sendParyMessage.json'
   }
 }

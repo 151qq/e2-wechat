@@ -78,6 +78,9 @@ new Vue({
     el: '#app',
     router,
     store,
+    data: {
+        isPage: true
+    },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
             // this.getUserInfo()
@@ -95,6 +98,7 @@ new Vue({
             }).then(res => {
               if (res.result.success == '1' && res.result.result) {
                 this.setUserInfo(res.result.result)
+                this.isPage = true
               } else {
                 jsCookie.remove('e2_enterprise_staff')
                 const parsed = queryString.parse(location.search)

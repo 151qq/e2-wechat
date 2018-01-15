@@ -96,9 +96,9 @@ export default {
 
             var pathData = util.formDataUrl(pathUrl)
             if (pathData.query.taskType == '1') {
-                pathUrl = pathUrl.replace('submitTask', 'editTask')
+                pathUrl = pathUrl.replace('submitTask', 'editDetail')
             } else {
-                pathUrl = pathUrl.replace('submitTask', 'editTask')
+                pathUrl = pathUrl.replace('submitTask', 'editDetail')
             }
 
             formData.url = window.encodeURIComponent(pathUrl)

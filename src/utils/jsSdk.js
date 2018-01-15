@@ -36,11 +36,9 @@ const jsSdk = {
                     nonceStr: nonceStr,
                     signature: res.result.result.corpJsdkSign,
                     jsApiList: [
-                        'onMenuShareTimeline',
                         'onMenuShareAppMessage',
-                        'onMenuShareQQ',
-                        'onMenuShareWeibo',
-                        'onMenuShareQZone',
+                        'onMenuShareWechat',
+                        'shareWechatMessage',
                         'chooseImage',
                         'uploadImage',
                         'previewImage',

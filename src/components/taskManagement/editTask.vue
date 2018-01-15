@@ -313,12 +313,12 @@ export default {
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             if (['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1) {
-                formData.codes = this.attachmentData.attachmentCodes
+                formData.codes = this.attachmentPage.attachmentCodes
                 formData.objectType = 1
             }
 
             if (['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1) {
-                formData.codes = this.attachmentData.attachmentCodes
+                formData.codes = this.attachmentPage.attachmentCodes
                 formData.objectType = 2
             }
 

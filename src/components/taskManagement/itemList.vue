@@ -30,6 +30,7 @@
             暂无内容！
         </div>
 
+        <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
             <a class="wx-nav-item" @click="setStatus('getPendingTasks')">
                 我的待办任务
