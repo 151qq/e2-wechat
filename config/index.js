@@ -43,7 +43,7 @@ module.exports = {
     // http://112.126.90.50:8085
     proxyTable: {
       '/e2-mobile-api': {
-        target: 'http://192.168.2.109:8080/E2-Mobile',
+        target: 'http://192.168.2.107:8080/E2-Mobile',
         changeOrigin: true,
         pathRewrite: {
           '^/e2-mobile-api': ''

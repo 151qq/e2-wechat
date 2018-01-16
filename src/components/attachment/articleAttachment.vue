@@ -47,10 +47,21 @@ export default {
     },
     mounted () {
         this.getList()
+
+        if (!this.$route.query.isPage && this.attachmentData.targetType  && this.attachmentData.targetType == 'attachmen_type_4') {
+            this.attachmentList = this.attachmentData.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentData.attachmentCodes.concat([])
+        }
+
+        if (this.$route.query.isPage && this.attachmentPage.targetType  && this.attachmentPage.targetType == 'attachmen_type_4') {
+            this.attachmentList = this.attachmentPage.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentPage.attachmentCodes.concat([])
+        }
     },
     computed: {
         ...mapGetters({
-            attachmentData: 'getAttachment'
+            attachmentData: 'getAttachment',
+            attachmentPage: 'getAttachmentPage'
         }),
         isLoad () {
             return this.total > this.listData.length
@@ -58,27 +69,24 @@ export default {
     },
     methods: {
         ...mapActions([
-          'setAttachment'
+          'setAttachment',
+          'setAttachmentPage'
         ]),
         saveAttachment () {
             var attData = {
                 targetType: 'attachmen_type_4',
-                attachmentList: [],
-                attachmentCodes: []
+                attachmentList: [].concat(this.attachmentList),
+                attachmentCodes: [].concat(this.attachmentCodes)
             }
 
-            if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
-                attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
-                attData.attachmentCodes = this.attachmentData.attachmentCodes.concat(this.attachmentCodes)
+            if (this.$route.query.isPage) {
+                this.setAttachmentPage(attData)
             } else {
-                attData.attachmentList = [].concat(this.attachmentList)
-                attData.attachmentCodes = [].concat(this.attachmentCodes)
+                this.setAttachment(attData)
             }
-
-            this.setAttachment(attData)
             
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         addAttachment (item) {
             var index = this.attachmentList.indexOf(item)

@@ -71,12 +71,12 @@
                                 }
                             }">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.bgTaskImg">
+                        <img class="weui-media-box__thumb" :src="item.addrLink">
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
+                        <h4 class="weui-media-box__title">{{item.partyTitle}}</h4>
                         <p class="weui-media-box__desc">
-                            {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
+                            {{item.planBeginTime.split(' ')[0] + ' - ' + item.planEndTime.split(' ')[0]}}
                         </p>
                     </div>
                 </router-link>

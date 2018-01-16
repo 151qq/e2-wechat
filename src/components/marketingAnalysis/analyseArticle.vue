@@ -6,20 +6,28 @@
         <div class="weui-cells__title">总统计信息</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">推广次数</div>
-                <div class="weui-cell__ft">{{base.SumCountSpreadChannelCode}}</div>
+                <div class="weui-cell__bd">文章数量</div>
+                <div class="weui-cell__ft">{{base.countPageCode}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增潜客次数</div>
-                <div class="weui-cell__ft">{{base.SumspreadHotLeadsSum}}</div>
+                <div class="weui-cell__bd">文章阅读总数</div>
+                <div class="weui-cell__ft">{{base.sumPageReadSum}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">推广阅读中位数</div>
-                <div class="weui-cell__ft">{{base.SumMiddleSpreadReading}}</div>
+                <div class="weui-cell__bd">每篇文章阅读中位数</div>
+                <div class="weui-cell__ft">{{base.middlePageReadSum}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增潜客中位数</div>
-                <div class="weui-cell__ft">{{base.SumMiddleSpreadHotLeads}}</div>
+                <div class="weui-cell__bd">每篇文章分享中位数</div>
+                <div class="weui-cell__ft">{{base.middleShareSum}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">文章评论总数</div>
+                <div class="weui-cell__ft">{{base.sumPageCommentSum}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">每篇文章评论中位数</div>
+                <div class="weui-cell__ft">{{base.middlePageCommentSum}}</div>
             </div>
         </div>
 
@@ -31,26 +39,26 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"></div>
                     <div class="vux-cell-bd vux-cell-primary">
-                        <p><label class="vux-label">{{item.memberLoginName}}</label></p>
+                        <p><label class="vux-label">{{item.pageTitle}}</label></p>
                     </div>
                 </div>
                 <div class="weui-cell">
                     <section class="wx-cells-box">
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广次数</label>
-                            <span class="wx-right-cell">{{item.countSpreadChannelCode}}</span>
+                            <label class="wx-left-cell">文章阅读总数</label>
+                            <span class="wx-right-cell">{{item.onePageReadSum}}</span>
                         </div>
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广阅读总数</label>
-                            <span class="wx-right-cell">{{item.spreadReadingSum}}</span>
+                            <label class="wx-left-cell">文章分享到朋友圈总数</label>
+                            <span class="wx-right-cell">{{item.pageSharetowechatfriendSum}}</span>
                         </div>
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">新增潜客总数</label>
-                            <span class="wx-right-cell">{{item.spreadHotLeadsSum}}</span>
+                            <label class="wx-left-cell">文章分享到朋友总数</label>
+                            <span class="wx-right-cell">{{item.shareSum}}</span>
                         </div>
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广效率</label>
-                            <span class="wx-right-cell">{{item.promotionEfficiency}}</span>
+                            <label class="wx-left-cell">文章评论总数</label>
+                            <span class="wx-right-cell">{{item.onepageCommentSum}}</span>
                         </div>
                     </section>
                 </div>
@@ -66,10 +74,11 @@ export default {
     data () {
         return {
             base: {
-                SumCountSpreadChannelCode: '',
-                SumspreadHotLeadsSum: '',
-                SumMiddleSpreadReading: '',
-                SumMiddleSpreadHotLeads: ''
+                middlePageCommentSum: '',
+                middlePageReadSum: '',
+                middleShareSum: '',
+                sumPageCommentSum: '',
+                sumPageReadSum: ''
             },
             listData: [],
             pageSize: 20,
@@ -109,7 +118,7 @@ export default {
 
             util.request({
                 method: 'get',
-                interface: 'channelAnalyse',
+                interface: 'articleAnalyse',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -118,11 +127,11 @@ export default {
                 }
 
                 this.base = res.result.result
-                this.total = res.result.result.SumCountSpreadChannelCode
+                this.total = res.result.result.countPageCode
                 if (!cb) {
-                    this.listData = res.result.result.list
+                    this.listData = res.result.result.htmlPageForm2
                 } else {
-                    this.listData = this.listData.concat(res.result.result.list)
+                    this.listData = this.listData.concat(res.result.result.htmlPageForm2)
                 }
             })
         }

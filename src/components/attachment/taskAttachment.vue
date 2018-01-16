@@ -6,11 +6,13 @@
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.eventPlanCover">
+                    <img class="weui-media-box__thumb" :src="item.bgTaskImg">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
+                    <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
+                    <p class="weui-media-box__desc">
+                        {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
+                    </p>
                 </div>
                 <div class="weui-cell__ft">
                     <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
@@ -47,10 +49,21 @@ export default {
     },
     mounted () {
         this.getList()
+
+        if (!this.$route.query.isPage && this.attachmentData.targetType  && this.attachmentData.targetType == 'attachmen_type_3') {
+            this.attachmentList = this.attachmentData.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentData.attachmentCodes.concat([])
+        }
+
+        if (this.$route.query.isPage && this.attachmentPage.targetType  && this.attachmentPage.targetType == 'attachmen_type_3') {
+            this.attachmentList = this.attachmentPage.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentPage.attachmentCodes.concat([])
+        }
     },
     computed: {
         ...mapGetters({
-            attachmentData: 'getAttachment'
+            attachmentData: 'getAttachment',
+            attachmentPage: 'getAttachmentPage'
         }),
         isLoad () {
             return this.total > this.listData.length
@@ -58,27 +71,24 @@ export default {
     },
     methods: {
         ...mapActions([
-          'setAttachment'
+          'setAttachment',
+          'setAttachmentPage'
         ]),
         saveAttachment () {
             var attData = {
                 targetType: 'attachmen_type_3',
-                attachmentList: [],
-                attachmentCodes: []
+                attachmentList: [].concat(this.attachmentList),
+                attachmentCodes: [].concat(this.attachmentCodes)
             }
 
-            if (this.attachmentData.targetType && this.attachmentData.attachmentList && this.attachmentData.targetType == attData.targetType) {
-                attData.attachmentList = this.attachmentData.attachmentList.concat(this.attachmentList)
-                attData.attachmentCodes = this.attachmentData.attachmentCodes.concat(this.attachmentCodes)
+            if (this.$route.query.isPage) {
+                this.setAttachmentPage(attData)
             } else {
-                attData.attachmentList = [].concat(this.attachmentList)
-                attData.attachmentCodes = [].concat(this.attachmentCodes)
+                this.setAttachment(attData)
             }
-
-            this.setAttachment(attData)
-
+            
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         addAttachment (item) {
             var index = this.attachmentList.indexOf(item)
@@ -87,7 +97,7 @@ export default {
                 this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
-                this.attachmentCodes.push(item.eventCode)
+                this.attachmentCodes.push(item.taskCode)
                 this.attachmentList.push(item)
             }
         },

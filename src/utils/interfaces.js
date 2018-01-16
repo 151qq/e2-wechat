@@ -112,6 +112,19 @@ export default{
     */
     partyInfoList: platform + 'partyInfo/partyInfoList.json',
     savePartyInfo: platform + 'partyInfo/savePartyInfo.json',
-    sendParyMessage: platform + 'partyInfo/sendParyMessage.json'
+    sendParyMessage: platform + 'partyInfo/sendParyMessage.json',
+    updatePratyInfo: platform + 'partyInfo/updatePratyInfo.json',
+    updateStatus: platform + 'partyInfo/updateStatus.json',
+    reviewList: platform + 'partyInfo/reviewList.json',
+    reviewInsertImage: platform + 'partyInfo/reviewInsertImage.json',
+
+    /**
+    * 营销分析 get
+    */
+    articleAnalyse: platform + 'html5/html5PageMessage.json',
+    outBandAnalyse: platform + 'outBandWork/selectOutBandWorkDetails.json',
+    surveyAnalyse: platform + 'surveyRecord/selectSurveyRecord.json',
+    channelAnalyse: platform + 'mobile/adChannel/selectDetails.json',
+    couponAnalyse: platform + 'couponDataAnalyse/getALLCouponData.json'
   }
 }

@@ -48,6 +48,60 @@
         <div class="weui-cells__title">相关附件</div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
 
+        <template v-if="base.partyStatus == '2'">
+            <div class="weui-cells__title">活动总结</div>
+            <div class="wx-area-text">{{base.partySummary}}</div>
+            <div class="wx-area-text" v-if="partyImgs.length">
+                <img-list :img-list="partyImgs"></img-list>
+            </div>
+        </template>
+        
+
+        <div class="btn-height-box" v-if="base.partyStatus != '2'"></div>
+        <div class="wx-bottom-nav" v-if="base.partyOwner == userInfo.userCode && base.partyStatus != '2'">
+            <router-link class="wx-nav-item"
+                        v-if="base.partyStatus != '2'"
+                        :to="{
+                            name: 'stop-party',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                partyCode: $route.query.partyCode,
+                                result: 1
+                            }
+                        }">
+                结束活动
+            </router-link>
+            <router-link class="wx-nav-item"
+                        v-if="base.partyStatus == '1'"
+                        :to="{
+                            name: 'party-gift',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                partyCode: $route.query.partyCode
+                            }
+                        }">
+                活动现场
+            </router-link>
+        </div>
+
+        <div class="wx-bottom-nav" v-if="base.partyOwner != userInfo.userCode && base.partyStatus != '2'">
+            <router-link class="wx-nav-item"
+                        v-if="base.partyStatus == '1'"
+                        :to="{
+                            name: 'party-gift',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                partyCode: $route.query.partyCode,
+                                partyAlbum: base.partyAlbum
+                            }
+                        }">
+                活动现场
+            </router-link>
+        </div>
+
     </section>
 </template>
 <script>
@@ -66,14 +120,17 @@ export default {
                 planEndTime: '',
                 addrLink: '',
                 addrDetail: '',
-                partyDesc: ''
+                partyDesc: '',
+                partySummary: '',
+                partyAlbum: ''
             },
             couponData: [],
             attachmentData: {
                 sourceType: '',
                 imgData: [],
                 pageData: []
-            }
+            },
+            partyImgs: []
         }
     },
     mounted () {
@@ -89,7 +146,20 @@ export default {
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
-        })
+        }),
+        isStart () {
+            if (this.base.partyStatus = '0' && this.base.planBeginTime && this.base.planEndTime) {
+                var nowDateStr = new Date().getTime()
+                var startDateStr = new Date(this.base.planBeginTime).getTime()
+                var stopDateStr = new Date(this.base.planEndTime).getTime()
+
+                if (nowDateStr >= startDateStr && nowDateStr <= stopDateStr) {
+                    return true
+                }
+                return false
+            }
+            return false
+        }
     },
     methods: {
         getBase () {
@@ -105,7 +175,9 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result.partyInfo
-                    this.couponData = res.result.result.couponGroup
+                    if (res.result.result.couponGroup) {
+                        this.couponData = res.result.result.couponGroup
+                    }
 
                     this.isPage = true
                 } else {
@@ -127,6 +199,24 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.attachmentData = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getPartyImgs () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                targetCode: this.$route.query.partyCode
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'reviewList',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.partyImgs = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }

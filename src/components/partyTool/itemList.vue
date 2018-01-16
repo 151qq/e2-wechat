@@ -15,6 +15,9 @@
                         {{item.planBeginTime.split(' ')[0] + ' - ' + item.planEndTime.split(' ')[0]}}
                     </p>
                 </div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '1'"><span class="is-doing">开启</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '2'"><span class="has-done">结束</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '0'"><span class="is-waiting">启动</span></div>
             </div>
         </div>
 
@@ -35,14 +38,11 @@
                 发起新的地面推广活动
             </router-link>
         </div>
-
-        <sheet :is-show-sheet="isShowSheet" :item-list="sheetList" :cb="creatTask"></sheet>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import sheet from '../common/sheet.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -73,8 +73,34 @@ export default {
         }
     },
     methods: {
+        ...mapActions([
+          'setAttachment',
+          'setAttachmentPage',
+          'setDetail',
+          'setMapInfo'
+        ]),
+        gotoNewParty () {
+            this.setDetail({})
+            this.setAttachment({})
+            this.setAttachmentPage({})
+            this.setMapInfo({})
+
+            var pathUrl = {
+                name: 'new-party',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId
+                }
+            }
+
+            this.$router.push(pathUrl)
+        },
         goToNext (item) {
             var pathName = 'party-detail'
+
+            if (this.userInfo.userCode == item.partyOwner && item.partyStatus == '0') {
+                pathName = 'new-party'
+            }
 
             var pathData = {
                 name: pathName,
@@ -101,7 +127,7 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                partyOwner: this.userInfo.userCode,
+                userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize
             }
@@ -125,9 +151,6 @@ export default {
                 }
             })
         }
-    },
-    components: {
-        sheet
     }
 }
 </script>

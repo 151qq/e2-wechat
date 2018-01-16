@@ -300,17 +300,17 @@ const routers = [
         }
       },
       {
-        path: 'analyseDetail',
-        name: 'analyse-detail',
-        component: resolve => require(["../../components/marketingAnalysis/analyseDetail.vue"], resolve),
+        path: 'analyseNorm',
+        name: 'analyse-norm',
+        component: resolve => require(["../../components/marketingAnalysis/analyseNorm.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'analyseNoline',
-        name: 'analyse-noline',
-        component: resolve => require(["../../components/marketingAnalysis/analyseNoline.vue"], resolve),
+        path: 'analyseCoupon',
+        name: 'analyse-coupon',
+        component: resolve => require(["../../components/marketingAnalysis/analyseCoupon.vue"], resolve),
         meta: {
           token:false
         }
@@ -324,17 +324,33 @@ const routers = [
         }
       },
       {
-        path: 'analysePush',
-        name: 'analyse-push',
-        component: resolve => require(["../../components/marketingAnalysis/analysePush.vue"], resolve),
+        path: 'analyseArticle',
+        name: 'analyse-article',
+        component: resolve => require(["../../components/marketingAnalysis/analyseArticle.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'analyseSpreed',
-        name: 'analyse-spreed',
-        component: resolve => require(["../../components/marketingAnalysis/analyseSpreed.vue"], resolve),
+        path: 'analyseOutband',
+        name: 'analyse-outband',
+        component: resolve => require(["../../components/marketingAnalysis/analyseOutband.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'analyseParty',
+        name: 'analyse-party',
+        component: resolve => require(["../../components/marketingAnalysis/analyseParty.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'analyseQuestion',
+        name: 'analyse-question',
+        component: resolve => require(["../../components/marketingAnalysis/analyseQuestion.vue"], resolve),
         meta: {
           token:false
         }
@@ -479,6 +495,22 @@ const routers = [
         path: 'newParty',
         name: 'new-party',
         component: resolve => require(["../../components/partyTool/newParty.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'stopParty',
+        name: 'stop-party',
+        component: resolve => require(["../../components/partyTool/stopParty.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'partyGift',
+        name: 'party-gift',
+        component: resolve => require(["../../components/partyTool/partyGift.vue"], resolve),
         meta: {
           token:false
         }

@@ -6,20 +6,16 @@
         <div class="weui-cells__title">总统计信息</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">推广次数</div>
-                <div class="weui-cell__ft">{{base.SumCountSpreadChannelCode}}</div>
+                <div class="weui-cell__bd">外呼次数</div>
+                <div class="weui-cell__ft">{{base.countOutBandWork}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增潜客次数</div>
-                <div class="weui-cell__ft">{{base.SumspreadHotLeadsSum}}</div>
+                <div class="weui-cell__bd">预约总数</div>
+                <div class="weui-cell__ft">{{base.countReserveCode}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">推广阅读中位数</div>
-                <div class="weui-cell__ft">{{base.SumMiddleSpreadReading}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增潜客中位数</div>
-                <div class="weui-cell__ft">{{base.SumMiddleSpreadHotLeads}}</div>
+                <div class="weui-cell__bd">真实体验总数</div>
+                <div class="weui-cell__ft">{{base.countReallReserveCode}}</div>
             </div>
         </div>
 
@@ -31,27 +27,27 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"></div>
                     <div class="vux-cell-bd vux-cell-primary">
-                        <p><label class="vux-label">{{item.memberLoginName}}</label></p>
+                        <p><label class="vux-label">{{item.userLoginName}}</label></p>
                     </div>
                 </div>
                 <div class="weui-cell">
                     <section class="wx-cells-box">
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广次数</label>
-                            <span class="wx-right-cell">{{item.countSpreadChannelCode}}</span>
+                            <label class="wx-left-cell">外呼次数</label>
+                            <span class="wx-right-cell">{{item.oneCountOutBandWork}}</span>
                         </div>
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广阅读总数</label>
-                            <span class="wx-right-cell">{{item.spreadReadingSum}}</span>
+                            <label class="wx-left-cell">预约总数</label>
+                            <span class="wx-right-cell">{{item.oneCountReserveCode}}</span>
                         </div>
                         <div class="wx-cell-box">
-                            <label class="wx-left-cell">新增潜客总数</label>
-                            <span class="wx-right-cell">{{item.spreadHotLeadsSum}}</span>
+                            <label class="wx-left-cell">真实体验总数</label>
+                            <span class="wx-right-cell">{{item.oneCountReallReserveCode}}</span>
                         </div>
-                        <div class="wx-cell-box">
-                            <label class="wx-left-cell">推广效率</label>
-                            <span class="wx-right-cell">{{item.promotionEfficiency}}</span>
-                        </div>
+                        <!-- <div class="wx-cell-box">
+                            <label class="wx-left-cell">外呼绩效</label>
+                            <span class="wx-right-cell">{{item.onepageCommentSum}}</span>
+                        </div> -->
                     </section>
                 </div>
             </div>
@@ -66,10 +62,9 @@ export default {
     data () {
         return {
             base: {
-                SumCountSpreadChannelCode: '',
-                SumspreadHotLeadsSum: '',
-                SumMiddleSpreadReading: '',
-                SumMiddleSpreadHotLeads: ''
+                countOutBandWork: '',
+                countReserveCode: '',
+                countReallReserveCode: ''
             },
             listData: [],
             pageSize: 20,
@@ -109,7 +104,7 @@ export default {
 
             util.request({
                 method: 'get',
-                interface: 'channelAnalyse',
+                interface: 'outBandAnalyse',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -118,7 +113,7 @@ export default {
                 }
 
                 this.base = res.result.result
-                this.total = res.result.result.SumCountSpreadChannelCode
+                this.total = res.result.result.countOutBandWork
                 if (!cb) {
                     this.listData = res.result.result.list
                 } else {

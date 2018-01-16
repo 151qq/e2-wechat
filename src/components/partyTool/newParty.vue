@@ -68,8 +68,32 @@
         </div>
         
         <div class="btn-height-box"></div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">确认</a>
+
+        <div class="wx-bottom-nav" v-if="$route.query.partyCode">
+            <a class="wx-nav-item"
+                @click="startParty">
+                开始活动
+            </a>
+            <router-link class="wx-nav-item"
+                        :to="{
+                            name: 'stop-party',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                partyCode: $route.query.partyCode,
+                                partyAlbum: formData.partyAlbum,
+                                result: 0
+                            }
+                        }">
+                取消活动
+            </router-link>
+            <a class="wx-nav-item" @click="submitComment">
+                更新活动
+            </a>
+        </div>
+
+        <div class="weui-btn-area" v-else>
+            <a class="weui-btn weui-btn_primary" @click="submitComment">启动推广活动</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -92,12 +116,14 @@ export default {
     data () {
         return {
             formData: {
+                partyStatus: '',
                 partyTitle: '',
                 planBeginTime: '',
                 planEndTime: '',
                 addrLink: '',
                 addrDetail: '',
                 partyDesc: '',
+                partyAlbum: '',
                 attachmentTargetType: 'party',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
@@ -124,6 +150,11 @@ export default {
         jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
+        }
+
+        if (this.$route.query.partyCode) {
+            this.getBase()
+            this.getAttachments()
         }
     },
     computed: {
@@ -168,17 +199,184 @@ export default {
 
             formData.couponCodes = this.attachmentPage.attachmentCodes
 
+            var interfaceName = 'savePartyInfo'
+
+            if (this.$route.query.partyCode) {
+                formData.partyCode = this.$route.query.partyCode
+                interfaceName = 'updatePratyInfo'
+            }
+
             util.request({
                 method: 'post',
-                interface: 'savePartyInfo',
+                interface: interfaceName,
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.setDetail({})
-                    this.setAttachment({})
-                    this.setAttachmentPage({})
-                    this.setMapInfo({})
-                    this.gotoUser(res.result.result)
+                    if (!this.$route.query.partyCode) {
+                        this.setDetail({})
+                        this.setAttachment({})
+                        this.setAttachmentPage({})
+                        this.setMapInfo({})
+                        this.gotoUser(res.result.result)
+                    } else {
+                        this.$message({
+                          message: '恭喜你，更新成功！',
+                          type: 'success'
+                        })
+                    }
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        startParty () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode,
+                partyStatus: '1',
+                partyOwner: this.userInfo.userCode
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'updateStatus',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = {
+                        name: 'party-detail',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode
+                        }
+                    }
+                    this.$router.replace(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getBase () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'partyInfoList',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    if (!this.detailData.attachmentTargetType) {
+                        var baseData = res.result.result.partyInfo
+
+                        baseData.attachmentTargetType = 'party'
+
+                        baseData.imgData = {
+                            attachmentSourceType: 'attachmen_type_1',
+                            attachmentSourceCodes: []
+                        }
+
+                        baseData.pageData = {
+                            attachmentSourceType: '',
+                            attachmentSourceCodes: []
+                        }
+
+                        if (!this.mapData.address) {
+                            var mapData = {
+                                address: baseData.addrDetail,
+                                url: baseData.addrLink
+                            }
+
+                            this.setMapInfo(mapData)
+                        }
+
+                        this.formData = baseData
+                    }
+
+                    if (!this.attachmentPage.targetType && res.result.result.couponGroup) {
+                        var attachmentList = res.result.result.couponGroup ? res.result.result.couponGroup : []
+                        var attachmentCodes = []
+
+                        if (res.result.result.couponGroup.length) {
+                            res.result.result.couponGroup.forEach((item) => {
+                                attachmentCodes.push(item.couponGroupCode)
+                            })
+                        }
+
+                        var attData = {
+                            targetType: 'attachmen_type_8',
+                            attachmentList:  attachmentList,
+                            attachmentCodes: attachmentCodes
+                        }
+
+                        this.setAttachmentPage(attData)
+                    }
+                    
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getAttachments () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                targetCode: this.$route.query.partyCode,
+                targetType: 'party'
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'getAttachments',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var data = res.result.result
+
+                    if (this.attachmentData.targetType) {
+                        return false
+                    }
+
+                    this.formData.imgData = {
+                        attachmentSourceType: 'attachmen_type_1',
+                        attachmentSourceCodes: data.imgData
+                    }
+
+                    var attachmentList = data.pageData
+                    var attachmentCodes = []
+
+                    if (data.pageData.length) {
+                        data.pageData.forEach((item) => {
+                            switch(data.attachmentSourceType){
+                                case 'attachmen_type_2': 
+                                     attachmentCodes.push(item.couponGroupCode)
+                                     break
+                                case 'attachmen_type_3': 
+                                     attachmentCodes.push(item.taskCode)
+                                     break
+                                case 'attachmen_type_7': 
+                                     attachmentCodes.push(item.partyCode)
+                                     break
+                                case 'attachmen_type_6': 
+                                     attachmentCodes.push(item.reserveCode)
+                                     break
+                                default: 
+                                     attachmentCodes.push(item.pageCode)
+                                     break
+                            }
+                            
+                        })
+                    }
+
+                    var attData = {
+                        targetType: data.attachmentSourceType,
+                        attachmentList:  attachmentList,
+                        attachmentCodes: attachmentCodes
+                    }
+
+                    this.setAttachment(attData)
                 } else {
                     this.$message.error(res.result.message)
                 }

@@ -47,6 +47,16 @@ export default {
     },
     mounted () {
         this.getList()
+
+        if (!this.$route.query.isPage && this.attachmentData.targetType  && this.attachmentData.targetType == 'attachmen_type_5') {
+            this.attachmentList = this.attachmentData.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentData.attachmentCodes.concat([])
+        }
+
+        if (this.$route.query.isPage && this.attachmentPage.targetType  && this.attachmentPage.targetType == 'attachmen_type_5') {
+            this.attachmentList = this.attachmentPage.attachmentList.concat([])
+            this.attachmentCodes = this.attachmentPage.attachmentCodes.concat([])
+        }
     },
     computed: {
         ...mapGetters({
@@ -65,22 +75,8 @@ export default {
         saveAttachment () {
             var attData = {
                 targetType: 'attachmen_type_5',
-                attachmentList: [],
-                attachmentCodes: []
-            }
-
-            var data = this.attachmentData
-
-            if (this.$route.query.isPage) {
-                data = this.attachmentPage
-            }
-
-            if (data.targetType && data.attachmentList && data.targetType == attData.targetType) {
-                attData.attachmentList = data.attachmentList.concat(this.attachmentList)
-                attData.attachmentCodes = data.attachmentCodes.concat(this.attachmentCodes)
-            } else {
-                attData.attachmentList = [].concat(this.attachmentList)
-                attData.attachmentCodes = [].concat(this.attachmentCodes)
+                attachmentList: [].concat(this.attachmentList),
+                attachmentCodes: [].concat(this.attachmentCodes)
             }
 
             if (this.$route.query.isPage) {
@@ -90,7 +86,7 @@ export default {
             }
 
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         addAttachment (item) {
             var index = this.attachmentList.indexOf(item)
