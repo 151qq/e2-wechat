@@ -62,16 +62,16 @@ router.beforeEach((to, from, next) => {
     next()
 
     // 处理jssdk签名,兼容history模式
-    // if (!store.state.iosUrl) {
-    //   store.commit('setUrl', document.URL)
-    // }
+    if (!store.state.iosUrl) {
+      store.commit('setUrl', document.URL)
+    }
 
-    // if (!e2Token && to.name != 'registor') {
-    //     var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
-    //     window.location.href = path
-    // } else {
-    //     next()
-    // }
+    if (!e2Token && to.name != 'registor') {
+        var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
+        window.location.href = path
+    } else {
+        next()
+    }
 })
 
 new Vue({
@@ -83,7 +83,7 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
-            // this.getUserInfo()
+            this.getUserInfo()
         }
     },
     methods: {
