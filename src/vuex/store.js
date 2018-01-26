@@ -69,6 +69,33 @@ const userStore = new Vuex.Store({
         "status": "",
         "remark": "",
         "userInfoList": ""
+      },{
+        "id": 1,
+        "roleCode": "page_manager",
+        "roleName": "平台超级管理员",
+        "roleChoiceOpt": "0",
+        "roleCatalog": "0",
+        "status": "",
+        "remark": "",
+        "userInfoList": ""
+      },{
+        "id": 1,
+        "roleCode": "page_manager",
+        "roleName": "平台超级管理员",
+        "roleChoiceOpt": "0",
+        "roleCatalog": "0",
+        "status": "",
+        "remark": "",
+        "userInfoList": ""
+      },{
+        "id": 1,
+        "roleCode": "coupon_manager",
+        "roleName": "平台超级管理员",
+        "roleChoiceOpt": "0",
+        "roleCatalog": "0",
+        "status": "",
+        "remark": "",
+        "userInfoList": ""
       }]
     },
     detailData: {},

@@ -60,6 +60,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -106,14 +107,15 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                pageType: 'propagate_article',
-                pageStatus: '1',
+                pageType: 'template_type_1',
+                pageStatus: '2',
+                pageEditor: this.userInfo.userCode,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
             util.request({
-                method: 'get',
+                method: 'post',
                 interface: 'html5PageList',
                 data: formData
             }).then(res => {

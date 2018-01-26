@@ -32,13 +32,17 @@
 
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
-            <a class="wx-nav-item" @click="setStatus('getPendingTasks')">
+            <a class="wx-nav-item"
+                :class="interface == 'getPendingTasks' ? 'nav-now' : ''"
+                @click="setStatus('getPendingTasks')">
                 我的待办任务
             </a>
             <a class="wx-nav-item" @click="showSheet">
                 新建任务
             </a>
-            <a class="wx-nav-item" @click="setStatus('getSendedTasks')">
+            <a class="wx-nav-item"
+                :class="interface == 'getSendedTasks' ? 'nav-now' : ''"
+                @click="setStatus('getSendedTasks')">
                 我发布的任务
             </a>
         </div>
@@ -59,16 +63,6 @@ export default {
             isShowSheet: {
                 value: false
             },
-            sheetList: [
-                {
-                    label: '通用任务',
-                    pathName: 'activity-task'
-                },
-                {
-                    label: '编辑任务',
-                    pathName: 'edit-task'
-                }
-            ],
             pageSize: 20,
             pageNumber: 1,
             interface: 'getPendingTasks',
@@ -91,6 +85,35 @@ export default {
         }),
         isLoad () {
             return this.total > this.listData.length
+        },
+        sheetList () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            var arrs = []
+            if (roleCodes.indexOf('page_manager') > -1) {
+                arrs = [
+                    {
+                        label: '通用任务',
+                        pathName: 'activity-task'
+                    },
+                    {
+                        label: '编辑任务',
+                        pathName: 'edit-task'
+                    }
+                ]
+            } else {
+                arrs = [
+                    {
+                        label: '通用任务',
+                        pathName: 'activity-task'
+                    }
+                ]
+            }
+
+            return arrs
         }
     },
     methods: {
@@ -103,7 +126,7 @@ export default {
             var pathData = {
                 name: pathName,
                 query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
+                    enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     taskCode: item.taskCode
                 }
@@ -119,12 +142,13 @@ export default {
             if (this.interface == type) {
                 return false
             }
+
             this.interface = type
             this.getList()
         },
         getList (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize
@@ -154,7 +178,7 @@ export default {
         },
         creatTask (item) {
             this.$router.push({name: item.pathName, query: {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 agentId: this.$route.query.agentId
             }})
         }

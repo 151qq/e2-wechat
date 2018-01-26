@@ -98,7 +98,7 @@ export default {
             if (pathData.query.taskType == '1') {
                 pathUrl = pathUrl.replace('submitTask', 'editDetail')
             } else {
-                pathUrl = pathUrl.replace('submitTask', 'editDetail')
+                pathUrl = pathUrl.replace('submitTask', 'activityDetail')
             }
 
             formData.url = window.encodeURIComponent(pathUrl)
@@ -110,7 +110,9 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setUser({})
-                    window.location.replace(pathUrl)
+                    
+                    var pathData = util.formDataUrl(pathUrl)
+                    this.$router.replace(pathData)
                 } else {
                     this.$message.error(res.result.message)
                 }

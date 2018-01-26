@@ -19,10 +19,8 @@
                         {{item.reserveBeginTime.split(' ')[0] + ' - ' + item.reserveEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '4'"><span class="no-done">延期</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="is-doing">完成</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="has-done">过期</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '1'"><span class="is-waiting">草稿</span></div>
+                <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="no-done">未接</span></div>
+                <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="is-doing">完成</span></div>
             </div>
         </div>
 
@@ -31,14 +29,15 @@
         </div>
 
         <div class="wx-bottom-nav">
-            <a class="wx-nav-item" @click="setStatus('1')">
-                新预约
+            <a class="wx-nav-item"
+                :class="reserveStatus == '2' ? 'nav-now' : ''"
+                @click="setStatus('2')">
+                未接待
             </a>
-            <a class="wx-nav-item" @click="setStatus('2')">
+            <a class="wx-nav-item"
+                :class="reserveStatus == '3' ? 'nav-now' : ''"
+                @click="setStatus('3')">
                 已接待
-            </a>
-            <a class="wx-nav-item" @click="setStatus('3')">
-                已过期
             </a>
             <router-link class="wx-nav-item"
                          :to="{name: 'add-reserve', query: {
@@ -61,7 +60,7 @@ export default {
             listData: [],
             pageSize: 20,
             pageNumber: 1,
-            reserveStatus: '1',
+            reserveStatus: '2',
             total: 0
         }
     },

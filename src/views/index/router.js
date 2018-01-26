@@ -238,6 +238,46 @@ const routers = [
         meta: {
           token:false
         }
+      },
+      {
+        path: 'resComment',
+        name: 'res-comment',
+        component: resolve => require(["../../components/spreadPage/resComment.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'oprateMessage',
+        name: 'oprate-message',
+        component: resolve => require(["../../components/spreadPage/oprateMessage.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'aboutArticle',
+        name: 'about-article',
+        component: resolve => require(["../../components/spreadPage/aboutArticle.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'submitArticle',
+        name: 'submit-article',
+        component: resolve => require(["../../components/spreadPage/submitArticle.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'articleLog',
+        name: 'article-log',
+        component: resolve => require(["../../components/spreadPage/articleLog.vue"], resolve),
+        meta: {
+          token:false
+        }
       }
     ]
   },
@@ -537,14 +577,6 @@ const routers = [
         path: 'editComment',
         name: 'edit-comment',
         component: resolve => require(["../../components/taskManagement/editComment.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'resComment',
-        name: 'res-comment',
-        component: resolve => require(["../../components/taskManagement/resComment.vue"], resolve),
         meta: {
           token:false
         }

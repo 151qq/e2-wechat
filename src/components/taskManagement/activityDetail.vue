@@ -24,7 +24,8 @@
         </div>
         <div class="weui-cells__title">任务附件</div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
-
+        
+        <div class="wx-area-line"></div>
         <div class="wx-area-padding">
             <comment-show :comment-url="commentUrl" :text-title="textTitle"></comment-show>
         </div>
@@ -105,9 +106,9 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result
-                    if (this.base.taskType == '4') {
-                        this.commentUrl = 'res-comment'
-                    }
+                    // if (this.base.taskType == '4') {
+                    //     this.commentUrl = 'res-comment'
+                    // }
 
                     this.getAttachments()
                 } else {

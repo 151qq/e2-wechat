@@ -1,5 +1,6 @@
 <template>
     <section class="member-detail-box">
+        <div class="height-1"></div>
         <group title="基本信息" label-width="105px">
             <x-input title="任务标题"
                      v-model="formData.taskTitle"
@@ -63,8 +64,8 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
+import jsSdk from '../../utils/jsSdk'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
 import { Group, XInput, Datetime } from 'vux'
@@ -97,9 +98,13 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
+
+            setTimeout(() => {
+                this.formData.taskBeginTime = this.detailData.taskBeginTime
+                this.formData.taskEndTime = this.detailData.taskEndTime
+            }, 0)
         }
     },
     computed: {
@@ -127,6 +132,38 @@ export default {
             })
         },
         submitFn () {
+            if (!this.formData.taskTitle) {
+                this.$message({
+                    message: '请填写任务标题!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.taskBeginTime) {
+                this.$message({
+                    message: '请填写开始时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.taskEndTime) {
+                this.$message({
+                    message: '请填写结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (new Date(this.formData.taskBeginTime).getTime() > new Date(this.formData.taskEndTime).getTime()) {
+                this.$message({
+                    message: '开始应小于结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
@@ -150,6 +187,7 @@ export default {
             })
         },
         gotoAttachment () {
+            console.log(this.formData, 'formData')
             this.setDetail(Object.assign({}, this.formData))
 
             var pathUrl = {

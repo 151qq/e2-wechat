@@ -15,8 +15,8 @@ export default{
     delectUserRole: platform + 'mobile/authorize/delectUserRole.json',
     sendUserRoleMsg: platform + 'mobile/authorize/sendUserRoleMsg.json',
     
-    html5PageList: platform + 'html5PageList.json',
-    html5PageGet: platform + 'html5PageGet.json',
+    html5PageList: platform + 'html5/html5PageList.json',
+    html5PageGet: platform + 'html5/html5PageGet.json',
     listPageArea: platform + 'listPageArea.json',
     getTemplates: platform +'htmlPageTemplate/templateListPage.json',
     pageAndHtml5: platform + 'productPage/selectHtml5PageAndHtml5PageTemplateCode.json',

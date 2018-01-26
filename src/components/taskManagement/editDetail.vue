@@ -25,26 +25,36 @@
             </div>
         </div>
 
-        <template v-if="true">
+        <template v-if="['XPTJ', 'CPCX'].indexOf(base.pageScenario) > -1 && base.pageData.length">
             <div class="weui-cells__title">宣传产品</div>
             <div class="weui-cells no-line">
-                <a class="weui-media-box weui-media-box_appmsg"
+                <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in base.pageData"
-                        :href="'http://site.socialmarketingcloud.com/spreedArticle/detail?enterpriseCode=' + item.enterpriseCode + '&pageCode=' + item.pageCode + '&appid=' + item.appId + '&templateCode=' + item.templateCode + '&S=' + userInfo.userCode + '&C=e2nochannel&T=e2nospread'">
+                        :to="{
+                                name: 'article-detail',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: item.pageCode,
+                                    appid: item.appId,
+                                    templateCode: item.templateCode,
+                                    S: userInfo.userCode,
+                                    C: 'e2nochannel',
+                                    T: 'e2nospread'
+                                }
+                            }">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.bgTaskImg">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
-                        <p class="weui-media-box__desc">
-                            {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
-                        </p>
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                     </div>
-                </a>
+                </router-link>
             </div>
         </template>
 
-        <template v-if="false">
+        <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(base.pageScenario) > -1 && base.pageData.length">
             <div class="weui-cells__title">线下活动</div>
             <div class="weui-cells no-line">
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -70,35 +80,35 @@
             </div>
         </template>
 
-        <div class="weui-cells__title">文章目标读者</div>
-        <div class="weui-cells">
+        <div class="weui-cells__title" v-if="base.taskPageEdit">文章目标读者</div>
+        <div class="weui-cells" v-if="base.taskPageEdit">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">客户性别</div>
-                <div class="weui-cell__ft">{{base.pageReaderGender}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderGender}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">所在城市</div>
-                <div class="weui-cell__ft">{{base.pageReaderCity}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderCity}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">客户年龄</div>
-                <div class="weui-cell__ft">{{base.pageReaderAge}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderAge}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">教育背景</div>
-                <div class="weui-cell__ft">{{base.pageReaderEdu}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderEdu}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">消费能力</div>
-                <div class="weui-cell__ft">{{base.pageReaderConsumeLevel}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderConsumeLevel}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">客户职业</div>
-                <div class="weui-cell__ft">{{base.pageReaderCareer}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderCareer}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">工作单位</div>
-                <div class="weui-cell__ft">{{base.pageReaderEnterprise}}</div>
+                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderEnterprise}}</div>
             </div>
         </div>
 
@@ -109,9 +119,10 @@
         </div>
         <div class="weui-cells__title">任务附件</div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
-
+        
+        <div class="wx-area-line"></div>
         <div class="wx-area-padding">
-            <comment-show :comment-url="'edit-comment'" :text-title="textTitle"></comment-show>
+            <comment-show :comment-url="'edit-comment'" :text-title="textTitle" :is-edit="true"></comment-show>
         </div>
 
         <!-- <div class="btn-height-box"></div>

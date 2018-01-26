@@ -149,7 +149,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                    this.$router.push(pathUrl)
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -170,7 +170,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                    this.$router.push(pathUrl)
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }

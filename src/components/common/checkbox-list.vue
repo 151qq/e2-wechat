@@ -86,7 +86,9 @@ export default {
     }
 
     .weui-cells {
+        max-height: 220px;
         margin-top: 0;
+        overflow: auto;
 
         .weui-cell__ft {
             padding: 0;

@@ -1,42 +1,54 @@
 <template>
     <section class="stop-activity-box">
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line">
-                <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="commentData.taskReportText"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="weui-cells no-line no-margin">
-            <div class="weui-cell no-line">
-                <div class="weui-uploader">
-                    <div class="weui-uploader__bd">
-                         <ul class="weui-uploader__files" id="uploaderFiles">
-                            <li class="weui-uploader__file"
-                                v-for="(item, index) in commentData.imgData.attachmentSourceCodes"
-                                @click="showBigImg(index)">
-                                    <img :src="item">
-                            </li>
-                            <li @click="chooseImage" class="weui-uploader__input-box"></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="height-1"></div>
+        <group title="内容" label-width="105px">
+            <selector title="文章情绪"
+                    placeholder="请选择"
+                    :options="tagList.content_emotion"
+                    :value-map="valueMap"
+                    v-model="commentData.commentEmotion"></selector>
+            <selector title="文章调性"
+                      placeholder="请选择"
+                      :value-map="valueMap"
+                      :options="tagList.content_emotion"
+                      v-model="commentData.commentAction"></selector>
+            <selector title="文章态度"
+                    placeholder="请选择"
+                    :options="tagList.content_emotion"
+                    :value-map="valueMap"
+                    v-model="commentData.commentEmotion"></selector>
+            <selector title="传播模型"
+                      placeholder="请选择"
+                      :value-map="valueMap"
+                      :options="tagList.content_emotion"
+                      v-model="commentData.commentAction"></selector>
+            <selector title="文章模型"
+                    placeholder="请选择"
+                    :options="tagList.content_emotion"
+                    :value-map="valueMap"
+                    v-model="commentData.commentEmotion"></selector>
+            <selector title="文章题材"
+                      placeholder="请选择"
+                      :value-map="valueMap"
+                      :options="tagList.content_emotion"
+                      v-model="commentData.commentAction"></selector>
+            <selector title="文章思想"
+                      placeholder="请选择"
+                      :value-map="valueMap"
+                      :options="tagList.content_emotion"
+                      v-model="commentData.commentAction"></selector>
+        </group>
         
         <!-- 附件 -->
-        <div class="weui-cells__title">附件</div>
+        <div class="weui-cells__title">推荐阅读</div>
         <div class="weui-cells no-line">
             <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-            <a class="add-file-btn" @click="gotoAttachment">添加附件</a>
+            <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发布</a>
+            <a class="weui-btn weui-btn_primary" @click="submitComment">发布文章</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -51,13 +63,16 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { Group, Selector} from 'vux'
 
 export default {
     data () {
         return {
             commentData: {
-                attachmentTargetType: 'responseComment',
-                taskReportText: '',
+                commentEmotion: '',
+                commentAction: '',
+                attachmentTargetType: 'taskComment',
+                commentContent: '',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
@@ -72,14 +87,19 @@ export default {
             isShowImg: {
                 value: false
             },
-            serverIdList: []
+            serverIdList: [],
+            valueMap: ['tagValue', 'tagValueCname'],
+            tagList: {
+                content_emotion: []
+            }
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }
+
+        this.getTags()
     },
     computed: {
         ...mapGetters({
@@ -110,40 +130,40 @@ export default {
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
             formData.userCode = this.userInfo.userCode
-            formData.taskReportFloor = this.$route.query.taskReportFloor
             formData.taskCode = this.$route.query.taskCode
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
-            if (this.$route.query.commentTitle) {
-                formData.taskReportParent = this.$route.query.taskReportParent
-            }
-
             util.request({
                 method: 'post',
-                interface: 'saveTaskReport',
+                interface: 'saveTaskReportComment',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
-
-                    var pathName = 'activity-detail'
-
-                    if (this.$route.query.type == 'edit') {
-                        pathName = 'edit-detail'
-                    }
-
                     var pathUrl = {
-                        name: pathName,
+                        name: 'task-list',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            taskCode: this.$route.query.taskCode
+                            agentId: this.$route.query.agentId
                         }
                     }
-                    this.$router.replace(pathUrl)
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getTags () {
+            util.request({
+                method: 'get',
+                interface: 'selectAllTagDef',
+                data: {}
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.tagList = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -152,14 +172,8 @@ export default {
         gotoAttachment () {
             this.setDetail(Object.assign({}, this.commentData))
 
-            var pathName = 'attachment-list'
-
-            if (this.$route.query.type == 'edit') {
-                pathName = 'article-attachment'
-            }
-
             var pathUrl = {
-                name: pathName,
+                name: 'article-attachment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
@@ -179,7 +193,9 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail
+        attachmentDetail,
+        Group,
+        Selector
     }
 }
 </script>

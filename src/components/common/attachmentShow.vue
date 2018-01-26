@@ -44,19 +44,29 @@
             </template>
             <!-- 推广文章 产品中心 -->
             <template v-if="['attachmen_type_4', 'attachmen_type_5'].indexOf(attachmentData.attachmentSourceType) > -1">
-                <a class="weui-media-box weui-media-box_appmsg"
+                <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in attachmentData.pageData"
-                        :href="'http://site.socialmarketingcloud.com/spreedArticle/detail?enterpriseCode=' + item.enterpriseCode + '&pageCode=' + item.pageCode + '&appid=' + item.appId + '&templateCode=' + item.templateCode + '&S=' + userInfo.userCode + '&C=e2nochannel&T=e2nospread'">
+                        :to="{
+                                name: 'article-detail',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: item.pageCode,
+                                    appid: item.appId,
+                                    templateCode: item.templateCode,
+                                    S: userInfo.userCode,
+                                    C: 'e2nochannel',
+                                    T: 'e2nospread'
+                                }
+                            }">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.bgTaskImg">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
                     <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
-                        <p class="weui-media-box__desc">
-                            {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
-                        </p>
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                     </div>
-                </a>
+                </router-link>
             </template>
             <!-- 地推活动 -->
             <template v-if="['attachmen_type_7'].indexOf(attachmentData.attachmentSourceType) > -1">

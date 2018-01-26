@@ -1,18 +1,5 @@
 <template>
     <section class="stop-activity-box">
-        <div class="height-1"></div>
-        <group title="基本信息" label-width="105px">
-            <selector title="评论情绪"
-                    placeholder="请选择"
-                    :options="tagList.content_emotion"
-                    :value-map="valueMap"
-                    v-model="commentData.commentEmotion"></selector>
-            <selector title="评论操作"
-                      placeholder="请选择"
-                      :options="operateList"
-                      v-model="commentData.commentAction"></selector>
-        </group>
-        <div class="weui-cells__title">内容</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
@@ -70,9 +57,7 @@ export default {
     data () {
         return {
             commentData: {
-                commentEmotion: '',
-                commentAction: '',
-                attachmentTargetType: 'taskComment',
+                attachmentTargetType: '',
                 commentContent: '',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
@@ -88,25 +73,10 @@ export default {
             isShowImg: {
                 value: false
             },
-            serverIdList: [],
-            valueMap: ['tagValue', 'tagValueCname'],
-            operateList: [
-                {
-                    value: '保存',
-                    key: '1'
-                },
-                {
-                    value: '删除',
-                    key: '0'
-                }
-            ],
-            tagList: {
-                content_emotion: []
-            }
+            serverIdList: []
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }
@@ -168,24 +138,11 @@ export default {
                 }
             })
         },
-        getTags () {
-            util.request({
-                method: 'get',
-                interface: 'selectAllTagDef',
-                data: {}
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.tagList = res.result.result
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
         gotoAttachment () {
             this.setDetail(Object.assign({}, this.commentData))
 
             var pathUrl = {
-                name: 'attachment-list',
+                name: 'article-attachment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,

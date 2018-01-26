@@ -269,9 +269,13 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
+
+            setTimeout(() => {
+                this.formData.taskBeginTime = this.detailData.taskBeginTime
+                this.formData.taskEndTime = this.detailData.taskEndTime
+            }, 0)
         }
         this.getPageScenario()
         this.getTags()
@@ -303,6 +307,46 @@ export default {
             })
         },
         submitFn () {
+            if (!this.formData.taskTitle) {
+                this.$message({
+                    message: '请填写任务标题!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.taskBeginTime) {
+                this.$message({
+                    message: '请填写开始时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.taskEndTime) {
+                this.$message({
+                    message: '请填写结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (new Date(this.formData.taskBeginTime).getTime() > new Date(this.formData.taskEndTime).getTime()) {
+                this.$message({
+                    message: '开始应小于结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.pageScenario) {
+                this.$message({
+                    message: '请选择写作目的!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode

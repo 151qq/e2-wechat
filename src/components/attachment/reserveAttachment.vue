@@ -106,14 +106,15 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                eventPlanStatus: 'submitted',
+                reserveReceptionCode: this.userInfo.userCode,
+                reserveStatus: '2,3',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
             util.request({
                 method: 'post',
-                interface: 'eventInfoList',
+                interface: 'selectByReceptionCode',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {

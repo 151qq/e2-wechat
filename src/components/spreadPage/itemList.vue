@@ -1,40 +1,42 @@
 <template>
     <section class="article-list-box page__bd">
-        <div class="weui-cells no-margin">
+        <div class="weui-cells no-margin show-state-box">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <template v-for="(item, index) in listData">
-                <a class="weui-media-box weui-media-box_appmsg"
-                    v-if="item.pageStatus == '1'"
-                    :href="'http://site.socialmarketingcloud.com/spreedArticle/detail?enterpriseCode=' + item.enterpriseCode + '&pageCode=' + item.pageCode + '&appid=' + item.appId + '&templateCode=' + item.templateCode + '&S=' + userInfo.userCode + '&C=e2nochannel&T=e2nospread'">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.pageCover">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
-                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
-                    </div>
-                </a>
                 <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-if="item.pageStatus != '1'"
-                        :to="{
-                                name: 'article-detail',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    pageCode: item.pageCode,
-                                    templateCode: item.templateCode
-                                }
-                            }">
+                    v-if="item.pageStatus == '1'"
+                    :to="{
+                        name: 'article-detail',
+                        query: {
+                            enterpriseCode: userInfo.enterpriseCode,
+                            agentId: $route.query.agentId,
+                            pageCode: item.pageCode,
+                            appid: item.appId,
+                            templateCode: item.templateCode,
+                            S: userInfo.userCode,
+                            C: 'e2nochannel',
+                            T: 'e2nospread'
+                        }
+                    }">
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
                         <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    </div>
+
+                    <div class="weui-cell__ft" v-if="item.pageStatus == '2'">
+                        <span class="no-done">草稿</span>
+                    </div>
+                    <div class="weui-cell__ft" v-if="item.pageStatus == '1'">
+                        <span class="is-doing">已发布</span>
+                    </div>
+                    <div class="weui-cell__ft" v-if="item.pageStatus == '3'">
+                        <span class="has-done">已下架</span>
                     </div>
                 </router-link>
             </template>
-            
         </div>
     </section>
 </template>
@@ -64,7 +66,8 @@ export default {
         getList (type) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                pageType: 'propagate_article',
+                pageType: 'template_type_1',
+                pageEditor: this.userInfo.userCode,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }

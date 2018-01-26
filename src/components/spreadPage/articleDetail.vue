@@ -3,12 +3,12 @@
         <section class='bodyMain' :style="arTextBody">
             <div class="ar-title" :style="arTitle">{{articleData.pageTitle}}</div>
             <div class="ar-author-date" :style="arAuthorDate">
-                <span class="ar-date">{{ articleData.pagePublishTime | formatDate(base.dateStyle)}}</span>
+                <span class="ar-date">{{ articleData.pageEditTime | formatDate(base.dateStyle)}}</span>
                 <a  class="ar-author"
                     target="_blank" 
                     :style="arAuthor"
                     :href="base.editorLink">
-                        {{articleData.eidtorCode}}
+                        {{articleData.pageEditorName}}
                 </a>
             </div>
 
@@ -21,33 +21,65 @@
             <img class="ar-img" :style="arImg" :src="base.fileEndPic">
         </section>
 
-        <!-- <div class="wx-area-line"></div> -->
-        <!-- <div class="wx-bottom-nav">
+        <div class="btn-height-box"></div>
+
+        <!-- 发布状态 -->
+        <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
+            <a class="wx-nav-item"
+                @click="sharePartener">
+                分享同事
+            </a>
+            <a class="wx-nav-item"
+                v-if="articleData.pageStatus != '2' && isPublist"
+                @click="showSheet">
+                文章管理
+            </a>
             <router-link class="wx-nav-item"
-                            :to="{name: 'off-shell'}">
-                文章下架
+                v-if="articleData.pageStatus != '2' && isCreator"
+                :to="{
+                    name: 'articleLog',
+                    pageCode: $route.query.pageCode
+                }">
+                审核记录
             </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                关闭评论
+            <a class="wx-nav-item"
+                @click="shareWechat">
+                分享微信
+            </a>
+        </div>
+
+        <div class="weui-btn-area" v-if="articleData.pageStatus == '2' && isPublist">
+            <a class="weui-btn weui-btn_primary" @click="showBtn">审核</a>
+        </div>
+
+        <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">
+            <router-link class="weui-btn weui-btn_primary"
+                        :to="{
+                            name: 'articleLog',
+                            pageCode: $route.query.pageCode
+                        }">
+                审核记录
             </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'article-statistics'}">
-                统计分析
-            </router-link>
-        </div> -->
+        </div>
+
+        <sheet :is-show-sheet="isShowSheet" :item-list="sheetList" :cb="publistOpt"></sheet>
+        <sheet :is-show-sheet="isShowBtn" :item-list="btnList" :cb="checkOpt"></sheet>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
+import { mapGetters } from 'vuex'
+import sheet from '../common/sheet.vue'
 
 export default {
     data () {
         return {
             articleData: {
                 pageTitle: '',
-                pagePublisTime: '',
-                eidtorCode: ''
+                pageEditTime: '',
+                pageEditorName: '',
+                pageEditor: '',
+                pageStatus: ''
             },
             base: {
                 dateStyle: ''
@@ -59,14 +91,68 @@ export default {
             },
             pathUrl: '',
             showText: '',
-            escData: {}
+            escData: {},
+            isShowBtn: {
+                value: false
+            },
+            btnList: [
+                {
+                    label: '发布',
+                    pathName: '1'
+                },
+                {
+                    label: '拒绝发布',
+                    pathName: '0'
+                }
+            ],
+            isShowSheet: {
+                value: false
+            },
+            sheetList: [
+                {
+                    label: '文章下架',
+                    pathName: 'close'
+                },
+                {
+                    label: '关闭评论',
+                    pathName: 'comment'
+                },
+                {
+                    label: '修改推荐',
+                    pathName: 'edit'
+                },
+                {
+                    label: '管理日志',
+                    pathName: 'log'
+                }
+            ]
         }
     },
     mounted () {
         this.getData()
         this.getTemplate()
+        this.getAreaList()
     },
     computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        }),
+        isPublist () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('page_manager') > -1
+        },
+        isCreator () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('page_manager') < 0 && this.userInfo.userCode == this.articleData.pageEditor
+        },
         arTitle () {
             var styleData = {
                 'display': 'block',
@@ -176,6 +262,34 @@ export default {
         formatDate: util.formatDate
     },
     methods: {
+        showSheet () {
+            if (!this.isPublist) {
+                return false
+            }
+
+            this.isShowSheet.value = true
+        },
+        publistOpt (item) {
+            
+        },
+        showBtn () {
+            if (!this.isPublist) {
+                return false
+            }
+
+            this.isShowBtn.value = true
+        },
+        checkOpt (item) {
+            
+        },
+        // 同事分享
+        sharePartener () {
+
+        },
+        // 微信分享
+        shareWechat () {
+
+        },
         getData () {
             util.request({
                 method: 'get',
@@ -190,6 +304,22 @@ export default {
                   this.areaList = res.result.result.pageAreas
                 } else {
                   this.$message.error(res.result.message)
+                }
+            })
+        },
+        getAreaList () {
+            util.request({
+                method: 'get',
+                interface: 'listPageArea',
+                data: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    pageCode: this.$route.query.pageCode
+                }
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.editInte(res.result.result)
+                } else {
+                    this.$message.error(res.result.message)
                 }
             })
         },
@@ -208,11 +338,14 @@ export default {
                 }
             })
         }
+    },
+    components: {
+        sheet
     }
 }
 </script>
 <style lang="scss">
 .article-body {
-    margin-top: 15px;
+    background: #ffffff;
 }
 </style>

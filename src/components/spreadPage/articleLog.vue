@@ -1,10 +1,7 @@
 <template>
-    <section class="comment-box">
+    <section class="article-check-box">
         <div class="head-box">
-            <span class="left">{{textTitle}}</span>
-            <div class="right" @click="showSubmit('1')">
-                <img src="../../assets/images/edit-icon.png">
-            </div>
+            <span class="left">审核记录</span>
         </div>
         <section class="comment-b"
                     v-if="commentList.length"
@@ -36,23 +33,29 @@
                     <img-list :img-list="item.imgData"></img-list>
                 </div>
                 <div class="article-box" v-if="item.status == '1' && item.pageData && item.pageData.length">
-                    <attachment-show :attachment-data="item"></attachment-show>
-                </div>
-                <div class="response-box">
-                    <div class="top-box">
-                        <div class="comment-btn" v-if="item.status == '1'">
-                            <div class="btn-out-box"
-                                 @click="showSubmit('1', item.taskReportFloor)"
-                                 v-if="(userInfo.userCode && item.userCode != userInfo.userCode)">
-                                <img src="../../assets/images/edit-icon.png">
-                            </div>
-                            <div class="btn-out-box"
-                                 @click="deleteComment(item)"
-                                 v-if="(userInfo.userCode && item.userCode == userInfo.userCode)">
-                                <img src="../../assets/images/delete-icon.png">
-                            </div>
+                    <router-link class="weui-media-box weui-media-box_appmsg"
+                            v-for="(article, index) in item.pageData"
+                            :to="{
+                                    name: 'article-detail',
+                                    query: {
+                                        enterpriseCode: $route.query.enterpriseCode,
+                                        agentId: $route.query.agentId,
+                                        pageCode: article.pageCode,
+                                        appid: article.appId,
+                                        templateCode: article.templateCode,
+                                        S: userInfo.userCode,
+                                        C: 'e2nochannel',
+                                        T: 'e2nospread'
+                                    }
+                                }">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" :src="article.pageCover">
                         </div>
-                    </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
+                            <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </section>
@@ -64,17 +67,14 @@
 <script>
 import util from '../../utils/tools'
 import imgList from '../common/imgList.vue'
-import attachmentShow from '../common/attachmentShow.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
 
 export default {
-    props: ['commentUrl', 'textTitle', 'isEdit'],
     data () {
         return {
             isPage: false,
-            commentList: [],
-            commentsLen: ''
+            commentList: []
         }
     },
     mounted () {
@@ -86,27 +86,6 @@ export default {
         })
     },
     methods: {
-        showSubmit (type, floor) {
-            var pathUrl = {
-                name: this.commentUrl,
-                query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    taskCode: this.$route.query.taskCode,
-                    taskReportFloor: this.commentList.length + 1
-                }
-            }
-
-            if (this.isEdit) {
-                pathUrl.query.type = 'edit'
-            }
-
-            if (floor) {
-                pathUrl.query.taskReportParent = floor
-            }
-
-            this.$router.push(pathUrl)
-        },
         getComments () {
             util.request({
                 method: 'get',
@@ -122,34 +101,18 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
-        },
-        deleteComment (item) {
-            util.request({
-                method: 'post',
-                interface: 'deleteTaskReport',
-                data: {
-                    taskReportCode: item.taskReportCode
-                }
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.getComments()
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
         }
     },
     filters: {
         getDateDiff
     },
     components: {
-        imgList,
-        attachmentShow
+        imgList
     }
 }
 </script>
 <style lang="scss">
-.comment-box {
+.article-check-box {
     .head-box {
         padding: 10px 0;
         border-bottom: 1px solid #e5e5e5;
@@ -246,55 +209,6 @@ export default {
             .weui-media-box_appmsg .weui-media-box__hd {
                 height: 40px;
                 line-height: 40px;
-            }
-        }
-
-        .response-box {
-            margin-top: 10px;
-
-            .top-box {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                .response {
-                    font-size: 16px;
-                    color: #000000;
-                }
-
-                .comment-btn {
-                    flex: 1;
-                    text-align: right;
-                    font-size: 14px;
-                    color: #000000;
-                    line-height: 1;
-
-                    .btn-out-box {
-                        display: inline-block;
-                        padding: 5px 4px 0px;
-                        height: 24px;
-                        box-sizing: border-box;
-                        overflow: hidden;
-                    }
-
-                    img {
-                        float: left;
-                        height: 16px;
-                    }
-
-                    .text {
-                        float: right;
-                        font-size: 15px;
-                        margin-left: 5px;
-                        line-height: 16px;
-                    }
-                }
-            }
-
-            .response-content {
-                margin-top: 10px;
-                padding: 10px 15px;
-                background: #f3f3f3;
             }
         }
     }
