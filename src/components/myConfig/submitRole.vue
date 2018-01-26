@@ -94,7 +94,12 @@ export default {
 
             var pathUrl = window.location.href.replace('submitRole', 'setRole')
 
-            formData.url = window.encodeURIComponent(pathUrl)
+            var pathUrl = util.formDataUrl(pathUrl)
+            delete pathUrl.query.roleCode
+
+            var pathData = window.location
+            var userUrl = pathData.origin + '/myConfig?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId
+            formData.url = window.encodeURIComponent(userUrl)
 
             util.request({
                 method: 'post',
@@ -103,7 +108,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setUser({})
-                    window.location.replace(pathUrl)
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }

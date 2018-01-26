@@ -6,23 +6,70 @@ Vue.use(Vuex)
 const userStore = new Vuex.Store({
   state: {
     userInfo: {
-      userCode: '15164369647',
-      userWechatUserid: 'YangNing',
-      userImage: 'http://p.qlogo.cn/bizmail/vrch5KVpXx5Y1ZEV06hTsd8des35JhGGKo96NS0921LLicaFRRBCpUw/0',
-      userLoginName: '杨宁',
-      userInfo: {
-        userMobile: '15164369647'
+      "id": 151,
+      "userCode": "20180125175421023684",
+      "enterpriseCode": "20180125172000480",
+      "userWechatUserid": "20180125182918589898",
+      "userWechatOpenid": "oFOk40bprwbmfmr_ajRjnT71hD5I",
+      "userWechatAppid": "",
+      "userWechatNickname": "杨宁",
+      "userLoginAccount": "15164369647",
+      "userWechatLogo": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTInQXtupVJGRoLCRTQALhGajuCAB5fofhtpjUYLG4LiatyyBfjI6rqHc2icJziaIXhy99fJdlEm3Jjrw/132",
+      "userEmail": "",
+      "userType": "",
+      "userReferee": "",
+      "userRegDate": "2018-01-25 00:00:00",
+      "userWechatQrcode": "",
+      "userStatus": "1",
+      "userPosition": "",
+      "status": "1",
+      "remark": "",
+      "userInfo": {
+        "id": 151,
+        "userCode": "20180125175421023684",
+        "userMobile": "",
+        "userRegDate": "2018-01-25 00:00:00",
+        "userLoginAccount": "15164369647",
+        "userPassword": "",
+        "userLastPassword": "",
+        "userPasswpordUpdatetime": "",
+        "userName": "",
+        "userWechatLogo": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTInQXtupVJGRoLCRTQALhGajuCAB5fofhtpjUYLG4LiatyyBfjI6rqHc2icJziaIXhy99fJdlEm3Jjrw/132",
+        "userWechatNickname": "杨宁",
+        "userEmail": "",
+        "userQrcode": "",
+        "userBirthday": "",
+        "userQq": "",
+        "userSinaMicroblog": "",
+        "userIdentityCard": "",
+        "userPassport": "",
+        "userNation": "",
+        "userNationality": "",
+        "userAge": "",
+        "userGender": "",
+        "userCareer": "",
+        "userEdu": "",
+        "userIndustry": "",
+        "userWorkingUnit": "",
+        "userSocialLevel": "",
+        "userConsumeLevel": "",
+        "userLogisticCity": "",
+        "userLogisticAddr": "",
+        "userStatus": "1",
+        "status": "1",
+        "remark": "",
+        "loginType": ""
       },
-      securityUserRoles: [
-        {
-          roleCode: 'product_admin',
-          roleDesc: '产品发布'
-        },
-        {
-          roleCode: 'enterprise_member_admin',
-          roleDesc: '会员管理'
-        }
-      ]
+      "securityRole": [{
+        "id": 1,
+        "roleCode": "platform_root",
+        "roleName": "平台超级管理员",
+        "roleChoiceOpt": "0",
+        "roleCatalog": "0",
+        "status": "",
+        "remark": "",
+        "userInfoList": ""
+      }]
     },
     detailData: {},
     giftData: [],

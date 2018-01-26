@@ -367,14 +367,6 @@ const routers = [
     children: [
       {
         path: '',
-        name: 'logo-list',
-        component: resolve => require(["../../components/myConfig/logoList.vue"], resolve),
-        meta: {
-          token:false
-        }
-      },
-      {
-        path: 'userInfo',
         name: 'user-info',
         component: resolve => require(["../../components/myConfig/userInfo.vue"], resolve),
         meta: {

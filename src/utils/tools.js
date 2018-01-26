@@ -3,6 +3,12 @@ import axios from 'axios';
 import interfaces from './interfaces';
 
 const tools = {
+  importRemoteJs () {
+    var s = document.createElement('script')
+    s.type = 'text/javascript'
+    s.src = 'https://g.alicdn.com/dingding/dinglogin/0.0.2/ddLogin.js'
+    document.body.appendChild(s)
+  },
   formDataUrl (url) {
     var a =  document.createElement('a')
     a.href = url

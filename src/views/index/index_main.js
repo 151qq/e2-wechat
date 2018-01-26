@@ -10,6 +10,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import queryString from 'query-string'
 import '../../assets/scss/common.scss'
+import jsSdk from '../../utils/jsSdk'
 import FastClick from 'fastclick'
 
 FastClick.attach(document.body)
@@ -58,20 +59,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {    
-    var e2Token = jsCookie.get('e2_enterprise_staff')
+    var e2Token = jsCookie.get('socialmarketing_cloud_user')
+
     next()
 
     // 处理jssdk签名,兼容history模式
-    if (!store.state.iosUrl) {
-      store.commit('setUrl', document.URL)
-    }
+    // if (!store.state.iosUrl) {
+    //   store.commit('setUrl', document.URL)
+    // }
 
-    if (!e2Token && to.name != 'registor') {
-        var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
-        window.location.href = path
-    } else {
-        next()
-    }
+    // if (!e2Token && to.name != 'registor') {
+    //     var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
+    //     window.location.href = path
+    // } else {
+    //     jsSdk.init()
+    //     next()
+    // }
 })
 
 new Vue({
@@ -83,7 +86,7 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
-            this.getUserInfo()
+            // this.getUserInfo()
         }
     },
     methods: {

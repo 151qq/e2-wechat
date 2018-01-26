@@ -6,10 +6,10 @@
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.userImage">
+                    <img class="weui-media-box__thumb" :src="item.userWechatLogo">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.userLoginName}}</h4>
+                    <h4 class="weui-media-box__title">{{item.userName}}</h4>
                 </div>
                 <div class="weui-cell__ft">
                     <span :class="userList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>

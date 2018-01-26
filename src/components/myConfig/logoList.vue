@@ -1,13 +1,16 @@
 <template>
     <section class="packet-box page__hd">
-        <div class="weui-cells no-margin">
+        <div class="weui-cells no-margin show-state-box">
             <a  class="weui-media-box weui-media-box_appmsg">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="userInfo.userImage">
+                    <img class="weui-media-box__thumb" :src="userInfo.userWechatLogo">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{userInfo.userLoginName}}</h4>
-                    <p class="weui-media-box__desc">{{userInfo.userInfo.userMobile}}</p>
+                    <h4 class="weui-media-box__title">{{userInfo.userWechatNickname}}</h4>
+                    <p class="weui-media-box__desc">{{userInfo.userLoginAccount}}</p>
+                </div>
+                <div class="weui-cell__ft" @click="changeMobile">
+                    <span class="is-doing">更新</span>
                 </div>
             </a>
         </div>
@@ -32,7 +35,7 @@
                             :to="{
                                 name: 'set-role',
                                 query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
+                                    enterpriseCode: userInfo.enterpriseCode,
                                     agentId: $route.query.agentId
                                 }
                             }">
@@ -42,7 +45,7 @@
                         :to="{
                             name: 'user-info',
                             query: {
-                                enterpriseCode: $route.query.enterpriseCode,
+                                enterpriseCode: userInfo.enterpriseCode,
                                 agentId: $route.query.agentId
                             }
                         }">
@@ -58,10 +61,21 @@ export default {
     data () {
         return {}
     },
+    mounted () {
+        console.log(this.userInfo)
+    },
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
         })
     },
+    methods: {
+        changeMobile () {
+            var path = 'http://site.socialmarketing.com/enterpriseRegistor?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href) + '&userId=' + this.userInfo.userWechatUserid + '&userCode=' + this.userInfo.userCode
+
+            var pathUrl = util.formDataUrl(path)
+            this.$router.replace(pathUrl)
+        }
+    }
 }
 </script>

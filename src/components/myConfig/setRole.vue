@@ -22,11 +22,11 @@
                         </div>
                         <a class="weui-media-box weui-media-box_appmsg" slot="content">
                             <div class="weui-media-box__hd">
-                                <img class="weui-media-box__thumb" :src="item.userImage">
+                                <img class="weui-media-box__thumb" :src="item.userWechatLogo">
                             </div>
                             <div class="weui-media-box__bd">
-                                <h4 class="weui-media-box__title">{{item.userLoginName}}</h4>
-                                <p class="weui-media-box__desc">{{item.userMobile}}</p>
+                                <h4 class="weui-media-box__title">{{item.userWechatNickname}}</h4>
+                                <p class="weui-media-box__desc">{{item.userLoginAccount}}</p>
                             </div>
                         </a>
                     </swipeout-item>
@@ -58,8 +58,7 @@ export default {
     methods: {
         getRoles () {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                roleCatalog: '1'
+                enterpriseCode: this.$route.query.enterpriseCode
             }
 
             util.request({
@@ -99,7 +98,7 @@ export default {
             })
         },
         goToUser (role) {
-            if (role.roleChoiceOpt == '0' && role.userInfoList.length) {
+            if (role.userInfoList.length) {
                 this.$message({
                   showClose: true,
                   message: '该角色下只能有一人！',
@@ -109,7 +108,7 @@ export default {
             }
 
             var urlPath = window.location.href.replace('setRole', 'submitRole')
-            urlPath = urlPath + '&roleCode' + role.roleCode
+            urlPath = urlPath + '&roleCode=' + role.roleCode
 
             var pathUrl = {
                 name: 'user-list',
@@ -117,13 +116,11 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     roleCode: role.roleCode,
+                    type: 'unique',
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
 
-            if (role.roleChoiceOpt == '0') {
-                pathUrl.query.type = 'unique'
-            }
             this.$router.push(pathUrl)
         }
     },
