@@ -81,7 +81,11 @@
                                             enterpriseCode: $route.query.enterpriseCode,
                                             agentId: $route.query.agentId,
                                             pageCode: item.pageCode,
-                                            templateCode: item.templateCode
+                                            appid: item.pubWechatAppId,
+                                            templateCode: item.templateCode,
+                                            S: userInfo.userCode,
+                                            C: 'e2nochannel',
+                                            T: 'e2nospread'
                                         }
                                     }">
                             <div class="weui-media-box__hd">
@@ -209,6 +213,11 @@ export default {
     props: ['attachmentData', 'isPage'],
     data () {
         return {}
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     },
     methods: {
         ...mapActions([

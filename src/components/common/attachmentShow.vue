@@ -52,7 +52,7 @@
                                     enterpriseCode: $route.query.enterpriseCode,
                                     agentId: $route.query.agentId,
                                     pageCode: item.pageCode,
-                                    appid: item.appId,
+                                    appid: item.pubWechatAppId,
                                     templateCode: item.templateCode,
                                     S: userInfo.userCode,
                                     C: 'e2nochannel',

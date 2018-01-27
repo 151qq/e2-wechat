@@ -13,7 +13,7 @@
                     <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.pageCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -48,12 +48,12 @@ export default {
     mounted () {
         this.getList()
 
-        if (!this.$route.query.isPage && this.attachmentData.targetType  && this.attachmentData.targetType == 'attachmen_type_4') {
+        if (!this.$route.query.isPage && this.attachmentData.targetType && this.attachmentData.targetType == 'attachmen_type_4') {
             this.attachmentList = this.attachmentData.attachmentList.concat([])
             this.attachmentCodes = this.attachmentData.attachmentCodes.concat([])
         }
 
-        if (this.$route.query.isPage && this.attachmentPage.targetType  && this.attachmentPage.targetType == 'attachmen_type_4') {
+        if (this.$route.query.isPage && this.attachmentPage.targetType && this.attachmentPage.targetType == 'attachmen_type_4') {
             this.attachmentList = this.attachmentPage.attachmentList.concat([])
             this.attachmentCodes = this.attachmentPage.attachmentCodes.concat([])
         }
@@ -74,6 +74,15 @@ export default {
           'setAttachmentPage'
         ]),
         saveAttachment () {
+            if (this.attachmentList.length > 1 && this.$route.query.number == 'unique') {
+                this.$message({
+                  showClose: true,
+                  message: '最多选中一篇文章！',
+                  type: 'warning'
+                })
+                return false
+            }
+
             var attData = {
                 targetType: 'attachmen_type_4',
                 attachmentList: [].concat(this.attachmentList),
@@ -90,7 +99,7 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.pageCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
@@ -112,6 +121,10 @@ export default {
                 pageEditor: this.userInfo.userCode,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
+            }
+
+            if (this.$route.query.type == 'submit') {
+                formData.pageStatus = '1'
             }
 
             util.request({

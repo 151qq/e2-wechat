@@ -20,6 +20,15 @@ export default{
     listPageArea: platform + 'listPageArea.json',
     getTemplates: platform +'htmlPageTemplate/templateListPage.json',
     pageAndHtml5: platform + 'productPage/selectHtml5PageAndHtml5PageTemplateCode.json',
+    html5PageRefuseSubmit: platform + 'html5/html5PageRefuseSubmit.json',
+    pageLogList: platform + 'htmlPageLog/pageLogList.json',
+    html5PageSubmit: platform + 'html5/html5PageSubmit.json',
+    commentList: platform + 'comment/commentList.json',
+    deleteComment: platform + 'comment/deleteComment.json',
+    undercarriagePage: platform + 'html5/undercarriagePage.json',
+    manageComment: platform + 'html5/manageComment.json',
+    ediltExtendsPage: platform + 'html5/ediltExtendsPage.json',
+    getExtendPages: platform + 'html5/getExtendPages.json',
     /**
     * 我的素材库 get
     */

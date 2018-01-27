@@ -1,10 +1,7 @@
 <template>
-    <section class="comment-box">
+    <section class="article-comment-box">
         <div class="head-box">
             <span class="left">评论</span>
-            <div class="right" @click="showSubmit('1')">
-                <img src="../../assets/images/edit-icon.png">
-            </div>
         </div>
         <section class="comment-b"
                     :id="'comment-' + item.commentFloor"
@@ -41,23 +38,9 @@
                             作者回复
                         </span>
                         <div class="comment-btn" v-if="item.status == '1'">
-                            <div class="btn-out-box" @click="countCommentGoodJob(item)">
-                                <img src="../../assets/images/zan-icon.png">
-                                <span class="text">{{item.commentGoodJob}}</span>
-                            </div>
-                            <div class="btn-out-box" @click="countCommentBadJob(item)">
-                                <img src="../../assets/images/nozan-icon.png">
-                                <span class="text">{{item.commentBadJob}}</span>
-                            </div>
                             <div class="btn-out-box"
-                                 @click="showSubmit('1', item.commentFloor)"
-                                 v-if="(userInfo.memberInfo.memberCode && item.memberInfo.memberCode != userInfo.memberInfo.memberCode)">
+                                 @click="showSubmit(item)">
                                 <img src="../../assets/images/edit-icon.png">
-                            </div>
-                            <div class="btn-out-box"
-                                 @click="deleteComment(item)"
-                                 v-if="(userInfo.memberInfo.memberCode && item.memberInfo.memberCode == userInfo.memberInfo.memberCode)">
-                                <img src="../../assets/images/delete-icon.png">
                             </div>
                         </div>
                     </div>
@@ -73,51 +56,56 @@
                         </div>
                         <div class="article-box"
                                 v-if="item.reportComment.commentArticles && item.reportComment.commentArticles.length">
-
-                            <router-link class="weui-media-box weui-media-box_appmsg"
-                                    v-for="(article, index) in item.reportComment.commentArticles"
-                                    :to="{
-                                            name: 'article-detail',
-                                            query: {
-                                                enterpriseCode: $route.query.enterpriseCode,
-                                                agentId: $route.query.agentId,
-                                                pageCode: article.pageCode,
-                                                appid: article.appId,
-                                                templateCode: article.templateCode,
-                                                S: userInfo.userCode,
-                                                C: 'e2nochannel',
-                                                T: 'e2nospread'
-                                            }
-                                        }">
-                                <div class="weui-media-box__hd">
-                                    <img class="weui-media-box__thumb" :src="article.pageCover">
-                                </div>
-                                <div class="weui-media-box__bd">
-                                    <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
-                                    <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
-                                </div>
-                            </router-link>
+                            <div class="weui-cells no-margin">
+                                <router-link class="weui-media-box weui-media-box_appmsg"
+                                        v-for="(article, index) in item.reportComment.commentArticles"
+                                        :to="{
+                                                name: 'article-detail',
+                                                query: {
+                                                    enterpriseCode: $route.query.enterpriseCode,
+                                                    agentId: $route.query.agentId,
+                                                    pageCode: article.pageCode,
+                                                    appid: article.appId,
+                                                    templateCode: article.templateCode,
+                                                    S: userInfo.userCode,
+                                                    C: 'e2nochannel',
+                                                    T: 'e2nospread'
+                                                }
+                                            }">
+                                    <div class="weui-media-box__hd">
+                                        <img class="weui-media-box__thumb" :src="article.pageCover">
+                                    </div>
+                                    <div class="weui-media-box__bd">
+                                        <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
+                                        <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
+                                    </div>
+                                </router-link>
+                            </div>
                         </div>
-                        <!-- <div class="response-box">
+                        <div class="response-box">
                             <div class="top-box">
                                 <span class="response"></span>
                                 <div class="comment-btn">
-                                    <img src="../../assets/images/zan-icon.png">{{item.zanNum}}
-                                    <img src="../../assets/images/nozan-icon.png">{{item.hateNum}}
-                                    <img src="../../assets/images/edit-icon.png">
-                                    <img src="../../assets/images/delete-icon.png">
+                                    <div class="btn-out-box"
+                                         @click="deleteAuthor(item.reportComment)">
+                                        <img src="../../assets/images/delete-icon.png">
+                                    </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <div class="null-box" v-if="!commentList.length && isPage">
+            暂无内容！
+        </div>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import imgList from './imgList.vue'
+import imgList from '../common/imgList.vue'
 import {getDateDiff} from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
 
@@ -125,10 +113,8 @@ export default {
     props: ['commentUrl'],
     data () {
         return {
-            commentList: [],
-            isGood: [],
-            isBad: [],
-            commentsLen: ''
+            isPage: false,
+            commentList: []
         }
     },
     mounted () {
@@ -140,71 +126,31 @@ export default {
         })
     },
     methods: {
-        showSubmit (type, floor) {
+        showSubmit (item) {
             var pathUrl = {
                 name: this.commentUrl,
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
-                    appid: this.$route.query.appid,
-                    pageCode: this.$route.query.pageCode,
+                    agentId: this.$route.query.agentId,
                     templateCode: this.$route.query.templateCode,
+                    pageCode: this.$route.query.pageCode,
                     pageType: this.$route.query.pageType,
-                    S: this.$route.query.S,
-                    C: this.$route.query.C,
-                    T: this.$route.query.T,
-                    commentType: type,
-                    commentFloor: this.commentList.length + 1
+                    commentType: '2',
+                    commentReplyCode: item.commentCode
                 }
-            }
-
-            if (floor) {
-                pathUrl.query.commentTitle = floor
             }
 
             this.$router.push(pathUrl)
         },
-        countCommentGoodJob (item) {
-            if (this.isGood.indexOf(item.commentCode) > -1) {
-                return false
-            }
-
+        deleteAuthor (item) {
             util.request({
                 method: 'post',
-                interface: 'countCommentGoodJob',
+                interface: 'deleteComment',
                 data: {
                     commentCode: item.commentCode
                 }
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.$message({
-                      message: '恭喜你，点赞成功！',
-                      type: 'success'
-                    })
-                    this.isGood.push(item.commentCode)
-                    this.getComments()
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        countCommentBadJob (item) {
-            if (this.isBad.indexOf(item.commentCode) > -1) {
-                return false
-            }
-
-            util.request({
-                method: 'post',
-                interface: 'countCommentBadJob',
-                data: {
-                    commentCode: item.commentCode
-                }
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.$message({
-                      message: '恭喜你，操作成功！',
-                      type: 'success'
-                    })
-                    this.isBad.push(item.commentCode)
                     this.getComments()
                 } else {
                     this.$message.error(res.result.message)
@@ -220,14 +166,8 @@ export default {
                 }
             }).then(res => {
                 if (res.result.success == '1') {
+                    this.isPage = true
                     this.commentList = res.result.result
-                    var len = this.commentList.length
-
-                    if (this.commentsLen !== '' && len > this.commentsLen) {
-                        this.$emit('submitSuccess')
-                    }
-
-                    this.commentsLen = len
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -258,7 +198,9 @@ export default {
 }
 </script>
 <style lang="scss">
-.comment-box {
+.article-comment-box {
+    padding: 0 15px;
+
     .head-box {
         padding: 10px 0;
         border-bottom: 1px solid #e5e5e5;
@@ -405,6 +347,15 @@ export default {
                     flex: 1;
                     font-size: 14px;
                     color: #000000;
+                }
+
+                .weui-media-box {
+                    padding: 10px 0;
+                }
+
+                .weui-media-box_appmsg .weui-media-box__hd {
+                    height: 40px;
+                    line-height: 40px;
                 }
             }
 

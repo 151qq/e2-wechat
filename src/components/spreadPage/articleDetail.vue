@@ -1,66 +1,130 @@
 <template>
     <section class="article-body">
-        <section class='bodyMain' :style="arTextBody">
-            <div class="ar-title" :style="arTitle">{{articleData.pageTitle}}</div>
-            <div class="ar-author-date" :style="arAuthorDate">
-                <span class="ar-date">{{ articleData.pageEditTime | formatDate(base.dateStyle)}}</span>
-                <a  class="ar-author"
-                    target="_blank" 
-                    :style="arAuthor"
-                    :href="base.editorLink">
-                        {{articleData.pageEditorName}}
-                </a>
-            </div>
+        <div class="white-bg">
+            <section class='bodyMain' :style="arTextBody">
+                <div class="ar-title" :style="arTitle">{{articleData.pageTitle}}</div>
+                <div class="ar-author-date" :style="arAuthorDate">
+                    <span class="ar-date">{{ articleData.pageEditTime | formatDate(base.dateStyle)}}</span>
+                    <a  class="ar-author"
+                        target="_blank" 
+                        :style="arAuthor"
+                        :href="base.editorLink">
+                            {{articleData.pageEditorName}}
+                    </a>
+                </div>
 
-            <div :style="arContent" 
-                 v-for="(item, index) in areaList"
-                 :key="index"
-                 v-html="item.pageAreaContent">
-            </div>
+                <div :style="arContent" 
+                     v-for="(item, index) in areaList"
+                     :key="index"
+                     v-html="item.pageAreaContent">
+                </div>
 
-            <img class="ar-img" :style="arImg" :src="base.fileEndPic">
-        </section>
+                <img class="ar-img" :style="arImg" :src="base.fileEndPic">
+            </section>
+        </div>
+
+        <template v-if="articleList.length">
+            <div class="weui-cells__title">推荐文章</div>
+            <div class="weui-cells no-line">
+                <router-link class="weui-media-box weui-media-box_appmsg"
+                        v-for="(item, index) in articleList"
+                        :to="{
+                                name: 'article-detail',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: item.pageCode,
+                                    appid: item.pubWechatAppId,
+                                    templateCode: item.templateCode,
+                                    S: userInfo.userCode,
+                                    C: 'e2nochannel',
+                                    T: 'e2nospread'
+                                }
+                            }">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    </div>
+                </router-link>
+            </div>
+        </template>
+
+        <template v-if="articleData.pageStatus == '1'">
+            <div class="wx-area-line"></div>
+            <div class="white-bg">
+                <comment-show :comment-url="'res-comment'"></comment-show>
+            </div>
+        </template>
 
         <div class="btn-height-box"></div>
 
         <!-- 发布状态 -->
-        <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
-            <a class="wx-nav-item"
-                @click="sharePartener">
-                分享同事
-            </a>
-            <a class="wx-nav-item"
-                v-if="articleData.pageStatus != '2' && isPublist"
-                @click="showSheet">
-                文章管理
-            </a>
-            <router-link class="wx-nav-item"
-                v-if="articleData.pageStatus != '2' && isCreator"
-                :to="{
-                    name: 'articleLog',
-                    pageCode: $route.query.pageCode
-                }">
-                审核记录
-            </router-link>
-            <a class="wx-nav-item"
-                @click="shareWechat">
-                分享微信
-            </a>
-        </div>
+        <template v-if="isPublist">
+            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
+                <a class="wx-nav-item"
+                    @click="sharePartener">
+                    分享同事
+                </a>
+                <a class="wx-nav-item"
+                    @click="showSheet">
+                    文章管理
+                </a>
+                <a class="wx-nav-item"
+                    @click="shareWechat">
+                    分享微信
+                </a>
+            </div>
 
-        <div class="weui-btn-area" v-if="articleData.pageStatus == '2' && isPublist">
-            <a class="weui-btn weui-btn_primary" @click="showBtn">审核</a>
-        </div>
+            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2'">
+                <router-link class="wx-nav-item"
+                            :to="{
+                                name: 'article-log',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: $route.query.pageCode
+                                }
+                            }">
+                    管理日志
+                </router-link>
+                <a class="wx-nav-item"
+                    @click="showBtn">
+                    审核
+                </a>
+            </div>
 
-        <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">
-            <router-link class="weui-btn weui-btn_primary"
-                        :to="{
-                            name: 'articleLog',
-                            pageCode: $route.query.pageCode
-                        }">
-                审核记录
-            </router-link>
-        </div>
+            <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">
+                <router-link class="weui-btn weui-btn_primary"
+                            :to="{
+                                name: 'article-log',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: $route.query.pageCode
+                                }
+                            }">
+                    管理日志
+                </router-link>
+            </div>
+        </template>
+        <template v-if="isCreator && !isPublist">
+            <div class="weui-btn-area">
+                <router-link class="weui-btn weui-btn_primary"
+                            :to="{
+                                name: 'article-log',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: $route.query.pageCode
+                                }
+                            }">
+                    审核记录
+                </router-link>
+            </div>
+        </template>
 
         <sheet :is-show-sheet="isShowSheet" :item-list="sheetList" :cb="publistOpt"></sheet>
         <sheet :is-show-sheet="isShowBtn" :item-list="btnList" :cb="checkOpt"></sheet>
@@ -68,8 +132,10 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 import sheet from '../common/sheet.vue'
+import commentShow from './commentShow'
 
 export default {
     data () {
@@ -108,30 +174,14 @@ export default {
             isShowSheet: {
                 value: false
             },
-            sheetList: [
-                {
-                    label: '文章下架',
-                    pathName: 'close'
-                },
-                {
-                    label: '关闭评论',
-                    pathName: 'comment'
-                },
-                {
-                    label: '修改推荐',
-                    pathName: 'edit'
-                },
-                {
-                    label: '管理日志',
-                    pathName: 'log'
-                }
-            ]
+            sheetList: [],
+            articleList: []
         }
     },
     mounted () {
         this.getData()
         this.getTemplate()
-        this.getAreaList()
+        this.getArticles()
     },
     computed: {
         ...mapGetters({
@@ -270,7 +320,68 @@ export default {
             this.isShowSheet.value = true
         },
         publistOpt (item) {
-            
+            var pathUrl = {}
+
+            if (item.pathName == 'close') {
+                pathUrl = {
+                    name: 'oprate-message',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href),
+                        opt: 'close'
+                    }
+                }
+            } else if (item.pathName == 'commentClose') {
+                pathUrl = {
+                    name: 'oprate-message',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href),
+                        opt: 'commentClose'
+                    }
+                }
+            } else if (item.pathName == 'commentOn') {
+                pathUrl = {
+                    name: 'oprate-message',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href),
+                        opt: 'commentOn'
+                    }
+                }
+            } else if (item.pathName == 'edit') {
+                pathUrl = {
+                    name: 'about-article',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href)
+                    }
+                }
+            } else if (item.pathName == 'log') {
+                pathUrl = {
+                    name: 'article-log',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode
+                    }
+                }
+            }
+
+            this.$router.push(pathUrl)
         },
         showBtn () {
             if (!this.isPublist) {
@@ -280,15 +391,64 @@ export default {
             this.isShowBtn.value = true
         },
         checkOpt (item) {
-            
+            var pathUrl = {}
+
+            if (item.pathName == '1') {
+                pathUrl = {
+                    name: 'submit-article',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href)
+                    }
+                }
+            } else {
+                pathUrl = {
+                    name: 'oprate-message',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode,
+                        url: window.encodeURIComponent(window.location.href),
+                        opt: 'refuse'
+                    }
+                }
+            }
+
+            this.$router.push(pathUrl)
         },
         // 同事分享
         sharePartener () {
+            var link = window.location.href
 
+            window.wx.invoke("shareAppMessage", {
+                title: this.articleData.pageTitle,
+                desc: this.articleData.pageAbstract,
+                link: link,
+                imgUrl: this.articleData.pageCover
+            }, (res) => {
+                    if (res.err_msg != "shareWechatMessage:ok") {
+                        this.$message.error('请更新企业微信版本！！！')
+                    }
+            })
         },
         // 微信分享
         shareWechat () {
+            var link = 'http://site.socialmarketingcloud.com/spreedArticle/detail' + window.location.search
 
+            window.wx.invoke("shareWechatMessage", {
+                title: this.articleData.pageTitle,
+                desc: this.articleData.pageAbstract,
+                link: link,
+                imgUrl: this.articleData.pageCover
+            }, (res) => {
+                    if (res.err_msg != "shareWechatMessage:ok") {
+                        this.$message.error('请更新企业微信版本！！！')
+                    }
+            })
         },
         getData () {
             util.request({
@@ -300,26 +460,50 @@ export default {
                 }
             }).then(res => {
                 if (res.result.success == '1') {
-                  this.articleData = res.result.result
-                  this.areaList = res.result.result.pageAreas
+                    this.articleData = res.result.result
+                    this.areaList = res.result.result.pageAreas
+
+                    if (this.articleData.pageCommentOpt == '1') {
+                        this.sheetList = [
+                            {
+                                label: '文章下架',
+                                pathName: 'close'
+                            },
+                            {
+                                label: '关闭评论',
+                                pathName: 'commentClose'
+                            },
+                            {
+                                label: '修改推荐',
+                                pathName: 'edit'
+                            },
+                            {
+                                label: '管理日志',
+                                pathName: 'log'
+                            }
+                        ]
+                    } else {
+                        this.sheetList = [
+                            {
+                                label: '文章下架',
+                                pathName: 'close'
+                            },
+                            {
+                                label: '开启评论',
+                                pathName: 'commentOn'
+                            },
+                            {
+                                label: '修改推荐',
+                                pathName: 'edit'
+                            },
+                            {
+                                label: '管理日志',
+                                pathName: 'log'
+                            }
+                        ]
+                    }
                 } else {
                   this.$message.error(res.result.message)
-                }
-            })
-        },
-        getAreaList () {
-            util.request({
-                method: 'get',
-                interface: 'listPageArea',
-                data: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
-                    pageCode: this.$route.query.pageCode
-                }
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.editInte(res.result.result)
-                } else {
-                    this.$message.error(res.result.message)
                 }
             })
         },
@@ -337,15 +521,36 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        getArticles () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                pageCode: this.$route.query.pageCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'getExtendPages',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.articleList = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
         }
     },
     components: {
-        sheet
+        sheet,
+        commentShow
     }
 }
 </script>
 <style lang="scss">
 .article-body {
-    background: #ffffff;
+    .white-bg {
+        background: #ffffff;
+    }
 }
 </style>

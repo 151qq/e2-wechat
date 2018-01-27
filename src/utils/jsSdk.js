@@ -39,6 +39,7 @@ const jsSdk = {
                         'onMenuShareAppMessage',
                         'onMenuShareWechat',
                         'shareWechatMessage',
+                        'shareAppMessage',
                         'chooseImage',
                         'uploadImage',
                         'previewImage',

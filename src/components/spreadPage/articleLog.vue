@@ -1,41 +1,35 @@
 <template>
-    <section class="article-check-box">
-        <div class="head-box">
-            <span class="left">审核记录</span>
+    <section class="article-log-box">
+        <div class="height-1"></div>
+        <div class="weui-cells__title">
+            审核记录
         </div>
         <section class="comment-b"
                     v-if="commentList.length"
-                    :id="'comment-' + item.taskReportFloor"
                     v-for="(item, index) in commentList">
             <div class="avatar-box">
-                <img v-if="item.userImg" :src="item.userImg">
+                {{item.pageLogDate.split(' ')[0]}}
             </div>
             <div class="content-box">
                 <div class="title-box">
-                    <span class="title">{{item.userName}}</span>
+                    <span class="title">{{item.pageLogTitle}}</span>
                     <div class="date-box">
-                        {{item.taskReportFloor}}楼 {{item.taskReportTime | getDateDiff}}
+                        {{item.pageLogDate | getDateDiff}}
                     </div>
                 </div>
-                <div class="des-box"
-                     v-if="item.status == '1' && item.taskReportText">
-                     <a v-if="item.taskReportParent"
-                        class="response-nav"
-                        :href="'#comment-' + item.taskReportParent">@第{{item.taskReportParent}}楼：</a>
-                    {{item.taskReportText}}
+                <div class="des-box" v-if="item.pageLogDesc">
+                    {{item.pageLogDesc}}
                 </div>
-
-                <div class="des-box"
-                     v-if="item.status == '0'">该回话已被删除！！！</div>
 
                 <div class="imgs-box" 
-                     v-if="item.status == '1' && item.imgData && item.imgData.length">
-                    <img-list :img-list="item.imgData"></img-list>
+                     v-if="item.imgDatas && item.imgDatas.length">
+                    <img-list :img-list="item.imgDatas"></img-list>
                 </div>
-                <div class="article-box" v-if="item.status == '1' && item.pageData && item.pageData.length">
-                    <router-link class="weui-media-box weui-media-box_appmsg"
-                            v-for="(article, index) in item.pageData"
-                            :to="{
+                <div class="article-box" v-if="item.pageDatas && item.pageDatas.length">
+                    <div class="weui-cells no-margin">
+                        <router-link class="weui-media-box weui-media-box_appmsg"
+                                v-for="(article, index) in item.pageDatas"
+                                :to="{
                                     name: 'article-detail',
                                     query: {
                                         enterpriseCode: $route.query.enterpriseCode,
@@ -48,14 +42,15 @@
                                         T: 'e2nospread'
                                     }
                                 }">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" :src="article.pageCover">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
-                            <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
-                        </div>
-                    </router-link>
+                            <div class="weui-media-box__hd">
+                                <img class="weui-media-box__thumb" :src="article.pageCover">
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
+                                <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
+                            </div>
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </section>
@@ -89,9 +84,9 @@ export default {
         getComments () {
             util.request({
                 method: 'get',
-                interface: 'getTaskReports',
+                interface: 'pageLogList',
                 data: {
-                    taskCode: this.$route.query.taskCode
+                    pageCode: this.$route.query.pageCode
                 }
             }).then(res => {
                 if (res.result.success == '1') {
@@ -112,54 +107,16 @@ export default {
 }
 </script>
 <style lang="scss">
-.article-check-box {
-    .head-box {
-        padding: 10px 0;
-        border-bottom: 1px solid #e5e5e5;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        .left {
-            font-size: 18px;
-            color: #000000;
-        }
-
-        .right {
-            display: block;
-            width: 28px;
-            height: 28px;
-            text-align: right;
-
-            img {
-                display: inline-block;
-                width: 18px;
-                height: 18px;
-                margin-top: 5px;
-            }
-        }
-    }
-
-    .response-nav {
-        color: #20a0ff;
-    }
-
+.article-log-box {
     .comment-b {
-        padding: 10px 0;
+        background: #ffffff;
+        padding: 10px 15px;
         display: flex;
 
         .avatar-box {
-            width: 50px;
-            height: 50px;
-            background: url(/static/images/head-icon.png) center no-repeat;
-            background-size: 100%;
-            margin-right: 10px;
-
-            img {
-                display: block;
-                width: 50px;
-                height: 50px;
-            }
+            width: 100px;
+            font-size: 16px;
+            color: #888888;
         }
 
         .content-box {
@@ -186,6 +143,7 @@ export default {
                     font-size: 14px;
                     color: #888888;
                 }
+
             }
 
             .des-box {
@@ -203,7 +161,7 @@ export default {
             margin-top: 10px;
 
             .weui-media-box {
-                padding: 10px;
+                padding: 10px 0;
             }
 
             .weui-media-box_appmsg .weui-media-box__hd {

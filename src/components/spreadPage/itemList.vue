@@ -4,14 +4,13 @@
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <template v-for="(item, index) in listData">
                 <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-if="item.pageStatus == '1'"
                     :to="{
                         name: 'article-detail',
                         query: {
                             enterpriseCode: userInfo.enterpriseCode,
                             agentId: $route.query.agentId,
                             pageCode: item.pageCode,
-                            appid: item.appId,
+                            appid: item.pubWechatAppId,
                             templateCode: item.templateCode,
                             S: userInfo.userCode,
                             C: 'e2nochannel',
@@ -73,7 +72,7 @@ export default {
             }
 
             util.request({
-                method: 'get',
+                method: 'post',
                 interface: 'html5PageList',
                 data: formData
             }).then(res => {
@@ -82,7 +81,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 if (!type) {
                     this.listData = res.result.result
                 } else {

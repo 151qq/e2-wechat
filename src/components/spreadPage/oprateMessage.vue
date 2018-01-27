@@ -57,7 +57,7 @@ export default {
     data () {
         return {
             commentData: {
-                attachmentTargetType: '',
+                attachmentTargetType: 'refuseArticle',
                 commentContent: '',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
@@ -80,8 +80,6 @@ export default {
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }
-
-        this.getTags()
     },
     computed: {
         ...mapGetters({
@@ -111,28 +109,59 @@ export default {
             var formData = Object.assign({}, this.commentData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
+            formData.pageCode = this.$route.query.pageCode
             formData.userCode = this.userInfo.userCode
             formData.taskCode = this.$route.query.taskCode
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+            formData.url = window.decodeURIComponent(this.$route.query.url)
+
+            var interfaceName = 'html5PageRefuseSubmit'
+
+            var opt = this.$route.query.opt
+            if (opt == 'close') {
+                interfaceName = 'undercarriagePage'
+
+                if (!this.attachmentData.attachmentCodes.length) {
+                    this.$message({
+                      showClose: true,
+                      message: '请选择替代文章！',
+                      type: 'warning'
+                    })
+
+                    return false
+                }
+            }
+
+            if (opt == 'commentClose') {
+                interfaceName = 'manageComment'
+                formData.pageCommentOpt = '0'
+            }
+
+            if (opt == 'commentOn') {
+                interfaceName = 'manageComment'
+                formData.pageCommentOpt = '1'
+            }
 
             util.request({
                 method: 'post',
-                interface: 'saveTaskReportComment',
+                interface: interfaceName,
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
                     var pathUrl = {
-                        name: 'task-list',
+                        name: 'article-detail',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId
+                            agentId: this.$route.query.agentId,
+                            templateCode: this.$route.query.templateCode,
+                            pageCode: this.$route.query.pageCode
                         }
                     }
-                    this.$router.push(pathUrl)
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -141,14 +170,30 @@ export default {
         gotoAttachment () {
             this.setDetail(Object.assign({}, this.commentData))
 
+            var pathName = 'article-attachment'
+
+            if (opt == 'commentClose') {
+                pathName = 'attachment-list'
+            }
+
+            if (opt == 'commentOn') {
+                pathName = 'attachment-list'
+            }
+
             var pathUrl = {
-                name: 'article-attachment',
+                name: pathName,
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }
+
+            if (opt == 'close') {
+                pathUrl.query.number = 'unique'
+                pathUrl.query.type = 'submit'
+            }
+            
             this.$router.push(pathUrl)
         },
         showBigImg (index) {

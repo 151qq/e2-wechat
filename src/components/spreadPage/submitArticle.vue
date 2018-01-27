@@ -6,37 +6,37 @@
                     placeholder="请选择"
                     :options="tagList.content_emotion"
                     :value-map="valueMap"
-                    v-model="commentData.commentEmotion"></selector>
+                    v-model="commentData.contentEmotion"></selector>
             <selector title="文章调性"
                       placeholder="请选择"
                       :value-map="valueMap"
-                      :options="tagList.content_emotion"
-                      v-model="commentData.commentAction"></selector>
+                      :options="tagList.content_tonality"
+                      v-model="commentData.contentTonality"></selector>
             <selector title="文章态度"
                     placeholder="请选择"
-                    :options="tagList.content_emotion"
+                    :options="tagList.content_attribute"
                     :value-map="valueMap"
-                    v-model="commentData.commentEmotion"></selector>
+                    v-model="commentData.contentAttribute"></selector>
             <selector title="传播模型"
                       placeholder="请选择"
                       :value-map="valueMap"
-                      :options="tagList.content_emotion"
-                      v-model="commentData.commentAction"></selector>
+                      :options="tagList.content_promotion"
+                      v-model="commentData.contentPromotion"></selector>
             <selector title="文章模型"
                     placeholder="请选择"
-                    :options="tagList.content_emotion"
+                    :options="tagList.content_style"
                     :value-map="valueMap"
-                    v-model="commentData.commentEmotion"></selector>
+                    v-model="commentData.contentStyle"></selector>
             <selector title="文章题材"
                       placeholder="请选择"
                       :value-map="valueMap"
-                      :options="tagList.content_emotion"
-                      v-model="commentData.commentAction"></selector>
+                      :options="tagList.content_type"
+                      v-model="commentData.contentType"></selector>
             <selector title="文章思想"
                       placeholder="请选择"
                       :value-map="valueMap"
-                      :options="tagList.content_emotion"
-                      v-model="commentData.commentAction"></selector>
+                      :options="tagList.content_politics"
+                      v-model="commentData.contentPolitics"></selector>
         </group>
         
         <!-- 附件 -->
@@ -48,13 +48,8 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发布文章</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">发布文章</a>
         </div>
-
-        <delete-img :index="nowIndex"
-                    :img-path="nowPath"
-                    :is-show-img="isShowImg"
-                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
@@ -69,28 +64,24 @@ export default {
     data () {
         return {
             commentData: {
-                commentEmotion: '',
-                commentAction: '',
-                attachmentTargetType: 'taskComment',
-                commentContent: '',
-                imgData: {
-                    attachmentSourceType: 'attachmen_type_1',
-                    attachmentSourceCodes: []
-                },
-                pageData: {
-                    attachmentSourceType: '',
-                    attachmentSourceCodes: []
-                }
+                contentEmotion: '',
+                contentTonality: '',
+                contentAttribute: '',
+                contentPromotion: '',
+                contentStyle: '',
+                contentType: '',
+                contentPolitics: '',
+                extentsPageCodes: []
             },
-            nowIndex: '',
-            nowPath: '',
-            isShowImg: {
-                value: false
-            },
-            serverIdList: [],
             valueMap: ['tagValue', 'tagValueCname'],
             tagList: {
-                content_emotion: []
+                content_emotion: [],
+                content_type: [],
+                content_politics: [],
+                content_style: [],
+                content_promotion: [],
+                content_attribute: [],
+                content_tonality: []
             }
         }
     },
@@ -113,44 +104,35 @@ export default {
           'setAttachment',
           'setDetail'
         ]),
-        chooseImage () {
-            var num = 9 - this.commentData.imgData.attachmentSourceCodes.length
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.commentData.imgData.attachmentSourceCodes = this.commentData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
-            })
-        },
-        submitComment () {
-            jsSdk.uploadImgs(this.commentData.imgData.attachmentSourceCodes, (serverIdList) => {
-                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
-            })
-        },
         submitFn () {
             var formData = Object.assign({}, this.commentData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
             formData.userCode = this.userInfo.userCode
-            formData.taskCode = this.$route.query.taskCode
-            formData.imgData.attachmentSourceCodes = this.serverIdList
-            formData.pageData.attachmentSourceType = this.attachmentData.targetType
-            formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+            formData.pageCode = this.$route.query.pageCode
+            formData.extentsPageCodes = this.attachmentData.attachmentCodes
+            formData.url = window.decodeURIComponent(this.$route.query.url)
 
             util.request({
                 method: 'post',
-                interface: 'saveTaskReportComment',
+                interface: 'html5PageSubmit',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
+
                     var pathUrl = {
-                        name: 'task-list',
+                        name: 'article-detail',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId
+                            agentId: this.$route.query.agentId,
+                            templateCode: this.$route.query.templateCode,
+                            pageCode: this.$route.query.pageCode
                         }
                     }
-                    this.$router.push(pathUrl)
+
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -177,18 +159,11 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
+                    type: 'submit',
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }
             this.$router.push(pathUrl)
-        },
-        showBigImg (index) {
-            this.nowIndex = index
-            this.nowPath = this.commentData.imgData.attachmentSourceCodes[index]
-            this.isShowImg.value = true
-        },
-        deleteImg (index) {
-            this.commentData.imgData.attachmentSourceCodes.splice(index, 1)
         }
     },
     components: {
