@@ -52,7 +52,7 @@
             </div>
         </template>
 
-        <template v-if="articleData.pageStatus == '1'">
+        <template v-if="articleData.pageStatus == '1' && articleData.pageCommentOpt == '1'">
             <div class="wx-area-line"></div>
             <div class="white-bg">
                 <comment-show :comment-url="'res-comment'"></comment-show>
@@ -453,7 +453,7 @@ export default {
         getData () {
             util.request({
                 method: 'get',
-                interface: 'html5PageGet',
+                interface: 'mobileHtml5PageGet',
                 data: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     pageCode: this.$route.query.pageCode

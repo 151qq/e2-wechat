@@ -123,7 +123,7 @@ export default {
             if (opt == 'close') {
                 interfaceName = 'undercarriagePage'
 
-                if (!this.attachmentData.attachmentCodes.length) {
+                if (!this.attachmentData.attachmentCodes || !this.attachmentData.attachmentCodes.length) {
                     this.$message({
                       showClose: true,
                       message: '请选择替代文章！',
@@ -171,6 +171,7 @@ export default {
             this.setDetail(Object.assign({}, this.commentData))
 
             var pathName = 'article-attachment'
+            var opt = this.$route.query.opt
 
             if (opt == 'commentClose') {
                 pathName = 'attachment-list'
@@ -193,7 +194,7 @@ export default {
                 pathUrl.query.number = 'unique'
                 pathUrl.query.type = 'submit'
             }
-            
+
             this.$router.push(pathUrl)
         },
         showBigImg (index) {

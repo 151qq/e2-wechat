@@ -29,10 +29,10 @@
                         <span class="no-done">草稿</span>
                     </div>
                     <div class="weui-cell__ft" v-if="item.pageStatus == '1'">
-                        <span class="is-doing">已发布</span>
+                        <span class="is-doing">发布</span>
                     </div>
                     <div class="weui-cell__ft" v-if="item.pageStatus == '3'">
-                        <span class="has-done">已下架</span>
+                        <span class="has-done">下架</span>
                     </div>
                 </router-link>
             </template>
