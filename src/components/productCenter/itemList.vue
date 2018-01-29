@@ -1,99 +1,69 @@
 <template>
-    <section class="product-list-box page__bd">
-        <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
+    <section class="article-list-box page__bd">
+        <div class="weui-cells no-margin show-state-box">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <div  class="weui-media-box weui-media-box_appmsg"
-                @click="goToNext(item)"
-                v-for="(item, index) in listData">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.catalogImage">
-                </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.catalogCname}}</h4>
-                    <p class="weui-media-box__desc">{{item.catalogDesc}}</p>
-                </div>
-                <div class="weui-cell__ft" v-if="item.catalogType == 'dir'">
-                    <img src="/static/images/dir-icon.png">
-                </div>
-            </div>
+            <template v-for="(item, index) in listData">
+                <router-link class="weui-media-box weui-media-box_appmsg"
+                    :to="{
+                        name: 'product-detail',
+                        query: {
+                            enterpriseCode: userInfo.enterpriseCode,
+                            agentId: $route.query.agentId,
+                            pageCode: item.pageCode,
+                            appid: item.pubWechatAppId,
+                            templateCode: item.templateCode,
+                            S: userInfo.userCode,
+                            C: 'e2nochannel',
+                            T: 'e2nospread'
+                        }
+                    }">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    </div>
+                </router-link>
+            </template>
         </div>
-
-        <div class="null-page" v-if="!listData.length && isPage">
-            暂无内容！
-        </div>
-
-        <!-- <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="saveAttachment">确定</a>
-        </div> -->
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
         return {
-            isPage: false,
             listData: [],
             pageSize: 20,
             pageNumber: 1,
-            total: 0
+            total: 0,
+            userId: ''
         }
     },
     mounted () {
         this.getList()
     },
-    watch: {
-        $route () {
-            this.pageNumber = 1
-            this.isPage = false
-            this.getList()
-        }
-    },
     computed: {
-        isLoad () {
-            return this.total > this.listData.length
-        }
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     },
     methods: {
-        goToNext (item) {
-            if (item.catalogType == 'dir') {
-                var pathData = {
-                    name: 'product-list',
-                    query: {
-                        enterpriseCode: item.enterpriseCode,
-                        catalogCode: item.catalogCode
-                    }
-                }
-
-                this.$router.push(pathData)
-            } else {
-                var pathData = {
-                    name: 'product-article',
-                    query: {
-                        enterpriseCode: item.enterpriseCode,
-                        catalogCode: item.catalogCode
-                    }
-                }
-
-                this.$router.push(pathData)
-            }
-        },
-        showMore (cb) {
-            this.pageNumber++
-            this.getList(cb)
-        },
-        getList (cb) {
+        getList (type) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                catalogParentCode: this.$route.query.catalogCode ? this.$route.query.catalogCode : 'e2',
-                pageNumber: this.pageNumber,
-                pageSize: this.pageSize
+                pageType: 'template_type_4',
+                pageEditor: this.userInfo.userCode,
+                pageSize: this.pageSize,
+                pageNumber: this.pageNumber
             }
 
             util.request({
-                method: 'get',
-                interface: 'pruductCatalogList',
+                method: 'post',
+                interface: 'html5PageList',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -101,9 +71,8 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
-                this.isPage = true
-                if (!cb) {
+                this.total = Number(res.result.total)
+                if (!type) {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
@@ -113,3 +82,7 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.article-list-box {
+}
+</style>

@@ -122,17 +122,41 @@ const routers = [
         }
       },
       {
-        path: 'productArticle',
-        name: 'product-article',
-        component: resolve => require(["../../components/productCenter/articleList.vue"], resolve),
+        path: 'productDetail',
+        name: 'product-detail',
+        component: resolve => require(["../../components/productCenter/articleDetail.vue"], resolve),
         meta: {
           token:false
         }
       },
       {
-        path: 'detail',
-        name: 'product-detail',
-        component: resolve => require(["../../components/productCenter/itemDetail.vue"], resolve),
+        path: 'productLog',
+        name: 'product-log',
+        component: resolve => require(["../../components/productCenter/articleLog.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'productSpec',
+        name: 'product-spec',
+        component: resolve => require(["../../components/productCenter/productSpec.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'productSenior',
+        name: 'product-senior',
+        component: resolve => require(["../../components/productCenter/productSenior.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'productimg',
+        name: 'product-img',
+        component: resolve => require(["../../components/productCenter/imgList.vue"], resolve),
         meta: {
           token:false
         }

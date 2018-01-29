@@ -15,16 +15,16 @@
                     <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
                     <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'draft'">
+                <div class="weui-cell__ft" v-if="item.eventStatus == 'draft'">
                     <span class="no-done">草稿</span>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'end'">
+                <div class="weui-cell__ft" v-if="item.eventStatus == 'end'">
                     <span class="has-done">结束</span>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'submitted'">
+                <div class="weui-cell__ft" v-if="item.eventStatus == 'submitted'">
                     <span class="is-doing">发布</span>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventPlanStatus == 'cancelled'">
+                <div class="weui-cell__ft" v-if="item.eventStatus == 'cancelled'">
                     <span class="is-waiting">终止</span>
                 </div>
             </router-link>

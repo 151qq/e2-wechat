@@ -136,7 +136,8 @@ export default {
                     pageCode: this.$route.query.pageCode,
                     pageType: this.$route.query.pageType,
                     commentType: '2',
-                    commentReplyCode: item.commentCode
+                    commentReplyCode: item.commentCode,
+                    url: window.encodeURIComponent(window.location.href)
                 }
             }
 

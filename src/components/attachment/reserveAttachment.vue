@@ -6,14 +6,16 @@
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.eventPlanCover">
+                    <img class="weui-media-box__thumb" :src="item.memberImg">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
+                    <h4 class="weui-media-box__title">{{item.reserveTitle}}</h4>
+                    <p class="weui-media-box__desc">
+                        {{item.reserveBeginTime.split(' ')[0] + ' - ' + item.reserveEndTime.split(' ')[0]}}
+                    </p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.reserveCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -60,6 +62,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -89,13 +92,13 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.reserveCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
-                this.attachmentCodes.push(item.eventCode)
+                this.attachmentCodes.push(item.reserveCode)
                 this.attachmentList.push(item)
             }
         },

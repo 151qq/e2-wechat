@@ -13,7 +13,7 @@
                     <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.pageCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.pageCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
@@ -106,8 +106,7 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                pageType: 'product_introduction',
-                pageStatus: '1',
+                pageType: 'template_type_2',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }

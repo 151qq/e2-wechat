@@ -13,7 +13,7 @@
                     <p class="weui-media-box__desc">{{item.couponGroutScenario}}</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.couponGroupCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -59,6 +59,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -88,7 +89,7 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.couponGroupCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)

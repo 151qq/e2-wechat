@@ -6,14 +6,16 @@
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.pageCover">
+                    <img class="weui-media-box__thumb" :src="item.addrLink">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    <h4 class="weui-media-box__title">{{item.partyTitle}}</h4>
+                    <p class="weui-media-box__desc">
+                        {{item.planBeginTime.split(' ')[0] + ' - ' + item.planEndTime.split(' ')[0]}}
+                    </p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.partyCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -60,6 +62,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -89,13 +92,13 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.partyCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
-                this.attachmentCodes.push(item.pageCode)
+                this.attachmentCodes.push(item.partyCode)
                 this.attachmentList.push(item)
             }
         },
@@ -106,15 +109,14 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                pageType: 'propagate_article',
-                pageStatus: '1',
-                pageSize: this.pageSize,
-                pageNumber: this.pageNumber
+                userCode: this.userInfo.userCode,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize
             }
 
             util.request({
                 method: 'get',
-                interface: 'html5PageList',
+                interface: 'partyInfoList',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {

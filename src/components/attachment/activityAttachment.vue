@@ -13,7 +13,7 @@
                     <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.eventCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -60,6 +60,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -73,6 +74,15 @@ export default {
           'setAttachmentPage'
         ]),
         saveAttachment () {
+            if (this.attachmentList.length > 1 && this.$route.query.type == 'unique-draft') {
+                this.$message({
+                  showClose: true,
+                  message: '最多选中一条！',
+                  type: 'warning'
+                })
+                return false
+            }
+
             var attData = {
                 targetType: 'attachmen_type_2',
                 attachmentList: [].concat(this.attachmentList),
@@ -89,20 +99,12 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.eventCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
                 this.attachmentList.splice(index, 1)
             } else {
-                if (this.attachmentData.length == 1 && this.$route.query.type == 'unique-draft') {
-                    this.$message({
-                      showClose: true,
-                      message: '最多选中一条！',
-                      type: 'warning'
-                    })
-                    return false
-                }
                 this.attachmentCodes.push(item.eventCode)
                 this.attachmentList.push(item)
             }

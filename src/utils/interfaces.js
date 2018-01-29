@@ -30,6 +30,7 @@ export default{
     manageComment: platform + 'html5/manageComment.json',
     ediltExtendsPage: platform + 'html5/ediltExtendsPage.json',
     getExtendPages: platform + 'html5/getExtendPages.json',
+    replyComment: platform + 'comment/replyComment.json',
     /**
     * 我的素材库 get
     */
@@ -53,7 +54,7 @@ export default{
     eventInfoGet: platform + 'event/eventInfoGet.json',
     eventInfoChangeStatus: platform + 'event/eventInfoChangeStatus.json',
     eventProductList: platform + 'event/eventProductList.json',
-    publistEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
+    publishEvent: platform + 'event/eventInfoChangeStatusAndCreateCoupon.json',
     stopEvent: platform + 'event/stopEvent.json',
 
     couponGroupList: platform + 'couponGroup/couponGroupList.json',
@@ -61,6 +62,7 @@ export default{
     couponInfoGet: platform + 'coupon/couponInfoGet.json',
     couponInfoChangeStatus: platform + 'coupon/couponInfoChangeStatus.json',
     getCouponType: platform + 'coupon/getCouponType.json',
+    couponGroupOfPage: platform + 'couponGroup/couponGroupOfPage.json',
 
     /**
     * 外呼 get

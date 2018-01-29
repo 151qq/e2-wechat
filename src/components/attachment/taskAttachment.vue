@@ -15,7 +15,7 @@
                     </p>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="attachmentList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="attachmentCodes.indexOf(item.taskCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -62,6 +62,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage'
         }),
@@ -91,7 +92,7 @@ export default {
             this.$router.replace(pathUrl)
         },
         addAttachment (item) {
-            var index = this.attachmentList.indexOf(item)
+            var index = this.attachmentCodes.indexOf(item.taskCode)
 
             if (index > -1) {
                 this.attachmentCodes.splice(index, 1)
@@ -108,14 +109,14 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                eventPlanStatus: 'submitted',
-                pageSize: this.pageSize,
-                pageNumber: this.pageNumber
+                userCode: this.userInfo.userCode,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize
             }
 
             util.request({
                 method: 'post',
-                interface: 'eventInfoList',
+                interface: 'getSendedTasks',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {

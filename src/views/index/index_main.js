@@ -60,21 +60,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {    
     var e2Token = jsCookie.get('socialmarketing_cloud_user')
-    jsSdk.init()
-    next()
+    // jsSdk.init()
+    // next()
 
     // 处理jssdk签名,兼容history模式
-    // if (!store.state.iosUrl) {
-    //   store.commit('setUrl', document.URL)
-    // }
+    if (!store.state.iosUrl) {
+      store.commit('setUrl', document.URL)
+    }
 
-    // if (!e2Token && to.name != 'registor') {
-    //     var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
-    //     window.location.href = path
-    // } else {
-    //     jsSdk.init()
-    //     next()
-    // }
+    if (!e2Token && to.name != 'registor') {
+        var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
+        window.location.href = path
+    } else {
+        jsSdk.init()
+        next()
+    }
 })
 
 new Vue({
@@ -86,7 +86,7 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
-            // this.getUserInfo()
+            this.getUserInfo()
         }
     },
     methods: {
@@ -103,7 +103,7 @@ new Vue({
                 this.setUserInfo(res.result.result)
                 this.isPage = true
               } else {
-                jsCookie.remove('e2_enterprise_staff')
+                jsCookie.remove('socialmarketing_cloud_user')
                 const parsed = queryString.parse(location.search)
                 var path = '/registor?enterpriseCode=' + parsed.enterpriseCode + '&agentId=' + parsed.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
                 window.location.href = path

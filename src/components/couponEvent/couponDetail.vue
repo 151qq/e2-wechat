@@ -1,5 +1,6 @@
 <template>
     <section class="case-target">
+        <div class="height-1"></div>
         <div class="weui-cells__title">基本信息</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
@@ -12,7 +13,7 @@
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">使用场景</div>
-                <div class="weui-cell__ft">{{base.couponScenarioName}}</div>
+                <div class="weui-cell__ft">{{base.couponGroupScenarioName}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">有效期</div>
@@ -22,7 +23,7 @@
                 <div class="weui-cell__bd">发行数量</div>
                 <div class="weui-cell__ft">{{base.couponQuantity}}</div>
             </div>
-            <template v-if="base.couponType == 'CASH'">
+            <template v-if="base.couponType == 'cashCoupon'">
                 <div class="weui-cell weui-cell_access show-message-box">
                     <div class="weui-cell__bd">消费要求</div>
                     <div class="weui-cell__ft">{{base.couponLeastCost}}</div>
@@ -33,7 +34,7 @@
                 </div>
             </template>
         </div>
-        <div class="weui-cells__title">使用说明</div>
+        <div class="weui-cells__title">优惠说明</div>
         <div class="wx-area-text">
             {{base.couponDescription}}
         </div>
@@ -41,10 +42,14 @@
         <div class="weui-cells">
             <router-link class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in productList"
-                    :to="{name: 'product-article', query: {
-                        enterpriseCode: item.enterpriseCode,
-                        catalogCode: item.productCode
-                    }}">
+                    :to="{
+                        name: 'product-detail',
+                        query: {
+                            enterpriseCode: $route.query.enterpriseCode,
+                            agentId: $route.query.agentId,
+                            productCode: item.productCode
+                        }
+                    }">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.productCover">
                 </div>
@@ -120,7 +125,7 @@ export default {
                     var result = res.result.result.couponInfo
 
                     this.getProductList(res.result.result.couponProductArray)
-                    this.couponTimes = this.formDataDate(result.couponBeginTimestamp, result.couponEndTimestamp)
+                    this.couponTimes = this.formDataDate(result.couponGroupBeginTimestamp, result.couponGroupEndTimestamp)
                     this.base = result
                 } else {
                     this.$message.error(res.result.message)
@@ -145,8 +150,8 @@ export default {
             })
         },
         formDataDate (begin, end) {
-            var beginTime = util.formDataDate(begin)
-            var endTime = util.formDataDate(end)
+            var beginTime = util.formDataDate(begin * 1000)
+            var endTime = util.formDataDate(end * 1000)
 
             return beginTime + ' - ' + endTime
         }

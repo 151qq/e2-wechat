@@ -36,7 +36,7 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发布</a>
+            <a class="weui-btn weui-btn_primary" @click="submitComment">确定</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -124,7 +124,7 @@ export default {
                     this.setDetail({})
                     this.setAttachment({})
                     var pathUrl = {
-                        name: 'attachment',
+                        name: 'case-detail',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
                             agentId: this.$route.query.agentId,

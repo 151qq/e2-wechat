@@ -20,20 +20,29 @@
         <div class="wx-area-text">
             {{base.eventPlanDesc}}
         </div>
-        <div class="weui-cells__title">活动优惠</div>
-        <div class="weui-cells" v-if="couponList.length">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in couponList"
-                    :to="{name: 'coupon-detail', query: {couponCode: item.couponCode}}">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.couponIconUrl">
-                </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.couponTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.couponDescription}}</p>
-                </div>
-            </router-link>
-        </div>
+        <template v-for="(group, index) in couponList">
+            <div class="weui-cells__title">{{group.couponGroupName}}</div>
+            <div class="weui-cells"
+                 v-for="(item, index) in group.couponInfoList">
+                <router-link class="weui-media-box weui-media-box_appmsg"
+                        :to="{
+                            name: 'coupon-detail',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                couponCode: item.couponCode
+                            }
+                        }">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" :src="item.couponCover">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.couponTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.couponDetailTxt}}</p>
+                    </div>
+                </router-link>
+            </div>
+        </template>
         <div class="null-box" v-if="!couponList.length && isPage">
             暂无内容！
         </div>
@@ -64,7 +73,7 @@
                 <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
             </div>
         </div>
-        <template v-if="base.eventPlanStatus == 'cancelled'">
+        <template v-if="base.eventStatus == 'cancelled'">
             <div class="weui-cells__title">活动终止</div>
             <div class="wx-area-text">{{base.eventCancalMemo}}</div>
             <div class="wx-area-text">
@@ -90,18 +99,29 @@
             </div>
         </template>
         
-        <div class="btn-height-box" v-if="base.eventPlanStatus != 'cancelled' && base.eventPlanStatus != 'end'"></div>
-        <div class="wx-bottom-nav" v-if="base.eventPlanStatus != 'cancelled' && base.eventPlanStatus != 'end'">
-            <a class="wx-nav-item" v-if="base.eventPlanStatus == 'draft'" @click="submitCase">
-                发布
-            </a>
+        <template v-if="base.eventStatus != 'cancelled' && base.eventStatus != 'end'">
+            <div class="btn-height-box"></div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary"
+                    v-if="base.eventStatus == 'draft'"
+                    @click="submitCase">
+                    发布
+                </a>
 
-            <router-link class="wx-nav-item"
-                         v-if="base.eventPlanStatus == 'submitted'"
-                         :to="{name: 'stop-activity', query: {eventCode: $route.query.eventCode, enterpriseCode: $route.query.enterpriseCode, agentId: $route.query.agentId}}">
-                退回
-            </router-link>
-        </div>
+                <router-link class="weui-btn weui-btn_primary"
+                             v-if="base.eventStatus == 'submitted'"
+                             :to="{
+                                name: 'stop-activity',
+                                query: {
+                                    eventCode: $route.query.eventCode,
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId
+                                }
+                            }">
+                    退回
+                </router-link>
+            </div>
+        </template>
     </section>
 </template>
 <script>
@@ -158,12 +178,15 @@ export default {
         },
         getCouponList () {
             var formData = {
-                eventCode: this.$route.query.eventCode
+                enterpriseCode: this.$route.query.enterpriseCode,
+                eventCode: this.$route.query.eventCode,
+                pageNumber: 1,
+                pageSize: 100
             }
 
             util.request({
                 method: 'get',
-                interface: 'couponInfoList',
+                interface: 'couponGroupOfPage',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {
@@ -176,9 +199,15 @@ export default {
 
                 this.couponList = res.result.result
                 var atts = []
-                res.result.result.forEach((item) => {
-                    atts.push(item.couponCode)
-                })
+                if (res.result.result.length) {
+                    res.result.result.forEach((item) => {
+                        if (item.couponInfoList.length) {
+                            item.couponInfoList.forEach((coupon) => {
+                                atts.push(coupon.couponCode)
+                            })
+                        }
+                    })
+                }
                 this.couponCodeList = atts
             })
         },
@@ -191,7 +220,7 @@ export default {
 
             util.request({
                 method: 'post',
-                interface: 'publistEvent',
+                interface: 'publishEvent',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {

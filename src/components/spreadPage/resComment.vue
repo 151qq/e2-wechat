@@ -4,8 +4,7 @@
         <group title="基本信息" label-width="105px">
             <selector title="评论情绪"
                     placeholder="请选择"
-                    :options="tagList.content_emotion"
-                    :value-map="valueMap"
+                    :options="contentEmotionList"
                     v-model="commentData.commentEmotion"></selector>
         </group>
         <div class="weui-cells__title">内容</div>
@@ -84,15 +83,18 @@ export default {
                 value: false
             },
             serverIdList: [],
-            valueMap: ['key', 'value'],
-            emotionList: [
+            contentEmotionList: [
                 {
-                    value: '保存',
-                    key: '1'
+                    key: '1',
+                    value: '正面'
                 },
                 {
-                    value: '删除',
-                    key: '0'
+                    key: '0',
+                    value: '负面'
+                },
+                {
+                    key: '2',
+                    value: '中性'
                 }
             ]
         }
@@ -101,8 +103,6 @@ export default {
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }
-
-        this.getTags()
     },
     computed: {
         ...mapGetters({
@@ -133,40 +133,25 @@ export default {
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
             formData.userCode = this.userInfo.userCode
-            formData.taskCode = this.$route.query.taskCode
+            formData.pageCode = this.$route.query.pageCode
+            formData.commentType = this.$route.query.commentType,
+            formData.commentReplyCode = this.$route.query.commentReplyCode
+            formData.memberCode = this.userInfo.userCode
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             util.request({
                 method: 'post',
-                interface: 'saveTaskReportComment',
+                interface: 'replyComment',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
-                    var pathUrl = {
-                        name: 'task-list',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId
-                        }
-                    }
-                    this.$router.push(pathUrl)
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        getTags () {
-            util.request({
-                method: 'get',
-                interface: 'selectAllTagDef',
-                data: {}
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.tagList = res.result.result
+                    
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.url))
+                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }

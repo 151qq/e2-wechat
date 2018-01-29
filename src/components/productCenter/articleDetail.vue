@@ -52,82 +52,25 @@
             </div>
         </template>
 
-        <template v-if="articleData.pageStatus == '1' && articleData.pageCommentOpt == '1'">
-            <div class="wx-area-line"></div>
-            <div class="white-bg">
-                <comment-show :comment-url="'res-comment'"></comment-show>
-            </div>
-        </template>
-
-        <div class="btn-height-box"></div>
-
-        <!-- 发布状态 -->
-        <template v-if="isPublist">
-            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
+        <template v-if="isCreator">
+            <div class="btn-height-box"></div>
+            <div class="wx-bottom-nav">
                 <a class="wx-nav-item"
                     @click="sharePartener">
                     分享同事
                 </a>
                 <a class="wx-nav-item"
                     @click="showSheet">
-                    文章管理
+                    产品相关
                 </a>
                 <a class="wx-nav-item"
                     @click="shareWechat">
                     分享微信
                 </a>
             </div>
-
-            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2'">
-                <router-link class="wx-nav-item"
-                            :to="{
-                                name: 'article-log',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    pageCode: $route.query.pageCode
-                                }
-                            }">
-                    管理日志
-                </router-link>
-                <a class="wx-nav-item"
-                    @click="showBtn">
-                    审核
-                </a>
-            </div>
-
-            <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">
-                <router-link class="weui-btn weui-btn_primary"
-                            :to="{
-                                name: 'article-log',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    pageCode: $route.query.pageCode
-                                }
-                            }">
-                    管理日志
-                </router-link>
-            </div>
-        </template>
-        <template v-if="isCreator && !isPublist">
-            <div class="weui-btn-area">
-                <router-link class="weui-btn weui-btn_primary"
-                            :to="{
-                                name: 'article-log',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    pageCode: $route.query.pageCode
-                                }
-                            }">
-                    审核记录
-                </router-link>
-            </div>
         </template>
 
         <sheet :is-show-sheet="isShowSheet" :item-list="sheetList" :cb="publistOpt"></sheet>
-        <sheet :is-show-sheet="isShowBtn" :item-list="btnList" :cb="checkOpt"></sheet>
     </section>
 </template>
 <script>
@@ -135,7 +78,6 @@ import util from '../../utils/tools'
 import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 import sheet from '../common/sheet.vue'
-import commentShow from './commentShow'
 
 export default {
     data () {
@@ -158,23 +100,27 @@ export default {
             pathUrl: '',
             showText: '',
             escData: {},
-            isShowBtn: {
-                value: false
-            },
-            btnList: [
-                {
-                    label: '发布',
-                    pathName: '1'
-                },
-                {
-                    label: '拒绝发布',
-                    pathName: '0'
-                }
-            ],
             isShowSheet: {
                 value: false
             },
-            sheetList: [],
+            sheetList: [
+                {
+                    label: '详细规格',
+                    pathName: 'product-spec'
+                },
+                {
+                    label: '应用场景',
+                    pathName: 'product-senior'
+                },
+                {
+                    label: '客户评论',
+                    pathName: 'product-log'
+                },
+                {
+                    label: '产品相册',
+                    pathName: 'product-img'
+                }
+            ],
             articleList: []
         }
     },
@@ -320,104 +266,16 @@ export default {
             this.isShowSheet.value = true
         },
         publistOpt (item) {
-            var pathUrl = {}
-
-            if (item.pathName == 'close') {
-                pathUrl = {
-                    name: 'oprate-message',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href),
-                        opt: 'close'
-                    }
-                }
-            } else if (item.pathName == 'commentClose') {
-                pathUrl = {
-                    name: 'oprate-message',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href),
-                        opt: 'commentClose'
-                    }
-                }
-            } else if (item.pathName == 'commentOn') {
-                pathUrl = {
-                    name: 'oprate-message',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href),
-                        opt: 'commentOn'
-                    }
-                }
-            } else if (item.pathName == 'edit') {
-                pathUrl = {
-                    name: 'about-article',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href)
-                    }
-                }
-            } else if (item.pathName == 'log') {
-                pathUrl = {
-                    name: 'article-log',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode
-                    }
+            var pathUrl = {
+                name: item.pathName,
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    templateCode: this.$route.query.templateCode,
+                    pageCode: this.$route.query.pageCode
                 }
             }
-
-            this.$router.push(pathUrl)
-        },
-        showBtn () {
-            if (!this.isPublist) {
-                return false
-            }
-
-            this.isShowBtn.value = true
-        },
-        checkOpt (item) {
-            var pathUrl = {}
-
-            if (item.pathName == '1') {
-                pathUrl = {
-                    name: 'submit-article',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href)
-                    }
-                }
-            } else {
-                pathUrl = {
-                    name: 'oprate-message',
-                    query: {
-                        enterpriseCode: this.$route.query.enterpriseCode,
-                        agentId: this.$route.query.agentId,
-                        templateCode: this.$route.query.templateCode,
-                        pageCode: this.$route.query.pageCode,
-                        url: window.encodeURIComponent(window.location.href),
-                        opt: 'refuse'
-                    }
-                }
-            }
-
+            
             this.$router.push(pathUrl)
         },
         // 同事分享
@@ -430,8 +288,7 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    alert(res.err_msg)
-                    if (res.err_msg != "shareAppMessage:ok") {
+                    if (res.err_msg != "shareWechatMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
                     }
             })
@@ -449,7 +306,6 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    alert(res.err_msg)
                     if (res.err_msg != "shareWechatMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
                     }
@@ -467,46 +323,6 @@ export default {
                 if (res.result.success == '1') {
                     this.articleData = res.result.result
                     this.areaList = res.result.result.pageAreas
-
-                    if (this.articleData.pageCommentOpt == '1') {
-                        this.sheetList = [
-                            {
-                                label: '文章下架',
-                                pathName: 'close'
-                            },
-                            {
-                                label: '关闭评论',
-                                pathName: 'commentClose'
-                            },
-                            {
-                                label: '修改推荐',
-                                pathName: 'edit'
-                            },
-                            {
-                                label: '管理日志',
-                                pathName: 'log'
-                            }
-                        ]
-                    } else {
-                        this.sheetList = [
-                            {
-                                label: '文章下架',
-                                pathName: 'close'
-                            },
-                            {
-                                label: '开启评论',
-                                pathName: 'commentOn'
-                            },
-                            {
-                                label: '修改推荐',
-                                pathName: 'edit'
-                            },
-                            {
-                                label: '管理日志',
-                                pathName: 'log'
-                            }
-                        ]
-                    }
                 } else {
                   this.$message.error(res.result.message)
                 }
@@ -547,8 +363,7 @@ export default {
         }
     },
     components: {
-        sheet,
-        commentShow
+        sheet
     }
 }
 </script>

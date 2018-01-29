@@ -152,15 +152,8 @@ export default {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
-                    var pathUrl = {
-                        name: 'article-detail',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            templateCode: this.$route.query.templateCode,
-                            pageCode: this.$route.query.pageCode
-                        }
-                    }
+                    
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.url))
                     this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
