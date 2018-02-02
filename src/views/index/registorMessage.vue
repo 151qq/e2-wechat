@@ -49,7 +49,7 @@ export default {
             })
         },
         goRegister () {
-            var path = 'http://site.socialmarketingcloud.com/enterpriseRegistor?enterpriseCode=' + this.$route.query.enterpriseCode + '&userId=' + this.$route.query.userWechatUserid + '&userCode=' + this.$route.query.userCode + '&appid=' + this.$route.query.appid
+            var path = 'http://site.socialmarketingcloud.com/enterpriseRegistor?enterpriseCode=' + this.$route.query.enterpriseCode + '&userId=' + this.$route.query.userId + '&userCode=' + this.$route.query.userCode + '&appid=' + this.$route.query.appid
 
             window.wx.invoke("shareWechatMessage", {
                 title: '微信企业员工注册邀请',
