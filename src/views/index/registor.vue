@@ -59,9 +59,18 @@ export default {
                     var data = res.result.result
 
                     if (data) {
-                        var path = 'http://site.socialmarketingcloud.com/enterpriseRegistor?enterpriseCode=' + data.enterpriseCode + '&userId=' + data.userWechatUserid + '&redirectUrl=' + window.encodeURIComponent(this.$route.query.redirectUrl) + '&userCode=' + data.userCode
+                        var pathUrl = {
+                            name: 'registor-message',
+                            query: {
+                                enterpriseCode: data.enterpriseCode,
+                                agentId: this.$route.query.agentId,
+                                userId: data.userWechatUserid,
+                                userCode: data.userCode,
+                                appid: data.appId
+                            }
+                        }
 
-                        window.location.replace(path)
+                        this.$router.replace(pathUrl)
                     } else {
 
                         var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))

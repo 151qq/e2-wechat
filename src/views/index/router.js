@@ -16,6 +16,14 @@ const routers = [
     }
   },
   {
+    // 注册提示页面
+    path: '/registorMessage',
+    name: 'registor-message',
+    component (resolve) {
+      require(["./registorMessage.vue"], resolve)
+    }
+  },
+  {
     // 地图搜索
     path: '/search-map',
     name: 'search-map',

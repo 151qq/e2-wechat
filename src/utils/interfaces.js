@@ -14,6 +14,7 @@ export default{
     authorizeUserRole: platform + 'mobile/authorize/authorizeUserRole.json',
     delectUserRole: platform + 'mobile/authorize/delectUserRole.json',
     sendUserRoleMsg: platform + 'mobile/authorize/sendUserRoleMsg.json',
+    getEnterpriseLogo: platform + 'getEnterpriseLogo.json',
     
     html5PageList: platform + 'html5/html5PageList.json',
     html5PageGet: platform + 'html5/html5PageGet.json',

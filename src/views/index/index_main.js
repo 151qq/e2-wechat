@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
       store.commit('setUrl', document.URL)
     }
 
-    if (!e2Token && to.name != 'registor') {
+    if (!e2Token && to.name != 'registor' && to.name != 'registor-message') {
         var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
         window.location.href = path
     } else {
@@ -86,7 +86,7 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
-            // this.getUserInfo()
+            this.getUserInfo()
         }
     },
     methods: {
