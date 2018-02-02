@@ -86,7 +86,7 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
-            this.getUserInfo()
+            // this.getUserInfo()
         }
     },
     methods: {
