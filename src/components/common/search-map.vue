@@ -76,7 +76,8 @@ export default {
             let _self = this
             var options = {
                 onSearchComplete (results) {
-                    _self.messDate = results.yr
+                    _self.messDate = results.zr
+                    console.log(results)
                 }
             }
           

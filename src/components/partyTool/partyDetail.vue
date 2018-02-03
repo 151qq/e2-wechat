@@ -48,7 +48,7 @@
         <div class="weui-cells__title">相关附件</div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
 
-        <template v-if="base.partyStatus == '2'">
+        <template v-if="base.partyStatus == '4'">
             <div class="weui-cells__title">活动总结</div>
             <div class="wx-area-text">{{base.partySummary}}</div>
             <div class="wx-area-text" v-if="partyImgs.length">
@@ -57,57 +57,39 @@
         </template>
         
 
-        <div class="btn-height-box" v-if="base.partyStatus != '2'"></div>
-        <div class="wx-bottom-nav" v-if="base.partyOwner == userInfo.userCode && base.partyStatus != '2'">
-            <router-link class="wx-nav-item"
-                        v-if="base.partyStatus != '2'"
-                        :to="{
-                            name: 'stop-party',
-                            query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                partyCode: $route.query.partyCode,
-                                result: 1
-                            }
-                        }">
-                结束活动
-            </router-link>
-            <router-link class="wx-nav-item"
-                        v-if="base.partyStatus == '1'"
-                        :to="{
-                            name: 'party-gift',
-                            query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                partyCode: $route.query.partyCode
-                            }
-                        }">
-                活动现场
-            </router-link>
-        </div>
+        <div class="btn-height-box" v-if="base.partyStatus != '4' && base.partyStatus != '5'"></div>
+        <template v-if="base.partyOwner == userInfo.userCode && base.partyStatus != '4' && base.partyStatus != '5'">
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary"
+                    @click="showSheet">
+                    管理推广活动
+                </a>
+            </div>
+        </template>
+        <template v-if="base.partyOwner != userInfo.userCode && base.partyStatus != '4' && base.partyStatus != '5'">
+            <div class="weui-btn-area">
+                <router-link class="weui-btn weui-btn_primary"
+                            :to="{
+                                name: 'party-gift',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    partyCode: $route.query.partyCode
+                                }
+                            }">
+                    进入活动现场
+                </router-link>
+            </div>
+        </template>
 
-        <div class="wx-bottom-nav" v-if="base.partyOwner != userInfo.userCode && base.partyStatus != '2'">
-            <router-link class="wx-nav-item"
-                        v-if="base.partyStatus == '1'"
-                        :to="{
-                            name: 'party-gift',
-                            query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                partyCode: $route.query.partyCode,
-                                partyAlbum: base.partyAlbum
-                            }
-                        }">
-                活动现场
-            </router-link>
-        </div>
-
+        <sheet :is-show-sheet="isShowSheet" :item-list="sheetList" :cb="publistOpt"></sheet>
     </section>
 </template>
 <script>
 import imgList from '../common/imgList.vue'
 import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
+import sheet from '../common/sheet.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -130,7 +112,11 @@ export default {
                 imgData: [],
                 pageData: []
             },
-            partyImgs: []
+            partyImgs: [],
+            isShowSheet: {
+                value: false
+            },
+            sheetList: []
         }
     },
     mounted () {
@@ -162,6 +148,66 @@ export default {
         }
     },
     methods: {
+        showSheet () {
+            this.isShowSheet.value = true
+        },
+        publistOpt (item) {
+            if (item.pathName == 'close') {
+                var pathUrl = {
+                        name: 'stop-party',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode,
+                            partyAlbum: this.base.partyAlbum,
+                            partyResult: '1',
+                            partyStatus: '4'
+                        }
+                    }
+
+                this.$router.push(pathUrl)
+            } else if (item.pathName == 'end') {
+                var pathUrl = {
+                        name: 'stop-party',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode,
+                            partyAlbum: this.base.partyAlbum,
+                            partyResult: '2',
+                            partyStatus: '5'
+                        }
+                    }
+
+                this.$router.push(pathUrl)
+            } else if (item.pathName == 'start') {
+                this.updateStatus('3')
+            } else if (item.pathName == 'add') {
+                this.gotoUser()
+            } else if (item.pathName == 'edit') {
+                var pathUrl = {
+                        name: 'new-party',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode
+                        }
+                    }
+
+                this.$router.push(pathUrl)
+            } else if (item.pathName == 'activity') {
+                var pathUrl = {
+                        name: 'party-gift',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode
+                        }
+                    }
+
+                this.$router.push(pathUrl)
+            }
+        },
         getBase () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
@@ -177,6 +223,40 @@ export default {
                     this.base = res.result.result.partyInfo
                     if (res.result.result.couponGroup) {
                         this.couponData = res.result.result.couponGroup
+                    }
+
+                    if (this.base.partyStatus == '2' || this.base.partyStatus == '1') {
+                        this.sheetList = [
+                            {
+                                label: '更新推广活动',
+                                pathName: 'edit'
+                            },
+                            {
+                                label: '启动推广活动',
+                                pathName: 'start'
+                            },
+                            {
+                                label: '邀请参加推广活动',
+                                pathName: 'add'
+                            }
+                        ]
+                    } else if (this.base.partyStatus == '3') {
+                        this.sheetList = [
+                            {
+                                label: '结束推广活动',
+                                pathName: 'close'
+                            },
+                            {
+                                label: '取消推广活动',
+                                pathName: 'end'
+                            },
+                            {
+                                label: '进入活动现场',
+                                pathName: 'activity'
+                            }
+                        ]
+                    } else {
+                        this.getReviewList()
                     }
 
                     this.isPage = true
@@ -204,28 +284,69 @@ export default {
                 }
             })
         },
-        getPartyImgs () {
+        getReviewList () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                targetCode: this.$route.query.partyCode
+                partyCode: this.$route.query.partyCode
             }
 
             util.request({
-                method: 'post',
+                method: 'get',
                 interface: 'reviewList',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.partyImgs = res.result.result
+                    var partyImgs = []
+                    res.result.result.materialLiblist.forEach((item) => {
+                        partyImgs.push(item.fileCode)
+                    })
+
+                    this.partyImgs = partyImgs
                 } else {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        updateStatus (status) {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode,
+                partyStatus: status
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'updateStatus',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.getBase()
+                    this.isShowSheet.value = false
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        gotoUser () {
+            var urlPath = window.location.href
+
+            var pathUrl = {
+                name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    partyCode: this.$route.query.partyCode,
+                    isUpdate: '1',
+                    redirectUrl: window.encodeURIComponent(urlPath)
+                }
+            }
+            this.$router.push(pathUrl)
         }
     },
     components: {
         imgList,
-        attachmentShow
+        attachmentShow,
+        sheet
     }
 }
 </script>

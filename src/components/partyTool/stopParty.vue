@@ -17,7 +17,7 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.imgList"
+                                v-for="(item, index) in formData.mediaIdss"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
@@ -47,19 +47,16 @@ export default {
             formData: {
                 partyResult: '',
                 partySummary: '',
-                attachmentTargetType: 'partyResult',
-                imgList: []
+                partyStatus: '',
+                partyAlbum: '',
+                mediaIdss: []
             },
             nowIndex: '',
             nowPath: '',
             isShowImg: {
                 value: false
             },
-            serverIdList: [],
-            themesList: [],
-            cityList: [],
-            scenarioList: []
-        }
+            serverIdList: []        }
     },
     mounted () {
         jsSdk.init()
@@ -71,13 +68,13 @@ export default {
     },
     methods: {
         chooseImage () {
-            var num = 9 - this.formData.imgList.length
+            var num = 9 - this.formData.mediaIdss.length
             jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.imgList = this.formData.imgList.concat(localIds).splice(0, 9)
+                this.formData.mediaIdss = this.formData.mediaIdss.concat(localIds).splice(0, 9)
             })
         },
         submitComment () {
-            jsSdk.uploadImgs(this.formData.imgList, (serverIdList) => {
+            jsSdk.uploadImgs(this.formData.mediaIdss, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
                 this.submitFn()
             })
@@ -86,10 +83,11 @@ export default {
             var formData = Object.assign({}, this.formData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.imgList = this.serverIdList
+            formData.mediaIdss = this.serverIdList
             formData.partyCode = this.$route.query.partyCode
             formData.partyResult = this.$route.query.result
             formData.partyAlbum = this.$route.query.partyAlbum
+            formData.partyStatus = this.$route.query.partyStatus
 
             util.request({
                 method: 'post',
@@ -113,11 +111,11 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.formData.imgList[index]
+            this.nowPath = this.formData.mediaIdss[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
-            this.formData.imgList.splice(index, 1)
+            this.formData.mediaIdss.splice(index, 1)
         }
     }
 }

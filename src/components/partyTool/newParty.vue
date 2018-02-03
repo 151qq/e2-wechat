@@ -69,31 +69,8 @@
         
         <div class="btn-height-box"></div>
 
-        <div class="wx-bottom-nav" v-if="$route.query.partyCode">
-            <a class="wx-nav-item"
-                @click="startParty">
-                开始活动
-            </a>
-            <router-link class="wx-nav-item"
-                        :to="{
-                            name: 'stop-party',
-                            query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                partyCode: $route.query.partyCode,
-                                partyAlbum: formData.partyAlbum,
-                                result: 0
-                            }
-                        }">
-                取消活动
-            </router-link>
-            <a class="wx-nav-item" @click="submitComment">
-                更新活动
-            </a>
-        </div>
-
-        <div class="weui-btn-area" v-else>
-            <a class="weui-btn weui-btn_primary" @click="submitComment">启动推广活动</a>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" @click="submitComment">保存</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -133,7 +110,7 @@ export default {
                     attachmentSourceType: '',
                     attachmentSourceCodes: []
                 },
-                couponCodes: []
+                couponGroupCode: []
             },
             nowIndex: '',
             nowPath: '',
@@ -147,12 +124,18 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
+
+            setTimeout(() => {
+                this.formData.planBeginTime = this.detailData.planBeginTime
+                this.formData.planEndTime = this.detailData.planEndTime
+            }, 0)
+
+            console.log(this.attachmentPage, 'attachmentPage')
         }
 
-        if (this.$route.query.partyCode) {
+        if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
             this.getBase()
             this.getAttachments()
         }
@@ -197,7 +180,7 @@ export default {
             formData.addrLink = this.mapData.url,
             formData.addrDetail = this.mapData.address
 
-            formData.couponCodes = this.attachmentPage.attachmentCodes
+            formData.couponGroupCode = this.attachmentPage.attachmentCodes
 
             var interfaceName = 'savePartyInfo'
 
@@ -212,46 +195,22 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    if (!this.$route.query.partyCode) {
-                        this.setDetail({})
-                        this.setAttachment({})
-                        this.setAttachmentPage({})
-                        this.setMapInfo({})
-                        this.gotoUser(res.result.result)
-                    } else {
-                        this.$message({
-                          message: '恭喜你，更新成功！',
-                          type: 'success'
-                        })
-                    }
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        startParty () {
-            var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                partyCode: this.$route.query.partyCode,
-                partyStatus: '1',
-                partyOwner: this.userInfo.userCode
-            }
+                    this.$message({
+                      message: '恭喜你，更新成功！',
+                      type: 'success'
+                    })
 
-            util.request({
-                method: 'post',
-                interface: 'updateStatus',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    var pathUrl = {
-                        name: 'party-detail',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            partyCode: this.$route.query.partyCode
-                        }
+                    this.setDetail({})
+                    this.setAttachment({})
+                    this.setAttachmentPage({})
+                    this.setMapInfo({})
+
+                    if (this.$route.query.partyCode) {
+                        this.gotoUser(this.$route.query.partyCode)
+                    } else {
+                        this.gotoUser(res.result.result)
                     }
-                    this.$router.replace(pathUrl)
+                    
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -269,34 +228,32 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    if (!this.detailData.attachmentTargetType) {
-                        var baseData = res.result.result.partyInfo
+                    var baseData = res.result.result.partyInfo
 
-                        baseData.attachmentTargetType = 'party'
+                    baseData.attachmentTargetType = 'party'
 
-                        baseData.imgData = {
-                            attachmentSourceType: 'attachmen_type_1',
-                            attachmentSourceCodes: []
-                        }
-
-                        baseData.pageData = {
-                            attachmentSourceType: '',
-                            attachmentSourceCodes: []
-                        }
-
-                        if (!this.mapData.address) {
-                            var mapData = {
-                                address: baseData.addrDetail,
-                                url: baseData.addrLink
-                            }
-
-                            this.setMapInfo(mapData)
-                        }
-
-                        this.formData = baseData
+                    baseData.imgData = {
+                        attachmentSourceType: 'attachmen_type_1',
+                        attachmentSourceCodes: []
                     }
 
-                    if (!this.attachmentPage.targetType && res.result.result.couponGroup) {
+                    baseData.pageData = {
+                        attachmentSourceType: '',
+                        attachmentSourceCodes: []
+                    }
+
+                    if (!this.mapData.address) {
+                        var mapData = {
+                            address: baseData.addrDetail,
+                            url: baseData.addrLink
+                        }
+
+                        this.setMapInfo(mapData)
+                    }
+
+                    this.formData = baseData
+
+                    if (res.result.result.couponGroup) {
                         var attachmentList = res.result.result.couponGroup ? res.result.result.couponGroup : []
                         var attachmentCodes = []
 
@@ -377,6 +334,8 @@ export default {
                     }
 
                     this.setAttachment(attData)
+
+                    console.log(this.attachmentData, 'attData')
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -426,7 +385,10 @@ export default {
             this.setDetail(Object.assign({}, this.formData))
 
             var urlPath = window.location.href.replace('newParty', 'partyDetail')
-            urlPath = urlPath + '&partyCode=' + partyCode
+
+            if (!this.$route.query.partyCode) {
+                urlPath = urlPath + '&partyCode=' + partyCode
+            }
 
             var pathUrl = {
                 name: 'user-list',
@@ -437,6 +399,11 @@ export default {
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
+
+            if (this.$route.query.partyCode) {
+                pathUrl.query.isUpdate = '1'
+            }
+
             this.$router.push(pathUrl)
         },
         showBigImg (index) {

@@ -15,6 +15,14 @@
                 <div class="weui-cell__bd">新增销售</div>
                 <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
             </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">开始时间</div>
+                <div class="weui-cell__ft">{{base.eventStartTime}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">结束时间</div>
+                <div class="weui-cell__ft">{{base.eventEndTime}}</div>
+            </div>
         </div>
         <div class="weui-cells__title">详细方案</div>
         <div class="wx-area-text">
@@ -159,6 +167,15 @@ export default {
         }
     },
     methods: {
+        formDataDate (str) {
+            var dateStr = new Date(str)
+            var year = dateStr.getFullYear()
+            var monthStr = dateStr.getMonth() + 1
+            var dayStr = dateStr.getDate()
+            var month = monthStr < 10 ? '0' + monthStr : monthStr
+            var day = dayStr < 10 ? '0' + dayStr : dayStr
+            return year + '-' + month + '-' + day
+        },
         getBase () {
             var formData = {
                 eventCode: this.$route.query.eventCode
@@ -170,6 +187,9 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    res.result.result.eventStartTime = this.formDataDate(res.result.result.eventStartTime)
+                    res.result.result.eventEndTime = this.formDataDate(res.result.result.eventEndTime)
+
                     this.base = res.result.result
                 } else {
                     this.$message.error(res.result.message)

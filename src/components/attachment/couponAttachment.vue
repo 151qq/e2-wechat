@@ -10,7 +10,7 @@
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.couponGroupName}}</h4>
-                    <p class="weui-media-box__desc">{{item.couponGroutScenario}}</p>
+                    <p class="weui-media-box__desc">{{item.couponGroupIntro}}</p>
                 </div>
                 <div class="weui-cell__ft">
                     <span :class="attachmentCodes.indexOf(item.couponGroupCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
@@ -73,6 +73,15 @@ export default {
           'setAttachmentPage'
         ]),
         saveAttachment () {
+            if (this.attachmentCodes.length > 1) {
+                this.$message({
+                  showClose: true,
+                  message: '最多选中一组套券！',
+                  type: 'warning'
+                })
+                return false
+            }
+
             var attData = {
                 targetType: 'attachmen_type_8',
                 attachmentList: [].concat(this.attachmentList),
@@ -106,6 +115,7 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
+                couponGroutScenario: 'coupon_scenario_5',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }

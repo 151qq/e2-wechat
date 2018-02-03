@@ -38,18 +38,18 @@ export default {
                     type: 'attachmen_type_4',
                     icon: '/static/images/article-icon.png'
                 },
-                {
-                    title: '产品中心',
-                    pathName: 'product',
-                    type: 'attachmen_type_5',
-                    icon: '/static/images/product-icon.png'
-                },
-                {
-                    title: '预约',
-                    pathName: 'reserve',
-                    type: 'attachmen_type_6',
-                    icon: '/static/images/reserve-icon.png'
-                },
+                // {
+                //     title: '产品中心',
+                //     pathName: 'product',
+                //     type: 'attachmen_type_5',
+                //     icon: '/static/images/product-icon.png'
+                // },
+                // {
+                //     title: '预约',
+                //     pathName: 'reserve',
+                //     type: 'attachmen_type_6',
+                //     icon: '/static/images/reserve-icon.png'
+                // },
                 {
                     title: '地推活动',
                     pathName: 'party',

@@ -37,7 +37,7 @@ const userStore = new Vuex.Store({
         "userWechatLogo": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTInQXtupVJGRoLCRTQALhGajuCAB5fofhtpjUYLG4LiatyyBfjI6rqHc2icJziaIXhy99fJdlEm3Jjrw/132",
         "userWechatNickname": "杨宁",
         "userEmail": "",
-        "userQrcode": "",
+        "userQrcode": "http://e2-scrm.oss-cn-qingdao.aliyuncs.com/32225fc8-4653-47ef-bfb1-ce02ec025abd.jpg",
         "userBirthday": "",
         "userQq": "",
         "userSinaMicroblog": "",

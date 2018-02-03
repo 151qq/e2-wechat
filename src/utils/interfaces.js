@@ -125,11 +125,14 @@ export default{
     */
     partyInfoList: platform + 'partyInfo/partyInfoList.json',
     savePartyInfo: platform + 'partyInfo/savePartyInfo.json',
-    sendParyMessage: platform + 'partyInfo/sendParyMessage.json',
+    sendParyMessage: platform + 'partyInfo/theSaveStatus.json',
     updatePratyInfo: platform + 'partyInfo/updatePratyInfo.json',
     updateStatus: platform + 'partyInfo/updateStatus.json',
     reviewList: platform + 'partyInfo/reviewList.json',
     reviewInsertImage: platform + 'partyInfo/reviewInsertImage.json',
+    partyAttendee: platform + 'partyInfo/partyAttendee.json',
+    partyLocal: platform + 'partyInfo/partyLocal.json',
+    reviewList: platform + 'partyInfo/reviewList.json',
 
     /**
     * 营销分析 get

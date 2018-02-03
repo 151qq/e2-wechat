@@ -15,9 +15,11 @@
                         {{item.planBeginTime.split(' ')[0] + ' - ' + item.planEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.partyStatus == '1'"><span class="is-doing">开启</span></div>
-                <div class="weui-cell__ft" v-if="item.partyStatus == '2'"><span class="has-done">结束</span></div>
-                <div class="weui-cell__ft" v-if="item.partyStatus == '0'"><span class="is-waiting">启动</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '3'"><span class="is-doing">执行</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '4'"><span class="has-done">结束</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '5'"><span class="has-done">取消</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '2'"><span class="is-waiting">准备</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '1'"><span class="no-done">草稿</span></div>
             </div>
         </div>
 

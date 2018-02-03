@@ -2,10 +2,10 @@
     <section class="party-gift-box">
 
         <div class="ewm-box">
-            <img src="">
+            <img :src="userInfo.userInfo.userQrcode">
         </div>
         <div class="text-box">
-            {{userInfo.userLoginName + '-' + userInfo.userInfo.userMobile}}
+            {{userInfo.userWechatNickname + '-' + userInfo.userLoginAccount}}
         </div>
         
         <div class="btn-height-box"></div>
@@ -23,10 +23,12 @@ import { mapGetters } from 'vuex'
 
 export default {
     data () {
-        return {}
+        return {
+            base: {}
+        }
     },
     mounted () {
-        jsSdk.init()
+        this.getBase()
     },
     computed: {
         ...mapGetters({
@@ -34,14 +36,33 @@ export default {
         })
     },
     methods: {
+        getBase () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode,
+                userCode: this.userInfo.userCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'partyLocal',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
         submitGift () {
-            var link = 'http://site.socialmarketingcloud.com/receiveGift?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode
+            var link = 'http://site.socialmarketingcloud.com/receiveGift?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&partyCode=' + this.$route.query.partyCode
 
             window.wx.invoke("shareWechatMessage", {
                 title: '卡券赠送',
                 desc: '请点击链接领取您的卡券！',
                 link: link,
-                imgUrl: this.userInfo.userImage
+                imgUrl: this.userInfo.userWechatLogo
             }, (res) => {
                     if (res.err_msg != "shareWechatMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
@@ -53,15 +74,19 @@ export default {
 </script>
 <style lang="scss">
 .party-gift-box {
+    background: #ffffff;
+
     .ewm-box {
-        width: 400px;
-        height: 400px;
+        width: 260px;
+        height: 260px;
         margin: 15px auto;
+        border: 1px solid #f5f5f5;
+        border-radius: 3px;
 
         img {
             display: block;
-            width: 400px;
-            height: 400px;
+            width: 260px;
+            height: 260px;
         }
     }
 

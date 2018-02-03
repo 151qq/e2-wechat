@@ -41,7 +41,6 @@
                         </div>
                         <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
-                                v-for="(item, index) in attachmentData.attachmentList"
                                 :to="{
                                         name: item.taskType == 1 ? 'edit-detail' : 'activity-detail',
                                         query: {
@@ -74,7 +73,6 @@
                         </div>
                         <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
-                                v-for="(item, index) in attachmentData.attachmentList"
                                 :to="{
                                         name: 'article-detail',
                                         query: {
@@ -110,7 +108,6 @@
                         </div>
                         <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
-                                v-for="(item, index) in attachmentData.attachmentList"
                                 :to="{
                                         name: 'product-detail',
                                         query: {
@@ -142,7 +139,6 @@
                         </div>
                         <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
-                                v-for="(item, index) in attachmentData.pageData"
                                 :to="{
                                         name: 'party-detail',
                                         query: {
@@ -163,6 +159,30 @@
                         </router-link>
                     </swipeout-item>
                 </template>
+                <!-- 地推活动 -->
+                <template v-if="attachmentData.targetType == 'attachmen_type_8'">
+                    <swipeout-item transition-mode="follow"
+                                    v-for="(item, index) in attachmentData.attachmentList">
+
+                        <div slot="right-menu">
+                            <swipeout-button @click.native="deleteItem(index)" type="warn">
+                                删除
+                            </swipeout-button>
+                        </div>
+                        <a class="weui-media-box weui-media-box_appmsg"
+                            slot="content">
+                            <div class="weui-media-box__hd">
+                                <img class="weui-media-box__thumb" :src="item.couponGroupCover">
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h4 class="weui-media-box__title">{{item.couponGroupName}}</h4>
+                                <p class="weui-media-box__desc">
+                                    {{item.couponGroupIntro}}
+                                </p>
+                            </div>
+                        </a>
+                    </swipeout-item>
+                </template>
                 <!-- 预约 -->
                 <template v-if="attachmentData.targetType == 'attachmen_type_6'">
                         
@@ -176,7 +196,6 @@
                         </div>
                         <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
-                                v-for="(item, index) in attachmentData.attachmentList"
                                 :to="{
                                         name: 'reserve-detail',
                                         query: {

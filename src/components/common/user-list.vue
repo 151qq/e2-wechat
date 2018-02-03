@@ -12,7 +12,7 @@
                     <h4 class="weui-media-box__title">{{item.userName}}</h4>
                 </div>
                 <div class="weui-cell__ft">
-                    <span :class="userList.indexOf(item) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
+                    <span :class="userCodes.indexOf(item.userCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
                 </div>
             </div>
         </div>
@@ -46,6 +46,9 @@ export default {
     },
     mounted () {
         this.getList()
+        if (this.$route.query.isUpdate == '1') {
+            this.getAdds()
+        }
     },
     computed: {
         ...mapGetters({
@@ -95,7 +98,7 @@ export default {
             }
         },
         addAttachment (item) {
-            var index = this.userList.indexOf(item)
+            var index = this.userCodes.indexOf(item.userCode)
 
             if (index > -1) {
                 this.userCodes.splice(index, 1)
@@ -135,6 +138,29 @@ export default {
                 }
             })
         },
+        getAdds () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'partyAttendee',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var userCodes = []
+                    res.result.result.forEach((item) => {
+                        userCodes.push(item.userCode)
+                    })
+
+                    this.userCodes = [].concat(userCodes)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
         setRole () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
@@ -160,7 +186,7 @@ export default {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 partyCode: this.$route.query.partyCode,
                 userCodes: this.userCodes,
-                url: this.$route.query.redirectUrl
+                url: window.decodeURIComponent(this.$route.query.redirectUrl)
             }
 
             util.request({
