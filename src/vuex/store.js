@@ -11,7 +11,7 @@ const userStore = new Vuex.Store({
       "enterpriseCode": "20180128131402604",
       "userWechatUserid": "20180125182918589898",
       "userWechatOpenid": "oFOk40bprwbmfmr_ajRjnT71hD5I",
-      "userWechatAppid": "",
+      "userWechatAppid": "wx8b8c3ab0670be56f",
       "userWechatNickname": "杨宁",
       "userLoginAccount": "15164369647",
       "userWechatLogo": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTInQXtupVJGRoLCRTQALhGajuCAB5fofhtpjUYLG4LiatyyBfjI6rqHc2icJziaIXhy99fJdlEm3Jjrw/132",

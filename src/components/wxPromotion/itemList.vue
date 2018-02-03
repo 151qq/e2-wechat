@@ -6,17 +6,17 @@
                 <swipeout-item transition-mode="follow"
                                 v-for="(item, index) in listData" :key="index">
 
-                    <div slot="right-menu">
+                    <!-- <div slot="right-menu">
                         <swipeout-button @click.native="deleteItem(item)" type="warn">
                             删除
                         </swipeout-button>
-                    </div>
+                    </div> -->
                     <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
                                 :to="{
                                     name: 'channel-detail',
                                     query: {
-                                        enterpriseCode: $route.query.enterpriseCode,
+                                        enterpriseCode: userInfo.enterpriseCode,
                                         agentId: $route.query.agentId,
                                         memberCode: item.memberCode
                                     }
@@ -28,8 +28,8 @@
                             <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
                             <p class="weui-media-box__desc">{{item.memberMobile}}</p>
                         </div>
-                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '1'"><span class="is-doing">正式</span></div>
-                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '0'"><span class="is-waiting">待定</span></div>
+                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '1'"><span class="is-doing">正常</span></div>
+                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '0'"><span class="is-waiting">待绑</span></div>
                     </router-link>
                 </swipeout-item>
             </swipeout>
@@ -80,13 +80,13 @@ export default {
             this.getList(cb)
         },
         addMember (type) {
-            var link = 'http://site.socialmarketingcloud.com/channelRegister?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode
+            var link = 'http://site.socialmarketingcloud.com/channelRegister?enterpriseCode=' + this.userInfo.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userId=' + this.userInfo.userWechatUserid + '&appid=' + this.userInfo.userWechatAppid  + '&userCode=' + this.userInfo.userCode
 
             window.wx.invoke("shareWechatMessage", {
                 title: '微信推广会员邀请',
                 desc: '诚邀您成为企业微信推广会',
                 link: link,
-                imgUrl: this.userInfo.userImage
+                imgUrl: this.userInfo.userWechatLogo
             }, (res) => {
                     if (res.err_msg != "shareWechatMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
@@ -95,7 +95,7 @@ export default {
         },
         getList (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 adManager: this.userInfo.userCode,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize

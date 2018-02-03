@@ -43,7 +43,7 @@ module.exports = {
     // http://112.126.90.50:8085
     proxyTable: {
       '/e2-mobile-api': {
-        target: 'http://e2.s3.natapp.cc/E2-Mobile',
+        target: 'http://jiaheming.s3.natapp.cc/E2-Mobile',
         changeOrigin: true,
         pathRewrite: {
           '^/e2-mobile-api': ''
