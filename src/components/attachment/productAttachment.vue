@@ -112,7 +112,7 @@ export default {
             }
 
             util.request({
-                method: 'get',
+                method: 'post',
                 interface: 'html5PageList',
                 data: formData
             }).then(res => {

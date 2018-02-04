@@ -1,31 +1,26 @@
 <template>
     <section class="member-detail-box">
-        <section class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">预约人</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入" v-model="formData.reserverName">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="tel" placeholder="请输入" v-model="formData.reserverMobile">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">开始时间</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.reserveBeginTime">
-                </div>
-            </div>
-            <div class="weui-cell">
-                <div class="weui-cell__hd"><label for="" class="weui-label">结束时间</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.reserveEndTime">
-                </div>
-            </div>
-            
+        <div class="height-1"></div>
+        <group title="基本信息" label-width="105px">
+            <x-input title="预约标题"
+                     v-model="formData.reserveTitle"
+                     placeholder="请输入"></x-input>
+            <x-input title="预约人"
+                     v-model="formData.reserverName"
+                     placeholder="请输入"></x-input>
+            <x-input title="预约手机"
+                     v-model="formData.reserverMobile"
+                     placeholder="请输入"></x-input>
+            <datetime title="开始时间"
+                      v-model="formData.reserveBeginTime"
+                      format="YYYY-MM-DD HH:mm:00"
+                      placeholder="请填写时间"
+                      value-text-align="left"></datetime>
+            <datetime title="结束时间"
+                      v-model="formData.reserveEndTime"
+                      format="YYYY-MM-DD HH:mm:00"
+                      placeholder="请填写时间"
+                      value-text-align="left"></datetime>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
                 <div class="weui-cell__bd">
@@ -35,7 +30,6 @@
                             @click="gotoMap">
                 </div>
             </div>
-            
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">预约接待</label></div>
                 <div class="weui-cell__bd">
@@ -45,7 +39,7 @@
                             @click="gotoUser">
                 </div>
             </div>
-        </section>
+        </group>
         <div class="weui-cells__title">预约详情</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
@@ -75,11 +69,11 @@
         </div>
         
         <!-- 附件 -->
-        <div class="weui-cells__title">预约产品</div>
+        <!-- <div class="weui-cells__title">预约产品</div>
         <div class="weui-cells no-line">
             <attachment-detail :attachment-data="attachmentData"></attachment-detail>
             <a class="add-file-btn" @click="gotoAttachment">添加</a>
-        </div>
+        </div> -->
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
@@ -98,11 +92,13 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { Group, XInput, Datetime} from 'vux'
 
 export default {
     data () {
         return {
             formData: {
+                reserveTitle: '',
                 reserverName: '',
                 reserverMobile: '',
                 enterpriseCode: '',
@@ -112,6 +108,7 @@ export default {
                 reserveEndTime: '',
                 reserveBeginTime: '',
                 reserveDesc: '',
+                reserveCreator: '',
                 attachmentTargetType: 'reserve',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
@@ -134,6 +131,11 @@ export default {
         jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
+
+            setTimeout(() => {
+                this.formData.reserveEndTime = this.detailData.reserveEndTime
+                this.formData.reserveBeginTime = this.detailData.reserveBeginTime
+            }, 0)
         }
     },
     computed: {
@@ -146,9 +148,16 @@ export default {
         }),
         userName () {
             if (this.userData.userList && this.userData.userList.length) {
-                return this.this.userData.userList[0].userLoginName
+                return this.userData.userList[0].userWechatNickname
             } else {
-                return this.userInfo.userLoginName
+                return this.userInfo.userWechatNickname
+            }
+        },
+        userCode () {
+            if (this.userData.userList && this.userData.userList.length) {
+                return this.userData.userList[0].userCode
+            } else {
+                return this.userInfo.userCode
             }
         }
     },
@@ -175,11 +184,15 @@ export default {
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
+            formData.reserveCreator = this.userInfo.userCode
             formData.agentId = this.$route.query.agentId
             formData.reserveAddr = this.mapData.url ? this.mapData.url : ''
+            formData.reserveCity = this.mapData.address
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+            formData.reserveReceptionCode = this.userCode
+            formData.reserveReceptionName = this.userWechatNickname
 
             util.request({
                 method: 'post',
@@ -192,10 +205,11 @@ export default {
                     this.setMapInfo({})
                     this.setAttachment({})
                     var pathUrl = {
-                        name: 'reserve-list',
+                        name: 'reserve-detail',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId
+                            agentId: this.$route.query.agentId,
+                            reserveCode: res.result.result
                         }
                     }
                     this.$router.replace(pathUrl)
@@ -259,7 +273,10 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail
+        attachmentDetail,
+        Group,
+        XInput,
+        Datetime
     }
 }
 </script>

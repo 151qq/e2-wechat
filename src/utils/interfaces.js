@@ -74,10 +74,13 @@ export default{
     selectOutBandWorkDetails: platform + 'outBandWork/selectOutBandWorkDetails.json',
     selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
     mangeReady: platform + 'outBandWork/mangeReady.json',
-    selectLog: platform + 'log/selectLog.json',
+    selectLog: platform + 'outBandWork/selectLog.json',
     selectOutBandWork1: platform + 'outBandWork/selectOutBandWork1.json',
 
+    getCountDetails: platform + 'pipelineInfo/thePipelineCountDetails.json',
     selectAllTagDef: platform + 'tagDef/selectAllTagDef.json',
+    tuiSelect: platform + 'outBandWork/select.json',
+    getDetails: platform + 'outBandWork/details.json',
 
     /**
     * 预约 get
@@ -86,7 +89,7 @@ export default{
     insertReserveInfo: platform + 'reserveInfo/insertReserveInfo.json',
     selectAll: platform + 'reserveInfo/selectAll.json',
     listResponseReserveInfo: platform + 'reserveInfo/listResponseReserveInfo.json',
-
+    updateResponseReserveInfo: platform + 'reserveInfo/updateResponseReserveInfo.json',
     /**
     * 任务 get
     */

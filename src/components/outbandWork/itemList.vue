@@ -63,7 +63,7 @@ export default {
             var pathData = {
                 name: 'noline-detail',
                 query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
+                    enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     outbandWorkCode: item.outbandWorkCode
                 }
@@ -77,7 +77,7 @@ export default {
         },
         getList (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize

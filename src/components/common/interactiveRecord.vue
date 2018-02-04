@@ -3,8 +3,8 @@
         <template v-for="(item, index) in recordList">
             <route-link class="record-nav"
                         :to="{}">
-                <div class="date-box">{{item.interactionDate.split(' ')[0]}}</div>
-                <div class="content-box">{{item.interactionDesc}}</div>              
+                <div class="date-box">{{item.customerInteractionLog.interactionDate.split(' ')[0]}}</div>
+                <div class="content-box">{{item.customerInteractionLog.interactionDesc}}</div>              
             </route-link>
         </template>
         <div class="null-box" v-if="recordList && !recordList.length">

@@ -90,7 +90,7 @@ export default {
             var pathUrl = {
                 name: 'new-party',
                 query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
+                    enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId
                 }
             }
@@ -107,7 +107,7 @@ export default {
             var pathData = {
                 name: pathName,
                 query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
+                    enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     partyCode: item.partyCode
                 }
@@ -128,7 +128,7 @@ export default {
         },
         getList (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize

@@ -238,6 +238,22 @@ const routers = [
         }
       },
       {
+        path: 'nolineQz',
+        name: 'noline-qz',
+        component: resolve => require(["../../components/outbandWork/nolineQz.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'nolineSj',
+        name: 'noline-sj',
+        component: resolve => require(["../../components/outbandWork/nolineSj.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
         path: 'nolineComment',
         name: 'noline-comment',
         component: resolve => require(["../../components/outbandWork/nolineComment.vue"], resolve),

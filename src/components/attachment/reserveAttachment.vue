@@ -76,6 +76,15 @@ export default {
           'setAttachmentPage'
         ]),
         saveAttachment () {
+            if (this.attachmentList.length > 1 && this.$route.query.type == 'unique') {
+                this.$message({
+                  showClose: true,
+                  message: '最多选中一个预约！',
+                  type: 'warning'
+                })
+                return false
+            }
+
             var attData = {
                 targetType: 'attachmen_type_6',
                 attachmentList: [].concat(this.attachmentList),

@@ -29,6 +29,10 @@
                 </div>
             </router-link>
         </div>
+
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
+        </div>
     </section>
 </template>
 <script>
@@ -37,6 +41,7 @@ import util from '../../utils/tools'
 export default {
     data () {
         return {
+            isPage: false,
             listData: [],
             pageNumber: 1,
             pageSize: 20,
@@ -65,6 +70,7 @@ export default {
                 }
 
                 this.total = res.result.total
+                this.isPage = true
                 if (!type) {
                     this.listData = res.result.result
                 } else {

@@ -4,6 +4,10 @@
         <div class="weui-cells__title">预约信息</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__bd">预约标题</div>
+                <div class="weui-cell__ft">{{base.reserveTitle}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">预约人</div>
                 <div class="weui-cell__ft">{{base.reserverName}}</div>
             </div>
@@ -28,18 +32,18 @@
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">预约接待</div>
-                <div class="weui-cell__ft">{{base.reserveReception}}</div>
+                <div class="weui-cell__ft">{{base.reserveReceptionName}}</div>
             </div>
         </div>
         <div class="weui-cells__title">预约详情</div>
         <div class="wx-area-text">{{base.reserveDesc}}</div>
         <div class="wx-area-text">
-            <img-list :img-list="base.newReserveImgData"></img-list>
+            <img-list :img-list="newReserveImgData"></img-list>
         </div>
-        <div class="weui-cells__title">预约产品</div>
+        <!-- <div class="weui-cells__title">预约产品</div>
         <div class="weui-cells no-margin">
             <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in base.newReservePageData"
+                    v-for="(item, index) in newReservePageData"
                     :to="{name: 'case-detail', query: {
                             enterpriseCode: $route.query.enterpriseCode,
                             agentId: $route.query.agentId,
@@ -54,9 +58,9 @@
                 </div>
             </router-link>
         </div>
-        <div class="null-box" v-if="!base.reservePageData.length && isPage">
+        <div class="null-box" v-if="!reservePageData.length && isPage">
             暂无内容！
-        </div>
+        </div> -->
         <template v-if="base.receptionResult">
             <div class="weui-cells__title">客户接待</div>
             <div class="weui-cells">
@@ -76,12 +80,12 @@
             <div class="weui-cells__title">接待备忘</div>
             <div class="wx-area-text">{{base.receptionMemo}}</div>
             <div class="wx-area-text">
-                <img-list :img-list="base.reservedImgData"></img-list>
+                <img-list :img-list="reservedImgData"></img-list>
             </div>
-            <div class="weui-cells__title">体验产品</div>
+            <!-- <div class="weui-cells__title">体验产品</div>
             <div class="weui-cells no-margin">
                 <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in base.reservedPageData"
+                        v-for="(item, index) in reserveInfoNext"
                         :to="{name: 'case-detail', query: {
                                 enterpriseCode: $route.query.enterpriseCode,
                                 agentId: $route.query.agentId,
@@ -96,14 +100,39 @@
                     </div>
                 </router-link>
             </div>
-            <div class="null-box" v-if="!base.receptionPageData.length && isPage">
+            <div class="null-box" v-if="!receptionPageData.length && isPage">
                 暂无内容！
-            </div>
+            </div> -->
+            <template v-if="base.reserveNext">
+                <div class="weui-cells__title">新增预约</div>
+                <div class="weui-cells no-margin">
+                    <router-link class="weui-media-box weui-media-box_appmsg"
+                            slot="content"
+                            :to="{
+                                    name: 'reserve-detail',
+                                    query: {
+                                        enterpriseCode: $route.query.enterpriseCode,
+                                        agentId: $route.query.agentId,
+                                        reserveCode: reserveInfoNext.reserveCode
+                                    }
+                                }">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" :src="reserveInfoNext.reserveAddr">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">{{reserveInfoNext.reserveTitle}}</h4>
+                            <p class="weui-media-box__desc">
+                                {{reserveInfoNext.reserveBeginTime.split(' ')[0] + ' - ' + reserveInfoNext.reserveEndTime.split(' ')[0]}}
+                            </p>
+                        </div>
+                    </router-link>
+                </div>
+            </template>
         </template>
         
-        <div class="btn-height-box" v-if="!base.receptionResult"></div>
-        <div class="wx-bottom-nav" v-if="!base.receptionResult">
-            <router-link class="wx-nav-item"
+        <div class="btn-height-box" v-if="base.reserveStatus != '3'"></div>
+        <div class="weui-btn-area" v-if="!base.receptionResult && base.reserveStatus == '2'">
+            <router-link class="weui-btn weui-btn_primary"
                          :to="{name: 'reserve-summary', query: {
                             reserveCode: $route.query.reserveCode,
                             enterpriseCode: $route.query.enterpriseCode,
@@ -112,10 +141,17 @@
                 汇报客户预约体验结果
             </router-link>
         </div>
+
+        <div class="weui-btn-area" v-if="!base.receptionResult && base.reserveStatus == '1'">
+            <a class="weui-btn weui-btn_primary" @click="submitGift">
+                分享
+            </a>
+        </div>
     </section>
 </template>
 <script>
 import imgList from '../common/imgList.vue'
+import jsSdk from '../../utils/jsSdk'
 import util from '../../utils/tools'
 
 export default {
@@ -123,13 +159,14 @@ export default {
         return {
             isPage: false,
             base: {
+                reserveTitle: '',
                 reserverName: '',
                 reserverMobile: '',
                 reserveBeginTime: '',
                 reserveEndTime: '',
                 reserveAddr: '',
                 reserveCity: '',
-                reserveReception: '',
+                reserveReceptionName: '',
                 reserveDesc: '',
                 receptionBeginTime: '',
                 receptionEndTime: '',
@@ -139,7 +176,10 @@ export default {
             newReserveImgData: [],
             newReservePageData: [],
             reservedImgData: [],
-            reservedPageData: []
+            reservedPageData: [],
+            reserveInfoNext: {
+
+            }
         }
     },
     mounted () {
@@ -151,6 +191,20 @@ export default {
         }
     },
     methods: {
+        submitGift () {
+            var link = 'http://site.socialmarketingcloud.com/reserveOnline?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&reserveCode=' + this.$route.query.reserveCode
+
+            window.wx.invoke("shareWechatMessage", {
+                title: '预约邀请',
+                desc: '请点击链接确认邀请！',
+                link: link,
+                imgUrl: this.userInfo.userWechatLogo
+            }, (res) => {
+                    if (res.err_msg != "shareWechatMessage:ok") {
+                        this.$message.error('请更新企业微信版本！！！')
+                    }
+            })
+        },
         getBase () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
@@ -165,6 +219,7 @@ export default {
                 if (res.result.success == '1') {
                     var data = res.result.result
                     this.base = data.reserveInfo
+                    this.reserveInfoNext = data.reserveInfoNext
                     this.newReserveImgData = data.newReserveImgData,
                     this.newReservePageData = data.newReservePageData,
                     this.reservedImgData = data.reservedImgData,

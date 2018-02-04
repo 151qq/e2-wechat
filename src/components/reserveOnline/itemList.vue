@@ -19,7 +19,8 @@
                         {{item.reserveBeginTime.split(' ')[0] + ' - ' + item.reserveEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="no-done">未接</span></div>
+                <div class="weui-cell__ft" v-if="item.reserveStatus == '1'"><span class="no-done">未接</span></div>
+                <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="is-waiting">确认</span></div>
                 <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="is-doing">完成</span></div>
             </div>
         </div>
@@ -30,8 +31,8 @@
 
         <div class="wx-bottom-nav">
             <a class="wx-nav-item"
-                :class="reserveStatus == '2' ? 'nav-now' : ''"
-                @click="setStatus('2')">
+                :class="reserveStatus == '1,2' ? 'nav-now' : ''"
+                @click="setStatus('1,2')">
                 未接待
             </a>
             <a class="wx-nav-item"
@@ -60,7 +61,7 @@ export default {
             listData: [],
             pageSize: 20,
             pageNumber: 1,
-            reserveStatus: '2',
+            reserveStatus: '1,2',
             total: 0
         }
     },
@@ -87,7 +88,7 @@ export default {
             var pathData = {
                 name: 'reserve-detail',
                 query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
+                    enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     reserveCode: item.reserveCode
                 }
@@ -108,8 +109,8 @@ export default {
         },
         getList (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                reserveReceptionCode: this.userInfo.userCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
+                userCode: this.userInfo.userCode,
                 reserveStatus: this.reserveStatus,
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize

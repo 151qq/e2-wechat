@@ -472,3 +472,16 @@ body {
     }
 }
 
+.weui-media-box_appmsg .weui-media-box__hd {
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: auto !important;
+    height: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+

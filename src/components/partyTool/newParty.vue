@@ -131,8 +131,6 @@ export default {
                 this.formData.planBeginTime = this.detailData.planBeginTime
                 this.formData.planEndTime = this.detailData.planEndTime
             }, 0)
-
-            console.log(this.attachmentPage, 'attachmentPage')
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
