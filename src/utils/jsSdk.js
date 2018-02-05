@@ -30,7 +30,7 @@ const jsSdk = {
 
                 window.wx.config({
                     beta: true,
-                    debug: true,
+                    debug: false,
                     appId: res.result.result.corpId,
                     timestamp: timestamp,
                     nonceStr: nonceStr,
