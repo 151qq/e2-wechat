@@ -68,8 +68,12 @@
                                                     appid: article.appId,
                                                     templateCode: article.templateCode,
                                                     S: userInfo.userCode,
-                                                    C: 'e2nochannel',
-                                                    T: 'e2nospread'
+                                                    sShareTo: 'F',
+                                                    C: 'N',
+                                                    cShareTo: 'N',
+                                                    T: userInfo.userCode,
+                                                    tShareTo: 'N',
+                                                    spreadType: '1'
                                                 }
                                             }">
                                     <div class="weui-media-box__hd">
