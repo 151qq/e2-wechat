@@ -58,15 +58,30 @@ export default {
         }
     },
     mounted () {
+        var _self = this
+        this.loadScript()
+        window.initialize = function () {
+            _self.initMap()
+        }
         $('.select-map').height($(document).height())
-        setTimeout(() => {
-            this.initMap()
-        }, 300)
     },
     methods: {
         ...mapActions([
           'setMapInfo'
         ]),
+        loadScript() {
+            var mapId = document.getElementById('BaiduMap')
+
+            if (mapId) {
+                this.initMap()
+                return false
+            }
+
+            var script = document.createElement("script")
+            script.id = 'BaiduMap'
+            script.src = "http://api.map.baidu.com/api?v=2.0&ak=jouhDzsnci9OiZjX4OnXXiaL9QR4mqY9&callback=initialize"
+            document.body.appendChild(script)
+        },
         getMess () {
             if (this.keyValue === '') {
                 this.isSearch = false

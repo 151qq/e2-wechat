@@ -206,7 +206,7 @@ export default {
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
             formData.reserveReceptionCode = this.userCode
-            formData.reserveReceptionName = this.userWechatNickname
+            formData.reserveReceptionName = this.userName
 
             util.request({
                 method: 'post',

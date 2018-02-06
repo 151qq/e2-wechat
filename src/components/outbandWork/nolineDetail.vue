@@ -121,7 +121,7 @@ export default {
                 return false
             }
 
-            var link = 'http://site.socialmarketingcloud.com/receiveGift?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&reserveCode=' + this.$route.query.reserveCode
+            var link = 'http://site.socialmarketingcloud.com/groupDetail?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&couponGroupType=coupon_scenario_6'
 
             window.wx.invoke("shareWechatMessage", {
                 title: '卡券赠送',
