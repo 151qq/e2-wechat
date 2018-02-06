@@ -16,6 +16,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 
 export default {
@@ -29,6 +30,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getList()
     },
     computed: {

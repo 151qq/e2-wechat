@@ -30,6 +30,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -46,6 +47,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getList()
 
         if (!this.$route.query.isPage && this.attachmentData.targetType  && this.attachmentData.targetType == 'attachmen_type_2') {

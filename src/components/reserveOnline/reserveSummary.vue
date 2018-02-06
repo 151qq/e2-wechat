@@ -214,6 +214,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.formData = Object.assign({}, this.detailData)
 

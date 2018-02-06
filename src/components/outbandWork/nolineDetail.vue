@@ -106,6 +106,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getData()
     },

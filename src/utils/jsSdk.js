@@ -50,6 +50,9 @@ const jsSdk = {
 
                 window.wx.ready(() => {
                     window.wx.hideAllNonBaseMenuItem()
+                    if (cd) {
+                        cd()
+                    }
                 })
             } else {
               alert(res.result.message)
@@ -82,8 +85,6 @@ const jsSdk = {
         }
 
         var localId = localIds.splice(0, 1)[0]
-
-        alert(localId + 'localId')
         
         window.wx.uploadImage({
             localId: localId,

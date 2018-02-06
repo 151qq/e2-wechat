@@ -125,6 +125,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getData()
         this.getTemplate()
         this.getArticles()

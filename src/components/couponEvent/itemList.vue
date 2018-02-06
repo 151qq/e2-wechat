@@ -37,6 +37,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -49,6 +50,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getData()
     },
     methods: {

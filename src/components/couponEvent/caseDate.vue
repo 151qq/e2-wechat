@@ -15,6 +15,7 @@
 </template>
 <script>
 import datePq from '../common/date-pq.vue'
+import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -38,6 +39,9 @@ export default {
                 }
             ]
         }
+    },
+    mounted () {
+        jsSdk.init()
     },
     components: {
         datePq

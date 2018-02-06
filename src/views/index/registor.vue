@@ -5,6 +5,7 @@
 </template>
 <script>
 import tools from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -13,6 +14,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         var code = this.$route.query.code
 
         if (!code) {
@@ -73,7 +75,7 @@ export default {
                         this.$router.replace(pathUrl)
                     } else {
 
-                        var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                        var pathUrl = tools.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
                         this.$router.replace(pathUrl)
                     }
                 } else {

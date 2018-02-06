@@ -151,6 +151,7 @@
     </section>
 </template>
 <script>
+import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 import commentShow from './commentShow.vue'
 import attachmentShow from '../common/attachmentShow.vue'
@@ -178,11 +179,13 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getBase()
         this.getAttachments()
     },
     watch: {
         $route () {
+            jsSdk.init()
             this.getBase()
             this.getAttachments()
         }

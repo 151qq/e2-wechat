@@ -28,6 +28,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getBase()
     },
     computed: {

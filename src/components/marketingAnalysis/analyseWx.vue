@@ -60,6 +60,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -78,10 +79,12 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getList()
     },
     watch: {
         $route () {
+            jsSdk.init()
             this.pageNumber = 1
             this.isPage = false
             this.getList()

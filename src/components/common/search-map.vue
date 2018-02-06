@@ -77,7 +77,6 @@ export default {
             var options = {
                 onSearchComplete (results) {
                     _self.messDate = results.zr
-                    console.log(results)
                 }
             }
           

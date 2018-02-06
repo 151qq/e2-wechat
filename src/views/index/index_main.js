@@ -60,7 +60,6 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {    
     var e2Token = jsCookie.get('socialmarketing_cloud_user')
-    // jsSdk.init()
     // next()
 
     // 处理jssdk签名,兼容history模式
@@ -72,7 +71,6 @@ router.beforeEach((to, from, next) => {
         var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
         window.location.href = path
     } else {
-        jsSdk.init()
         next()
     }
 })

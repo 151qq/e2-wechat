@@ -14,6 +14,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -23,6 +24,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getLog()
     },
     computed: {

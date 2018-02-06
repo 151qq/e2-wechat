@@ -120,6 +120,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 import { mapGetters } from 'vuex'
 
@@ -152,6 +153,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getData()
     },

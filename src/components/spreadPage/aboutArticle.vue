@@ -38,6 +38,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
@@ -48,6 +49,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         if (!this.attachmentData.targetType) {
             this.getArticles()
         }

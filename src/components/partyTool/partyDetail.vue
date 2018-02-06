@@ -89,6 +89,7 @@
 import imgList from '../common/imgList.vue'
 import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import sheet from '../common/sheet.vue'
 import { mapGetters } from 'vuex'
 
@@ -120,11 +121,13 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getBase()
         this.getAttachments()
     },
     watch: {
         $route () {
+            jsSdk.init()
             this.getBase()
             this.getAttachments()
         }

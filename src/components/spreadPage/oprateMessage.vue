@@ -77,6 +77,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }

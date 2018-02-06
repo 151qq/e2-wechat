@@ -266,12 +266,14 @@
     </section>
 </template>
 <script>
+import jsSdk from '../../utils/jsSdk'
 export default {
     data () {
         return {
         }
     },
     mounted () {
+        jsSdk.init()
         // this.getData()
     },
     methods: {

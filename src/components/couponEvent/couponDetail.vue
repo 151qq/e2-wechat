@@ -64,6 +64,7 @@
 <script>
 import imgList from '../common/imgList.vue'
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -108,6 +109,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getBase()
     },
     methods: {

@@ -114,7 +114,30 @@
                 </router-link>
             </div>
         </template>
-        <template v-if="isCreator && !isPublist">
+        <template v-if="!isPublist && articleData.pageStatus == '1'">
+            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
+                <a class="wx-nav-item"
+                    @click="sharePartener">
+                    分享同事
+                </a>
+                <router-link class="wx-nav-item"
+                            :to="{
+                                name: 'article-log',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: $route.query.pageCode
+                                }
+                            }">
+                    审核记录
+                </router-link>
+                <a class="wx-nav-item"
+                    @click="shareWechat">
+                    分享微信
+                </a>
+            </div>
+        </template>
+        <template v-if="!isPublist && articleData.pageStatus != '1'">
             <div class="weui-btn-area">
                 <router-link class="weui-btn weui-btn_primary"
                             :to="{
@@ -183,6 +206,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getData()
         this.getTemplate()
         this.getArticles()
@@ -434,7 +458,6 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    alert(res.err_msg)
                     if (res.err_msg != "shareAppMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
                     }
@@ -453,7 +476,6 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    alert(res.err_msg)
                     if (res.err_msg != "shareWechatMessage:ok") {
                         this.$message.error('请更新企业微信版本！！！')
                     }

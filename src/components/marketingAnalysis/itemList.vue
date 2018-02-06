@@ -22,6 +22,7 @@
     </section>
 </template>
 <script>
+import jsSdk from '../../utils/jsSdk'
 export default {
     data () {
         return {
@@ -63,6 +64,9 @@ export default {
                 }
             ]
         }
+    },
+    mounted () {
+        jsSdk.init()
     }
 }
 </script>

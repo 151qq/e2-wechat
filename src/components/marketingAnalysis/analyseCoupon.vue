@@ -84,6 +84,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
+import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -108,6 +109,7 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getData()
     },
     watch: {

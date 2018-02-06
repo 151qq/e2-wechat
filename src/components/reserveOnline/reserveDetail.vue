@@ -183,10 +183,12 @@ export default {
         }
     },
     mounted () {
+        jsSdk.init()
         this.getBase()
     },
     watch: {
         $route () {
+            jsSdk.init()
             this.getBase()
         }
     },
