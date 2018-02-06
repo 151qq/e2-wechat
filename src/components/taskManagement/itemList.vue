@@ -180,10 +180,13 @@ export default {
             this.isShowSheet.value = true
         },
         creatTask (item) {
-            this.$router.push({name: item.pathName, query: {
-                enterpriseCode: this.userInfo.enterpriseCode,
-                agentId: this.$route.query.agentId
-            }})
+            this.$router.push({
+                name: item.pathName,
+                query: {
+                    enterpriseCode: this.userInfo.enterpriseCode,
+                    agentId: this.$route.query.agentId
+                }
+            })
         }
     },
     components: {

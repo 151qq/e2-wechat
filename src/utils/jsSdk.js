@@ -50,9 +50,6 @@ const jsSdk = {
 
                 window.wx.ready(() => {
                     window.wx.hideAllNonBaseMenuItem()
-                    if (cd) {
-                        cd()
-                    }
                 })
             } else {
               alert(res.result.message)

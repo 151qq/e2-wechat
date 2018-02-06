@@ -48,9 +48,6 @@ function getEntry(globPath) {
   return entries;
 }
 
-
-
-
 var pages = getEntry('src/views/**/*.html');
 
 for (var pathname in pages) {
@@ -67,15 +64,6 @@ for (var pathname in pages) {
   }
   plugins.push(new HtmlWebpackPlugin(conf));
 }
-
-
-
-
-
-
-
-
-
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {

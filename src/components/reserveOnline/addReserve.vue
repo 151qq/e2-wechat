@@ -11,7 +11,7 @@
             <x-input title="预约手机"
                      v-model="formData.reserverMobile"
                      placeholder="请输入"></x-input>
-            <datetime title="开始时间"
+            <!-- <datetime title="开始时间"
                       v-model="formData.reserveBeginTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
@@ -20,7 +20,21 @@
                       v-model="formData.reserveEndTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
-                      value-text-align="left"></datetime>
+                      value-text-align="left"></datetime> -->
+
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.reserveBeginTime">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.reserveEndTime">
+                </div>
+            </div>
+
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
                 <div class="weui-cell__bd">

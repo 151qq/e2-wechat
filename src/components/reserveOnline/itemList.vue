@@ -41,10 +41,13 @@
                 已接待
             </a>
             <router-link class="wx-nav-item"
-                         :to="{name: 'add-reserve', query: {
-                            enterpriseCode: $route.query.enterpriseCode,
-                            agentId: $route.query.agentId
-                         }}">
+                         :to="{
+                            name: 'add-reserve',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
                 新增预约
             </router-link>
         </div>

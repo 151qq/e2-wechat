@@ -5,7 +5,7 @@
             <x-input title="任务标题"
                      v-model="formData.taskTitle"
                      placeholder="请输入文字"></x-input>
-            <datetime title="开始时间"
+            <!-- <datetime title="开始时间"
                       v-model="formData.taskBeginTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
@@ -14,7 +14,21 @@
                       v-model="formData.taskEndTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
-                      value-text-align="left"></datetime>
+                      value-text-align="left"></datetime> -->
+
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.taskBeginTime">
+                </div>
+            </div>
+
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.taskEndTime">
+                </div>
+            </div>
         </group>
         <div class="weui-cells__title">任务详情</div>
         <div class="weui-cells weui-cells_form no-line no-margin">

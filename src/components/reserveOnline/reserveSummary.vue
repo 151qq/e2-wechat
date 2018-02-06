@@ -17,7 +17,7 @@
                       v-model="formData.receptionResult"></selector>
 
             <template v-if="['2','6','7'].indexOf(formData.receptionResult) > -1">
-                <datetime title="开始时间"
+                <!-- <datetime title="开始时间"
                           v-model="formData.receptionBeginTime"
                           format="YYYY-MM-DD HH:mm:00"
                           placeholder="请填写时间"
@@ -26,23 +26,50 @@
                           v-model="formData.receptionEndTime"
                           format="YYYY-MM-DD HH:mm:00"
                           placeholder="请填写时间"
-                          value-text-align="left"></datetime>
+                          value-text-align="left"></datetime> -->
+
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="datetime-local" v-model="formData.receptionBeginTime">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="datetime-local" v-model="formData.receptionEndTime">
+                    </div>
+                </div>
             </template>
 
             <template v-if="['5'].indexOf(formData.receptionResult) > -1">
-                <datetime title="取消时间"
+                <!-- <datetime title="取消时间"
                           v-model="formData.reserveUpdateTime"
                           format="YYYY-MM-DD HH:mm:00"
                           placeholder="请填写时间"
                           value-text-align="left"></datetime>
+                           -->
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">取消时间</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTime">
+                    </div>
+                </div>
             </template>
 
             <template v-if="['4'].indexOf(formData.receptionResult) > -1">
-                <datetime title="更新时间"
+                <!-- <datetime title="更新时间"
                           v-model="formData.reserveUpdateTime"
                           format="YYYY-MM-DD HH:mm:00"
                           placeholder="请填写时间"
-                          value-text-align="left"></datetime>
+                          value-text-align="left"></datetime> -->
+
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">更新时间</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTime">
+                    </div>
+                </div>
             </template>
         </group>
 
