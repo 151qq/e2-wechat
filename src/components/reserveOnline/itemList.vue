@@ -5,6 +5,8 @@
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
+
+                <div v-if="item.reserveStatus == '1'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          v-if="item.memberImg"
@@ -19,9 +21,9 @@
                         {{item.reserveBeginTime.split(' ')[0] + ' - ' + item.reserveEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '1'"><span class="no-done">未接</span></div>
+                <!-- <div class="weui-cell__ft" v-if="item.reserveStatus == '1'"><span class="no-done">未接</span></div>
                 <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="is-waiting">确认</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="is-doing">完成</span></div>
+                <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="is-doing">完成</span></div> -->
             </div>
         </div>
 
@@ -40,7 +42,7 @@
                 @click="setStatus('3')">
                 已接待
             </a>
-            <router-link class="wx-nav-item"
+            <router-link class="wx-nav-item nav-blue"
                          :to="{
                             name: 'add-reserve',
                             query: {
@@ -55,7 +57,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -70,12 +71,10 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getList()
     },
     watch: {
         $route () {
-            jsSdk.init()
             this.pageNumber = 1
             this.isPage = false
             this.getList()

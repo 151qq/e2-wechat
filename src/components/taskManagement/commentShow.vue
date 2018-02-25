@@ -36,7 +36,7 @@
                     <img-list :img-list="item.imgData"></img-list>
                 </div>
                 <div class="article-box" v-if="item.status == '1' && item.pageData && item.pageData.length">
-                    <attachment-show :attachment-data="item"></attachment-show>
+                    <attachment-show :attachment-data="item" :is-comment="true"></attachment-show>
                 </div>
                 <div class="response-box">
                     <div class="top-box">
@@ -203,6 +203,7 @@ export default {
 
         .content-box {
             flex: 1;
+            overflow: hidden;
 
             .title-box {
                 display: flex;

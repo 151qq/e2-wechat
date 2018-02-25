@@ -1,9 +1,6 @@
 <template>
     <section class="article-log-box">
         <div class="height-1"></div>
-        <div class="weui-cells__title">
-            审核记录
-        </div>
         <section class="comment-b"
                     v-if="commentList.length"
                     v-for="(item, index) in commentList">
@@ -61,7 +58,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
@@ -74,7 +70,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getComments()
     },
     computed: {
@@ -123,6 +118,7 @@ export default {
 
         .content-box {
             flex: 1;
+            overflow: hidden;
 
             .title-box {
                 display: flex;

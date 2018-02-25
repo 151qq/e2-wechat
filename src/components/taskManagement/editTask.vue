@@ -1,7 +1,7 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="height-1"></div>
-        <group title="基本信息" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <x-input title="任务标题"
                      v-model="formData.taskTitle"
                      placeholder="请输入文字"></x-input>
@@ -35,44 +35,33 @@
                       v-model="formData.pageNum"
                       button-style="round"
                       :min="0"></x-number>
+
             <selector title="写作目的"
                       placeholder="请选择"
                       :value-map="scenarioMap"
                       :options="scenarioList"
                       v-model="formData.pageScenario"></selector>
-        </group>
-        
-        <template v-if="['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1">
-            <div class="weui-cells__title">宣传产品</div>
-            <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
-                <a class="add-file-btn" @click="gotoArticle">添加</a>
-            </div>
-        </template>
 
-        <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1">
-            <div class="weui-cells__title">线下活动</div>
-            <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
-                <a class="add-file-btn" @click="gotoParty">添加</a>
-            </div>
-        </template>
-
-        <group title="文章目标读者" label-width="105px">
             <x-address title="所在城市"
+                       class="add-line"
                        value-text-align="left"
+                       placeholder="请选择"
                        v-model="formData.pageReaderCity"
                        :list="addressData"></x-address>
 
             <selector title="客户性别"
                     :options="tagList.gender"
                     :value-map="valueMap"
+                    placeholder="请选择"
                     v-model="formData.pageReaderGender"></selector>
 
             <div class="weui-cell weui-cell_access" @click="showAgeSelect">
                 <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd" v-if="formData.pageReaderAgeLabel">
                    {{formData.pageReaderAgeLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
                 </div>
                 <div class="weui-cell__ft"></div>
             </div>
@@ -84,8 +73,11 @@
 
             <div class="weui-cell weui-cell_access" @click="showEducationSelect">
                 <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd" v-if="formData.pageReaderEduLabel">
                    {{formData.pageReaderEduLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
                 </div>
                 <div class="weui-cell__ft"></div>
             </div>
@@ -97,8 +89,11 @@
 
             <div class="weui-cell weui-cell_access" @click="showConsumeLevelSelect">
                 <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd" v-if="formData.pageReaderConsumeLevel">
                    {{formData.pageReaderConsumeLevelLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
                 </div>
                 <div class="weui-cell__ft"></div>
             </div>
@@ -110,8 +105,11 @@
 
             <div class="weui-cell weui-cell_access" @click="showCareerSelect">
                 <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd" v-if="formData.pageReaderCareerLabel">
                    {{formData.pageReaderCareerLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
                 </div>
                 <div class="weui-cell__ft"></div>
             </div>
@@ -123,8 +121,11 @@
 
             <div class="weui-cell weui-cell_access" @click="showEnterpriseSelect">
                 <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
-                <div class="weui-cell__bd">
+                <div class="weui-cell__bd" v-if="formData.pageReaderEnterpriseLabel">
                    {{formData.pageReaderEnterpriseLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
                 </div>
                 <div class="weui-cell__ft"></div>
             </div>
@@ -132,21 +133,79 @@
                            :item-list="tagList.industry_type"
                            :map-data="valueMap"
                            ref="enterpriseSelect"
-                           @selectChange="enterpriseChange"></checkbox-list>
+                           @selectChange="enterpriseChange"></checkbox-list>     
         </group>
 
-        <div class="weui-cells__title">任务详情</div>
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line">
+        <!-- <template v-if="['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1">
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">宣传产品</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}个产品
+                    </div>
+                    <div class="weui-cell__ft">
+                        <span class="add-btn-icon" @click="gotoArticle"></span>
+                    </div>
+                </div>
+            </div>
+            <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
+        </template> -->
+
+        <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">线下活动</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}个活动
+                    </div>
+                    <div class="weui-cell__ft">
+                        <span class="add-btn-icon" @click="gotoParty"></span>
+                    </div>
+                </div>
+            </div>
+            <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
+        </template>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">任务详情</label></div>
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="formData.taskDesc"></textarea>
+                   <textarea class="weui-textarea"
+                        placeholder="请输入文字"
+                        :rows="formData.taskDesc ? 3 : 1"
+                        v-model="formData.taskDesc"></textarea>
+                </div>
+            </div>       
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoAttachment"></span>
                 </div>
             </div>
         </div>
-        <div class="weui-cells no-line no-margin">
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   最多可以选择9张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-uploader">
                     <div class="weui-uploader__bd">
@@ -161,13 +220,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- 附件 -->
-        <div class="weui-cells__title">任务附件</div>
-        <div class="weui-cells no-line">
-            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-            <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
         
         <div class="btn-height-box"></div>
@@ -330,6 +382,9 @@ export default {
                 })
                 return false
             }
+
+            // this.formData.taskBeginTime = '2017-01-02 11:11:11'
+            // this.formData.taskEndTime = '2017-01-05 11:11:11'
 
             if (!this.formData.taskBeginTime) {
                 this.$message({

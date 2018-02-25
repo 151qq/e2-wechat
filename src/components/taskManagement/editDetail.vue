@@ -1,31 +1,30 @@
 <template>
     <section class="task-detail-box">
         <div class="height-1"></div>
-        <div class="weui-cells__title">基本信息</div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">任务标题</div>
-                <div class="weui-cell__ft">{{base.taskTitle}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
+                <div class="weui-cell__bd">{{base.taskTitle}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">开始时间</div>
-                <div class="weui-cell__ft">{{base.taskBeginTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">{{base.taskBeginTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">结束时间</div>
-                <div class="weui-cell__ft">{{base.taskEndTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">{{base.taskEndTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">文章数量</div>
-                <div class="weui-cell__ft">{{base.pageNum}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">文章数量</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageNum}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">文章主题</div>
-                <div class="weui-cell__ft">{{base.pageScenario}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">文章主题</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageScenarioName}}</div>
             </div>
         </div>
 
-        <template v-if="['XPTJ', 'CPCX'].indexOf(base.pageScenario) > -1 && base.pageData.length">
+        <!-- <template v-if="['XPTJ', 'CPCX'].indexOf(base.pageScenario) > -1 && base.pageData.length">
             <div class="weui-cells__title">宣传产品</div>
             <div class="weui-cells no-line">
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -56,11 +55,12 @@
                     </div>
                 </router-link>
             </div>
-        </template>
+        </template> -->
 
         <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(base.pageScenario) > -1 && base.pageData.length">
-            <div class="weui-cells__title">线下活动</div>
-            <div class="weui-cells no-line">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-line left-padding">
+                <div class="left-title">线下活动</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in base.pageData"
                         :to="{
@@ -84,46 +84,64 @@
             </div>
         </template>
 
-        <div class="weui-cells__title" v-if="base.taskPageEdit">文章目标读者</div>
+        <!-- <div class="weui-cells__title" v-if="base.taskPageEdit">文章目标读者</div> -->
         <div class="weui-cells" v-if="base.taskPageEdit">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户性别</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderGender}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderGender}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">所在城市</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderCity}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">所在城市</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderCity}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户年龄</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderAge}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderAge}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">教育背景</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderEdu}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderEdu}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">消费能力</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderConsumeLevel}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderConsumeLevel}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户职业</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderCareer}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderCareer}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">工作单位</div>
-                <div class="weui-cell__ft">{{base.taskPageEdit.pageReaderEnterprise}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
+                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderEnterprise}}</div>
             </div>
         </div>
-
-        <div class="weui-cells__title">任务详情</div>
-        <div class="wx-area-text">{{base.taskDesc}}</div>
-        <div class="wx-area-text" v-if="attachmentData.imgData.length">
-            <img-list :img-list="attachmentData.imgData"></img-list>
+        
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">任务详情</label></div>
+                <div class="weui-cell__bd">
+                   {{base.taskDesc}}
+                </div>
+            </div>       
         </div>
-        <div class="weui-cells__title">任务附件</div>
+        
+        <div class="wx-area-line"></div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
         
+        <template v-if="attachmentData.imgData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="attachmentData.imgData"></img-list>
+                    </div>
+                </div>
+            </div>
+        </template>
+
         <div class="wx-area-line"></div>
         <div class="wx-area-padding">
             <comment-show :comment-url="'edit-comment'" :text-title="textTitle" :is-edit="true"></comment-show>
@@ -168,7 +186,8 @@ export default {
                 taskEndTime: '',
                 taskDesc: '',
                 pageData: [],
-                partyData: []
+                partyData: [],
+                taskPageEdit: {}
             },
             attachmentData: {
                 sourceType: '',
@@ -218,7 +237,7 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 targetCode: this.$route.query.taskCode,
-                targetType: 'task'
+                targetType: 'editTask'
             }
 
             util.request({

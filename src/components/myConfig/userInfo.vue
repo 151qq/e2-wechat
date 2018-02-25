@@ -1,33 +1,32 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="wx-area-img">
             <img :src="coverImg">
+            <div class="head-avatar-box">
+                <div class="user-logo-box">
+                    <img :src="userInfo.userWechatLogo">
+                </div>
+                <div class="user-info-box">
+                    <span class="user-name-box">{{userInfo.userWechatNickname}}</span>
+                    <span class="user-tel-box">{{userInfo.userLoginAccount}}</span>
+                </div>
+            </div>
         </div>
         <div class="avatar-box">
             <div class="img-box">
-                <img :src="userInfo.userWechatLogo">
-            </div>
-            <div class="name-box">
-                {{userInfo.userWechatNickname}}
+                <img :src="userInfo.userWechatQrcode">
             </div>
         </div>
-        <div class="weui-cells">
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">姓名</div>
-                <div class="weui-cell__ft">{{userInfo.userWechatNickname}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access" @click="changeMobile">
-                <div class="weui-cell__bd">手机</div>
-                <div class="weui-cell__ft">{{userInfo.userLoginAccount}}</div>
-            </div>
-        </div>
-        <div class="weui-cells__title">权限</div>
+
+        <div class="wx-area-line"></div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box"
                 v-for="(item, index) in userInfo.securityRole"
                 :key="index">
-                <div class="weui-cell__bd">{{index + 1}}</div>
-                <div class="weui-cell__ft">{{item.roleName}}</div>
+                <div class="weui-cell__bd">{{item.roleName}}</div>
+                <div class="weui-cell__ft">
+                    <i class="weui-icon-success"></i>
+                </div>
             </div>
         </div>
 
@@ -48,7 +47,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -58,7 +56,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
     },
     computed: {

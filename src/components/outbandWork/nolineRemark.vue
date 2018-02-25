@@ -14,28 +14,46 @@
 
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼结果</div>
-                <div class="weui-cell__ft">{{base.outbandResult}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">外呼结果</label></div>
+                <div class="weui-cell__bd">{{base.outbandResult}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼方式</div>
-                <div class="weui-cell__ft">{{base.outbandRealType}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">外呼方式</label></div>
+                <div class="weui-cell__bd">{{base.outbandRealType}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼时间</div>
-                <div class="weui-cell__ft">{{base.outbandRealTime.split(' ')[0]}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">外呼时间</label></div>
+                <div class="weui-cell__bd">{{base.outbandRealTime.split(' ')[0]}}</div>
             </div>
         </div>
 
-        <div class="weui-cells__title">外呼备忘</div>
-        <div class="wx-area-text">{{base.outbandMemo}}</div>
-        <div class="wx-area-text">
-            <img-list :img-list="base.imgData"></img-list>
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">外呼备忘</label></div>
+                <div class="weui-cell__bd">
+                   {{base.outbandMemo}}
+                </div>
+            </div>       
         </div>
+
+        <template v-if="base.imgData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="base.imgData"></img-list>
+                    </div>
+                </div>
+            </div>
+        </template>
         
         <template v-if="base.reserveCode">
-            <div class="weui-cells__title">新增预约</div>
-            <div class="weui-cells no-margin">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-line left-padding">
+                <div class="left-title">新增预约</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         slot="content"
                         :to="{
@@ -81,7 +99,7 @@
             暂无内容！
         </div> -->
         
-        <div class="weui-cells__title">客户洞察</div>
+        <div class="wx-area-line"></div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">客户性别</div>
@@ -120,7 +138,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 import { mapGetters } from 'vuex'
 
@@ -153,7 +170,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getData()
     },

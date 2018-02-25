@@ -1,5 +1,6 @@
 <template>
     <section>
+        <div class="height-1"></div>
         <div class="weui-cells__title">营销活动</div>
         <div class="weui-cells">
             <router-link class="weui-cell weui-cell_access"
@@ -248,7 +249,8 @@
                 <div class="weui-cell__ft">556</div>
             </div>
         </div>
-
+        
+        <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
                             :to="{}">

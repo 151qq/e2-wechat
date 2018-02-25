@@ -1,21 +1,10 @@
 <template>
     <section class="submit-comment-box">
-        <div class="weui-cells no-line no-margin">
-            <div class="wx-upload-img"
-                @click="showBigImg">
-                    <img :src="formData.picUrl">
-            </div>
-
-            <div v-if="!formData.picUrl" class="wx-uploader"></div>
-            
-            <a class="add-file-btn" @click="chooseImage">添加图片</a>
-        </div>
-        <div class="weui-cells__title">附言</div>
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
+                                placeholder="有什么要对他说..."
                                 rows="3"
                                 v-model="formData.message"></textarea>
                 </div>
@@ -35,7 +24,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -56,9 +44,6 @@ export default {
             },
             serverId: ''
         }
-    },
-    mounted () {
-        jsSdk.init()
     },
     computed: {
         ...mapGetters({

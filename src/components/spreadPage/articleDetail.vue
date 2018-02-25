@@ -24,8 +24,9 @@
         </div>
 
         <template v-if="articleList.length">
-            <div class="weui-cells__title">推荐文章</div>
-            <div class="weui-cells no-line">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-line left-padding">
+                <div class="left-title">推荐文章</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in articleList"
                         :to="{
@@ -72,7 +73,7 @@
                     @click="sharePartener">
                     分享同事
                 </a>
-                <a class="wx-nav-item"
+                <a class="wx-nav-item nav-blue"
                     @click="showSheet">
                     文章管理
                 </a>
@@ -83,7 +84,7 @@
             </div>
 
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2'">
-                <router-link class="wx-nav-item"
+                <router-link class="wx-nav-item nav-blue"
                             :to="{
                                 name: 'article-log',
                                 query: {
@@ -120,7 +121,7 @@
                     @click="sharePartener">
                     分享同事
                 </a>
-                <router-link class="wx-nav-item"
+                <router-link class="wx-nav-item nav-blue"
                             :to="{
                                 name: 'article-log',
                                 query: {

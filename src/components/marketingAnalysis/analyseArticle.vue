@@ -1,31 +1,31 @@
 <template>
-    <section class="party-list-box page__bd"
+    <section class="party-list-box page__bd show-message-box"
              v-scroll-load="{showMore:showMore, isLoad: isLoad}">
         
         <div class="height-1"></div>
         <div class="weui-cells__title">总统计信息</div>
         <div class="weui-cells">
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">文章数量</div>
                 <div class="weui-cell__ft">{{base.countPageCode}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">文章阅读总数</div>
                 <div class="weui-cell__ft">{{base.sumPageReadSum}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">每篇文章阅读中位数</div>
                 <div class="weui-cell__ft">{{base.middlePageReadSum}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">每篇文章分享中位数</div>
                 <div class="weui-cell__ft">{{base.middleShareSum}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">文章评论总数</div>
                 <div class="weui-cell__ft">{{base.sumPageCommentSum}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">每篇文章评论中位数</div>
                 <div class="weui-cell__ft">{{base.middlePageCommentSum}}</div>
             </div>

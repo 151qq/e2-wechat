@@ -1,47 +1,47 @@
 <template>
-    <section class="party-list-box page__bd"
+    <section class="party-list-box page__bd show-message-box"
              v-scroll-load="{showMore:showMore, isLoad: isLoad}">
         
         <div class="height-1"></div>
         <div class="weui-cells__title">总统计信息</div>
         <div class="weui-cells">
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">浏览次数</div>
                 <div class="weui-cell__ft">{{base.view_cnt}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">浏览人数</div>
                 <div class="weui-cell__ft">{{base.view_user}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">领取次数</div>
                 <div class="weui-cell__ft">{{base.receive_cnt}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">领取人数</div>
                 <div class="weui-cell__ft">{{base.receive_user}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">使用次数</div>
                 <div class="weui-cell__ft">{{base.verify_cnt}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">使用人数</div>
                 <div class="weui-cell__ft">{{base.verify_user}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">转赠次数</div>
                 <div class="weui-cell__ft">{{base.given_cnt}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">转赠人数</div>
                 <div class="weui-cell__ft">{{base.given_user}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">过期次数</div>
                 <div class="weui-cell__ft">{{base.expire_cnt}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">过期人数</div>
                 <div class="weui-cell__ft">{{base.expire_user}}</div>
             </div>

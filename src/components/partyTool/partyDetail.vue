@@ -1,32 +1,37 @@
 <template>
     <section class="task-detail-box">
         <div class="height-1"></div>
-        <div class="weui-cells__title">基本信息</div>
-        <div class="weui-cells">
+        <div v-if="base.addrLink" class="mapBox">
+            <img :src="base.addrLink">
+        </div>
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">活动标题</div>
-                <div class="weui-cell__ft">{{base.partyTitle}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">开始时间</div>
-                <div class="weui-cell__ft">{{base.planBeginTime}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">结束时间</div>
-                <div class="weui-cell__ft">{{base.planEndTime}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约地点</div>
-                <div class="weui-cell__ft">{{base.addrDetail}}</div>
-            </div>
-            <div v-if="base.addrLink" class="mapBox">
-                <img :src="base.addrLink">
+                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
+                <div class="weui-cell__bd">{{base.addrDetail}}</div>
             </div>
         </div>
 
-        <div class="weui-cells__title" v-if="couponData.length">套券选择</div>
-        <div class="weui-cells no-line" v-if="couponData.length">
-            <a class="weui-media-box weui-media-box_appmsg"
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin">
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">活动标题</label></div>
+                <div class="weui-cell__bd">{{base.partyTitle}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">{{base.planBeginTime}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">{{base.planEndTime}}</div>
+            </div>
+        </div>
+
+        <template v-if="couponData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-line left-padding">
+                <div class="left-title">活动赠品</div>
+                <a class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in couponData">
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.couponGroupCover">
@@ -38,21 +43,58 @@
                     </p>
                 </div>
             </a>
-        </div>
+            </div>
+        </template>
 
-        <div class="weui-cells__title">活动说明</div>
-        <div class="wx-area-text">{{base.partyDesc}}</div>
-        <div class="wx-area-text" v-if="attachmentData.imgData.length">
-            <img-list :img-list="attachmentData.imgData"></img-list>
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">活动说明</label></div>
+                <div class="weui-cell__bd">
+                   {{base.partyDesc}}
+                </div>
+            </div>       
         </div>
-        <div class="weui-cells__title">相关附件</div>
+        
+        <div class="wx-area-line"></div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
+        
+        <template v-if="attachmentData.imgData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="attachmentData.imgData"></img-list>
+                    </div>
+                </div>
+            </div>
+        </template>
 
         <template v-if="base.partyStatus == '4'">
-            <div class="weui-cells__title">活动总结</div>
-            <div class="wx-area-text">{{base.partySummary}}</div>
-            <div class="wx-area-text" v-if="partyImgs.length">
-                <img-list :img-list="partyImgs"></img-list>
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">活动总结</label></div>
+                    <div class="weui-cell__bd">
+                       {{base.partySummary}}
+                    </div>
+                </div>       
+            </div>
+            
+            <div class="wx-area-line"></div>
+            <attachment-show :attachment-data="attachmentData"></attachment-show>
+            
+            <div v-if="partyImgs.length" class="wx-area-line"></div>
+            <div v-if="partyImgs.length" class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="partyImgs"></img-list>
+                    </div>
+                </div>
             </div>
         </template>
         
@@ -231,30 +273,30 @@ export default {
                     if (this.base.partyStatus == '2' || this.base.partyStatus == '1') {
                         this.sheetList = [
                             {
-                                label: '更新推广活动',
+                                label: '更新活动',
                                 pathName: 'edit'
                             },
                             {
-                                label: '启动推广活动',
+                                label: '启动活动',
                                 pathName: 'start'
                             },
                             {
-                                label: '邀请参加推广活动',
+                                label: '邀请参与活动',
                                 pathName: 'add'
                             }
                         ]
                     } else if (this.base.partyStatus == '3') {
                         this.sheetList = [
                             {
-                                label: '结束推广活动',
+                                label: '结束活动',
                                 pathName: 'close'
                             },
                             {
-                                label: '取消推广活动',
+                                label: '取消活动',
                                 pathName: 'end'
                             },
                             {
-                                label: '进入活动现场',
+                                label: '邀请参与活动',
                                 pathName: 'activity'
                             }
                         ]

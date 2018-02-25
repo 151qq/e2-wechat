@@ -6,7 +6,7 @@
                 <div class="weui-cell weui-cell_access show-message-box" @click="goToUser(role)">
                     <div class="weui-cell__bd">{{role.roleName}}</div>
                     <div class="weui-cell__ft">
-                        <span class="add-btn">添加</span>
+                        <span class="add-btn-icon"></span>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
@@ -49,7 +48,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getRoles()
     },
     computed: {

@@ -1,7 +1,7 @@
 <template>
-    <section class="stop-activity-box">
+    <section class="stop-activity-box show-message-box">
         <div class="height-1"></div>
-        <group title="内容" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <selector title="文章情绪"
                     placeholder="请选择"
                     :options="tagList.content_emotion"
@@ -38,13 +38,20 @@
                       :options="tagList.content_politics"
                       v-model="commentData.contentPolitics"></selector>
         </group>
-        
-        <!-- 附件 -->
-        <div class="weui-cells__title">推荐阅读</div>
-        <div class="weui-cells no-line">
-            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-            <a class="add-file-btn" @click="gotoAttachment">添加</a>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">推荐阅读</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个推荐
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                </div>
+            </div>
         </div>
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
@@ -54,7 +61,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
@@ -86,7 +92,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         if (this.detailData.attachmentTargetType) {
             this.commentData = Object.assign({}, this.detailData)
         }

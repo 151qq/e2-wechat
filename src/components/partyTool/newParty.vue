@@ -1,21 +1,10 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="height-1"></div>
-        <group title="基本信息" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <x-input title="活动标题"
                      v-model="formData.partyTitle"
                      placeholder="请输入文字"></x-input>
-            <!-- <datetime title="开始时间"
-                      v-model="formData.planBeginTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime>
-            <datetime title="结束时间"
-                      v-model="formData.planEndTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime>
- -->
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
@@ -29,7 +18,6 @@
                     <input class="weui-input" type="datetime-local" v-model="formData.planEndTime">
                 </div>
             </div>
-            
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
                 <div class="weui-cell__bd">
@@ -40,25 +28,60 @@
                 </div>
             </div>
         </group>
-        
-        <div class="weui-cells__title">套券选择</div>
-        <div class="weui-cells no-line">
-            <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
-            <a class="add-file-btn" @click="gotoCoupon">添加</a>
-        </div>
 
-        <div class="weui-cells__title">活动说明</div>
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line">
-                <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="formData.partyDesc"></textarea>
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">活动赠品</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}种赠品
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoCoupon"></span>
                 </div>
             </div>
         </div>
-        <div class="weui-cells no-line no-margin">
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">活动说明</label></div>
+                <div class="weui-cell__bd">
+                   <textarea class="weui-textarea"
+                        placeholder="请输入文字"
+                        :rows="formData.partyDesc ? 3 : 1"
+                        v-model="formData.partyDesc"></textarea>
+                </div>
+            </div>       
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                </div>
+            </div>
+        </div>
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   最多可以选择9张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-uploader">
                     <div class="weui-uploader__bd">
@@ -73,13 +96,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- 附件 -->
-        <div class="weui-cells__title">相关附件</div>
-        <div class="weui-cells no-line">
-            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-            <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
         
         <div class="btn-height-box"></div>

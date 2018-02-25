@@ -21,6 +21,8 @@
                             spreadType: '1'
                         }
                     }">
+
+                    <div v-if="item.pageStatus == '2'" class="no-read"></div>
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
@@ -29,7 +31,7 @@
                         <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                     </div>
 
-                    <div class="weui-cell__ft" v-if="item.pageStatus == '2'">
+                    <!-- <div class="weui-cell__ft" v-if="item.pageStatus == '2'">
                         <span class="no-done">草稿</span>
                     </div>
                     <div class="weui-cell__ft" v-if="item.pageStatus == '1'">
@@ -37,7 +39,7 @@
                     </div>
                     <div class="weui-cell__ft" v-if="item.pageStatus == '3'">
                         <span class="has-done">下架</span>
-                    </div>
+                    </div> -->
                 </router-link>
             </template>
         </div>
@@ -45,7 +47,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -59,7 +60,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getList()
     },
     computed: {

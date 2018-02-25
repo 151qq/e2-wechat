@@ -94,7 +94,7 @@ export default {
                 this.sendParty()
             } else {
                 var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                this.$router.push(pathUrl)
+                this.$router.replace(pathUrl)
             }
         },
         addAttachment (item) {

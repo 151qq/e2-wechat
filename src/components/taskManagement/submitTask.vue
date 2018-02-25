@@ -1,6 +1,6 @@
 <template>
     <section class="submit-comment-box">
-        <div class="weui-cells no-line no-margin">
+        <!-- <div class="weui-cells no-line no-margin">
             <div class="wx-upload-img"
                 @click="showBigImg">
                     <img :src="formData.mediaId">
@@ -10,12 +10,12 @@
             
             <a class="add-file-btn" @click="chooseImage">添加图片</a>
         </div>
-        <div class="weui-cells__title">附言</div>
+        <div class="weui-cells__title">附言</div> -->
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
+                                placeholder="有什么要对他说..."
                                 rows="3"
                                 v-model="formData.message"></textarea>
                 </div>
@@ -58,7 +58,7 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
+        // jsSdk.init()
     },
     computed: {
         ...mapGetters({
@@ -95,6 +95,8 @@ export default {
             var pathUrl = window.location.href
 
             var pathData = util.formDataUrl(pathUrl)
+
+            formData.taskType = pathData.query.taskType
             if (pathData.query.taskType == '1') {
                 pathUrl = pathUrl.replace('submitTask', 'editDetail')
             } else {

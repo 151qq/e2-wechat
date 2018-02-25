@@ -1,5 +1,5 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="wx-area-img">
             <img :src="coverImg">
         </div>
@@ -11,7 +11,7 @@
                 {{base.memberWechatNickname + '-' + base.memberMobile}}
             </div>
         </div>
-        <group title="外呼信息" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <selector title="外呼结果"
                       placeholder="请选择"
                       :value-map="scenarioMap"
@@ -22,24 +22,60 @@
                       :value-map="scenarioMap"
                       :options="selectList.type"
                       v-model="formData.outbandRealType"></selector>
-            <datetime title="外呼时间"
+            <!-- <datetime title="外呼时间"
                       v-model="formData.outbandRealTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
-                      value-text-align="left"></datetime>
-        </group>
-        <div class="weui-cells__title">外呼备忘</div>
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line">
+                      value-text-align="left"></datetime> -->
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">外呼时间</label></div>
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="formData.outbandMemo"></textarea>
+                    <input class="weui-input" type="datetime-local" v-model="formData.outbandRealTime">
+                </div>
+            </div>
+        </group>
+        
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">外呼备忘</label></div>
+                <div class="weui-cell__bd">
+                   <textarea class="weui-textarea"
+                        placeholder="请输入文字"
+                        :rows="formData.outbandMemo ? 3 : 1"
+                        v-model="formData.outbandMemo"></textarea>
                 </div>
             </div>
         </div>
-        <div class="weui-cells no-line no-margin">
+        
+        <template v-if="formData.outbandResult == '1'">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       请选择一个新预约
+                    </div>
+                    <div class="weui-cell__ft">
+                        <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    </div>
+                </div>
+            </div>
+            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+        </template>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   最多可以选择9张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-uploader">
                     <div class="weui-uploader__bd">
@@ -56,16 +92,8 @@
             </div>
         </div>
         
-        <!-- 附件 -->
-        <template v-if="formData.outbandResult == '1'">
-            <div class="weui-cells__title">新增预约</div>
-            <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-                <a class="add-file-btn" @click="gotoAttachment">添加</a>
-            </div>
-        </template>
-
-        <group title="客户洞察" label-width="105px">
+        <div class="wx-area-line"></div>
+        <group class="no-margin" label-width="105px">
             <selector title="客户性别"
                       placeholder="请选择"
                       :value-map="valueMap"

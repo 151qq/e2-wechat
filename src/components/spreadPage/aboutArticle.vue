@@ -1,7 +1,17 @@
 <template>
     <section class="user-role-list">
         <div class="height-1"></div>
-        <div class="weui-cells__title">推荐阅读</div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">推荐阅读</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个推荐
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                </div>
+            </div>
+        </div>
         <div class="weui-cells no-margin">
             <swipeout>
                 <swipeout-item transition-mode="follow"
@@ -24,10 +34,6 @@
                     </a>
                 </swipeout-item>
             </swipeout>
-            
-            <div class="null-box" v-if="attachmentData.attachmentList && !attachmentData.attachmentList.length && isPage">暂无内容！</div>
-
-            <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
         
         <div class="btn-height-box"></div>
@@ -38,7 +44,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
@@ -49,7 +54,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         if (!this.attachmentData.targetType) {
             this.getArticles()
         }

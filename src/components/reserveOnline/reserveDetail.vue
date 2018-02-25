@@ -1,45 +1,65 @@
 <template>
     <section class="reserve-box">
         <div class="height-1"></div>
-        <div class="weui-cells__title">预约信息</div>
+        <div v-if="base.reserveAddr" class="mapBox">
+            <img :src="base.reserveAddr">
+        </div>
+        <div class="weui-cells no-margin">
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
+                <div class="weui-cell__bd">{{base.reserveCity}}</div>
+            </div>
+        </div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约标题</div>
-                <div class="weui-cell__ft">{{base.reserveTitle}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约标题</label></div>
+                <div class="weui-cell__bd">{{base.reserveTitle}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约人</div>
-                <div class="weui-cell__ft">{{base.reserverName}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约人</label></div>
+                <div class="weui-cell__bd">{{base.reserverName}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约手机</div>
-                <div class="weui-cell__ft">{{base.reserverMobile}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
+                <div class="weui-cell__bd">{{base.reserverMobile}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">开始时间</div>
-                <div class="weui-cell__ft">{{base.reserveBeginTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">{{base.reserveBeginTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">结束时间</div>
-                <div class="weui-cell__ft">{{base.reserveEndTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">{{base.reserveEndTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约地点</div>
-                <div class="weui-cell__ft">{{base.reserveCity}}</div>
-            </div>
-            <div v-if="base.reserveAddr" class="mapBox">
-                <img :src="base.reserveAddr">
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约接待</div>
-                <div class="weui-cell__ft">{{base.reserveReceptionName}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
+                <div class="weui-cell__bd">{{base.reserveCity}}</div>
             </div>
         </div>
-        <div class="weui-cells__title">预约详情</div>
-        <div class="wx-area-text">{{base.reserveDesc}}</div>
-        <div class="wx-area-text">
-            <img-list :img-list="newReserveImgData"></img-list>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">预约详情</label></div>
+                <div class="weui-cell__bd">
+                   {{base.reserveDesc}}
+                </div>
+            </div>       
         </div>
+
+        <template v-if="newReserveImgData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="newReserveImgData"></img-list>
+                    </div>
+                </div>
+            </div>
+        </template>
+
         <!-- <div class="weui-cells__title">预约产品</div>
         <div class="weui-cells no-margin">
             <router-link class="weui-media-box weui-media-box_appmsg"
@@ -62,26 +82,43 @@
             暂无内容！
         </div> -->
         <template v-if="base.receptionResult">
-            <div class="weui-cells__title">客户接待</div>
+            <div class="wx-area-line"></div>
             <div class="weui-cells">
                 <div class="weui-cell weui-cell_access show-message-box">
-                    <div class="weui-cell__bd">接待开始时间</div>
-                    <div class="weui-cell__ft">{{base.receptionBeginTime}}</div>
+                    <div class="weui-cell__hd"><label class="weui-label">接待开始时间</label></div>
+                    <div class="weui-cell__bd">{{base.receptionBeginTime}}</div>
                 </div>
                 <div class="weui-cell weui-cell_access show-message-box">
-                    <div class="weui-cell__bd">接待结束时间</div>
-                    <div class="weui-cell__ft">{{base.receptionEndTime}}</div>
+                    <div class="weui-cell__hd"><label class="weui-label">接待结束时间</label></div>
+                    <div class="weui-cell__bd">{{base.receptionEndTime}}</div>
                 </div>
                 <div class="weui-cell weui-cell_access show-message-box">
-                    <div class="weui-cell__bd">接待结果</div>
-                    <div class="weui-cell__ft">{{base.receptionResult}}</div>
+                    <div class="weui-cell__hd"><label class="weui-label">接待结果</label></div>
+                    <div class="weui-cell__bd">{{base.receptionResult}}</div>
                 </div>
             </div>
-            <div class="weui-cells__title">接待备忘</div>
-            <div class="wx-area-text">{{base.receptionMemo}}</div>
-            <div class="wx-area-text">
-                <img-list :img-list="reservedImgData"></img-list>
+
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">接待备忘</label></div>
+                    <div class="weui-cell__bd">
+                       {{base.receptionMemo}}
+                    </div>
+                </div>       
             </div>
+
+            <div v-if="reservedImgData.length" class="wx-area-line"></div>
+            <div v-if="reservedImgData.length" class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="reservedImgData"></img-list>
+                    </div>
+                </div>
+            </div>
+
             <!-- <div class="weui-cells__title">体验产品</div>
             <div class="weui-cells no-margin">
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -103,9 +140,30 @@
             <div class="null-box" v-if="!receptionPageData.length && isPage">
                 暂无内容！
             </div> -->
+
+            <template v-if="couponData.length">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-line left-padding">
+                    <div class="left-title">活动赠品</div>
+                        <a class="weui-media-box weui-media-box_appmsg"
+                            v-for="(item, index) in couponData">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" :src="item.couponGroupCover">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">{{item.couponGroupName}}</h4>
+                            <p class="weui-media-box__desc">
+                                {{item.couponGroutScenario}}
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </template>
+
             <template v-if="base.reserveNext">
-                <div class="weui-cells__title">新增预约</div>
-                <div class="weui-cells no-margin">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-line left-padding">
+                    <div class="left-title">新增预约</div>
                     <router-link class="weui-media-box weui-media-box_appmsg"
                             slot="content"
                             :to="{
@@ -138,7 +196,7 @@
                             enterpriseCode: $route.query.enterpriseCode,
                             agentId: $route.query.agentId
                          }}">
-                汇报客户预约体验结果
+                汇报客户体验结果
             </router-link>
         </div>
 

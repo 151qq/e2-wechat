@@ -13,12 +13,12 @@
         </div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼协助</div>
-                <div class="weui-cell__ft">{{base.memberReferCode}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">外呼协助</label></div>
+                <div class="weui-cell__bd">{{base.memberReferCode}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼方式</div>
-                <div class="weui-cell__ft">{{base.outbandRealType}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">外呼方式</label></div>
+                <div class="weui-cell__bd">{{base.outbandRealType}}</div>
             </div>
             <router-link class="weui-cell weui-cell_access"
                         :to="{
@@ -30,8 +30,9 @@
                                 pipelineCode: base.pipelineCode
                             }
                         }">
-                <div class="weui-cell__bd">商机推进</div>
-                <div class="weui-cell__ft">{{tuiMessage}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">商机推进</label></div>
+                <div class="weui-cell__bd">{{tuiMessage}}</div>
+                <div class="weui-cell__ft"></div>
             </router-link>
             <router-link class="weui-cell weui-cell_access"
                         :to="{
@@ -42,17 +43,30 @@
                                 pipelineCode: base.pipelineCode
                             }
                         }">
-                <div class="weui-cell__bd">潜在商机</div>
+                <div class="weui-cell__hd"><label class="weui-label">潜在商机</label></div>
+                <div class="weui-cell__bd"></div>
                 <div class="weui-cell__ft"></div>
             </router-link>
         </div>
-        <div class="weui-cells__title">推荐策略</div>
-        <div class="wx-area-text">
-            {{base.productRecommendRule}}
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">推荐策略</label></div>
+                <div class="weui-cell__bd">
+                   {{base.productRecommendRule}}
+                </div>
+            </div>       
         </div>
-        <div class="weui-cells__title">导购策略</div>
-        <div class="wx-area-text">
-            {{base.shoppingGuideRule}}
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">导购策略</label></div>
+                <div class="weui-cell__bd">
+                   {{base.shoppingGuideRule}}
+                </div>
+            </div>       
         </div>
         
         <div class="btn-height-box"></div>
@@ -60,7 +74,7 @@
             <a class="wx-nav-item-20" @click="submitGift">
                 券
             </a>
-            <router-link class="wx-nav-item"
+            <router-link class="wx-nav-item nav-blue"
                          :to="{name: 'noline-comment', query: {
                             enterpriseCode: $route.query.enterpriseCode,
                             agentId: $route.query.agentId,
@@ -86,7 +100,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -106,7 +119,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getData()
     },

@@ -28,7 +28,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters } from 'vuex'
 import { Group, Selector } from 'vux'
 
@@ -50,7 +49,6 @@ export default {
     },
     mounted () {
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
-        jsSdk.init()
         this.getBase()
         this.getTypes()
     },

@@ -5,6 +5,8 @@
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
+
+                <div v-if="item.partyStatus == '1'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          :src="item.addrLink">
@@ -15,11 +17,11 @@
                         {{item.planBeginTime.split(' ')[0] + ' - ' + item.planEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.partyStatus == '3'"><span class="is-doing">执行</span></div>
+                <!-- <div class="weui-cell__ft" v-if="item.partyStatus == '3'"><span class="is-doing">执行</span></div>
                 <div class="weui-cell__ft" v-if="item.partyStatus == '4'"><span class="has-done">结束</span></div>
                 <div class="weui-cell__ft" v-if="item.partyStatus == '5'"><span class="has-done">取消</span></div>
                 <div class="weui-cell__ft" v-if="item.partyStatus == '2'"><span class="is-waiting">准备</span></div>
-                <div class="weui-cell__ft" v-if="item.partyStatus == '1'"><span class="no-done">草稿</span></div>
+                <div class="weui-cell__ft" v-if="item.partyStatus == '1'"><span class="no-done">草稿</span></div> -->
             </div>
         </div>
 
@@ -37,14 +39,13 @@
                                     agentId: $route.query.agentId
                                 }
                             }">
-                发起新的地面推广活动
+                发起新活动
             </router-link>
         </div>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -58,12 +59,10 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getList()
     },
     watch: {
         $route () {
-            jsSdk.init()
             this.pageNumber = 1
             this.isPage = false
             this.getList()

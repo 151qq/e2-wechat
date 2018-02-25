@@ -5,6 +5,7 @@
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
+                <div v-if="item.taskStatus == 'submitted'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          v-if="item.bgTaskImg"
@@ -19,10 +20,10 @@
                         {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.taskStatus == '4'"><span class="no-done">终止</span></div>
+                <!-- <div class="weui-cell__ft" v-if="item.taskStatus == '4'"><span class="no-done">终止</span></div>
                 <div class="weui-cell__ft" v-if="item.taskStatus == '2'"><span class="is-doing">完成</span></div>
                 <div class="weui-cell__ft" v-if="item.taskStatus == '3'"><span class="has-done">过期</span></div>
-                <div class="weui-cell__ft" v-if="item.taskStatus == '1'"><span class="is-waiting">草稿</span></div>
+                <div class="weui-cell__ft" v-if="item.taskStatus == '1'"><span class="is-waiting">草稿</span></div> -->
             </div>
         </div>
 
@@ -37,7 +38,7 @@
                 @click="setStatus('getPendingTasks')">
                 我的待办任务
             </a>
-            <a class="wx-nav-item" @click="showSheet">
+            <a class="wx-nav-item nav-blue" @click="showSheet">
                 新建任务
             </a>
             <a class="wx-nav-item"
@@ -71,12 +72,10 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getList()
     },
     watch: {
         $route () {
-            jsSdk.init()
             this.pageNumber = 1
             this.isPage = false
             this.getList()

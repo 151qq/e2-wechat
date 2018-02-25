@@ -1,7 +1,7 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="height-1"></div>
-        <group title="基本信息" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <x-input title="任务标题"
                      v-model="formData.taskTitle"
                      placeholder="请输入文字"></x-input>
@@ -30,18 +30,46 @@
                 </div>
             </div>
         </group>
-        <div class="weui-cells__title">任务详情</div>
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line no-margin">
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">任务详情</label></div>
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="formData.taskDesc"></textarea>
+                   <textarea class="weui-textarea"
+                        placeholder="请输入文字"
+                        :rows="formData.taskDesc ? 3 : 1"
+                        v-model="formData.taskDesc"></textarea>
+                </div>
+            </div>       
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                </div>
+                <div class="weui-cell__ft">
+                    <span class="add-btn-icon" @click="gotoAttachment"></span>
                 </div>
             </div>
         </div>
-        <div class="weui-cells no-line no-margin">
+        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   最多可以选择9张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-uploader">
                     <div class="weui-uploader__bd">
@@ -56,13 +84,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- 附件 -->
-        <div class="weui-cells__title">任务附件</div>
-        <div class="weui-cells no-line">
-            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-            <a class="add-file-btn" @click="gotoAttachment">添加</a>
         </div>
         
         <div class="btn-height-box"></div>

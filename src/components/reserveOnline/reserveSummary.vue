@@ -1,7 +1,7 @@
 <template>
-    <section class="member-detail-box">
+    <section class="member-detail-box show-message-box">
         <div class="height-1"></div>
-        <group title="基本信息" label-width="105px">
+        <group class="no-margin" label-width="105px">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">预约人</div>
                 <div class="weui-cell__ft">{{base.reserverName}}</div>
@@ -73,18 +73,31 @@
             </template>
         </group>
 
-        <div class="weui-cells__title">接待备忘</div>
-        <div class="weui-cells weui-cells_form no-line no-margin">
-            <div class="weui-cell no-line">
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">接待备忘</label></div>
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea"
-                                placeholder="这一刻的想法..."
-                                rows="3"
-                                v-model="formData.receptionMemo"></textarea>
+                   <textarea class="weui-textarea"
+                        placeholder="请输入"
+                        :rows="formData.receptionMemo ? 3 : 1"
+                        v-model="formData.receptionMemo"></textarea>
                 </div>
+            </div>       
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   最多可以选择9张图片
+                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
-        <div class="weui-cells no-line no-margin">
+
+        <div class="weui-cells no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-uploader">
                     <div class="weui-uploader__bd">
@@ -110,14 +123,23 @@
         
         <!-- 附件 -->
         <template v-if="['4'].indexOf(formData.receptionResult) > -1">
-            <div class="weui-cells__title">新增预约</div>
-            <div class="weui-cells no-line">
-                <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-                <a class="add-file-btn" @click="gotoAttachment">添加</a>
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       请添加一个新预约
+                    </div>
+                    <div class="weui-cell__ft">
+                        <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    </div>
+                </div>
             </div>
+            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
         </template>
-
-        <group title="客户洞察" label-width="105px">
+        
+        <div class="wx-area-line"></div>
+        <group class="no-margin" label-width="105px">
             <x-input title="客户姓名"
                      v-model="formData.name"
                      placeholder="请输入"></x-input>

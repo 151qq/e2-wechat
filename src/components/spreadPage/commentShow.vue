@@ -109,7 +109,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import imgList from '../common/imgList.vue'
 import {getDateDiff} from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
@@ -258,6 +257,7 @@ export default {
 
         .content-box {
             flex: 1;
+            overflow: hidden;
 
             .title-box {
                 display: flex;

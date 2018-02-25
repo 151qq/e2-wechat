@@ -6,7 +6,7 @@
                     :to="{
                             name: 'analyse-' + item.pathName,
                             query: {
-                                enterpriseCode: $route.query.enterpriseCode,
+                                enterpriseCode: userInfo.enterpriseCode,
                                 agentId: $route.query.agentId
                             }
                         }">
@@ -23,6 +23,7 @@
 </template>
 <script>
 import jsSdk from '../../utils/jsSdk'
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -65,8 +66,10 @@ export default {
             ]
         }
     },
-    mounted () {
-        jsSdk.init()
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     }
 }
 </script>

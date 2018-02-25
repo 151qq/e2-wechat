@@ -223,9 +223,9 @@
             </swipeout>
         </div>
 
-        <div class="null-box" v-if="!attachmentData.attachmentList || !attachmentData.attachmentList.length">
+        <!-- <div class="null-box" v-if="!attachmentData.attachmentList || !attachmentData.attachmentList.length">
             暂无内容!
-        </div>
+        </div> -->
     </section>
 </template>
 <script>

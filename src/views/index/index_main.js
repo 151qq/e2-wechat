@@ -4,7 +4,6 @@ import $ from 'Jquery'
 import routes from './router'
 import store from '../../vuex/store'
 import tools from '../../utils/tools'
-import { mapActions } from 'vuex'
 import jsCookie from 'js-cookie'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
@@ -84,13 +83,13 @@ new Vue({
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {
+            this.isPage = false
             this.getUserInfo()
+        } else {
+            this.isPage = true
         }
     },
     methods: {
-        ...mapActions([
-          'setUserInfo'
-        ]),
         getUserInfo () {
             tools.request({
               method: 'get',
@@ -98,7 +97,7 @@ new Vue({
               data: {}
             }).then(res => {
               if (res.result.success == '1' && res.result.result) {
-                this.setUserInfo(res.result.result)
+                this.$store.commit('setUserInfo', res.result.result)
                 this.isPage = true
               } else {
                 jsCookie.remove('socialmarketing_cloud_user')

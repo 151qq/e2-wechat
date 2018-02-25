@@ -21,6 +21,8 @@
                                         memberCode: item.memberCode
                                     }
                                 }">
+
+                        <div v-if="item.adChannelStatus == '0'" class="no-read"></div>
                         <div class="weui-media-box__hd">
                             <img class="weui-media-box__thumb" :src="item.memberImage">
                         </div>
@@ -28,8 +30,8 @@
                             <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
                             <p class="weui-media-box__desc">{{item.memberMobile}}</p>
                         </div>
-                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '1'"><span class="is-doing">正常</span></div>
-                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '0'"><span class="is-waiting">待绑</span></div>
+                        <!-- <div class="weui-cell__ft" v-if="item.adChannelStatus == '1'"><span class="is-doing">正常</span></div>
+                        <div class="weui-cell__ft" v-if="item.adChannelStatus == '0'"><span class="is-waiting">待绑</span></div> -->
                     </router-link>
                 </swipeout-item>
             </swipeout>

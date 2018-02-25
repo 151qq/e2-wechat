@@ -1,31 +1,47 @@
 <template>
     <section class="task-detail-box">
         <div class="height-1"></div>
-        <div class="weui-cells__title">基本信息</div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">任务标题</div>
-                <div class="weui-cell__ft">{{base.taskTitle}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
+                <div class="weui-cell__bd">{{base.taskTitle}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">开始时间</div>
-                <div class="weui-cell__ft">{{base.taskBeginTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">{{base.taskBeginTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">结束时间</div>
-                <div class="weui-cell__ft">{{base.taskEndTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">{{base.taskEndTime}}</div>
             </div>
         </div>
 
-        <div class="weui-cells__title">任务详情</div>
-        <div class="wx-area-text">{{base.taskDesc}}</div>
-        <div class="wx-area-text" v-if="attachmentData.imgData.length">
-            <img-list :img-list="attachmentData.imgData"></img-list>
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">任务详情</label></div>
+                <div class="weui-cell__bd">
+                   {{base.taskDesc}}
+                </div>
+            </div>       
         </div>
-        <div class="weui-cells__title">任务附件</div>
-        <attachment-show :attachment-data="attachmentData"></attachment-show>
         
         <div class="wx-area-line"></div>
+        <attachment-show :attachment-data="attachmentData"></attachment-show>
+        
+        <template v-if="attachmentData.imgData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                    <div class="weui-cell__bd">
+                        <img-list :img-list="attachmentData.imgData"></img-list>
+                    </div>
+                </div>
+            </div>
+        </template>
+
         <div class="wx-area-padding">
             <comment-show :comment-url="commentUrl" :text-title="textTitle"></comment-show>
         </div>
