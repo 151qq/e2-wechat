@@ -25,20 +25,31 @@
                 </div>
             </div>       
         </div>
-        
+
         <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                </div>
+            </div>
+        </div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
-        
+
         <template v-if="attachmentData.imgData.length">
             <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
                     <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                    <div class="weui-cell__bd">
-                        <img-list :img-list="attachmentData.imgData"></img-list>
+                    <div class="weui-cell__bd wx-placeholder">
+                       选择{{attachmentData.imgData.length}}张图片
                     </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
+            </div>
+            <div class="weui-cells no-margin left-padding">
+                <img-list :img-list="attachmentData.imgData"></img-list>
             </div>
         </template>
 
@@ -125,9 +136,6 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result
-                    // if (this.base.taskType == '4') {
-                    //     this.commentUrl = 'res-comment'
-                    // }
 
                     this.getAttachments()
                 } else {

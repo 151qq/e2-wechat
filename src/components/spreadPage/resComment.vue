@@ -11,7 +11,7 @@
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
             <div class="weui-cell weui-cell_access no-center">
-                <div class="weui-cell__hd"><label class="weui-label">内容</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">评论内容</label></div>
                 <div class="weui-cell__bd">
                    <textarea class="weui-textarea"
                         placeholder="请输入文字"
@@ -23,13 +23,13 @@
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>

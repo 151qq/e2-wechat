@@ -1,14 +1,14 @@
 <template>
-    <section class="market-list-box page__bd">
+    <section class="weui-media-box weui-media-box_small-appmsg">
         <div class="weui-cells">
-            <router-link class="weui-cell_access weui-media-box weui-media-box_appmsg"
+            <router-link class="weui-cell weui-cell_access"
                     v-for="(item, index) in listData"
                     :to="{name: item.pathName + '-attachment', query: {enterpriseCode: $route.query.enterpriseCode, targetType: item.type, redirectUrl: $route.query.redirectUrl}}">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.icon">
+                <div class="weui-cell__hd">
+                    <img :src="item.icon" class="small-img">
                 </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.title}}</h4>
+                <div class="weui-cell__bd weui-cell_primary">
+                    <div class="small-title">{{item.title}}</div>
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>

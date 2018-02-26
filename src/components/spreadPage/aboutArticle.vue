@@ -2,13 +2,13 @@
     <section class="user-role-list">
         <div class="height-1"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                 <div class="weui-cell__hd"><label class="weui-label">推荐阅读</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个推荐
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
-                <div v-if="item.taskStatus == 'submitted'" class="no-read"></div>
+                <div v-if="item.taskStatus == 'pending' && interface == 'getPendingTasks'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          v-if="item.bgTaskImg"

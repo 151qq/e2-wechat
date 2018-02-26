@@ -70,36 +70,49 @@
                 </div>       
             </div>
             
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-line left-padding">
-                <div class="left-title">相关附件</div>
-                <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in base.pageData"
-                        :to="{name: 'case-detail', query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                eventCode: item.eventCode
-                            }}">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.eventPlanCover">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
-                        <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
-                    </div>
-                </router-link>
-            </div>
-            
-            <template v-if="base.imgData.length">
+            <template v-if="base.pageData.length">
                 <div class="wx-area-line"></div>
-                <div class="weui-cells no-margin">
-                    <div class="weui-cell weui-cell_access no-center">
-                        <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                        <div class="weui-cell__bd">
-                            <img-list :img-list="base.imgData"></img-list>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                        <div class="weui-cell__bd wx-placeholder">
+                           选择了{{base.pageData ? base.pageData.length : 0}}个附件
                         </div>
                     </div>
+                </div>
+
+                <div class="weui-cells no-line left-padding">
+                    <router-link class="weui-media-box weui-media-box_appmsg"
+                            v-for="(item, index) in base.pageData"
+                            :to="{name: 'case-detail', query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    eventCode: item.eventCode
+                                }}">
+                        <div class="weui-media-box__hd">
+                            <img class="weui-media-box__thumb" :src="item.eventPlanCover">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
+                            <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
+                        </div>
+                    </router-link>
+                </div>
+            </template>
+
+            <template v-if="base.imgData.length">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+                        <div class="weui-cell__bd wx-placeholder">
+                           选择{{base.imgData.length}}张图片
+                        </div>
+                        <div class="weui-cell__ft"></div>
+                    </div>
+                </div>
+                <div class="weui-cells no-margin left-padding">
+                    <img-list :img-list="base.imgData"></img-list>
                 </div>
             </template>
         </template>

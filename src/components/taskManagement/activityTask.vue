@@ -46,13 +46,13 @@
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>
@@ -141,6 +141,8 @@ export default {
                 this.formData.taskBeginTime = this.detailData.taskBeginTime
                 this.formData.taskEndTime = this.detailData.taskEndTime
             }, 0)
+        } else {
+            this.formData.taskBeginTime = new Date()
         }
     },
     computed: {
@@ -175,6 +177,9 @@ export default {
                 })
                 return false
             }
+
+            this.formData.taskBeginTime = '2017-01-02 11:11:11'
+            this.formData.taskEndTime = '2017-01-05 11:11:11'
 
             if (!this.formData.taskBeginTime) {
                 this.$message({
@@ -239,14 +244,17 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('activityTask', 'submitTask')
-            urlPath = urlPath + '&taskType=0&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('activityTask', 'activityDetail')
+            urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
+                    taskCode: taskCode,
+                    taskType: '0',
+                    taskTitle: this.formData.taskTitle,
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }

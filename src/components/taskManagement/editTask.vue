@@ -19,14 +19,14 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.taskBeginTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskBeginTime">
                 </div>
             </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.taskEndTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskEndTime">
                 </div>
             </div>
             
@@ -49,11 +49,21 @@
                        v-model="formData.pageReaderCity"
                        :list="addressData"></x-address>
 
-            <selector title="客户性别"
-                    :options="tagList.gender"
-                    :value-map="valueMap"
-                    placeholder="请选择"
-                    v-model="formData.pageReaderGender"></selector>
+            <div class="weui-cell weui-cell_access" @click="showGenderSelect">
+                <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
+                <div class="weui-cell__bd" v-if="formData.pageReaderGenderLabel">
+                   {{formData.pageReaderGenderLabel}}
+                </div>
+                <div class="weui-cell__bd wx-placeholder" v-else>
+                   请选择
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+            <checkbox-list :is-show-sheet="isGenderSheet"
+                           :item-list="tagList.gender"
+                           :map-data="valueMap"
+                           ref="genderSelect"
+                           @selectChange="genderChange"></checkbox-list>
 
             <div class="weui-cell weui-cell_access" @click="showAgeSelect">
                 <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
@@ -136,37 +146,6 @@
                            @selectChange="enterpriseChange"></checkbox-list>     
         </group>
 
-        <!-- <template v-if="['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1">
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__hd"><label class="weui-label">宣传产品</label></div>
-                    <div class="weui-cell__bd wx-placeholder">
-                       已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}个产品
-                    </div>
-                    <div class="weui-cell__ft">
-                        <span class="add-btn-icon" @click="gotoArticle"></span>
-                    </div>
-                </div>
-            </div>
-            <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
-        </template> -->
-
-        <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__hd"><label class="weui-label">线下活动</label></div>
-                    <div class="weui-cell__bd wx-placeholder">
-                       已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}个活动
-                    </div>
-                    <div class="weui-cell__ft">
-                        <span class="add-btn-icon" @click="gotoParty"></span>
-                    </div>
-                </div>
-            </div>
-            <attachment-detail :attachment-data="attachmentPage" :is-page="true"></attachment-detail>
-        </template>
-
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
             <div class="weui-cell weui-cell_access no-center">
@@ -182,13 +161,13 @@
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>
@@ -261,6 +240,7 @@ export default {
                 pageReaderConsumeLevel: '',
                 pageReaderCareer: '',
                 pageReaderEnterprise: '',
+                pageReaderGenderLabel: '',
                 pageReaderAgeLabel: '',
                 pageReaderEduLabel: '',
                 pageReaderConsumeLevelLabel: '',
@@ -297,6 +277,13 @@ export default {
                 gender: [],
                 industry_type: [],
                 career_type: []
+            },
+            isGenderSheet: {
+                value: false,
+                selectData: {
+                    values: [],
+                    labels: []
+                }
             },
             isAgeSheet: {
                 value: false,
@@ -344,6 +331,8 @@ export default {
                 this.formData.taskBeginTime = this.detailData.taskBeginTime
                 this.formData.taskEndTime = this.detailData.taskEndTime
             }, 0)
+        } else {
+            this.formData.taskBeginTime = new Date()
         }
         this.getPageScenario()
         this.getTags()
@@ -352,14 +341,12 @@ export default {
         ...mapGetters({
             userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
-            attachmentPage: 'getAttachmentPage',
             detailData: 'getDetail'
         })
     },
     methods: {
         ...mapActions([
           'setAttachment',
-          'setAttachmentPage',
           'setDetail'
         ]),
         chooseImage () {
@@ -428,12 +415,10 @@ export default {
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             if (['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1) {
-                formData.codes = this.attachmentPage.attachmentCodes
                 formData.objectType = 1
             }
 
             if (['DTHDXC', 'XSXF', 'XXYL'].indexOf(formData.pageScenario) > -1) {
-                formData.codes = this.attachmentPage.attachmentCodes
                 formData.objectType = 2
             }
 
@@ -445,7 +430,6 @@ export default {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setAttachment({})
-                    this.setAttachmentPage({})
                     this.gotoUser(res.result.result)
                 } else {
                     this.$message.error(res.result.message)
@@ -522,14 +506,17 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('editTask', 'submitTask')
-            urlPath = urlPath + '&taskType=1&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('editTask', 'editDetail')
+            urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
+                    taskCode: taskCode,
+                    taskType: '1',
+                    taskTitle: this.formData.taskTitle,
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
@@ -542,6 +529,15 @@ export default {
         },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
+        },
+        showGenderSelect () {
+            this.$refs.genderSelect.resetData()
+            this.isGenderSheet.value = true
+        },
+        genderChange (data) {
+            this.isGenderSheet.selectData = data
+            this.formData.pageReaderGender = data.values.join(',')
+            this.formData.pageReaderGenderLabel = data.labels.join(',')
         },
         showAgeSelect () {
             this.$refs.ageSelect.resetData()

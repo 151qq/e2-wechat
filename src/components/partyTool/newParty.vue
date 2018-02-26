@@ -31,13 +31,13 @@
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoCoupon">
                 <div class="weui-cell__hd"><label class="weui-label">活动赠品</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentPage.attachmentList ? attachmentPage.attachmentList.length : 0}}种赠品
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoCoupon"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>
@@ -58,13 +58,13 @@
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access">
+            <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
                 <div class="weui-cell__ft">
-                    <span class="add-btn-icon" @click="gotoAttachment"></span>
+                    <span class="add-btn-icon"></span>
                 </div>
             </div>
         </div>
@@ -163,6 +163,8 @@ export default {
                 this.formData.planBeginTime = this.detailData.planBeginTime
                 this.formData.planEndTime = this.detailData.planEndTime
             }, 0)
+        } else {
+            this.formData.planBeginTime = new Date()
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {

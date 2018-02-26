@@ -23,68 +23,7 @@
                 <div class="weui-cell__bd">{{base.taskPageEdit.pageScenarioName}}</div>
             </div>
         </div>
-
-        <!-- <template v-if="['XPTJ', 'CPCX'].indexOf(base.pageScenario) > -1 && base.pageData.length">
-            <div class="weui-cells__title">宣传产品</div>
-            <div class="weui-cells no-line">
-                <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in base.pageData"
-                        :to="{
-                                name: 'article-detail',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    pageCode: item.pageCode,
-                                    appid: item.pubWechatAppId,
-                                    templateCode: item.templateCode,
-                                    S: userInfo.userCode,
-                                    sShareTo: 'F',
-                                    C: 'N',
-                                    cShareTo: 'N',
-                                    T: userInfo.userCode,
-                                    tShareTo: 'N',
-                                    spreadType: '1'
-                                }
-                            }">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.pageCover">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
-                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
-                    </div>
-                </router-link>
-            </div>
-        </template> -->
-
-        <template v-if="['DTHDXC', 'XSXF', 'XXYL'].indexOf(base.pageScenario) > -1 && base.pageData.length">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-line left-padding">
-                <div class="left-title">线下活动</div>
-                <router-link class="weui-media-box weui-media-box_appmsg"
-                        v-for="(item, index) in base.pageData"
-                        :to="{
-                                name: 'party-detail',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    partyCode: item.partyCode
-                                }
-                            }">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.bgPartyImg">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{item.partyTitle}}</h4>
-                        <p class="weui-media-box__desc">
-                            {{item.partyBeginTime.split(' ')[0] + ' - ' + item.partyEndTime.split(' ')[0]}}
-                        </p>
-                    </div>
-                </router-link>
-            </div>
-        </template>
-
-        <!-- <div class="weui-cells__title" v-if="base.taskPageEdit">文章目标读者</div> -->
+        
         <div class="weui-cells" v-if="base.taskPageEdit">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
@@ -127,18 +66,29 @@
         </div>
         
         <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                </div>
+            </div>
+        </div>
         <attachment-show :attachment-data="attachmentData"></attachment-show>
         
         <template v-if="attachmentData.imgData.length">
             <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
                     <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                    <div class="weui-cell__bd">
-                        <img-list :img-list="attachmentData.imgData"></img-list>
+                    <div class="weui-cell__bd wx-placeholder">
+                       选择{{attachmentData.imgData.length}}张图片
                     </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
+            </div>
+            <div class="weui-cells no-margin left-padding">
+                <img-list :img-list="attachmentData.imgData"></img-list>
             </div>
         </template>
 

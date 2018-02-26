@@ -1,15 +1,15 @@
 <template>
-    <section class="article-list-box page__bd">
+    <section class="article-list-box page__bd show-message-box">
         <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <div  class="weui-media-box weui-media-box_appmsg"
+            <div class="weui-cell weui-cell_access"
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.userWechatLogo">
+                <div class="weui-cell__hd">
+                    <img class="small-img" :src="item.userWechatLogo">
                 </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.userName}}</h4>
+                <div class="weui-cell__bd weui-cell_primary">
+                    <div class="small-title">{{item.userName}}</div>
                 </div>
                 <div class="weui-cell__ft">
                     <span :class="userCodes.indexOf(item.userCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>
@@ -52,6 +52,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            userInfo: 'getUserInfo',
             userData: 'getUser'
         }),
         isLoad () {
@@ -92,6 +93,8 @@ export default {
                 this.setRole()
             } else if (this.$route.query.partyCode) {
                 this.sendParty()
+            } else if (this.$route.query.taskCode) {
+                this.sendTask()
             } else {
                 var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
                 this.$router.replace(pathUrl)
@@ -192,6 +195,30 @@ export default {
             util.request({
                 method: 'post',
                 interface: 'sendParyMessage',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                    this.$router.replace(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        sendTask () {
+            var formData = Object.assign({}, this.formData)
+            formData.userCode = this.userInfo.userCode
+            formData.enterpriseCode = this.$route.query.enterpriseCode
+            formData.agentId = this.$route.query.agentId
+            formData.taskCode = this.$route.query.taskCode
+            formData.taskReceiver = this.userCodes
+            formData.taskType = this.$route.query.taskType
+            formData.message = this.$route.query.taskTitle
+            formData.url = window.decodeURIComponent(this.$route.query.redirectUrl)
+
+            util.request({
+                method: 'post',
+                interface: 'sendTask',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {

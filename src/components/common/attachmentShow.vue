@@ -1,7 +1,6 @@
 <template>
-    <section>
+    <section class="attachment-show-box">
         <div class="weui-cells no-margin" :class="isComment ? '' : 'left-padding'">
-            <div class="left-title" v-if="!isComment">相关附件</div>
             <!-- 营销活动方案 -->
             <template v-if="['attachmen_type_2'].indexOf(attachmentData.attachmentSourceType) > -1">
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -141,3 +140,10 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.attachment-show-box {
+    .left-padding {
+        padding-left: 120px;
+    }
+}
+</style>

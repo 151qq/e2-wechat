@@ -1,6 +1,6 @@
 <template>
     <section class="attachment-delete-box">
-        <div class="weui-cells no-margin">
+        <div class="weui-cells no-margin left-padding">
             <swipeout>
                 <!-- 营销活动方案 -->
                 <template v-if="attachmentData.targetType == 'attachmen_type_2'">
@@ -267,8 +267,18 @@ export default {
 </script>
 <style lang="scss">
 .attachment-delete-box {
+    background: #ffffff;
+
+    .left-padding {
+        padding-left: 120px;
+    }
+
     .vux-swipeout-item {
-        border-bottom: 1px solid #D9D9D9;
+        border-top: 1px solid #D9D9D9;
+
+        &:first-child {
+            border: none;
+        }
     }
 }
 </style>

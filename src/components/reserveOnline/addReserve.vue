@@ -164,6 +164,8 @@ export default {
                 this.formData.reserveEndTime = this.detailData.reserveEndTime
                 this.formData.reserveBeginTime = this.detailData.reserveBeginTime
             }, 0)
+        } else {
+            this.formData.reserveBeginTime = new Date()
         }
     },
     computed: {

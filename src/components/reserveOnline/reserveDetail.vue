@@ -49,14 +49,17 @@
 
         <template v-if="newReserveImgData.length">
             <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
                     <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                    <div class="weui-cell__bd">
-                        <img-list :img-list="newReserveImgData"></img-list>
+                    <div class="weui-cell__bd wx-placeholder">
+                       选择{{newReserveImgData.length}}张图片
                     </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
+            </div>
+            <div class="weui-cells no-margin left-padding">
+                <img-list :img-list="newReserveImgData"></img-list>
             </div>
         </template>
 
@@ -110,12 +113,18 @@
 
             <div v-if="reservedImgData.length" class="wx-area-line"></div>
             <div v-if="reservedImgData.length" class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access no-center">
-                    <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                    <div class="weui-cell__bd">
-                        <img-list :img-list="reservedImgData"></img-list>
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+                        <div class="weui-cell__bd wx-placeholder">
+                           选择{{reservedImgData.length}}张图片
+                        </div>
+                        <div class="weui-cell__ft"></div>
                     </div>
+                </div>
+                <div class="weui-cells no-margin left-padding">
+                    <img-list :img-list="reservedImgData"></img-list>
                 </div>
             </div>
 
@@ -143,8 +152,16 @@
 
             <template v-if="couponData.length">
                 <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__hd"><label class="weui-label">活动赠品</label></div>
+                        <div class="weui-cell__bd wx-placeholder">
+                           选择了{{couponData ? couponData.length : 0}}个赠品
+                        </div>
+                    </div>
+                </div>
+
                 <div class="weui-cells no-line left-padding">
-                    <div class="left-title">活动赠品</div>
                         <a class="weui-media-box weui-media-box_appmsg"
                             v-for="(item, index) in couponData">
                         <div class="weui-media-box__hd">
@@ -162,8 +179,16 @@
 
             <template v-if="base.reserveNext">
                 <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                        <div class="weui-cell__bd wx-placeholder">
+                           新增了1个预约
+                        </div>
+                    </div>
+                </div>
+
                 <div class="weui-cells no-line left-padding">
-                    <div class="left-title">新增预约</div>
                     <router-link class="weui-media-box weui-media-box_appmsg"
                             slot="content"
                             :to="{

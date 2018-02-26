@@ -39,21 +39,33 @@
 
         <template v-if="base.imgData.length">
             <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
                     <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-
-                    <div class="weui-cell__bd">
-                        <img-list :img-list="base.imgData"></img-list>
+                    <div class="weui-cell__bd wx-placeholder">
+                       选择{{base.imgData.length}}张图片
                     </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
+            </div>
+
+            <div class="weui-cells no-margin left-padding">
+                <img-list :img-list="base.imgData"></img-list>
             </div>
         </template>
         
         <template v-if="base.reserveCode">
             <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       新增了1个预约
+                    </div>
+                </div>
+            </div>
+
             <div class="weui-cells no-line left-padding">
-                <div class="left-title">新增预约</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         slot="content"
                         :to="{
@@ -102,36 +114,36 @@
         <div class="wx-area-line"></div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户性别</div>
-                <div class="weui-cell__ft">{{memberTap.memberGender}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberGender}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户年龄</div>
-                <div class="weui-cell__ft">{{memberTap.memberAge}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberAge}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">教育背景</div>
-                <div class="weui-cell__ft">{{memberTap.memberEdu}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberEdu}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">消费能力</div>
-                <div class="weui-cell__ft">{{memberTap.memberConsumeLevel}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberConsumeLevel}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">消费决策</div>
-                <div class="weui-cell__ft">{{memberTap.memberConsumeDecision}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">消费决策</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberConsumeDecision}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">导购特征</div>
-                <div class="weui-cell__ft">{{memberTap.memberShopguide}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">导购特征</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberShopguide}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">客户职业</div>
-                <div class="weui-cell__ft">{{memberTap.memberCareer}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberCareer}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">工作单位</div>
-                <div class="weui-cell__ft">{{memberTap.memberUnit}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
+                <div class="weui-cell__bd">{{memberTap.memberUnit}}</div>
             </div>
         </div>
     </section>

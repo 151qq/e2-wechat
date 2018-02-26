@@ -51,13 +51,13 @@
         <template v-if="formData.outbandResult == '1'">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access">
+                <div class="weui-cell weui-cell_access" @click="gotoAttachment">
                     <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
                     <div class="weui-cell__bd wx-placeholder">
                        请选择一个新预约
                     </div>
                     <div class="weui-cell__ft">
-                        <span class="add-btn-icon" @click="gotoAttachment"></span>
+                        <span class="add-btn-icon"></span>
                     </div>
                 </div>
             </div>
