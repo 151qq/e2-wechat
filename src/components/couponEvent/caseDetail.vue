@@ -1,38 +1,45 @@
 <template>
     <section class="case-target">
         <div class="height-1"></div>
-        <div class="weui-cells__title">活动目标</div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增潜客</div>
-                <div class="weui-cell__ft">{{base.eventLeads}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">新增潜客</label></div>
+                <div class="weui-cell__bd">{{base.eventLeads}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增预约</div>
-                <div class="weui-cell__ft">{{base.eventHotLeads}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                <div class="weui-cell__bd">{{base.eventHotLeads}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">新增销售</div>
-                <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">新增销售</label></div>
+                <div class="weui-cell__bd">{{base.eventSalesOpp}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">开始时间</div>
-                <div class="weui-cell__ft">{{base.eventStartTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
+                <div class="weui-cell__bd">{{base.eventStartTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">结束时间</div>
-                <div class="weui-cell__ft">{{base.eventEndTime}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
+                <div class="weui-cell__bd">{{base.eventEndTime}}</div>
             </div>
         </div>
-        <div class="weui-cells__title">详细方案</div>
-        <div class="wx-area-text">
-            {{base.eventPlanDesc}}
+        
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">详细方案</label></div>
+                <div class="weui-cell__bd">
+                   {{base.eventPlanDesc}}
+                </div>
+            </div>       
         </div>
+
         <template v-for="(group, index) in couponList">
-            <div class="weui-cells__title">{{group.couponGroupName}}</div>
-            <div class="weui-cells"
-                 v-for="(item, index) in group.couponInfoList">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin left-padding">
+                <div class="left-title">{{group.couponGroutScenarioName}}</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
+                        v-for="(item, index) in group.couponInfoList"
                         :to="{
                             name: 'coupon-detail',
                             query: {
@@ -51,44 +58,21 @@
                 </router-link>
             </div>
         </template>
-        <div class="null-box" v-if="!couponList.length && isPage">
-            暂无内容！
-        </div>
-        <div class="weui-cells__title">活动统计</div>
-        <div class="weui-cells">
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">线上阅读</div>
-                <div class="weui-cell__ft">{{base.eventLeads}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">线上分享</div>
-                <div class="weui-cell__ft">{{base.eventHotLeads}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">线下签到</div>
-                <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">线下阅读</div>
-                <div class="weui-cell__ft">{{base.eventHotLeads}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">外呼赠券</div>
-                <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约赠券</div>
-                <div class="weui-cell__ft">{{base.eventSalesOpp}}</div>
-            </div>
-        </div>
+        
         <template v-if="base.eventStatus == 'cancelled'">
-            <div class="weui-cells__title">活动终止</div>
-            <div class="wx-area-text">{{base.eventCancalMemo}}</div>
-            <div class="wx-area-text">
-                <img-list :img-list="base.imgData"></img-list>
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">活动终止</label></div>
+                    <div class="weui-cell__bd">
+                       {{base.eventCancalMemo}}
+                    </div>
+                </div>       
             </div>
-            <div class="weui-cells__title">附件</div>
-            <div class="weui-cells no-margin">
+            
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-line left-padding">
+                <div class="left-title">相关附件</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in base.pageData"
                         :to="{name: 'case-detail', query: {
@@ -105,6 +89,19 @@
                     </div>
                 </router-link>
             </div>
+            
+            <template v-if="base.imgData.length">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin">
+                    <div class="weui-cell weui-cell_access no-center">
+                        <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+
+                        <div class="weui-cell__bd">
+                            <img-list :img-list="base.imgData"></img-list>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </template>
         
         <template v-if="base.eventStatus != 'cancelled' && base.eventStatus != 'end'">
@@ -126,7 +123,7 @@
                                     agentId: $route.query.agentId
                                 }
                             }">
-                    退回
+                    终止营销活动
                 </router-link>
             </div>
         </template>
@@ -135,7 +132,6 @@
 <script>
 import imgList from '../common/imgList.vue'
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -158,7 +154,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getBase()
         this.getCouponList()
     },

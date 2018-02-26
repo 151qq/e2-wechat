@@ -79,7 +79,7 @@ new Vue({
     router,
     store,
     data: {
-        isPage: true
+        isPage: false
     },
     mounted () {
         if (window.location.pathname.indexOf('registor') < 0) {

@@ -146,7 +146,6 @@ body {
   bottom: 0;
   width: 100%;
   border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
   background: #f8f8f8;
   z-index: 101;
 
@@ -170,6 +169,8 @@ body {
   .nav-blue {
     background: #2f7dcd;
     color: #ffffff;
+    line-height: 51px;
+    margin-top: -1px;
   }
 
   .wx-nav-item-20 {
@@ -291,12 +292,16 @@ body {
     font-size: 17px;
     color: inherit;
     left: 15px;
-    top: 24px;
-    width: 105px;
+    top: 20px;
+    width: 95px;
   }
 
   .weui-media-box {
       padding: 10px 15px 10px 0;
+  }
+
+  .weui-media-box:before {
+    left: 0 !important;
   }
 
   .weui-media-box_appmsg .weui-media-box__hd {

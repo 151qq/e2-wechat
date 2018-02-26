@@ -1,70 +1,65 @@
 <template>
     <section class="case-target">
         <div class="height-1"></div>
-        <div class="weui-cells__title">基本信息</div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">券标题</div>
-                <div class="weui-cell__ft">{{base.couponTitle}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">券标题</label></div>
+                <div class="weui-cell__bd">{{base.couponTitle}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">券类型</div>
-                <div class="weui-cell__ft">{{base.couponTypeName}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">券类型</label></div>
+                <div class="weui-cell__bd">{{base.couponTypeName}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">使用场景</div>
-                <div class="weui-cell__ft">{{base.couponGroupScenarioName}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">使用场景</label></div>
+                <div class="weui-cell__bd">{{base.couponGroupScenarioName}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">有效期</div>
-                <div class="weui-cell__ft">{{couponTimes}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">有效期</label></div>
+                <div class="weui-cell__bd">{{couponTimes}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">发行数量</div>
-                <div class="weui-cell__ft">{{base.couponQuantity}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">发行数量</label></div>
+                <div class="weui-cell__bd">{{base.couponQuantity}}</div>
             </div>
             <template v-if="base.couponType == 'cashCoupon'">
                 <div class="weui-cell weui-cell_access show-message-box">
-                    <div class="weui-cell__bd">消费要求</div>
-                    <div class="weui-cell__ft">{{base.couponLeastCost}}</div>
+                    <div class="weui-cell__hd"><label class="weui-label">消费要求</label></div>
+                    <div class="weui-cell__bd">{{base.couponLeastCost}}</div>
                 </div>
                 <div class="weui-cell weui-cell_access show-message-box">
-                    <div class="weui-cell__bd">抵扣</div>
-                    <div class="weui-cell__ft">{{base.couponReduceCost}}</div>
+                    <div class="weui-cell__hd"><label class="weui-label">抵扣</label></div>
+                    <div class="weui-cell__bd">{{base.couponReduceCost}}</div>
                 </div>
             </template>
         </div>
-        <div class="weui-cells__title">优惠说明</div>
-        <div class="wx-area-text">
-            {{base.couponDescription}}
-        </div>
-        <div class="weui-cells__title">相关产品</div>
-        <div class="weui-cells">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in productList"
-                    :to="{
-                        name: 'product-detail',
-                        query: {
-                            enterpriseCode: $route.query.enterpriseCode,
-                            agentId: $route.query.agentId,
-                            productCode: item.productCode
-                        }
-                    }">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.productCover">
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">优惠说明</label></div>
+                <div class="weui-cell__bd">
+                   {{base.couponDescription}}
                 </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.productCname}}</h4>
-                    <p class="weui-media-box__desc">{{item.productDesc}}</p>
-                </div>
-            </router-link>
+            </div>       
         </div>
+
+        <template v-if="productList.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">相关产品</label></div>
+                    <div class="weui-cell__bd">
+                       {{productListNames}}
+                    </div>
+                </div>       
+            </div>
+        </template>
     </section>
 </template>
 <script>
 import imgList from '../common/imgList.vue'
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -105,11 +100,11 @@ export default {
                 couponLeastCost: '',
                 couponReduceCost: ''
             },
-            productList: []
+            productList: [],
+            productListNames: ''
         }
     },
     mounted () {
-        jsSdk.init()
         this.getBase()
     },
     methods: {
@@ -145,6 +140,14 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    var productNames = []
+
+                    res.result.result.forEach((item) => {
+                        productNames.push(item.productCname)
+                    })
+
+                    this.productListNames = productNames.join(',')
+
                     this.productList = res.result.result
                 } else {
                     this.$message.error(res.result.message)

@@ -1,6 +1,6 @@
 <template>
     <section class="case-article-list-box page__bd">
-        <div class="weui-cells">
+        <div class="weui-cells" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <router-link class="weui-media-box weui-media-box_appmsg show-state-box"
                     v-for="(item, index) in listData"
                     :to="{name: 'case-detail', query: {
@@ -8,6 +8,8 @@
                         agentId: $route.query.agentId,
                         eventCode: item.eventCode
                     }}">
+
+                <div v-if="item.eventStatus == 'draft'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.eventPlanCover">
                 </div>
@@ -15,7 +17,7 @@
                     <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
                     <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
                 </div>
-                <div class="weui-cell__ft" v-if="item.eventStatus == 'draft'">
+                <!-- <div class="weui-cell__ft" v-if="item.eventStatus == 'draft'">
                     <span class="no-done">草稿</span>
                 </div>
                 <div class="weui-cell__ft" v-if="item.eventStatus == 'end'">
@@ -26,7 +28,7 @@
                 </div>
                 <div class="weui-cell__ft" v-if="item.eventStatus == 'cancelled'">
                     <span class="is-waiting">终止</span>
-                </div>
+                </div> -->
             </router-link>
         </div>
 
@@ -37,7 +39,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -50,11 +52,22 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getData()
     },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        }),
+        isLoad () {
+            return this.total > this.listData.length
+        }
+    },
     methods: {
-        getData (type) {
+        showMore (cb) {
+            this.pageNumber++
+            this.getData(cb)
+        },
+        getData (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageSize: this.pageSize,
@@ -73,7 +86,7 @@ export default {
 
                 this.total = res.result.total
                 this.isPage = true
-                if (!type) {
+                if (!cb) {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
