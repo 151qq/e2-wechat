@@ -22,7 +22,6 @@
                         }
                     }">
 
-                    <div v-if="item.pageStatus == '2'" class="no-read"></div>
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb" :src="item.pageCover">
                     </div>
@@ -30,16 +29,6 @@
                         <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
                         <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
                     </div>
-
-                    <!-- <div class="weui-cell__ft" v-if="item.pageStatus == '2'">
-                        <span class="no-done">草稿</span>
-                    </div>
-                    <div class="weui-cell__ft" v-if="item.pageStatus == '1'">
-                        <span class="is-doing">发布</span>
-                    </div>
-                    <div class="weui-cell__ft" v-if="item.pageStatus == '3'">
-                        <span class="has-done">下架</span>
-                    </div> -->
                 </router-link>
             </template>
         </div>

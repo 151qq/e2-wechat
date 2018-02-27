@@ -31,7 +31,7 @@
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
-                   选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                   选择了{{attachmentData.pageData ? attachmentData.pageData.length : 0}}个附件
                 </div>
             </div>
         </div>
@@ -53,34 +53,29 @@
             </div>
         </template>
 
-        <div class="wx-area-padding">
-            <comment-show :comment-url="commentUrl" :text-title="textTitle"></comment-show>
-        </div>
-
-        <!-- <div class="btn-height-box"></div>
+        <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item"
-                            :to="{name: 'marketPacket'}">
-                红包
-            </router-link>
             <router-link class="wx-nav-item"
                             :to="{}">
                 研讨
             </router-link>
-            <router-link class="wx-nav-item-30"
-                            :to="{name: 'comment-chat'}">
-                未读汇报（2）
+            <router-link class="wx-nav-item nav-blue"
+                            :to="{
+                                name: 'task-report',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    taskCode: $route.query.taskCode,
+                                    editType: editType
+                                }
+                            }">
+                <span :class="base.taskReplayStatus == '1' ? 'has-read' : ''">任务回复</span>
             </router-link>
-            <router-link class="wx-nav-item"
-                            :to="{name: 'marketPacket'}">
-                发表意见
-            </router-link>
-        </div> -->
+        </div>
     </section>
 </template>
 <script>
 import imgList from '../common/imgList.vue'
-import commentShow from './commentShow.vue'
 import jsSdk from '../../utils/jsSdk'
 import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
@@ -120,13 +115,23 @@ export default {
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
-        })
+        }),
+        editType () {
+            if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1 && this.userInfo.userCode == this.base.taskSender) {
+                return '2'
+            } else if (this.userInfo.userCode == this.base.taskSender) {
+                return '0'
+            } else if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1) {
+                return '1'
+            }
+        }
     },
     methods: {
         getBase () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                taskCode: this.$route.query.taskCode
+                taskCode: this.$route.query.taskCode,
+                taskReceiver: this.userInfo.userCode
             }
 
             util.request({
@@ -138,6 +143,10 @@ export default {
                     this.base = res.result.result
 
                     this.getAttachments()
+
+                    if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1 && this.base.taskStatus != '2') {
+                        this.changeTaskStatus()
+                    }
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -161,11 +170,24 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        changeTaskStatus () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                taskCode: this.$route.query.taskCode,
+                taskReceiver: this.userInfo.userCode,
+                taskStatus: '2'
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'changeTaskStatus',
+                data: formData
+            }).then(res => {})
         }
     },
     components: {
         imgList,
-        commentShow,
         attachmentShow
     }
 }

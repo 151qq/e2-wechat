@@ -119,15 +119,23 @@
         
         <template v-if="base.eventStatus != 'cancelled' && base.eventStatus != 'end'">
             <div class="btn-height-box"></div>
-            <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary"
-                    v-if="base.eventStatus == 'draft'"
+            <div class="wx-bottom-nav">
+                <router-link class="wx-nav-item-20"
+                                :to="{}">
+                    研讨
+                </router-link>
+                <a class="wx-nav-item"
+                    v-if="base.eventStatus != 'submitted' && isRoot"
                     @click="submitCase">
                     发布
                 </a>
-
-                <router-link class="weui-btn weui-btn_primary"
-                             v-if="base.eventStatus == 'submitted'"
+                <a class="wx-nav-item"
+                    v-if="base.eventStatus != 'submitted' && !isRoot"
+                    @click="gotoUser">
+                    申请
+                </a>
+                <router-link class="wx-nav-item nav-blue"
+                             v-if="base.eventStatus == 'submitted' && isRoot"
                              :to="{
                                 name: 'stop-activity',
                                 query: {
@@ -145,6 +153,7 @@
 <script>
 import imgList from '../common/imgList.vue'
 import util from '../../utils/tools'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -169,6 +178,19 @@ export default {
     mounted () {
         this.getBase()
         this.getCouponList()
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        }),
+        isRoot () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('platform_root') > -1 || roleCodes.indexOf('enterprise_root') > -1 || roleCodes.indexOf('coupon_manager') > -1
+        }
     },
     watch: {
         $route () {
@@ -240,6 +262,19 @@ export default {
                 }
                 this.couponCodeList = atts
             })
+        },
+        gotoUser () {
+            var pathUrl = {
+                name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    eventCode: this.$route.query.eventCode,
+                    roleType: 'coupon_manager',
+                    redirectUrl: window.encodeURIComponent(window.location.href)
+                }
+            }
+            this.$router.push(pathUrl)
         },
         submitCase () {
             var formData = {

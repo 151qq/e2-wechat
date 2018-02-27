@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <attachment-detail :attachment-data="attachmentData"></attachment-detail>
+        <attachment-detail :attachment-data="attachmentPage"></attachment-detail>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">

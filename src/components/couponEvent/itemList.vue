@@ -71,6 +71,7 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageSize: this.pageSize,
+                userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber
             }
 

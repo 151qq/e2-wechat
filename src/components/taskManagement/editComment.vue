@@ -135,10 +135,7 @@ export default {
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
-
-            if (this.$route.query.commentTitle) {
-                formData.taskReportParent = this.$route.query.taskReportParent
-            }
+            formData.taskReportParent = this.$route.query.taskReportParent
 
             util.request({
                 method: 'post',

@@ -69,7 +69,7 @@
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
                 <div class="weui-cell__bd wx-placeholder">
-                   选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
+                   选择了{{attachmentData.pageData ? attachmentData.pageData.length : 0}}个附件
                 </div>
             </div>
         </div>

@@ -20,9 +20,13 @@
                       v-model="base.promoterBaseInfoForm.accuntType"></selector>
         </group>
 
-        <div class="btn-height-box" v-if="base.promoterBaseInfoForm.adChannelStatus == '0'"></div>
+        <div class="btn-height-box"></div>
         <div class="weui-btn-area" v-if="base.promoterBaseInfoForm.adChannelStatus == '0'">
             <a class="weui-btn weui-btn_primary" @click="changeStatus">捆绑</a>
+        </div>
+
+        <div class="weui-btn-area" v-else>
+            <a class="weui-btn weui-btn_primary" @click="changeStatus">修改</a>
         </div>
     </section>
 </template>
@@ -103,7 +107,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.$message({
-                      message: '恭喜你，绑定成功！',
+                      message: '恭喜你，操作成功！',
                       type: 'success'
                     })
                     this.getBase()

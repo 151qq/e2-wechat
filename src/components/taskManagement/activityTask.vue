@@ -178,8 +178,8 @@ export default {
                 return false
             }
 
-            this.formData.taskBeginTime = '2017-01-02 11:11:11'
-            this.formData.taskEndTime = '2017-01-05 11:11:11'
+            // this.formData.taskBeginTime = '2017-01-02 11:11:11'
+            // this.formData.taskEndTime = '2017-01-05 11:11:11'
 
             if (!this.formData.taskBeginTime) {
                 this.$message({

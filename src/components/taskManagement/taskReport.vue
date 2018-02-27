@@ -1,11 +1,5 @@
 <template>
-    <section class="comment-box">
-        <div class="head-box">
-            <span class="left">{{textTitle}}</span>
-            <div class="right" @click="showSubmit('1')">
-                <img src="../../assets/images/edit-icon.png">
-            </div>
-        </div>
+    <section class="task-comment-box">
         <section class="comment-b"
                     v-if="commentList.length"
                     :id="'comment-' + item.taskReportFloor"
@@ -43,12 +37,12 @@
                         <div class="comment-btn" v-if="item.status == '1'">
                             <div class="btn-out-box"
                                  @click="showSubmit('1', item.taskReportFloor)"
-                                 v-if="(userInfo.userCode && item.userCode != userInfo.userCode)">
+                                 v-if="userInfo.userCode && ($route.query.editType == '0' || $route.query.editType == '2')">
                                 <img src="../../assets/images/edit-icon.png">
                             </div>
                             <div class="btn-out-box"
                                  @click="deleteComment(item)"
-                                 v-if="(userInfo.userCode && item.userCode == userInfo.userCode)">
+                                 v-if="userInfo.userCode && item.userCode == userInfo.userCode">
                                 <img src="../../assets/images/delete-icon.png">
                             </div>
                         </div>
@@ -56,7 +50,14 @@
                 </div>
             </div>
         </section>
-        <div class="null-box" v-if="!commentList.length && isPage">
+        <template v-if="$route.query.editType == '1' || $route.query.editType == '2'">
+            <div class="btn-height-box"></div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" @click="showSubmit('1')">发表汇报</a>
+            </div>
+        </template>
+
+        <div class="null-page" v-if="!commentList.length && isPage">
             暂无内容！
         </div>
     </section>
@@ -64,13 +65,11 @@
 <script>
 import util from '../../utils/tools'
 import imgList from '../common/imgList.vue'
-import jsSdk from '../../utils/jsSdk'
 import attachmentShow from '../common/attachmentShow.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
 
 export default {
-    props: ['commentUrl', 'textTitle', 'isEdit'],
     data () {
         return {
             isPage: false,
@@ -79,7 +78,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getComments()
     },
     computed: {
@@ -90,7 +88,7 @@ export default {
     methods: {
         showSubmit (type, floor) {
             var pathUrl = {
-                name: this.commentUrl,
+                name: 'edit-comment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
@@ -99,7 +97,7 @@ export default {
                 }
             }
 
-            if (this.isEdit) {
+            if (this.$route.query.taskType == 'edit') {
                 pathUrl.query.type = 'edit'
             }
 
@@ -120,6 +118,10 @@ export default {
                 if (res.result.success == '1') {
                     this.commentList = res.result.result
                     this.isPage = true
+
+                    if (this.$route.query.editType == '2' || this.$route.query.editType == '0') {
+                        this.changeTaskStatus()
+                    }
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -139,6 +141,20 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        changeTaskStatus () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                taskCode: this.$route.query.taskCode,
+                taskReceiver: this.userInfo.userCode,
+                taskReplayStatus: '2'
+            }
+
+            util.request({
+                method: 'post',
+                interface: 'changeTaskStatus',
+                data: formData
+            }).then(res => {})
         }
     },
     filters: {
@@ -151,7 +167,10 @@ export default {
 }
 </script>
 <style lang="scss">
-.comment-box {
+.task-comment-box {
+    padding: 10px 15px;
+    background: #ffffff;
+
     .head-box {
         padding: 10px 0;
         border-bottom: 1px solid #e5e5e5;

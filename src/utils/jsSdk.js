@@ -47,10 +47,6 @@ const jsSdk = {
                         'hideAllNonBaseMenuItem'
                     ]
                 })
-
-                window.wx.ready(() => {
-                    window.wx.hideAllNonBaseMenuItem()
-                })
             } else {
               alert(res.result.message)
             }

@@ -1,11 +1,10 @@
 <template>
     <section class="product-list-box page__bd show-state-box">
         <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
-            <!-- site.socialmarketingcloud.com  localhost:8890-->
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
-                <div v-if="item.taskStatus == 'pending' && interface == 'getPendingTasks'" class="no-read"></div>
+                <div v-if="(item.taskStatus == '1' && interface == 'getPendingTasks') || (item.taskReplayStatus == '1' && interface == 'getSendedTasks')" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          v-if="item.bgTaskImg"
@@ -20,10 +19,6 @@
                         {{item.taskBeginTime.split(' ')[0] + ' - ' + item.taskEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <!-- <div class="weui-cell__ft" v-if="item.taskStatus == '4'"><span class="no-done">终止</span></div>
-                <div class="weui-cell__ft" v-if="item.taskStatus == '2'"><span class="is-doing">完成</span></div>
-                <div class="weui-cell__ft" v-if="item.taskStatus == '3'"><span class="has-done">过期</span></div>
-                <div class="weui-cell__ft" v-if="item.taskStatus == '1'"><span class="is-waiting">草稿</span></div> -->
             </div>
         </div>
 

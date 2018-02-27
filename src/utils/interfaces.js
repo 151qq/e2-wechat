@@ -32,6 +32,8 @@ export default{
     ediltExtendsPage: platform + 'html5/ediltExtendsPage.json',
     getExtendPages: platform + 'html5/getExtendPages.json',
     replyComment: platform + 'comment/replyComment.json',
+
+    getUserByRoleCodes: platform + 'mobile/user/getUserByRoleCodes.json',
     /**
     * 我的素材库 get
     */
@@ -64,6 +66,8 @@ export default{
     couponInfoChangeStatus: platform + 'coupon/couponInfoChangeStatus.json',
     getCouponType: platform + 'coupon/getCouponType.json',
     couponGroupOfPage: platform + 'couponGroup/couponGroupOfPage.json',
+
+    remindUserToPublishEvent: platform + 'event/remindUserToPublishEvent.json',
 
     /**
     * 外呼 get
@@ -105,6 +109,7 @@ export default{
     saveTaskPageEdit: platform + 'mobile/task/saveTaskPageEdit.json',
     delPageEdit: platform + 'mobile/task/delPageEdit.json',
     getPageScenario: platform + 'mobile/task/getPageScenario.json',
+    changeTaskStatus: platform + 'mobile/task/changeTaskStatus.json',
 
     saveTaskReportComment: platform + 'mobile/task/saveTaskReportComment.json',
 

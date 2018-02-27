@@ -7,7 +7,7 @@ const userStore = new Vuex.Store({
   state: {
     userInfo: {
       "id": 151,
-      "userCode": "20180128154947430610",
+      "userCode": "20180128131402734280",
       "enterpriseCode": "20180128131402604",
       "userWechatUserid": "20180125182918589898",
       "userWechatOpenid": "oFOk40bprwbmfmr_ajRjnT71hD5I",

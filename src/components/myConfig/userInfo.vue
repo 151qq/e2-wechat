@@ -2,7 +2,7 @@
     <section class="member-detail-box show-message-box">
         <div class="wx-area-img">
             <img :src="coverImg">
-            <div class="head-avatar-box">
+            <div class="head-avatar-box" @click="changeMobile">
                 <div class="user-logo-box">
                     <img :src="userInfo.userWechatLogo">
                 </div>

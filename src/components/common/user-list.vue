@@ -45,7 +45,11 @@ export default {
         }
     },
     mounted () {
-        this.getList()
+        if (this.$route.query.roleType) {
+            this.getListByRole()
+        } else {
+            this.getList()
+        }
         if (this.$route.query.isUpdate == '1') {
             this.getAdds()
         }
@@ -95,6 +99,8 @@ export default {
                 this.sendParty()
             } else if (this.$route.query.taskCode) {
                 this.sendTask()
+            } else if (this.$route.query.eventCode) {
+                this.sendCase()
             } else {
                 var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
                 this.$router.replace(pathUrl)
@@ -141,6 +147,33 @@ export default {
                 }
             })
         },
+        getListByRole (cb) {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                roleCode: this.$route.query.roleType,
+                pageSize: this.pageSize,
+                pageNumber: this.pageNumber
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'getUserByRoleCodes',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '0') {
+                    this.$message.error(res.result.message)
+                    return
+                }
+
+                this.total = res.result.total
+                this.isPage = true
+                if (!cb) {
+                    this.listData = res.result.result
+                } else {
+                    this.listData = this.listData.concat(res.result.result)
+                }
+            })
+        },
         getAdds () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
@@ -167,6 +200,7 @@ export default {
         setRole () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
+                agentId: this.$route.query.agentId,
                 roleCode: this.$route.query.roleCode,
                 userCodes: this.userCodes
             }
@@ -187,6 +221,7 @@ export default {
         sendParty () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
+                agentId: this.$route.query.agentId,
                 partyCode: this.$route.query.partyCode,
                 userCodes: this.userCodes,
                 url: window.decodeURIComponent(this.$route.query.redirectUrl)
@@ -219,6 +254,28 @@ export default {
             util.request({
                 method: 'post',
                 interface: 'sendTask',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
+                    this.$router.replace(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        sendCase () {
+            var formData = Object.assign({}, this.formData)
+            formData.userCode = this.userInfo.userCode
+            formData.enterpriseCode = this.$route.query.enterpriseCode
+            formData.agentId = this.$route.query.agentId
+            formData.eventCode = this.$route.query.eventCode
+            formData.userCodes = this.userCodes
+            formData.toUrl = window.decodeURIComponent(this.$route.query.redirectUrl)
+
+            util.request({
+                method: 'post',
+                interface: 'remindUserToPublishEvent',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {

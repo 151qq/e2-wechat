@@ -660,6 +660,14 @@ const routers = [
         meta: {
           token:false
         }
+      },
+      {
+        path: 'taskReport',
+        name: 'task-report',
+        component: resolve => require(["../../components/taskManagement/taskReport.vue"], resolve),
+        meta: {
+          token:false
+        }
       }
     ]
   }
