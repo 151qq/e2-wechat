@@ -4,7 +4,7 @@
             <div  class="weui-media-box weui-media-box_appmsg"
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
-                <div v-if="(item.taskStatus == '1' && interface == 'getPendingTasks') || (item.taskReplayStatus == '1' && interface == 'getSendedTasks')" class="no-read"></div>
+                <div v-if="(item.taskReplyStatus != '2' && interface == 'getPendingTasks') || (item.taskStatus == '1' && interface == 'getSendedTasks')" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          v-if="item.bgTaskImg"
@@ -33,13 +33,13 @@
                 @click="setStatus('getPendingTasks')">
                 我的待办任务
             </a>
-            <a class="wx-nav-item nav-blue" @click="showSheet">
-                新建任务
-            </a>
             <a class="wx-nav-item"
                 :class="interface == 'getSendedTasks' ? 'nav-now' : ''"
                 @click="setStatus('getSendedTasks')">
                 我发布的任务
+            </a>
+            <a class="wx-nav-item nav-blue" @click="showSheet">
+                新建任务
             </a>
         </div>
 

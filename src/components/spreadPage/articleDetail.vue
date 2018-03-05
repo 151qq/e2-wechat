@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="weui-cells no-line left-padding">
+            <div class="weui-cells no-margin left-padding">
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in articleList"
                         :to="{

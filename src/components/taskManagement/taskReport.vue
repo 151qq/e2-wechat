@@ -36,8 +36,8 @@
                     <div class="top-box">
                         <div class="comment-btn" v-if="item.status == '1'">
                             <div class="btn-out-box"
-                                 @click="showSubmit('1', item.taskReportFloor)"
-                                 v-if="userInfo.userCode && ($route.query.editType == '0' || $route.query.editType == '2')">
+                                 @click="showSubmit('1', item.taskReportFloor, item.userCode)"
+                                 v-if="userInfo.userCode && ($route.query.editType == '0' || $route.query.editType == '2') && !item.taskReportParent">
                                 <img src="../../assets/images/edit-icon.png">
                             </div>
                             <div class="btn-out-box"
@@ -53,7 +53,7 @@
         <template v-if="$route.query.editType == '1' || $route.query.editType == '2'">
             <div class="btn-height-box"></div>
             <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary" @click="showSubmit('1')">发表汇报</a>
+                <a class="weui-btn weui-btn_primary" @click="showSubmit('1')">汇报</a>
             </div>
         </template>
 
@@ -86,26 +86,25 @@ export default {
         })
     },
     methods: {
-        showSubmit (type, floor) {
+        showSubmit (type, floor, userCode) {
             var pathUrl = {
                 name: 'edit-comment',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     taskCode: this.$route.query.taskCode,
-                    taskReportFloor: this.commentList.length + 1
+                    taskReportFloor: this.commentList.length + 1,
+                    taskType: this.$route.query.taskType,
+                    editType: this.$route.query.editType
                 }
-            }
-
-            if (this.$route.query.taskType == 'edit') {
-                pathUrl.query.type = 'edit'
             }
 
             if (floor) {
                 pathUrl.query.taskReportParent = floor
+                pathUrl.query.parentReportor = userCode
             }
 
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         getComments () {
             util.request({
@@ -119,9 +118,7 @@ export default {
                     this.commentList = res.result.result
                     this.isPage = true
 
-                    if (this.$route.query.editType == '2' || this.$route.query.editType == '0') {
-                        this.changeTaskStatus()
-                    }
+                    this.changeTaskStatus()
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -147,7 +144,17 @@ export default {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 taskCode: this.$route.query.taskCode,
                 taskReceiver: this.userInfo.userCode,
-                taskReplayStatus: '2'
+            }
+
+            var editType = this.$route.query.editType
+
+            if (editType == '0') {
+                formData.taskReplyStatus = '2'
+            } else if (editType == '1') {
+                formData.taskStatus = '2'
+            } else if (editType == '2') {
+                formData.taskReplyStatus = '2'
+                formData.taskStatus = '2'
             }
 
             util.request({

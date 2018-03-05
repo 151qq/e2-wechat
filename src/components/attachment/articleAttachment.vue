@@ -3,6 +3,7 @@
         <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <div  class="weui-media-box weui-media-box_appmsg"
+                v-if="!$route.query.pageCode || $route.query.pageCode != item.pageCode"
                 @click="addAttachment(item)"
                 v-for="(item, index) in listData">
                 <div class="weui-media-box__hd">
@@ -117,19 +118,20 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageType: 'template_type_1',
-                pageStatus: '2',
-                pageEditor: this.userInfo.userCode,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
-            if (this.$route.query.type == 'submit') {
+            if (this.$route.query.type == 'draft') {
+                formData.pageStatus = '2'
+                formData.pageEditor = this.userInfo.userCode
+            } else {
                 formData.pageStatus = '1'
             }
 
             util.request({
                 method: 'post',
-                interface: 'html5PageList',
+                interface: 'listPageAttachment',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {

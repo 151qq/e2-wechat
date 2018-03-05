@@ -1,8 +1,8 @@
 <template>
     <section class="member-detail-box show-message-box">
-        <div class="wx-area-img">
+        <div class="wx-area-img" @click="changeMobile">
             <img :src="coverImg">
-            <div class="head-avatar-box" @click="changeMobile">
+            <div class="head-avatar-box">
                 <div class="user-logo-box">
                     <img :src="userInfo.userWechatLogo">
                 </div>
@@ -73,10 +73,18 @@ export default {
     },
     methods: {
         changeMobile () {
-            var path = 'http://site.socialmarketing.com/enterpriseRegistor?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href) + '&userId=' + this.userInfo.userWechatUserid + '&userCode=' + this.userInfo.userCode
+            var pathUrl = {
+                name: 'registor-message',
+                query: {
+                    enterpriseCode: data.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    userId: this.userInfo.userWechatUserid,
+                    userCode: this.userInfo.userCode,
+                    appid: this.userInfo.userWechatAppid
+                }
+            }
 
-            var pathUrl = util.formDataUrl(path)
-            this.$router.replace(pathUrl)
+            this.$router.push(pathUrl)
         }
     }
 }

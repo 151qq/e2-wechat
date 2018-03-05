@@ -54,7 +54,15 @@ export default {
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
-        })
+        }),
+        isPublist () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('page_manager') > -1 ? 1 : 0
+        }
     },
     methods: {
         getList (type) {
@@ -62,6 +70,7 @@ export default {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageType: 'template_type_1',
                 pageEditor: this.userInfo.userCode,
+                isPublist: this.isPublist,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }

@@ -4,6 +4,7 @@
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <div class="weui-cell weui-cell_access"
                 @click="addAttachment(item)"
+                v-if="userInfo.userCode != item.userCode"
                 v-for="(item, index) in listData">
                 <div class="weui-cell__hd">
                     <img class="small-img" :src="item.userWechatLogo">

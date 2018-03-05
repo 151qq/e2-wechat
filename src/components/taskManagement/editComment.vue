@@ -78,6 +78,7 @@ export default {
             commentData: {
                 attachmentTargetType: 'responseComment',
                 taskReportText: '',
+                localIds: [],
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
@@ -136,6 +137,9 @@ export default {
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
             formData.taskReportParent = this.$route.query.taskReportParent
+            formData.parentReportor = this.$route.query.parentReportor
+
+            formData.url = 'http://mobile.socialmarketingcloud.com/taskManagement/activityTask?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&taskCode' + this.$route.query.taskCode
 
             util.request({
                 method: 'post',
@@ -146,18 +150,14 @@ export default {
                     this.setDetail({})
                     this.setAttachment({})
 
-                    var pathName = 'activity-detail'
-
-                    if (this.$route.query.type == 'edit') {
-                        pathName = 'edit-detail'
-                    }
-
                     var pathUrl = {
-                        name: pathName,
+                        name: 'task-report',
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
                             agentId: this.$route.query.agentId,
-                            taskCode: this.$route.query.taskCode
+                            taskCode: this.$route.query.taskCode,
+                            taskType: this.$route.query.taskType,
+                            editType: this.$route.query.editType
                         }
                     }
                     this.$router.replace(pathUrl)
@@ -171,7 +171,7 @@ export default {
 
             var pathName = 'attachment-list'
 
-            if (this.$route.query.type == 'edit') {
+            if (this.$route.query.taskType == 'edit') {
                 pathName = 'article-attachment'
             }
 
@@ -183,6 +183,12 @@ export default {
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }
+
+            if (this.$route.query.taskType == 'edit') {
+                pathUrl.query.number = 'unique'
+                pathUrl.query.type = 'draft'
+            }
+
             this.$router.push(pathUrl)
         },
         showBigImg (index) {

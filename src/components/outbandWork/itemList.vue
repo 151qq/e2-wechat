@@ -14,12 +14,6 @@
                     <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
                     <p class="weui-media-box__desc">{{item.workBeginTime}}</p>
                 </div>
-                <!-- <div class="weui-cell__ft" v-if="item.outbandStatus == '0'">
-                    <span class="no-done">待办</span>
-                </div>
-                <div class="weui-cell__ft" v-if="item.outbandStatus == '1'">
-                    <span class="is-doing">完成</span>
-                </div> -->
             </div>
         </div>
 

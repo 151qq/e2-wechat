@@ -1,5 +1,5 @@
 <template>
-    <section class="user-role-list">
+    <section class="user-role-list show-message-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin no-line">
             <div class="weui-cell weui-cell_access" @click="gotoAttachment">
@@ -149,6 +149,7 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     type: 'submit',
+                    pageCode: this.$route.query.pageCode,
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }

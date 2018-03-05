@@ -59,7 +59,7 @@
             </div>
         </template>
         
-        <template v-if="base.eventStatus == 'cancelled'">
+        <template v-if="base.eventStatus == '4'">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
                 <div class="weui-cell weui-cell_access no-center">
@@ -117,7 +117,7 @@
             </template>
         </template>
         
-        <template v-if="base.eventStatus != 'cancelled' && base.eventStatus != 'end'">
+        <template v-if="base.eventStatus != '4' && base.eventStatus != '5'">
             <div class="btn-height-box"></div>
             <div class="wx-bottom-nav">
                 <router-link class="wx-nav-item-20"
@@ -125,17 +125,17 @@
                     研讨
                 </router-link>
                 <a class="wx-nav-item"
-                    v-if="base.eventStatus != 'submitted' && isRoot"
+                    v-if="base.eventStatus != '3' && isRoot"
                     @click="submitCase">
                     发布
                 </a>
                 <a class="wx-nav-item"
-                    v-if="base.eventStatus != 'submitted' && !isRoot"
+                    v-if="base.eventStatus != '3' && !isRoot"
                     @click="gotoUser">
                     申请
                 </a>
                 <router-link class="wx-nav-item nav-blue"
-                             v-if="base.eventStatus == 'submitted' && isRoot"
+                             v-if="base.eventStatus == '3' && isRoot"
                              :to="{
                                 name: 'stop-activity',
                                 query: {

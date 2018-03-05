@@ -32,6 +32,7 @@ export default{
     ediltExtendsPage: platform + 'html5/ediltExtendsPage.json',
     getExtendPages: platform + 'html5/getExtendPages.json',
     replyComment: platform + 'comment/replyComment.json',
+    listPageAttachment: platform + 'html5/listPageAttachment.json',
 
     getUserByRoleCodes: platform + 'mobile/user/getUserByRoleCodes.json',
     /**

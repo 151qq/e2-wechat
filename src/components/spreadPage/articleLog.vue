@@ -83,6 +83,7 @@ export default {
                 method: 'get',
                 interface: 'pageLogList',
                 data: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
                     pageCode: this.$route.query.pageCode
                 }
             }).then(res => {

@@ -52,7 +52,7 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.imgData.attachmentSourceCodes"
+                                v-for="(item, index) in commentData.imgData.attachmentSourceCodes"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
@@ -187,6 +187,8 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
+                    pageCode: this.$route.query.pageCode,
+                    type: 'submit',
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }

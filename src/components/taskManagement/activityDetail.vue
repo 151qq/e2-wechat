@@ -69,7 +69,7 @@
                                     editType: editType
                                 }
                             }">
-                <span :class="base.taskReplayStatus == '1' ? 'has-read' : ''">任务回复</span>
+                任务回复
             </router-link>
         </div>
     </section>
@@ -144,7 +144,7 @@ export default {
 
                     this.getAttachments()
 
-                    if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1 && this.base.taskStatus != '2') {
+                    if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1 && this.base.taskReplyStatus != '2') {
                         this.changeTaskStatus()
                     }
                 } else {
@@ -176,7 +176,7 @@ export default {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 taskCode: this.$route.query.taskCode,
                 taskReceiver: this.userInfo.userCode,
-                taskStatus: '2'
+                taskReplyStatus: '2'
             }
 
             util.request({

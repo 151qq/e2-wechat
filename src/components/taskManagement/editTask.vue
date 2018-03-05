@@ -247,6 +247,7 @@ export default {
                 pageReaderCareerLabel: '',
                 pageReaderEnterpriseLabel: '',
                 attachmentTargetType: 'editTask',
+                localIds: [],
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []

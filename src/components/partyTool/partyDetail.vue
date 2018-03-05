@@ -154,7 +154,7 @@ import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
 import jsSdk from '../../utils/jsSdk'
 import sheet from '../common/sheet.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -187,16 +187,19 @@ export default {
         jsSdk.init()
         this.getBase()
         this.getAttachments()
+        this.setDetail({})
     },
     watch: {
         $route () {
             jsSdk.init()
             this.getBase()
             this.getAttachments()
+            this.setDetail({})
         }
     },
     computed: {
         ...mapGetters({
+            detailData: 'getDetail',
             userInfo: 'getUserInfo'
         }),
         isStart () {
@@ -214,6 +217,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions([
+          'setDetail'
+        ]),
         showSheet () {
             this.isShowSheet.value = true
         },

@@ -56,7 +56,7 @@
                         </div>
                         <div class="article-box"
                                 v-if="item.reportComment.commentArticles && item.reportComment.commentArticles.length">
-                            <div class="weui-cells no-margin">
+                            <div class="weui-cells">
                                 <router-link class="weui-media-box weui-media-box_appmsg"
                                         v-for="(article, index) in item.reportComment.commentArticles"
                                         :to="{
@@ -336,9 +336,16 @@ export default {
             }
 
             .article-box {
+                .weui-cells {
+                    margin-top: 10px;
+
+                    &:before {
+                        border: none;
+                    }
+                }
+
                 a {
                     display: flex;
-                    margin-top: 10px;
                     align-items: center;
                 }
 
@@ -356,7 +363,7 @@ export default {
                 }
 
                 .weui-media-box {
-                    padding: 10px 0;
+                    padding: 10px 5px;
                 }
 
                 .weui-media-box_appmsg .weui-media-box__hd {

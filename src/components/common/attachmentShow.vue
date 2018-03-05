@@ -119,10 +119,6 @@
                 </router-link>
             </template>
         </div>
-
-        <div class="null-box" v-if="!attachmentData.pageData || !attachmentData.pageData.length">
-            暂无内容!
-        </div>
     </section>
 </template>
 <script>

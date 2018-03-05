@@ -1,5 +1,5 @@
 <template>
-    <section class="stop-activity-box">
+    <section class="stop-activity-box show-message-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin no-line">
             <div class="weui-cell weui-cell_access no-center">
@@ -207,6 +207,7 @@ export default {
             if (opt == 'close') {
                 pathUrl.query.number = 'unique'
                 pathUrl.query.type = 'submit'
+                pathUrl.query.pageCode = this.$route.query.pageCode
             }
 
             this.$router.push(pathUrl)

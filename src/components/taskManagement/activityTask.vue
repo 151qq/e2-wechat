@@ -115,6 +115,7 @@ export default {
                 taskEndTime: '',
                 taskDesc: '',
                 attachmentTargetType: 'task',
+                localIds: [],
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
@@ -228,7 +229,6 @@ export default {
             })
         },
         gotoAttachment () {
-            console.log(this.formData, 'formData')
             this.setDetail(Object.assign({}, this.formData))
 
             var pathUrl = {
@@ -258,7 +258,7 @@ export default {
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         showBigImg (index) {
             this.nowIndex = index
