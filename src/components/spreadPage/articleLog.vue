@@ -22,32 +22,8 @@
                      v-if="item.imgDatas && item.imgDatas.length">
                     <img-list :img-list="item.imgDatas"></img-list>
                 </div>
-                <div class="article-box" v-if="item.pageDatas && item.pageDatas.length">
-                    <div class="weui-cells no-margin">
-                        <router-link class="weui-media-box weui-media-box_appmsg"
-                                v-for="(article, index) in item.pageDatas"
-                                :to="{
-                                    name: 'article-detail',
-                                    query: {
-                                        enterpriseCode: $route.query.enterpriseCode,
-                                        agentId: $route.query.agentId,
-                                        pageCode: article.pageCode,
-                                        appid: article.appId,
-                                        templateCode: article.templateCode,
-                                        S: userInfo.userCode,
-                                        C: 'e2nochannel',
-                                        T: 'e2nospread'
-                                    }
-                                }">
-                            <div class="weui-media-box__hd">
-                                <img class="weui-media-box__thumb" :src="article.pageCover">
-                            </div>
-                            <div class="weui-media-box__bd">
-                                <h4 class="weui-media-box__title">{{article.pageTitle}}</h4>
-                                <p class="weui-media-box__desc">{{article.pageAbstract}}</p>
-                            </div>
-                        </router-link>
-                    </div>
+                <div class="article-box" v-if="item.pageData.pageData && item.pageData.pageData.length">
+                    <attachment-show :attachment-data="item.pageData" :is-comment="true"></attachment-show>
                 </div>
             </div>
         </section>
@@ -59,6 +35,7 @@
 <script>
 import util from '../../utils/tools'
 import imgList from '../common/imgList.vue'
+import attachmentShow from '../common/attachmentShow.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
 import { mapGetters } from 'vuex'
 
@@ -100,7 +77,8 @@ export default {
         getDateDiff
     },
     components: {
-        imgList
+        imgList,
+        attachmentShow
     }
 }
 </script>
