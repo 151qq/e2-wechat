@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="weui-cells no-line left-padding">
+            <div class="weui-cells no-margin left-padding">
                 <a class="weui-media-box weui-media-box_appmsg"
                     v-for="(item, index) in couponData">
                 <div class="weui-media-box__hd">
@@ -341,8 +341,16 @@ export default {
                                 pathName: 'edit'
                             },
                             {
+                                label: '取消活动',
+                                pathName: 'end'
+                            },
+                            {
                                 label: '启动活动',
                                 pathName: 'start'
+                            },
+                            {
+                                label: '邀请参与活动',
+                                pathName: 'add'
                             },
                             {
                                 label: '建群讨论',
@@ -356,11 +364,11 @@ export default {
                                 pathName: 'close'
                             },
                             {
-                                label: '取消活动',
-                                pathName: 'end'
+                                label: '邀请参与活动',
+                                pathName: 'add'
                             },
                             {
-                                label: '邀请参与活动',
+                                label: '进入活动现场',
                                 pathName: 'activity'
                             },
                             {

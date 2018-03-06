@@ -6,7 +6,7 @@
                      v-model="formData.partyTitle"
                      placeholder="请输入文字"></x-input>
 
-            <datetime title="开始时间"
+            <!-- <datetime title="开始时间"
                       v-model="formData.planBeginTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
@@ -16,9 +16,9 @@
                       v-model="formData.planEndTime"
                       format="YYYY-MM-DD HH:mm:00"
                       placeholder="请填写时间"
-                      value-text-align="left"></datetime>
+                      value-text-align="left"></datetime> -->
 
-            <!-- <div class="weui-cell">
+            <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planBeginTime">
@@ -30,7 +30,7 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planEndTime">
                 </div>
-            </div> -->
+            </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
                 <div class="weui-cell__bd">
