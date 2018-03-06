@@ -176,7 +176,7 @@ body {
     font-size: 16px;
     line-height: 50px;
     text-align: center;
-    border-left: 1px solid #e5e5e5;
+    border-left: 1px solid #ffffff;
     color: #000000;
 
     &:first-child {
@@ -189,8 +189,21 @@ body {
     text-align: right;
     font-size: 16px;
     line-height: 2.4;
-    border-left: 1px solid #e5e5e5;
+    border-left: 1px solid #ffffff;
     color: #000000;
+  }
+
+  .wx-nav-item-66 {
+    width: 66%;
+    font-size: 16px;
+    line-height: 50px;
+    text-align: center;
+    border-left: 1px solid #ffffff;
+    color: #000000;
+
+    &:first-child {
+      border: none;
+    }
   }
 }
 
@@ -559,7 +572,7 @@ body {
 
 .mapBox {
     box-sizing: border-box;
-    height: 120px;
+    height: 160px;
     overflow: hidden;
 
     img {
@@ -653,7 +666,7 @@ body {
   height: 10px;
   border-radius: 5px;
   background-color: #F43530;
-  top: 10px;
+  top: 5px;
   left: 60px;
   z-index: 188;
 }
@@ -674,6 +687,12 @@ body {
 }
 
 .small-img {
+  width: 30px;
+  margin-right: 5px;
+  display: block;
+}
+
+.mini-img {
   width: 20px;
   margin-right: 5px;
   display: block;
@@ -691,5 +710,10 @@ body {
   width: 50px;
   height: 50px;
   line-height: 50px;
+}
+
+.content-box .des-box {
+  font-size: 16px !important;
+  color: #666666;
 }
 

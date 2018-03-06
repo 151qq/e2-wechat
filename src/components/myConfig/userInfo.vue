@@ -76,7 +76,7 @@ export default {
             var pathUrl = {
                 name: 'registor-message',
                 query: {
-                    enterpriseCode: data.enterpriseCode,
+                    enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     userId: this.userInfo.userWechatUserid,
                     userCode: this.userInfo.userCode,

@@ -108,7 +108,7 @@ export default {
             this.setMapInfo(mapData)
             
             var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         initMap () {
             if (!this.map) {

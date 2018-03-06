@@ -40,6 +40,14 @@ const routers = [
     }
   },
   {
+    // 选择用户
+    path: '/we-chat',
+    name: 'we-chat',
+    component (resolve) {
+      require(["../../components/common/we-chat.vue"], resolve)
+    }
+  },
+  {
     // 附件分类
     path: '/attachment',
     name: 'attachment',
@@ -591,6 +599,22 @@ const routers = [
         path: 'partyGift',
         name: 'party-gift',
         component: resolve => require(["../../components/partyTool/partyGift.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'editLog',
+        name: 'edit-log',
+        component: resolve => require(["../../components/partyTool/editLog.vue"], resolve),
+        meta: {
+          token:false
+        }
+      },
+      {
+        path: 'giftLog',
+        name: 'gift-log',
+        component: resolve => require(["../../components/partyTool/giftLog.vue"], resolve),
         meta: {
           token:false
         }

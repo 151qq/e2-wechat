@@ -9,16 +9,18 @@
             </div>
             <div class="content-box">
                 <div class="title-box">
-                    <span class="title">{{item.userName}}</span>
+                    <span class="title">
+                        {{item.userName}}&nbsp;&nbsp;
+                        <a v-if="item.taskReportParent"
+                            class="response-nav"
+                            :href="'#comment-' + item.taskReportParent">@第{{item.taskReportParent}}楼</a>
+                    </span>
                     <div class="date-box">
                         {{item.taskReportFloor}}楼 {{item.taskReportTime | getDateDiff}}
                     </div>
                 </div>
                 <div class="des-box"
                      v-if="item.status == '1' && item.taskReportText">
-                     <a v-if="item.taskReportParent"
-                        class="response-nav"
-                        :href="'#comment-' + item.taskReportParent">@第{{item.taskReportParent}}楼：</a>
                     {{item.taskReportText}}
                 </div>
 
@@ -50,16 +52,28 @@
                 </div>
             </div>
         </section>
-        <template v-if="$route.query.editType == '1' || $route.query.editType == '2'">
-            <div class="btn-height-box"></div>
-            <div class="weui-btn-area">
-                <a class="weui-btn weui-btn_primary" @click="showSubmit('1')">汇报</a>
-            </div>
-        </template>
 
         <div class="null-page" v-if="!commentList.length && isPage">
             暂无内容！
         </div>
+
+        <template v-if="isPage && $route.query.editType == '0'">
+            <div class="btn-height-box"></div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary"  @click="gotoWechat">沟通</a>
+            </div>
+        </template>
+
+        <template v-if="isPage && ($route.query.editType == '2' || $route.query.editType == '1')">
+            <div class="wx-bottom-nav">
+                <a class="wx-nav-item-20" @click="gotoWechat">
+                    沟通
+                </a>
+                <a class="wx-nav-item nav-blue" @click="showSubmit('1')">
+                    汇报
+                </a>
+            </div>
+        </template>
     </section>
 </template>
 <script>
@@ -67,7 +81,7 @@ import util from '../../utils/tools'
 import imgList from '../common/imgList.vue'
 import attachmentShow from '../common/attachmentShow.vue'
 import { getDateDiff } from '../../assets/common/utils.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -82,10 +96,14 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userInfo: 'getUserInfo'
+            userInfo: 'getUserInfo',
+            userData: 'getUser'
         })
     },
     methods: {
+        ...mapActions([
+          'setUser'
+        ]),
         showSubmit (type, floor, userCode) {
             var pathUrl = {
                 name: 'edit-comment',
@@ -162,6 +180,50 @@ export default {
                 interface: 'changeTaskStatus',
                 data: formData
             }).then(res => {})
+        },
+        gotoWechat () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                taskCode: this.$route.query.taskCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'getTaskSenderAndReceivers',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var attData = {
+                        userList: [],
+                        userCodes: []
+                    }
+
+                    if (res.result.result.taskSender) {
+                        attData.userCodes.push(res.result.result.taskSender)
+                    }
+
+                    if (res.result.result.taskReceiver) {
+                        attData.userCodes = attData.userCodes.concat(res.result.result.taskReceiver)
+                    }
+
+                    this.setUser(attData)
+
+                    var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'
+                    urlPath = urlPath + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&taskCode=' + this.$route.query.taskCode
+
+                    var pathUrl = {
+                        name: 'user-list',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            redirectUrl: window.encodeURIComponent(urlPath)
+                        }
+                    }
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
         }
     },
     filters: {

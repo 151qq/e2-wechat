@@ -44,7 +44,8 @@ const jsSdk = {
                         'uploadImage',
                         'previewImage',
                         'showMenuItems',
-                        'hideAllNonBaseMenuItem'
+                        'hideAllNonBaseMenuItem',
+                        'openEnterpriseChat'
                     ]
                 })
             } else {
@@ -78,16 +79,21 @@ const jsSdk = {
         }
 
         var localId = localIds.splice(0, 1)[0]
-        
-        window.wx.uploadImage({
-            localId: localId,
-            isShowProgressTips: 1,
-            success: function (res) {
-                serverIdList.push(res.serverId)
 
-                jsSdk.uploadImg(localIds, serverIdList, cb)
-            }
-        })
+        if (localId.indexOf('http') > -1) {
+            // 用作更新
+            serverIdList.push(localId)
+            jsSdk.uploadImg(localIds, serverIdList, cb)
+        } else {
+            window.wx.uploadImage({
+                localId: localId,
+                isShowProgressTips: 1,
+                success: function (res) {
+                    serverIdList.push(res.serverId)
+                    jsSdk.uploadImg(localIds, serverIdList, cb)
+                }
+            })
+        }
     }
 }
 

@@ -9,7 +9,7 @@
                         eventCode: item.eventCode
                     }}">
 
-                <div v-if="item.eventStatus == '1'" class="no-read"></div>
+                <!-- <div v-if="item.eventStatus == '1'" class="no-read"></div> -->
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.eventPlanCover">
                 </div>

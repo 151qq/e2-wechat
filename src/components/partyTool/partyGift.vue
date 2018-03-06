@@ -7,10 +7,12 @@
         <div class="text-box">
             {{userInfo.userWechatNickname + '-' + userInfo.userLoginAccount}}
         </div>
-        
-        <div class="btn-height-box"></div>
 
         <div class="btn-gigt-box">
+            <a class="weui-btn weui-btn_primary" @click="submitLog">活动现场直播</a>
+        </div>
+
+        <div class="btn-gist-box" v-if="$route.query.partyStatus == '3'">
             <a class="weui-btn weui-btn_primary" @click="submitGift">赠送礼品</a>
         </div>
     </section>
@@ -56,6 +58,19 @@ export default {
                 }
             })
         },
+        submitLog () {
+            var pathUrl = {
+                name: 'gift-log',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    partyCode: this.$route.query.partyCode,
+                    partyAlbum: this.$route.query.partyAlbum
+                }
+            }
+
+            this.$router.push(pathUrl)
+        },
         submitGift () {
             var link = 'http://site.socialmarketingcloud.com/receiveGift?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&partyCode=' + this.$route.query.partyCode
 
@@ -99,6 +114,10 @@ export default {
 
     .btn-gigt-box {
         margin: 30px 15px 10px;
+    }
+
+    .btn-gist-box {
+        margin: 10px 15px 0;
     }
 }
 </style>

@@ -120,10 +120,9 @@
         <template v-if="base.eventStatus != '4' && base.eventStatus != '5'">
             <div class="btn-height-box"></div>
             <div class="wx-bottom-nav">
-                <router-link class="wx-nav-item-20"
-                                :to="{}">
-                    研讨
-                </router-link>
+                <a class="wx-nav-item-20" @click="goToChat">
+                    沟通
+                </a>
                 <a class="wx-nav-item"
                     v-if="base.eventStatus != '3' && isRoot"
                     @click="submitCase">
@@ -153,7 +152,7 @@
 <script>
 import imgList from '../common/imgList.vue'
 import util from '../../utils/tools'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -181,7 +180,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userInfo: 'getUserInfo'
+            userInfo: 'getUserInfo',
+            userData: 'getUser'
         }),
         isRoot () {
             var roleCodes = []
@@ -199,6 +199,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions([
+          'setUser'
+        ]),
         formDataDate (str) {
             var dateStr = new Date(str)
             var year = dateStr.getFullYear()
@@ -219,8 +222,8 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    res.result.result.eventStartTime = this.formDataDate(res.result.result.eventStartTime)
-                    res.result.result.eventEndTime = this.formDataDate(res.result.result.eventEndTime)
+                    res.result.result.eventStartTime = res.result.result.eventStartTime.split(' ')[0]
+                    res.result.result.eventEndTime = res.result.result.eventEndTime.split(' ')[0]
 
                     this.base = res.result.result
                 } else {
@@ -299,6 +302,35 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        goToChat () {
+            var attData = {
+                userList: [],
+                userCodes: []
+            }
+
+            if (this.base.eventDesigner) {
+                attData.userCodes.push(this.base.eventDesigner)
+            }
+
+            if (this.base.eventApprover) {
+                attData.userCodes = attData.userCodes.concat(this.base.eventApprover.split(','))
+            }
+
+            this.setUser(attData)
+
+            var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'
+                urlPath = urlPath + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&eventCode=' + this.$route.query.eventCode
+
+            var pathUrl = {
+                name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    redirectUrl: window.encodeURIComponent(urlPath)
+                }
+            }
+            this.$router.push(pathUrl)
         }
     },
     components: {

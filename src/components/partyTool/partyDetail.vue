@@ -120,8 +120,8 @@
         </template>
         
 
-        <div class="btn-height-box" v-if="base.partyStatus != '4' && base.partyStatus != '5'"></div>
-        <template v-if="base.partyOwner == userInfo.userCode && base.partyStatus != '4' && base.partyStatus != '5'">
+        <div class="btn-height-box"></div>
+        <template v-if="isPage && base.partyOwner == userInfo.userCode && base.partyStatus != '4' && base.partyStatus != '5'">
             <div class="weui-btn-area">
                 <a class="weui-btn weui-btn_primary"
                     @click="showSheet">
@@ -129,15 +129,39 @@
                 </a>
             </div>
         </template>
-        <template v-if="base.partyOwner != userInfo.userCode && base.partyStatus != '4' && base.partyStatus != '5'">
-            <div class="weui-btn-area">
-                <router-link class="weui-btn weui-btn_primary"
-                            :to="{
+        <template v-if="isPage && base.partyOwner == userInfo.userCode && (base.partyStatus == '4' && base.partyStatus == '5')">
+            <div class="wx-bottom-nav">
+                <a class="wx-nav-item-20" @click="goToChat">
+                    沟通
+                </a>
+                <router-link class="wx-nav-item nav-blue"
+                                :to="{
                                 name: 'party-gift',
                                 query: {
                                     enterpriseCode: $route.query.enterpriseCode,
                                     agentId: $route.query.agentId,
-                                    partyCode: $route.query.partyCode
+                                    partyCode: $route.query.partyCode,
+                                    partyStatus: base.partyStatus
+                                }
+                            }">
+                    进入活动现场
+                </router-link>
+            </div>
+        </template>
+        <template v-if="isPage && base.partyOwner != userInfo.userCode && base.partyStatus != '2' && base.partyStatus != '1'">
+            <div class="wx-bottom-nav">
+                <a class="wx-nav-item-20" @click="goToChat">
+                    沟通
+                </a>
+                <router-link class="wx-nav-item nav-blue"
+                                :to="{
+                                name: 'party-gift',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    partyCode: $route.query.partyCode,
+                                    partyStatus: base.partyStatus,
+                                    partyAlbum: base.partyAlbum
                                 }
                             }">
                     进入活动现场
@@ -188,6 +212,10 @@ export default {
         this.getBase()
         this.getAttachments()
         this.setDetail({})
+
+        if (!this.isEnd) {
+            this.endActivity()
+        }
     },
     watch: {
         $route () {
@@ -195,30 +223,35 @@ export default {
             this.getBase()
             this.getAttachments()
             this.setDetail({})
+
+            if (!this.isEnd) {
+                this.endActivity()
+            }
         }
     },
     computed: {
         ...mapGetters({
             detailData: 'getDetail',
-            userInfo: 'getUserInfo'
+            userInfo: 'getUserInfo',
+            userData: 'getUser'
         }),
-        isStart () {
-            if (this.base.partyStatus = '0' && this.base.planBeginTime && this.base.planEndTime) {
+        isEnd () {
+            if (this.base.partyStatus !== '4' && this.base.planBeginTime && this.base.planEndTime) {
                 var nowDateStr = new Date().getTime()
-                var startDateStr = new Date(this.base.planBeginTime).getTime()
                 var stopDateStr = new Date(this.base.planEndTime).getTime()
 
-                if (nowDateStr >= startDateStr && nowDateStr <= stopDateStr) {
+                if (nowDateStr > stopDateStr) {
                     return true
                 }
                 return false
             }
-            return false
+            return true
         }
     },
     methods: {
         ...mapActions([
-          'setDetail'
+          'setDetail',
+          'setUser'
         ]),
         showSheet () {
             this.isShowSheet.value = true
@@ -273,11 +306,15 @@ export default {
                         query: {
                             enterpriseCode: this.$route.query.enterpriseCode,
                             agentId: this.$route.query.agentId,
-                            partyCode: this.$route.query.partyCode
+                            partyCode: this.$route.query.partyCode,
+                            partyStatus: this.base.partyStatus,
+                            partyAlbum: this.base.partyAlbum
                         }
                     }
 
                 this.$router.push(pathUrl)
+            } else if (item.pathName == 'gotoWechat') {
+                this.gotoWechat()
             }
         },
         getBase () {
@@ -308,8 +345,8 @@ export default {
                                 pathName: 'start'
                             },
                             {
-                                label: '邀请参与活动',
-                                pathName: 'add'
+                                label: '建群讨论',
+                                pathName: 'gotoWechat'
                             }
                         ]
                     } else if (this.base.partyStatus == '3') {
@@ -325,6 +362,10 @@ export default {
                             {
                                 label: '邀请参与活动',
                                 pathName: 'activity'
+                            },
+                            {
+                                label: '建群讨论',
+                                pathName: 'gotoWechat'
                             }
                         ]
                     } else {
@@ -399,20 +440,143 @@ export default {
                 }
             })
         },
+        endActivity () {
+            var formData = {}
+            formData.enterpriseCode = this.$route.query.enterpriseCode
+            formData.agentId = this.$route.query.agentId
+            formData.partyCode = this.$route.query.partyCode
+            formData.partyResult = '1'
+            formData.partyStatus = '4'
+            formData.partySummary = '活动以到期，自动结束！'
+
+            util.request({
+                method: 'post',
+                interface: 'reviewInsertImage',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var pathUrl = {
+                        name: 'party-detail',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode
+                        }
+                    }
+                    this.$router.replace(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
         gotoUser () {
-            var urlPath = window.location.href
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'partyAttendee',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var attData = {
+                        userList: [],
+                        userCodes: []
+                    }
+
+                    var userCodes = []
+                    res.result.result.forEach((item) => {
+                        userCodes.push(item.userCode)
+                    })
+
+                    attData.userCodes = [].concat(userCodes)
+
+                    this.setUser(attData)
+
+                    var urlPath = window.location.href
+
+                    var pathUrl = {
+                        name: 'user-list',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            partyCode: this.$route.query.partyCode,
+                            redirectUrl: window.encodeURIComponent(urlPath)
+                        }
+                    }
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        goToChat () {
+            var attData = {
+                userList: [],
+                userCodes: [this.base.partyOwner]
+            }
+
+            this.setUser(attData)
+
+            var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'
+                urlPath = urlPath + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&partyCode=' + this.base.partyCode
 
             var pathUrl = {
                 name: 'user-list',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    partyCode: this.$route.query.partyCode,
-                    isUpdate: '1',
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
             this.$router.push(pathUrl)
+        },
+        gotoWechat () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                partyCode: this.$route.query.partyCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'partyAttendee',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var attData = {
+                        userList: [],
+                        userCodes: []
+                    }
+
+                    var userCodes = []
+                    res.result.result.forEach((item) => {
+                        userCodes.push(item.userCode)
+                    })
+
+                    attData.userCodes = [].concat(userCodes)
+
+                    attData.userCodes.push(this.base.partyOwner)
+
+                    this.setUser(attData)
+
+                    var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'
+                    urlPath = urlPath + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&partyCode=' + this.base.partyCode
+
+                    var pathUrl = {
+                        name: 'user-list',
+                        query: {
+                            enterpriseCode: this.$route.query.enterpriseCode,
+                            agentId: this.$route.query.agentId,
+                            redirectUrl: window.encodeURIComponent(urlPath)
+                        }
+                    }
+                    this.$router.push(pathUrl)
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
         }
     },
     components: {

@@ -9,7 +9,7 @@
                 <div v-if="item.partyStatus == '1'" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
-                         :src="item.addrLink">
+                         :src="item.partyCover">
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.partyTitle}}</h4>

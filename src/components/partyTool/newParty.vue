@@ -6,18 +6,31 @@
                      v-model="formData.partyTitle"
                      placeholder="请输入文字"></x-input>
 
-            <div class="weui-cell">
+            <datetime title="开始时间"
+                      v-model="formData.planBeginTime"
+                      format="YYYY-MM-DD HH:mm:00"
+                      placeholder="请填写时间"
+                      value-text-align="left"></datetime>
+
+            <datetime title="结束时间"
+                      v-model="formData.planEndTime"
+                      format="YYYY-MM-DD HH:mm:00"
+                      placeholder="请填写时间"
+                      value-text-align="left"></datetime>
+
+            <!-- <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.planBeginTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planBeginTime">
                 </div>
             </div>
+
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.planEndTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planEndTime">
                 </div>
-            </div>
+            </div> -->
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
                 <div class="weui-cell__bd">
@@ -28,6 +41,34 @@
                 </div>
             </div>
         </group>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">活动封面</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   请选择一张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
+            <div class="weui-cell no-line">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                         <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file"
+                                v-if="formData.partyCover"
+                                @click="showBigImage">
+                                    <img :src="formData.partyCover">
+                            </li>
+                            <li @click="chooseImg" class="weui-uploader__input-box"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
@@ -108,6 +149,11 @@
                     :img-path="nowPath"
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
+
+        <delete-img :index="nowIndex"
+                    :img-path="nowPath"
+                    :is-show-img="isShowImage"
+                    @deleteImg="deleteImage"></delete-img>
     </section>
 </template>
 <script>
@@ -132,6 +178,7 @@ export default {
                 addrDetail: '',
                 partyDesc: '',
                 partyAlbum: '',
+                partyCover: '',
                 attachmentTargetType: 'party',
                 imgData: {
                     attachmentSourceType: 'attachmen_type_1',
@@ -148,6 +195,10 @@ export default {
             isShowImg: {
                 value: false
             },
+            isShowImage: {
+                value: false
+            },
+            serverId: '',
             serverIdList: [],
             themesList: [],
             cityList: [],
@@ -163,13 +214,10 @@ export default {
                 this.formData.planBeginTime = this.detailData.planBeginTime
                 this.formData.planEndTime = this.detailData.planEndTime
             }, 0)
-        } else {
-            this.formData.planBeginTime = new Date()
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
             this.getBase()
-            this.getAttachments()
         }
     },
     computed: {
@@ -178,7 +226,8 @@ export default {
             attachmentData: 'getAttachment',
             attachmentPage: 'getAttachmentPage',
             detailData: 'getDetail',
-            mapData: 'getMapInfo'
+            mapData: 'getMapInfo',
+            userData: 'getUser'
         })
     },
     methods: {
@@ -186,7 +235,8 @@ export default {
           'setAttachment',
           'setAttachmentPage',
           'setDetail',
-          'setMapInfo'
+          'setMapInfo',
+          'setUser'
         ]),
         chooseImage () {
             var num = 9 - this.formData.imgData.attachmentSourceCodes.length
@@ -194,10 +244,29 @@ export default {
                 this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
             })
         },
+        chooseImg () {
+            var num = 1
+            jsSdk.chooseImage(num ,(localIds) => {
+                this.formData.partyCover = localIds[0]
+            })
+        },
         submitComment () {
+            var num = 0
+
+            jsSdk.uploadImgs([this.formData.partyCover], (serverIdList) => {
+                this.formData.partyCover = serverIdList[0]
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
+            })
+
             jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
             })
         },
         submitFn () {
@@ -303,6 +372,8 @@ export default {
 
                         this.setAttachmentPage(attData)
                     }
+
+                    this.getAttachments()
                     
                 } else {
                     this.$message.error(res.result.message)
@@ -324,14 +395,11 @@ export default {
                 if (res.result.success == '1') {
                     var data = res.result.result
 
-                    if (this.attachmentData.targetType) {
-                        return false
-                    }
+                    // if (this.attachmentData.targetType) {
+                    //     return false
+                    // }
 
-                    this.formData.imgData = {
-                        attachmentSourceType: 'attachmen_type_1',
-                        attachmentSourceCodes: data.imgData
-                    }
+                    this.formData.imgData.attachmentSourceCodes = data.imgData
 
                     var attachmentList = data.pageData
                     var attachmentCodes = []
@@ -366,8 +434,6 @@ export default {
                     }
 
                     this.setAttachment(attData)
-
-                    console.log(this.attachmentData, 'attData')
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -422,26 +488,72 @@ export default {
                 urlPath = urlPath + '&partyCode=' + partyCode
             }
 
-            var pathUrl = {
-                name: 'user-list',
-                query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    partyCode: partyCode,
-                    redirectUrl: window.encodeURIComponent(urlPath)
-                }
-            }
-
             if (this.$route.query.partyCode) {
-                pathUrl.query.isUpdate = '1'
-            }
+                var formData = {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    partyCode: this.$route.query.partyCode
+                }
 
-            this.$router.push(pathUrl)
+                util.request({
+                    method: 'get',
+                    interface: 'partyAttendee',
+                    data: formData
+                }).then(res => {
+                    if (res.result.success == '1') {
+                        var attData = {
+                            userList: [],
+                            userCodes: []
+                        }
+
+                        var userCodes = []
+                        res.result.result.forEach((item) => {
+                            userCodes.push(item.userCode)
+                        })
+
+                        attData.userCodes = [].concat(userCodes)
+
+                        this.setUser(attData)
+
+                        var pathUrl = {
+                            name: 'user-list',
+                            query: {
+                                enterpriseCode: this.$route.query.enterpriseCode,
+                                agentId: this.$route.query.agentId,
+                                partyCode: partyCode,
+                                redirectUrl: window.encodeURIComponent(urlPath)
+                            }
+                        }
+
+                        this.$router.replace(pathUrl)
+                    } else {
+                        this.$message.error(res.result.message)
+                    }
+                })
+            } else {
+                var pathUrl = {
+                    name: 'user-list',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        partyCode: partyCode,
+                        redirectUrl: window.encodeURIComponent(urlPath)
+                    }
+                }
+
+                this.$router.replace(pathUrl)
+            }
         },
         showBigImg (index) {
             this.nowIndex = index
             this.nowPath = this.formData.imgData.attachmentSourceCodes[index]
             this.isShowImg.value = true
+        },
+        showBigImage () {
+            this.nowPath = this.formData.partyCover
+            this.isShowImage.value = true
+        },
+        deleteImage () {
+            this.formData.partyCover = ''
         },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)

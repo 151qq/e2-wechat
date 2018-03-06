@@ -1,5 +1,5 @@
 <template>
-    <section class="weui-media-box weui-media-box_small-appmsg">
+    <section class="attachment-list-big-box weui-media-box weui-media-box_small-appmsg">
         <div class="weui-cells">
             <router-link class="weui-cell weui-cell_access"
                     replace
@@ -13,7 +13,7 @@
                             }
                         }">
                 <div class="weui-cell__hd">
-                    <img :src="item.icon" class="small-img">
+                    <img :src="item.icon" class="mini-img">
                 </div>
                 <div class="weui-cell__bd weui-cell_primary">
                     <div class="small-title">{{item.title}}</div>
@@ -70,9 +70,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.market-list-box {
-    .weui-cells {
-        margin-top: 0;
-    }
+.attachment-list-big-box {
+    padding: 0;
 }
 </style>

@@ -8,7 +8,7 @@
                 <img :src="base.memberImage">
             </div>
             <div class="name-box">
-                {{base.memberWechatNickname + '-' + base.memberMobile}}
+                {{base.memberWechatNickname}}
             </div>
         </div>
         <group class="no-margin" label-width="105px">

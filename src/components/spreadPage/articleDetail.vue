@@ -76,21 +76,21 @@
         <!-- 发布状态 -->
         <template v-if="isPublist">
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
-                <a class="wx-nav-item"
-                    @click="sharePartener">
-                    分享同事
+                <a class="wx-nav-item-66"
+                    @click="shareWechat">
+                    分享微信
                 </a>
                 <a class="wx-nav-item nav-blue"
                     @click="showSheet">
                     文章管理
                 </a>
-                <a class="wx-nav-item"
-                    @click="shareWechat">
-                    分享微信
-                </a>
             </div>
 
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2'">
+                <a class="wx-nav-item-66"
+                    @click="showBtn">
+                    审核
+                </a>
                 <router-link class="wx-nav-item nav-blue"
                             :to="{
                                 name: 'article-log',
@@ -102,10 +102,6 @@
                             }">
                     管理日志
                 </router-link>
-                <a class="wx-nav-item"
-                    @click="showBtn">
-                    审核
-                </a>
             </div>
 
             <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">
@@ -128,6 +124,10 @@
                     @click="sharePartener">
                     分享同事
                 </a>
+                <a class="wx-nav-item"
+                    @click="shareWechat">
+                    分享微信
+                </a>
                 <router-link class="wx-nav-item nav-blue"
                             :to="{
                                 name: 'article-log',
@@ -139,10 +139,6 @@
                             }">
                     审核记录
                 </router-link>
-                <a class="wx-nav-item"
-                    @click="shareWechat">
-                    分享微信
-                </a>
             </div>
         </template>
         <template v-if="!isPublist && articleData.pageStatus != '1'">

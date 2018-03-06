@@ -5,6 +5,7 @@
         </div>
 
         <div class="delete-box">
+            <span></span>
             <a href="javascript:" class="weui-gallery__del" @click.stop="deleteImg">
                 <i class="weui-icon-delete weui-icon_gallery-delete"></i>
             </a>
@@ -54,16 +55,29 @@ export default {
     .delete-box {
         position: absolute;
         width: 100%;
-        bottom: 0;
+        bottom: 10px;
         left: 0;
-        height: 60px;
+        height: 50px;
         text-align: center;
-        a {
+
+        span {
             display: inline-block;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
+            background: #000000;
+            border-radius: 30px;
+            opacity: 0.8;
+        }
+
+        a {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: -25px;
             text-align: center;
-            line-height: 60px;
+            line-height: 50px;
         }
     }
 }

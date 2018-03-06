@@ -8,7 +8,7 @@
                 <img :src="base.memberImage">
             </div>
             <div class="name-box">
-                {{base.memberWechatNickname + '-' + base.memberMobile}}
+                {{base.memberWechatNickname}}
             </div>
         </div>
         <div class="weui-cells">
@@ -20,7 +20,40 @@
                 <div class="weui-cell__hd"><label class="weui-label">外呼方式</label></div>
                 <div class="weui-cell__bd">{{base.outbandRealType}}</div>
             </div>
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">推荐策略</label></div>
+                <div class="weui-cell__bd">
+                   {{base.productRecommendRule}}
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">导购策略</label></div>
+                <div class="weui-cell__bd">
+                   {{base.shoppingGuideRule}}
+                </div>
+            </div>            
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
             <router-link class="weui-cell weui-cell_access"
+                        :to="{
+                            name: 'noline-qz',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                pipelineCode: base.pipelineCode
+                            }
+                        }">
+                <div class="weui-cell__hd"><label class="weui-label">商机来源</label></div>
+                <div class="weui-cell__bd"></div>
+                <div class="weui-cell__ft"></div>
+            </router-link>   
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+                <router-link class="weui-cell weui-cell_access"
                         :to="{
                             name: 'noline-sj',
                             query: {
@@ -34,39 +67,6 @@
                 <div class="weui-cell__bd">{{tuiMessage}}</div>
                 <div class="weui-cell__ft"></div>
             </router-link>
-            <router-link class="weui-cell weui-cell_access"
-                        :to="{
-                            name: 'noline-qz',
-                            query: {
-                                enterpriseCode: $route.query.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                pipelineCode: base.pipelineCode
-                            }
-                        }">
-                <div class="weui-cell__hd"><label class="weui-label">潜在商机</label></div>
-                <div class="weui-cell__bd"></div>
-                <div class="weui-cell__ft"></div>
-            </router-link>
-        </div>
-
-        <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access no-center">
-                <div class="weui-cell__hd"><label class="weui-label">推荐策略</label></div>
-                <div class="weui-cell__bd">
-                   {{base.productRecommendRule}}
-                </div>
-            </div>       
-        </div>
-
-        <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access no-center">
-                <div class="weui-cell__hd"><label class="weui-label">导购策略</label></div>
-                <div class="weui-cell__bd">
-                   {{base.shoppingGuideRule}}
-                </div>
-            </div>       
         </div>
         
         <div class="btn-height-box"></div>

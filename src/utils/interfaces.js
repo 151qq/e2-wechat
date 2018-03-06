@@ -15,6 +15,7 @@ export default{
     delectUserRole: platform + 'mobile/authorize/delectUserRole.json',
     sendUserRoleMsg: platform + 'mobile/authorize/sendUserRoleMsg.json',
     getEnterpriseLogo: platform + 'getEnterpriseLogo.json',
+    getUserIds: platform + 'mobile/user/getUserIds.json',
     
     html5PageList: platform + 'html5/html5PageList.json',
     html5PageGet: platform + 'html5/html5PageGet.json',
@@ -113,6 +114,7 @@ export default{
     changeTaskStatus: platform + 'mobile/task/changeTaskStatus.json',
 
     saveTaskReportComment: platform + 'mobile/task/saveTaskReportComment.json',
+    getTaskSenderAndReceivers: platform + 'mobile/task/getTaskSenderAndReceivers.json',
 
     /**
     * 附件 get
@@ -142,7 +144,8 @@ export default{
     partyAttendee: platform + 'partyInfo/partyAttendee.json',
     partyLocal: platform + 'partyInfo/partyLocal.json',
     reviewList: platform + 'partyInfo/reviewList.json',
-
+    partyShowList: platform + 'partyInfo/partyShowList.json',
+    savePartyShow: platform + 'partyInfo/savePartyShow.json',
     /**
     * 营销分析 get
     */

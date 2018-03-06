@@ -54,24 +54,41 @@
         </template>
 
         <div class="btn-height-box"></div>
-        <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item"
-                            :to="{}">
-                研讨
-            </router-link>
-            <router-link class="wx-nav-item nav-blue"
-                            :to="{
-                                name: 'task-report',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    taskCode: $route.query.taskCode,
-                                    editType: editType
-                                }
-                            }">
-                任务回复
-            </router-link>
-        </div>
+        <template v-if="isPage && editType == '1'">
+            <div class="wx-bottom-nav">
+                <a class="wx-nav-item-20" @click="goToChat">
+                    沟通
+                </a>
+                <router-link class="wx-nav-item nav-blue"
+                                :to="{
+                                    name: 'task-report',
+                                    query: {
+                                        enterpriseCode: $route.query.enterpriseCode,
+                                        agentId: $route.query.agentId,
+                                        taskCode: $route.query.taskCode,
+                                        editType: editType
+                                    }
+                                }">
+                    任务回复
+                </router-link>
+            </div>
+        </template>
+        <template v-if="isPage && editType != '1'">
+            <div class="weui-btn-area">
+                <router-link class="weui-btn weui-btn_primary"
+                                :to="{
+                                    name: 'task-report',
+                                    query: {
+                                        enterpriseCode: $route.query.enterpriseCode,
+                                        agentId: $route.query.agentId,
+                                        taskCode: $route.query.taskCode,
+                                        editType: editType
+                                    }
+                                }">
+                    任务回复
+                </router-link>
+            </div>
+        </template>
     </section>
 </template>
 <script>
@@ -79,7 +96,7 @@ import imgList from '../common/imgList.vue'
 import jsSdk from '../../utils/jsSdk'
 import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -114,7 +131,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userInfo: 'getUserInfo'
+            userInfo: 'getUserInfo',
+            userData: 'getUser'
         }),
         editType () {
             if (this.base.taskReceivers && this.base.taskReceivers.indexOf(this.userInfo.userCode) > -1 && this.userInfo.userCode == this.base.taskSender) {
@@ -127,6 +145,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions([
+          'setUser'
+        ]),
         getBase () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
@@ -141,6 +162,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result
+                    this.isPage = true
 
                     this.getAttachments()
 
@@ -184,6 +206,31 @@ export default {
                 interface: 'changeTaskStatus',
                 data: formData
             }).then(res => {})
+        },
+        goToChat () {
+            var attData = {
+                userList: [],
+                userCodes: []
+            }
+
+            if (this.base.taskSender) {
+                attData.userCodes.push(this.base.taskSender)
+            }
+
+            this.setUser(attData)
+
+            var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'
+                urlPath = urlPath + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&taskCode=' + this.$route.query.taskCode
+
+            var pathUrl = {
+                name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    redirectUrl: window.encodeURIComponent(urlPath)
+                }
+            }
+            this.$router.push(pathUrl)
         }
     },
     components: {

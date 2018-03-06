@@ -51,8 +51,9 @@ export default {
         } else {
             this.getList()
         }
-        if (this.$route.query.isUpdate == '1') {
-            this.getAdds()
+
+        if (this.userData.userCodes) {
+            this.userCodes = this.userData.userCodes.concat([])
         }
     },
     computed: {
@@ -172,29 +173,6 @@ export default {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
-                }
-            })
-        },
-        getAdds () {
-            var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                partyCode: this.$route.query.partyCode
-            }
-
-            util.request({
-                method: 'get',
-                interface: 'partyAttendee',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    var userCodes = []
-                    res.result.result.forEach((item) => {
-                        userCodes.push(item.userCode)
-                    })
-
-                    this.userCodes = [].concat(userCodes)
-                } else {
-                    this.$message.error(res.result.message)
                 }
             })
         },
