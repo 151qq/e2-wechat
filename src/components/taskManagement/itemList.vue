@@ -29,14 +29,14 @@
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
             <a class="wx-nav-item"
-                :class="interface == 'getPendingTasks' ? 'nav-now' : ''"
-                @click="setStatus('getPendingTasks')">
-                我的待办任务
-            </a>
-            <a class="wx-nav-item"
                 :class="interface == 'getSendedTasks' ? 'nav-now' : ''"
                 @click="setStatus('getSendedTasks')">
                 我发布的任务
+            </a>
+            <a class="wx-nav-item"
+                :class="interface == 'getPendingTasks' ? 'nav-now' : ''"
+                @click="setStatus('getPendingTasks')">
+                我的待办任务
             </a>
             <a class="wx-nav-item nav-blue" @click="showSheet">
                 新建任务
@@ -62,7 +62,7 @@ export default {
             },
             pageSize: 20,
             pageNumber: 1,
-            interface: 'getPendingTasks',
+            interface: 'getSendedTasks',
             total: 0
         }
     },

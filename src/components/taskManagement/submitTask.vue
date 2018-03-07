@@ -91,17 +91,9 @@ export default {
             formData.taskCode = this.$route.query.taskCode
             formData.taskReceiver = this.userData.userCodes
             formData.mediaId = this.serverId
+            formData.taskType = this.$route.query.taskType
 
-            var pathUrl = window.location.href
-
-            var pathData = util.formDataUrl(pathUrl)
-
-            formData.taskType = pathData.query.taskType
-            if (pathData.query.taskType == '1') {
-                pathUrl = pathUrl.replace('submitTask', 'editDetail')
-            } else {
-                pathUrl = pathUrl.replace('submitTask', 'activityDetail')
-            }
+            var pathUrl = 'http://mobile.socialmarketingcloud.com/taskManagement?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId
 
             formData.url = window.encodeURIComponent(pathUrl)
 

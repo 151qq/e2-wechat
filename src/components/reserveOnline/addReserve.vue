@@ -11,17 +11,6 @@
             <x-input title="预约手机"
                      v-model="formData.reserverMobile"
                      placeholder="请输入"></x-input>
-            <!-- <datetime title="开始时间"
-                      v-model="formData.reserveBeginTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime>
-            <datetime title="结束时间"
-                      v-model="formData.reserveEndTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime> -->
-
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
@@ -179,7 +168,7 @@ export default {
                 this.formData.reserveBeginTime = this.detailData.reserveBeginTime
             }, 0)
         } else {
-            this.formData.reserveBeginTime = new Date()
+            this.formData.reserveBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
     },
     computed: {
@@ -225,6 +214,55 @@ export default {
             })
         },
         submitFn () {
+            if (!this.formData.reserveTitle) {
+                this.$message({
+                    message: '请填写预约标题!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.reserverName) {
+                this.$message({
+                    message: '请填写预约人!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.reserverMobile) {
+                this.$message({
+                    message: '请填写预约人手机!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.reserveBeginTime) {
+                this.$message({
+                    message: '请填写开始时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.reserveEndTime) {
+                this.$message({
+                    message: '请填写结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (new Date(this.formData.reserveBeginTime).getTime() > new Date(this.formData.reserveEndTime).getTime()) {
+                this.$message({
+                    message: '开始应小于结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode

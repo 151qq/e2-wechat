@@ -5,16 +5,6 @@
             <x-input title="任务标题"
                      v-model="formData.taskTitle"
                      placeholder="请输入文字"></x-input>
-            <!-- <datetime title="开始时间"
-                      v-model="formData.taskBeginTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime>
-            <datetime title="结束时间"
-                      v-model="formData.taskEndTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime> -->
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
@@ -143,7 +133,7 @@ export default {
                 this.formData.taskEndTime = this.detailData.taskEndTime
             }, 0)
         } else {
-            this.formData.taskBeginTime = new Date()
+            this.formData.taskBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
     },
     computed: {

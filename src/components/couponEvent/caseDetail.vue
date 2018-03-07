@@ -222,8 +222,8 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    res.result.result.eventStartTime = res.result.result.eventStartTime.split(' ')[0]
-                    res.result.result.eventEndTime = res.result.result.eventEndTime.split(' ')[0]
+                    // res.result.result.eventStartTime = res.result.result.eventStartTime.split(' ')[0]
+                    // res.result.result.eventEndTime = res.result.result.eventEndTime.split(' ')[0]
 
                     this.base = res.result.result
                 } else {

@@ -8,7 +8,7 @@
                 <img :src="base.promoterBaseInfoForm.memberImage">
             </div>
             <div class="name-box">
-                {{base.promoterBaseInfoForm.memberName + '-' + base.promoterBaseInfoForm.memberMobile}}
+                {{base.promoterBaseInfoForm.memberName}}
             </div>
         </div>
 

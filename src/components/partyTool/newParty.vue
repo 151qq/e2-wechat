@@ -5,26 +5,12 @@
             <x-input title="活动标题"
                      v-model="formData.partyTitle"
                      placeholder="请输入文字"></x-input>
-
-            <!-- <datetime title="开始时间"
-                      v-model="formData.planBeginTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime>
-
-            <datetime title="结束时间"
-                      v-model="formData.planEndTime"
-                      format="YYYY-MM-DD HH:mm:00"
-                      placeholder="请填写时间"
-                      value-text-align="left"></datetime> -->
-
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planBeginTime">
                 </div>
             </div>
-
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
@@ -214,6 +200,8 @@ export default {
                 this.formData.planBeginTime = this.detailData.planBeginTime
                 this.formData.planEndTime = this.detailData.planEndTime
             }, 0)
+        } else {
+            this.formData.planBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
@@ -270,6 +258,54 @@ export default {
             })
         },
         submitFn () {
+            if (!this.formData.partyTitle) {
+                this.$message({
+                    message: '请填写活动标题!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.planBeginTime) {
+                this.$message({
+                    message: '请填写开始时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.planEndTime) {
+                this.$message({
+                    message: '请填写结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (new Date(this.formData.planBeginTime).getTime() > new Date(this.formData.planEndTime).getTime()) {
+                this.$message({
+                    message: '开始应小于结束时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.mapData.address) {
+                this.$message({
+                    message: '请填活动地点!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.partyCover) {
+                this.$message({
+                    message: '请填写活动封面!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             var formData = Object.assign({}, this.formData)
             formData.partyOwner = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
@@ -330,6 +366,9 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     var baseData = res.result.result.partyInfo
+
+                    baseData.planBeginTime = baseData.planBeginTime.replace(' ', 'T')
+                    baseData.planEndTime = baseData.planEndTime.replace(' ', 'T')
 
                     baseData.attachmentTargetType = 'party'
 

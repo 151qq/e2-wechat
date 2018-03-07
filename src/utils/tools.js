@@ -3,11 +3,38 @@ import axios from 'axios';
 import interfaces from './interfaces';
 
 const tools = {
-  importRemoteJs () {
-    var s = document.createElement('script')
-    s.type = 'text/javascript'
-    s.src = 'https://g.alicdn.com/dingding/dinglogin/0.0.2/ddLogin.js'
-    document.body.appendChild(s)
+  // importRemoteJs () {
+  //   var s = document.createElement('script')
+  //   s.type = 'text/javascript'
+  //   s.src = 'https://g.alicdn.com/dingding/dinglogin/0.0.2/ddLogin.js'
+  //   document.body.appendChild(s)
+  // },
+  /**
+     * 格式化日期函数
+     * @param date {Date|Date String} [需要格式化的日期]
+     * @param frm {String} [格式(如：yyyy-MM-dd hh:mm:ss)]
+     * @return 格式化后的日期
+     */
+  formatDate (date, fmt) {
+      let theDate = new Date(date)
+      var o = {
+          'M+': theDate.getMonth() + 1, // 月份
+          'd+': theDate.getDate(), // 日
+          'h+': theDate.getHours(), // 小时
+          'm+': theDate.getMinutes(), // 分
+          's+': theDate.getSeconds(), // 秒
+          'q+': Math.floor((theDate.getMonth() + 3) / 3), // 季度
+          'S': theDate.getMilliseconds() // 毫秒
+      }
+      if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (theDate.getFullYear() + '').substr(4 - RegExp.$1.length))
+      }
+      for (var k in o) {
+        if (new RegExp('(' + k + ')').test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+        }
+      }
+      return fmt
   },
   formDataUrl (url) {
     var a =  document.createElement('a')

@@ -120,11 +120,7 @@
         </template>
         <template v-if="!isPublist && articleData.pageStatus == '1'">
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
-                <a class="wx-nav-item"
-                    @click="sharePartener">
-                    分享同事
-                </a>
-                <a class="wx-nav-item"
+                <a class="wx-nav-item-66"
                     @click="shareWechat">
                     分享微信
                 </a>
