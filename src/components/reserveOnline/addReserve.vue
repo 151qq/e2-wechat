@@ -14,13 +14,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.reserveBeginTime">
+                    <input class="weui-input" type="datetime-local" v-model="formData.reserveBeginTimeD">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.reserveEndTime">
+                    <input class="weui-input" type="datetime-local" v-model="formData.reserveEndTimeD">
                 </div>
             </div>
 
@@ -138,6 +138,8 @@ export default {
                 reserveAddr: '',
                 reserveEndTime: '',
                 reserveBeginTime: '',
+                reserveEndTimeD: '',
+                reserveBeginTimeD: '',
                 reserveDesc: '',
                 reserveCreator: '',
                 attachmentTargetType: 'reserve',
@@ -164,11 +166,11 @@ export default {
             this.formData = Object.assign({}, this.detailData)
 
             setTimeout(() => {
-                this.formData.reserveEndTime = this.detailData.reserveEndTime
-                this.formData.reserveBeginTime = this.detailData.reserveBeginTime
+                this.formData.reserveEndTimeD = this.detailData.reserveEndTimeD
+                this.formData.reserveBeginTimeD = this.detailData.reserveBeginTimeD
             }, 0)
         } else {
-            this.formData.reserveBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
+            this.formData.reserveBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
     },
     computed: {
@@ -238,7 +240,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.reserveBeginTime) {
+            if (!this.formData.reserveBeginTimeD) {
                 this.$message({
                     message: '请填写开始时间!',
                     type: 'warning'
@@ -246,7 +248,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.reserveEndTime) {
+            if (!this.formData.reserveEndTimeD) {
                 this.$message({
                     message: '请填写结束时间!',
                     type: 'warning'
@@ -254,13 +256,16 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.reserveBeginTime).getTime() > new Date(this.formData.reserveEndTime).getTime()) {
+            if (new Date(this.formData.reserveBeginTimeD).getTime() > new Date(this.formData.reserveEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'
                 })
                 return false
             }
+
+            this.formData.reserveBeginTime = util.formatDate(this.formData.reserveBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            this.formData.reserveEndTime = util.formatDate(this.formData.reserveEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
 
             var formData = Object.assign({}, this.formData)

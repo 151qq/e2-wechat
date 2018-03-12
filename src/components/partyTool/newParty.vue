@@ -8,13 +8,13 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planBeginTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planBeginTimeD">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planEndTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.planEndTimeD">
                 </div>
             </div>
             <div class="weui-cell">
@@ -160,6 +160,8 @@ export default {
                 partyTitle: '',
                 planBeginTime: '',
                 planEndTime: '',
+                planBeginTimeD: '',
+                planEndTimeD: '',
                 addrLink: '',
                 addrDetail: '',
                 partyDesc: '',
@@ -197,11 +199,11 @@ export default {
             this.formData = Object.assign({}, this.detailData)
 
             setTimeout(() => {
-                this.formData.planBeginTime = this.detailData.planBeginTime
-                this.formData.planEndTime = this.detailData.planEndTime
+                this.formData.planBeginTimeD = this.detailData.planBeginTimeD
+                this.formData.planEndTimeD = this.detailData.planEndTimeD
             }, 0)
         } else {
-            this.formData.planBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
+            this.formData.planBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
@@ -266,7 +268,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.planBeginTime) {
+            if (!this.formData.planBeginTimeD) {
                 this.$message({
                     message: '请填写开始时间!',
                     type: 'warning'
@@ -274,7 +276,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.planEndTime) {
+            if (!this.formData.planEndTimeD) {
                 this.$message({
                     message: '请填写结束时间!',
                     type: 'warning'
@@ -282,13 +284,16 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.planBeginTime).getTime() > new Date(this.formData.planEndTime).getTime()) {
+            if (new Date(this.formData.planBeginTimeD).getTime() > new Date(this.formData.planEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'
                 })
                 return false
             }
+
+            this.formData.planBeginTime = util.formatDate(this.formData.planBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            this.formData.planEndTime = util.formatDate(this.formData.planEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
             if (!this.mapData.address) {
                 this.$message({
@@ -367,8 +372,8 @@ export default {
                 if (res.result.success == '1') {
                     var baseData = res.result.result.partyInfo
 
-                    baseData.planBeginTime = baseData.planBeginTime.replace(' ', 'T')
-                    baseData.planEndTime = baseData.planEndTime.replace(' ', 'T')
+                    baseData.planBeginTimeD = baseData.planBeginTime.replace(' ', 'T')
+                    baseData.planEndTimeD = baseData.planEndTime.replace(' ', 'T')
 
                     baseData.attachmentTargetType = 'party'
 

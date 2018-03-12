@@ -20,13 +20,13 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="datetime-local" v-model="formData.receptionBeginTime">
+                        <input class="weui-input" type="datetime-local" v-model="formData.receptionBeginTimeD">
                     </div>
                 </div>
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="datetime-local" v-model="formData.receptionEndTime">
+                        <input class="weui-input" type="datetime-local" v-model="formData.receptionEndTimeD">
                     </div>
                 </div>
             </template>
@@ -35,7 +35,7 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">取消时间</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTime">
+                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTimeD">
                     </div>
                 </div>
             </template>
@@ -44,7 +44,7 @@
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">更新时间</label></div>
                     <div class="weui-cell__bd">
-                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTime">
+                        <input class="weui-input" type="datetime-local" v-model="formData.reserveUpdateTimeD">
                     </div>
                 </div>
             </template>
@@ -197,6 +197,9 @@ export default {
                 receptionEndTime: '',
                 receptionBeginTime: '',
                 reserveUpdateTime: '',
+                receptionEndTimeD: '',
+                receptionBeginTimeD: '',
+                reserveUpdateTimeD: '',
                 receptionMemo: '',
                 name: '',
                 age: '',
@@ -296,6 +299,18 @@ export default {
             }
             // formData.pageData.attachmentSourceType = this.attachmentData.targetType
             // formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+
+            if (this.formData.receptionEndTime) {
+                this.formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
+            if (this.formData.receptionBeginTime) {
+                this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
+            if (this.formData.reserveUpdateTime) {
+                this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
 
             util.request({
                 method: 'post',

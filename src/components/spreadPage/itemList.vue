@@ -32,6 +32,9 @@
                 </router-link>
             </template>
         </div>
+        <div class="null-page" v-if="!listData.length && isPage">
+            暂无内容！
+        </div>
     </section>
 </template>
 <script>
@@ -41,6 +44,7 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
+            isPage: false,
             listData: [],
             pageSize: 20,
             pageNumber: 1,
@@ -69,8 +73,6 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 pageType: 'template_type_1',
-                pageEditor: this.userInfo.userCode,
-                isPublist: this.isPublist,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
@@ -85,6 +87,7 @@ export default {
                     return
                 }
 
+                this.isPage = true
                 this.total = Number(res.result.total)
                 if (!type) {
                     this.listData = res.result.result

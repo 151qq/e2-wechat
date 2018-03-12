@@ -9,14 +9,14 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskBeginTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskBeginTimeD">
                 </div>
             </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskEndTime">
+                    <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskEndTimeD">
                 </div>
             </div>
             
@@ -220,6 +220,8 @@ export default {
                 taskTitle: '',
                 taskBeginTime: '',
                 taskEndTime: '',
+                taskBeginTimeD: '',
+                taskEndTimeD: '',
                 taskDesc: '',
                 pageNum: 0,
                 pageScenario: '',
@@ -319,11 +321,11 @@ export default {
             this.formData = Object.assign({}, this.detailData)
 
             setTimeout(() => {
-                this.formData.taskBeginTime = this.detailData.taskBeginTime
-                this.formData.taskEndTime = this.detailData.taskEndTime
+                this.formData.taskBeginTimeD = this.detailData.taskBeginTimeD
+                this.formData.taskEndTimeD = this.detailData.taskEndTimeD
             }, 0)
         } else {
-            this.formData.taskBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
+            this.formData.taskBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
         this.getPageScenario()
         this.getTags()
@@ -364,7 +366,7 @@ export default {
             // this.formData.taskBeginTime = '2017-01-02 11:11:11'
             // this.formData.taskEndTime = '2017-01-05 11:11:11'
 
-            if (!this.formData.taskBeginTime) {
+            if (!this.formData.taskBeginTimeD) {
                 this.$message({
                     message: '请填写开始时间!',
                     type: 'warning'
@@ -372,7 +374,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.taskEndTime) {
+            if (!this.formData.taskEndTimeD) {
                 this.$message({
                     message: '请填写结束时间!',
                     type: 'warning'
@@ -380,13 +382,16 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.taskBeginTime).getTime() > new Date(this.formData.taskEndTime).getTime()) {
+            if (new Date(this.formData.taskBeginTimeD).getTime() > new Date(this.formData.taskEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'
                 })
                 return false
             }
+
+            this.formData.taskBeginTime = util.formatDate(this.formData.taskBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            this.formData.taskEndTime = util.formatDate(this.formData.taskEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
             if (!this.formData.pageScenario) {
                 this.$message({
@@ -497,8 +502,8 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('editTask', 'editDetail')
-            urlPath = urlPath + '&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('/editTask', '')
+            // urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',

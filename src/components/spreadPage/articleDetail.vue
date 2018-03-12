@@ -4,9 +4,9 @@
             <section class='bodyMain' :style="arTextBody">
                 <div class="ar-title" :style="arTitle">{{articleData.pageTitle}}</div>
                 <div class="ar-author-date" :style="arAuthorDate">
-                    <span class="ar-date">{{ articleData.pageEditTime | formatDate(base.dateStyle)}}</span>
+                    <span class="ar-date">{{ pageEditTime }}</span>
                     <a  class="ar-author"
-                        target="_blank" 
+                        target="_blank"
                         :style="arAuthor"
                         :href="base.editorLink">
                             {{articleData.pageEditorName}}
@@ -86,7 +86,7 @@
                 </a>
             </div>
 
-            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2'">
+            <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2' || articleData.pageStatus == '4'">
                 <a class="wx-nav-item-66"
                     @click="showBtn">
                     审核
@@ -231,6 +231,9 @@ export default {
 
             return roleCodes.indexOf('page_manager') < 0 && this.userInfo.userCode == this.articleData.pageEditor
         },
+        pageEditTime () {
+            return util.formatDate(this.articleData.pageEditTime ,this.base.dateStyle)
+        },
         arTitle () {
             var styleData = {
                 'display': 'block',
@@ -335,9 +338,6 @@ export default {
 
             return styleData
         }
-    },
-    filters: {
-        formatDate: util.formatDate
     },
     methods: {
         showSheet () {
@@ -547,7 +547,7 @@ export default {
                 }
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.base = Object.assign(res.result.result[0], this.base)
+                    this.base = res.result.result[0]
                 } else {
                     this.$message.error(res.result.message)
                 }

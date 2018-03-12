@@ -74,9 +74,7 @@ export default {
 
                         this.$router.replace(pathUrl)
                     } else {
-
-                        var pathUrl = tools.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                        this.$router.replace(pathUrl)
+                        window.location.href = window.decodeURIComponent(this.$route.query.redirectUrl)
                     }
                 } else {
                     this.$message.error(res.result.message)

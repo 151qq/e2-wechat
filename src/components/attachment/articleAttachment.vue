@@ -123,7 +123,7 @@ export default {
             }
 
             if (this.$route.query.type == 'draft') {
-                formData.pageStatus = '2'
+                formData.pageStatus = '2,4'
                 formData.pageEditor = this.userInfo.userCode
             } else {
                 formData.pageStatus = '1'

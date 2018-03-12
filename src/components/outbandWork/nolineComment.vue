@@ -30,7 +30,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">外呼时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.outbandRealTime">
+                    <input class="weui-input" type="datetime-local" v-model="formData.outbandRealTimeD">
                 </div>
             </div>
         </group>
@@ -173,6 +173,7 @@ export default {
                 enterpriseCode: '',
                 outbandWorkCode: '',
                 outbandRealTime: '',
+                outbandRealTimeD: '',
                 reserveCode: '',
                 pipelineCode: '',
                 age: '',
@@ -226,7 +227,7 @@ export default {
             this.formData = Object.assign({}, this.detailData)
 
             setTimeout(() => {
-                this.formData.outbandRealTime = this.detailData.outbandRealTime
+                this.formData.outbandRealTimeD = this.detailData.outbandRealTimeD
             }, 0)
         }
         this.getData()
@@ -271,6 +272,10 @@ export default {
             formData.reserveCode = this.attachmentData.attachmentCodes[0]
             // formData.pageData.attachmentSourceType = this.attachmentData.targetType
             // formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+
+            if (this.formData.outbandRealTimeD) {
+                this.formData.outbandRealTime = util.formatDate(this.formData.outbandRealTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
 
             util.request({
                 method: 'post',

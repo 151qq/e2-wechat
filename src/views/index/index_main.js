@@ -57,7 +57,11 @@ const router = new VueRouter({
   }
 })
 
-router.beforeEach((to, from, next) => {    
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    
     var e2Token = jsCookie.get('socialmarketing_cloud_user')
     // next()
 
@@ -82,7 +86,7 @@ new Vue({
         isPage: false
     },
     mounted () {
-        if (window.location.pathname.indexOf('registor') < 0) {
+        if (window.location.pathname.indexOf('registor') < 0 && !this.$store.state.userInfo.userCode) {
             this.isPage = false
             this.getUserInfo()
         } else {

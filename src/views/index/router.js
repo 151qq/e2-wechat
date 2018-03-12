@@ -21,6 +21,9 @@ const routers = [
     name: 'registor-message',
     component (resolve) {
       require(["./registorMessage.vue"], resolve)
+    },
+    meta: {
+      title: '注册'
     }
   },
   {
@@ -29,6 +32,9 @@ const routers = [
     name: 'search-map',
     component (resolve) {
       require(["../../components/common/search-map.vue"], resolve)
+    },
+    meta: {
+      title: '地图搜索'
     }
   },
   {
@@ -37,6 +43,9 @@ const routers = [
     name: 'user-list',
     component (resolve) {
       require(["../../components/common/user-list.vue"], resolve)
+    },
+    meta: {
+      title: '选择职员'
     }
   },
   {
@@ -45,6 +54,9 @@ const routers = [
     name: 'we-chat',
     component (resolve) {
       require(["../../components/common/we-chat.vue"], resolve)
+    },
+    meta: {
+      title: '选择职员'
     }
   },
   {
@@ -60,7 +72,7 @@ const routers = [
         name: 'attachment-list',
         component: resolve => require(["../../components/attachment/attachmentList.vue"], resolve),
         meta: {
-          token:false
+          title: '附件列表'
         }
       },
       {
@@ -68,7 +80,7 @@ const routers = [
         name: 'activity-attachment',
         component: resolve => require(["../../components/attachment/activityAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '活动附件'
         }
       },
       {
@@ -76,7 +88,7 @@ const routers = [
         name: 'task-attachment',
         component: resolve => require(["../../components/attachment/taskAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '任务附件'
         }
       },
       {
@@ -84,7 +96,7 @@ const routers = [
         name: 'article-attachment',
         component: resolve => require(["../../components/attachment/articleAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '文章附件'
         }
       },
       {
@@ -92,7 +104,7 @@ const routers = [
         name: 'party-attachment',
         component: resolve => require(["../../components/attachment/partyAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '地推附件'
         }
       },
       {
@@ -100,7 +112,7 @@ const routers = [
         name: 'product-attachment',
         component: resolve => require(["../../components/attachment/productAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '产品附件'
         }
       },
       {
@@ -108,7 +120,7 @@ const routers = [
         name: 'coupon-attachment',
         component: resolve => require(["../../components/attachment/couponAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '套券附件'
         }
       },
       {
@@ -116,7 +128,7 @@ const routers = [
         name: 'reserve-attachment',
         component: resolve => require(["../../components/attachment/reserveAttachment.vue"], resolve),
         meta: {
-          token:false
+          title: '预约附件'
         }
       }
     ]
@@ -134,7 +146,7 @@ const routers = [
         name: 'product-list',
         component: resolve => require(["../../components/productCenter/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '产品列表'
         }
       },
       {
@@ -142,7 +154,7 @@ const routers = [
         name: 'product-detail',
         component: resolve => require(["../../components/productCenter/articleDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '产品详情'
         }
       },
       {
@@ -150,7 +162,7 @@ const routers = [
         name: 'product-log',
         component: resolve => require(["../../components/productCenter/articleLog.vue"], resolve),
         meta: {
-          token:false
+          title: '产品评论'
         }
       },
       {
@@ -158,7 +170,7 @@ const routers = [
         name: 'product-spec',
         component: resolve => require(["../../components/productCenter/productSpec.vue"], resolve),
         meta: {
-          token:false
+          title: '产品规格'
         }
       },
       {
@@ -166,7 +178,7 @@ const routers = [
         name: 'product-senior',
         component: resolve => require(["../../components/productCenter/productSenior.vue"], resolve),
         meta: {
-          token:false
+          title: '产品场景'
         }
       },
       {
@@ -174,7 +186,7 @@ const routers = [
         name: 'product-img',
         component: resolve => require(["../../components/productCenter/imgList.vue"], resolve),
         meta: {
-          token:false
+          title: '产品相册'
         }
       }
     ]
@@ -192,7 +204,7 @@ const routers = [
         name: 'enterprise-dirs',
         component: resolve => require(["../../components/enterpriseAlbum/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '相册目录'
         }
       },
       {
@@ -200,7 +212,7 @@ const routers = [
         name: 'img-list',
         component: resolve => require(["../../components/enterpriseAlbum/imgList.vue"], resolve),
         meta: {
-          token:false
+          title: '图片列表'
         }
       },
       {
@@ -208,7 +220,7 @@ const routers = [
         name: 'media-list',
         component: resolve => require(["../../components/enterpriseAlbum/mediaList.vue"], resolve),
         meta: {
-          token:false
+          title: '视频列表'
         }
       }
     ]
@@ -226,7 +238,7 @@ const routers = [
         name: 'noline-list',
         component: resolve => require(["../../components/outbandWork/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼列表'
         }
       },
       {
@@ -234,7 +246,7 @@ const routers = [
         name: 'noline-remark',
         component: resolve => require(["../../components/outbandWork/nolineRemark.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼详情'
         }
       },
       {
@@ -242,7 +254,7 @@ const routers = [
         name: 'noline-detail',
         component: resolve => require(["../../components/outbandWork/nolineDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼详情'
         }
       },
       {
@@ -250,7 +262,7 @@ const routers = [
         name: 'noline-qz',
         component: resolve => require(["../../components/outbandWork/nolineQz.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼记录'
         }
       },
       {
@@ -258,7 +270,7 @@ const routers = [
         name: 'noline-sj',
         component: resolve => require(["../../components/outbandWork/nolineSj.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼记录'
         }
       },
       {
@@ -266,7 +278,7 @@ const routers = [
         name: 'noline-comment',
         component: resolve => require(["../../components/outbandWork/nolineComment.vue"], resolve),
         meta: {
-          token:false
+          title: '外呼总结'
         }
       }
     ]
@@ -284,7 +296,7 @@ const routers = [
         name: 'article-list',
         component: resolve => require(["../../components/spreadPage/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '文章列表'
         }
       },
       {
@@ -292,7 +304,7 @@ const routers = [
         name: 'article-detail',
         component: resolve => require(["../../components/spreadPage/articleDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '文章详情'
         }
       },
       {
@@ -300,7 +312,7 @@ const routers = [
         name: 'res-comment',
         component: resolve => require(["../../components/spreadPage/resComment.vue"], resolve),
         meta: {
-          token:false
+          title: '评论文章'
         }
       },
       {
@@ -308,7 +320,7 @@ const routers = [
         name: 'oprate-message',
         component: resolve => require(["../../components/spreadPage/oprateMessage.vue"], resolve),
         meta: {
-          token:false
+          title: '消息编辑'
         }
       },
       {
@@ -316,7 +328,7 @@ const routers = [
         name: 'about-article',
         component: resolve => require(["../../components/spreadPage/aboutArticle.vue"], resolve),
         meta: {
-          token:false
+          title: '文章推荐'
         }
       },
       {
@@ -324,7 +336,7 @@ const routers = [
         name: 'submit-article',
         component: resolve => require(["../../components/spreadPage/submitArticle.vue"], resolve),
         meta: {
-          token:false
+          title: '发布文章'
         }
       },
       {
@@ -332,7 +344,7 @@ const routers = [
         name: 'article-log',
         component: resolve => require(["../../components/spreadPage/articleLog.vue"], resolve),
         meta: {
-          token:false
+          title: '文章评论'
         }
       }
     ]
@@ -350,7 +362,7 @@ const routers = [
         name: 'case-list',
         component: resolve => require(["../../components/couponEvent/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '活动列表'
         }
       },
       {
@@ -358,7 +370,7 @@ const routers = [
         name: 'case-detail',
         component: resolve => require(["../../components/couponEvent/caseDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '活动详情'
         }
       },
       {
@@ -366,7 +378,7 @@ const routers = [
         name: 'coupon-detail',
         component: resolve => require(["../../components/couponEvent/couponDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '券详情'
         }
       },
       {
@@ -374,7 +386,7 @@ const routers = [
         name: 'stop-activity',
         component: resolve => require(["../../components/couponEvent/stopActivity.vue"], resolve),
         meta: {
-          token:false
+          title: '终止活动'
         }
       }
     ]
@@ -392,7 +404,7 @@ const routers = [
         name: 'analyse-list',
         component: resolve => require(["../../components/marketingAnalysis/itemList.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -400,7 +412,7 @@ const routers = [
         name: 'analyse-norm',
         component: resolve => require(["../../components/marketingAnalysis/analyseNorm.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -408,7 +420,7 @@ const routers = [
         name: 'analyse-coupon',
         component: resolve => require(["../../components/marketingAnalysis/analyseCoupon.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -416,7 +428,7 @@ const routers = [
         name: 'analyse-wx',
         component: resolve => require(["../../components/marketingAnalysis/analyseWx.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -424,7 +436,7 @@ const routers = [
         name: 'analyse-article',
         component: resolve => require(["../../components/marketingAnalysis/analyseArticle.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -432,7 +444,7 @@ const routers = [
         name: 'analyse-outband',
         component: resolve => require(["../../components/marketingAnalysis/analyseOutband.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -440,7 +452,7 @@ const routers = [
         name: 'analyse-party',
         component: resolve => require(["../../components/marketingAnalysis/analyseParty.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       },
       {
@@ -448,7 +460,7 @@ const routers = [
         name: 'analyse-question',
         component: resolve => require(["../../components/marketingAnalysis/analyseQuestion.vue"], resolve),
         meta: {
-          token:false
+          title:false
         }
       }
     ]
@@ -466,7 +478,7 @@ const routers = [
         name: 'user-info',
         component: resolve => require(["../../components/myConfig/userInfo.vue"], resolve),
         meta: {
-          token:false
+          title: '个人信息'
         }
       },
       {
@@ -474,7 +486,7 @@ const routers = [
         name: 'set-role',
         component: resolve => require(["../../components/myConfig/setRole.vue"], resolve),
         meta: {
-          token:false
+          title: '授权列表'
         }
       },
       {
@@ -482,7 +494,7 @@ const routers = [
         name: 'submit-role',
         component: resolve => require(["../../components/myConfig/submitRole.vue"], resolve),
         meta: {
-          token:false
+          title: '角色授权'
         }
       }
     ]
@@ -500,7 +512,7 @@ const routers = [
         name: 'channel-list',
         component: resolve => require(["../../components/wxPromotion/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '推广列表'
         }
       },
       {
@@ -508,7 +520,7 @@ const routers = [
         name: 'channel-detail',
         component: resolve => require(["../../components/wxPromotion/channelDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '推广详情'
         }
       }
     ]
@@ -526,7 +538,7 @@ const routers = [
         name: 'reserve-list',
         component: resolve => require(["../../components/reserveOnline/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '预约列表'
         }
       },
       {
@@ -534,7 +546,7 @@ const routers = [
         name: 'add-reserve',
         component: resolve => require(["../../components/reserveOnline/addReserve.vue"], resolve),
         meta: {
-          token:false
+          title: '编辑预约'
         }
       },
       {
@@ -542,7 +554,7 @@ const routers = [
         name: 'reserve-summary',
         component: resolve => require(["../../components/reserveOnline/reserveSummary.vue"], resolve),
         meta: {
-          token:false
+          title: '消息编辑'
         }
       },
       {
@@ -550,7 +562,7 @@ const routers = [
         name: 'reserve-detail',
         component: resolve => require(["../../components/reserveOnline/reserveDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '预约详情'
         }
       }
     ]
@@ -568,7 +580,7 @@ const routers = [
         name: 'party-list',
         component: resolve => require(["../../components/partyTool/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '地推列表'
         }
       },
       {
@@ -576,7 +588,7 @@ const routers = [
         name: 'party-detail',
         component: resolve => require(["../../components/partyTool/partyDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '地推详情'
         }
       },
       {
@@ -584,7 +596,7 @@ const routers = [
         name: 'new-party',
         component: resolve => require(["../../components/partyTool/newParty.vue"], resolve),
         meta: {
-          token:false
+          title: '地推编辑'
         }
       },
       {
@@ -592,7 +604,7 @@ const routers = [
         name: 'stop-party',
         component: resolve => require(["../../components/partyTool/stopParty.vue"], resolve),
         meta: {
-          token:false
+          title: '终止地推'
         }
       },
       {
@@ -600,7 +612,7 @@ const routers = [
         name: 'party-gift',
         component: resolve => require(["../../components/partyTool/partyGift.vue"], resolve),
         meta: {
-          token:false
+          title: '地推礼品'
         }
       },
       {
@@ -608,7 +620,7 @@ const routers = [
         name: 'edit-log',
         component: resolve => require(["../../components/partyTool/editLog.vue"], resolve),
         meta: {
-          token:false
+          title: '编辑记录'
         }
       },
       {
@@ -616,7 +628,7 @@ const routers = [
         name: 'gift-log',
         component: resolve => require(["../../components/partyTool/giftLog.vue"], resolve),
         meta: {
-          token:false
+          title: '地推记录'
         }
       }
     ]
@@ -634,7 +646,7 @@ const routers = [
         name: 'task-list',
         component: resolve => require(["../../components/taskManagement/itemList.vue"], resolve),
         meta: {
-          token:false
+          title: '任务列表'
         }
       },
       {
@@ -642,7 +654,7 @@ const routers = [
         name: 'submit-task',
         component: resolve => require(["../../components/taskManagement/submitTask.vue"], resolve),
         meta: {
-          token:false
+          title: '消息编辑'
         }
       },
       {
@@ -650,7 +662,7 @@ const routers = [
         name: 'edit-comment',
         component: resolve => require(["../../components/taskManagement/editComment.vue"], resolve),
         meta: {
-          token:false
+          title: '任务列表'
         }
       },
       {
@@ -658,7 +670,7 @@ const routers = [
         name: 'activity-task',
         component: resolve => require(["../../components/taskManagement/activityTask.vue"], resolve),
         meta: {
-          token:false
+          title: '普通任务'
         }
       },
       {
@@ -666,7 +678,7 @@ const routers = [
         name: 'activity-detail',
         component: resolve => require(["../../components/taskManagement/activityDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '普通任务详情'
         }
       },
       {
@@ -674,7 +686,7 @@ const routers = [
         name: 'edit-task',
         component: resolve => require(["../../components/taskManagement/editTask.vue"], resolve),
         meta: {
-          token:false
+          title: '编辑任务'
         }
       },
       {
@@ -682,7 +694,7 @@ const routers = [
         name: 'edit-detail',
         component: resolve => require(["../../components/taskManagement/editDetail.vue"], resolve),
         meta: {
-          token:false
+          title: '编辑任务详情'
         }
       },
       {
@@ -690,7 +702,7 @@ const routers = [
         name: 'task-report',
         component: resolve => require(["../../components/taskManagement/taskReport.vue"], resolve),
         meta: {
-          token:false
+          title: '任务记录'
         }
       }
     ]

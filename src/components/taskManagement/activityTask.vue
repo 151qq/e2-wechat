@@ -9,14 +9,14 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.taskBeginTime">
+                    <input class="weui-input" type="datetime-local" v-model="formData.taskBeginTimeD">
                 </div>
             </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="datetime-local" v-model="formData.taskEndTime">
+                    <input class="weui-input" type="datetime-local" v-model="formData.taskEndTimeD">
                 </div>
             </div>
         </group>
@@ -103,6 +103,8 @@ export default {
                 taskTitle: '',
                 taskBeginTime: '',
                 taskEndTime: '',
+                taskBeginTimeD: '',
+                taskEndTimeD: '',
                 taskDesc: '',
                 attachmentTargetType: 'task',
                 localIds: [],
@@ -129,11 +131,11 @@ export default {
             this.formData = Object.assign({}, this.detailData)
 
             setTimeout(() => {
-                this.formData.taskBeginTime = this.detailData.taskBeginTime
-                this.formData.taskEndTime = this.detailData.taskEndTime
+                this.formData.taskBeginTimeD = this.detailData.taskBeginTimeD
+                this.formData.taskEndTimeD = this.detailData.taskEndTimeD
             }, 0)
         } else {
-            this.formData.taskBeginTime = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
+            this.formData.taskBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
     },
     computed: {
@@ -169,10 +171,10 @@ export default {
                 return false
             }
 
-            // this.formData.taskBeginTime = '2017-01-02 11:11:11'
-            // this.formData.taskEndTime = '2017-01-05 11:11:11'
+            // this.formData.taskBeginTimeD = '2017-01-02 11:11:11'
+            // this.formData.taskEndTimeD = '2017-01-05 11:11:11'
 
-            if (!this.formData.taskBeginTime) {
+            if (!this.formData.taskBeginTimeD) {
                 this.$message({
                     message: '请填写开始时间!',
                     type: 'warning'
@@ -180,7 +182,7 @@ export default {
                 return false
             }
 
-            if (!this.formData.taskEndTime) {
+            if (!this.formData.taskEndTimeD) {
                 this.$message({
                     message: '请填写结束时间!',
                     type: 'warning'
@@ -188,13 +190,16 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.taskBeginTime).getTime() > new Date(this.formData.taskEndTime).getTime()) {
+            if (new Date(this.formData.taskBeginTimeD).getTime() > new Date(this.formData.taskEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'
                 })
                 return false
             }
+
+            this.formData.taskBeginTime = util.formatDate(this.formData.taskBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            this.formData.taskEndTime = util.formatDate(this.formData.taskEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
@@ -234,8 +239,8 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('activityTask', 'activityDetail')
-            urlPath = urlPath + '&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('/activityTask', '')
+            // urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',

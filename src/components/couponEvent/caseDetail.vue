@@ -36,8 +36,18 @@
 
         <template v-for="(group, index) in couponList">
             <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">{{group.couponGroutScenarioName}}</label>
+                    </div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       {{group.couponGroupName}}
+                    </div>
+                </div>
+            </div>
+            
             <div class="weui-cells no-margin left-padding">
-                <div class="left-title">{{group.couponGroutScenarioName}}</div>
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in group.couponInfoList"
                         :to="{
@@ -81,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="weui-cells no-line left-padding">
+                <div class="weui-cells no-margin left-padding">
                     <router-link class="weui-media-box weui-media-box_appmsg"
                             v-for="(item, index) in base.pageData"
                             :to="{name: 'case-detail', query: {

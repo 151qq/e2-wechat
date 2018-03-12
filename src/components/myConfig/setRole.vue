@@ -3,11 +3,9 @@
         <template v-for="(role, index) in userList">
             <div class="wx-area-line" v-if="index"></div>
             <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access show-message-box" @click="goToUser(role)">
+                <div class="weui-cell weui-cell_access" @click="goToUser(role)">
                     <div class="weui-cell__bd">{{role.roleName}}</div>
-                    <div class="weui-cell__ft">
-                        <span class="add-btn-icon"></span>
-                    </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
             </div>
             <div class="weui-cells no-margin">

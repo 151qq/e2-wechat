@@ -6,6 +6,7 @@
                     <textarea class="weui-textarea"
                                 placeholder="有什么要对他说..."
                                 rows="3"
+                                maxlength="40"
                                 v-model="formData.message"></textarea>
                 </div>
             </div>
@@ -13,18 +14,12 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发送任务</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">发送消息</a>
         </div>
-
-        <delete-img :index="nowIndex"
-                    :img-path="nowPath"
-                    :is-show-img="isShowImg"
-                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import deleteImg from '../common/deleteImg.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -55,19 +50,6 @@ export default {
         ...mapActions([
           'setUser'
         ]),
-        chooseImage () {
-            var num = 1
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.mediaId = localIds[0]
-            })
-        },
-        submitComment () {
-            var imgList = this.formData.mediaId ? [this.formData.mediaId] : []
-            jsSdk.uploadImgs(imgList, (serverIdList) => {
-                this.serverId = serverIdList[0]
-                this.submitFn()
-            })
-        },
         submitFn () {
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
@@ -75,7 +57,6 @@ export default {
             formData.agentId = this.$route.query.agentId
             formData.roleCode = this.$route.query.roleCode
             formData.userCodes = this.userData.userCodes
-            formData.picUrl = this.serverId
 
             var pathUrl = window.location.href.replace('submitRole', 'setRole')
 
@@ -84,7 +65,8 @@ export default {
 
             var pathData = window.location
             var userUrl = pathData.origin + '/myConfig?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId
-            formData.url = window.encodeURIComponent(userUrl)
+
+            formData.url = userUrl
 
             util.request({
                 method: 'post',
@@ -98,17 +80,7 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
-        },
-        showBigImg () {
-            this.nowPath = this.formData.picUrl
-            this.isShowImg.value = true
-        },
-        deleteImg (index) {
-            this.formData.picUrl = ''
         }
-    },
-    components: {
-        deleteImg
     }
 }
 </script>

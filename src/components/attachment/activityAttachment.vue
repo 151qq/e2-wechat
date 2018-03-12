@@ -116,13 +116,13 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                eventPlanStatus: 's',
+                eventPlanStatus: '3',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
 
             if (this.$route.query.type == 'unique-draft') {
-                formData.eventPlanStatus = 'draft'
+                formData.eventPlanStatus = '1'
             }
 
             util.request({
