@@ -283,7 +283,8 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     eventCode: this.$route.query.eventCode,
-                    roleType: 'coupon_manager'
+                    roleType: 'coupon_manager',
+                    redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }
             this.$router.push(pathUrl)

@@ -260,8 +260,7 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                    this.$router.replace(pathUrl)
+                    this.$router.go(-1)
                 } else {
                     this.$message.error(res.result.message)
                 }
