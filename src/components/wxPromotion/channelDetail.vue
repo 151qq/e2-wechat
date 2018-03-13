@@ -94,6 +94,14 @@ export default {
             })
         },
         changeStatus () {
+            if (!this.base.promoterBaseInfoForm.accuntType) {
+                this.$message({
+                    message: '请选择推广身份!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 memberCode: this.$route.query.memberCode,

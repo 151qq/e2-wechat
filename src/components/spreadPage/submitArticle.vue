@@ -156,8 +156,7 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    type: 'submit',
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    type: 'submit'
                 }
             }
             this.$router.push(pathUrl)

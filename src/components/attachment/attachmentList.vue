@@ -2,14 +2,14 @@
     <section class="attachment-list-big-box weui-media-box weui-media-box_small-appmsg">
         <div class="weui-cells">
             <router-link class="weui-cell weui-cell_access"
-                    replace
                     v-for="(item, index) in listData"
                     :to="{
                             name: item.pathName + '-attachment',
                             query: {
                                 enterpriseCode: $route.query.enterpriseCode,
                                 targetType: item.type,
-                                redirectUrl: $route.query.redirectUrl
+                                redirectUrl: $route.query.redirectUrl,
+                                isList: '1'
                             }
                         }">
                 <div class="weui-cell__hd">

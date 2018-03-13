@@ -166,8 +166,7 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    type: 'unique-draft',
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    type: 'unique-draft'
                 }
             }
             this.$router.push(pathUrl)

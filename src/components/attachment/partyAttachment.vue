@@ -88,8 +88,11 @@ export default {
                 this.setAttachment(attData)
             }
             
-            var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.replace(pathUrl)
+            if (this.$route.query.isList) {
+                this.$router.go(-2)
+            } else {
+                this.$router.go(-1)
+            }
         },
         addAttachment (item) {
             var index = this.attachmentCodes.indexOf(item.partyCode)

@@ -182,8 +182,7 @@ export default {
                 name: pathName,
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    agentId: this.$route.query.agentId
                 }
             }
 

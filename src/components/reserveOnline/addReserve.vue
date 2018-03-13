@@ -313,8 +313,7 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    type: 'submit',
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    type: 'submit'
                 }
             }
             this.$router.push(pathUrl)
@@ -340,8 +339,7 @@ export default {
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    type: 'unique',
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    type: 'unique'
                 }
             }
             this.$router.push(pathUrl)

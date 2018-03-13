@@ -4,7 +4,7 @@
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <div class="weui-cell weui-cell_access"
                 @click="addAttachment(item)"
-                v-if="userInfo.userCode != item.userCode"
+                v-if="userInfo.userCode != item.userCode || $route.query.isSelf"
                 v-for="(item, index) in listData">
                 <div class="weui-cell__hd">
                     <img class="small-img" :src="item.userWechatLogo">
@@ -103,9 +103,11 @@ export default {
                 this.sendTask()
             } else if (this.$route.query.eventCode) {
                 this.sendCase()
-            } else {
+            } else if (this.$route.query.redirectUrl) {
                 var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                this.$router.replace(pathUrl)
+                this.$router.push(pathUrl)
+            } else {
+                this.$router.go(-1)
             }
         },
         addAttachment (item) {
@@ -191,7 +193,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                    this.$router.replace(pathUrl)
+                    this.$router.push(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }

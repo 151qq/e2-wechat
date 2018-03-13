@@ -351,8 +351,7 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     targetType: 'attachmen_type_6',
-                    type: 'unique',
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    type: 'unique'
                 }
             }
             this.$router.push(pathUrl)

@@ -466,8 +466,7 @@ export default {
                 name: 'attachment-list',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    redirectUrl: window.encodeURIComponent(window.location.href)
+                    agentId: this.$route.query.agentId
                 }
             }
             this.$router.push(pathUrl)

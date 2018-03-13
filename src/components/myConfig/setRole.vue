@@ -114,6 +114,7 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     roleCode: role.roleCode,
+                    isSelf: '1',
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
