@@ -166,9 +166,9 @@ export default {
 
             var editType = this.$route.query.editType
 
-            if (editType == '0') {
+            if (editType == '1') {
                 formData.taskReplyStatus = '2'
-            } else if (editType == '1') {
+            } else if (editType == '0') {
                 formData.taskStatus = '2'
             } else if (editType == '2') {
                 formData.taskReplyStatus = '2'

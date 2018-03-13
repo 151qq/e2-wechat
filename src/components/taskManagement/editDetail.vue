@@ -110,7 +110,7 @@
                                         taskType: 'edit'
                                     }
                                 }">
-                    任务追踪
+                    {{textBtn}}
                 </router-link>
             </div>
         </template>
@@ -127,7 +127,7 @@
                                         taskType: 'edit'
                                     }
                                 }">
-                    任务追踪
+                    {{textBtn}}
                 </router-link>
             </div>
         </template>
@@ -143,6 +143,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data () {
         return {
+            textBtn: '任务处理',
             isPage: false,
             base: {
                 taskTitle: '',
@@ -164,12 +165,18 @@ export default {
         jsSdk.init()
         this.getBase()
         this.getAttachments()
+        if (this.$route.query.interface == 'getSendedTasks') {
+            this.textBtn = '任务追踪'
+        }
     },
     watch: {
         $route () {
             jsSdk.init()
             this.getBase()
             this.getAttachments()
+            if (this.$route.query.interface == 'getSendedTasks') {
+                this.textBtn = '任务追踪'
+            }
         }
     },
     computed: {
