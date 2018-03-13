@@ -96,7 +96,7 @@ export default {
             })
         },
         goToUser (role) {
-            if (role.userInfoList.length) {
+            if (role.userInfoList.length && role.roleChoiceOpt == '0') {
                 this.$message({
                   showClose: true,
                   message: '该角色下只能有一人！',
@@ -114,9 +114,12 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     roleCode: role.roleCode,
-                    type: 'unique',
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
+            }
+
+            if (role.roleChoiceOpt == '0') {
+                pathUrl.query.type = 'unique'
             }
 
             this.$router.push(pathUrl)
