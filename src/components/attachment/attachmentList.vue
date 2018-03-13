@@ -12,11 +12,11 @@
                                 isList: '1'
                             }
                         }">
-                <div class="weui-cell__hd">
+                <!-- <div class="weui-cell__hd">
                     <img :src="item.icon" class="mini-img">
-                </div>
+                </div> -->
                 <div class="weui-cell__bd weui-cell_primary">
-                    <div class="small-title">{{item.title}}</div>
+                    <div class="color-66">{{item.title}}</div>
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>
@@ -72,5 +72,9 @@ export default {
 <style lang="scss">
 .attachment-list-big-box {
     padding: 0;
+
+    .color-66 {
+        color: #666666;
+    }
 }
 </style>
