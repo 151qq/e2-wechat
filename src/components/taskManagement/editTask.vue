@@ -22,6 +22,7 @@
             
             <x-number title="文章数量"
                       align="left"
+                      :class="'number-box'"
                       v-model="formData.pageNum"
                       button-style="round"
                       :min="0"></x-number>

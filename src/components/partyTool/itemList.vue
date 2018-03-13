@@ -35,7 +35,7 @@
                             :to="{
                                 name: 'new-party',
                                 query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
+                                    enterpriseCode: userInfo.enterpriseCode,
                                     agentId: $route.query.agentId
                                 }
                             }">

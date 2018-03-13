@@ -71,7 +71,7 @@ export default {
     methods: {
         getList (type) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 pageType: 'template_type_1',
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber

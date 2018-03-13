@@ -124,7 +124,7 @@ export default {
         },
         deleteItem (item) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 memberCode: item.memberCode
             }
 

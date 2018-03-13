@@ -121,7 +121,7 @@ export default {
                 if (res.result.success == '1') {
                     var result = res.result.result.couponInfo
 
-                    this.getProductList(res.result.result.couponProductArray)
+                    // this.getProductList(res.result.result.couponProductArray)
                     this.couponTimes = this.formDataDate(result.couponGroupBeginTimestamp, result.couponGroupEndTimestamp)
                     this.base = result
                 } else {

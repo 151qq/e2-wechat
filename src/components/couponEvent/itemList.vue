@@ -4,7 +4,7 @@
             <router-link class="weui-media-box weui-media-box_appmsg show-state-box"
                     v-for="(item, index) in listData"
                     :to="{name: 'case-detail', query: {
-                        enterpriseCode: $route.query.enterpriseCode,
+                        enterpriseCode: userInfo.enterpriseCode,
                         agentId: $route.query.agentId,
                         eventCode: item.eventCode
                     }}">
@@ -57,7 +57,7 @@ export default {
         },
         getData (cb) {
             var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
+                enterpriseCode: this.userInfo.enterpriseCode,
                 pageSize: this.pageSize,
                 userCode: this.userInfo.userCode,
                 pageNumber: this.pageNumber

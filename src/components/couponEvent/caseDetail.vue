@@ -47,7 +47,7 @@
                 </div>
             </div>
             
-            <div class="weui-cells no-margin left-padding">
+            <div class="weui-cells no-margin left-padding big-font">
                 <router-link class="weui-media-box weui-media-box_appmsg"
                         v-for="(item, index) in group.couponInfoList"
                         :to="{
@@ -133,12 +133,12 @@
                 <a class="wx-nav-item-20" @click="goToChat">
                     沟通
                 </a>
-                <a class="wx-nav-item"
+                <a class="wx-nav-item nav-blue"
                     v-if="base.eventStatus != '3' && isRoot"
                     @click="submitCase">
                     发布
                 </a>
-                <a class="wx-nav-item"
+                <a class="wx-nav-item nav-blue"
                     v-if="base.eventStatus != '3' && !isRoot"
                     @click="gotoUser">
                     申请
@@ -349,4 +349,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.big-font {
+    .weui-media-box__title {
+        font-size: 17px;
+    }
+}
 </style>
