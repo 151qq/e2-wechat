@@ -502,8 +502,8 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('/editTask', '')
-            // urlPath = urlPath + '&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('editTask', 'editDetail')
+            urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',
@@ -516,7 +516,7 @@ export default {
                     redirectUrl: window.encodeURIComponent(urlPath)
                 }
             }
-            this.$router.push(pathUrl)
+            this.$router.replace(pathUrl)
         },
         showBigImg (index) {
             this.nowIndex = index

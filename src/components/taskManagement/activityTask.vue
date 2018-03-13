@@ -238,8 +238,8 @@ export default {
         gotoUser (taskCode) {
             this.setDetail(Object.assign({}, this.formData))
 
-            var urlPath = window.location.href.replace('/activityTask', '')
-            // urlPath = urlPath + '&taskCode=' + taskCode
+            var urlPath = window.location.href.replace('activityTask', 'activityDetail')
+            urlPath = urlPath + '&taskCode=' + taskCode
 
             var pathUrl = {
                 name: 'user-list',
