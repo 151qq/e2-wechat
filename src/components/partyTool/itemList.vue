@@ -6,7 +6,7 @@
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
 
-                <div v-if="item.partyStatus == '1'" class="no-read"></div>
+                <!-- <div v-if="item.partyStatus == '1'" class="no-read"></div> -->
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
                          :src="item.partyCover">

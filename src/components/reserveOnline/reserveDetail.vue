@@ -1,7 +1,7 @@
 <template>
     <section class="reserve-box">
         <div class="height-1"></div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">预约标题</label></div>
                 <div class="weui-cell__bd">{{base.reserveTitle}}</div>
@@ -28,16 +28,18 @@
                 <div class="weui-cell__ft"></div>
             </div>
         </div>
-
-        <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
-            <div class="weui-cell weui-cell_access no-center">
-                <div class="weui-cell__hd"><label class="weui-label">预约详情</label></div>
-                <div class="weui-cell__bd">
-                   {{base.reserveDesc}}
-                </div>
-            </div>       
-        </div>
+        
+        <template v-if="base.reserveDesc">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access no-center">
+                    <div class="weui-cell__hd"><label class="weui-label">预约详情</label></div>
+                    <div class="weui-cell__bd">
+                       {{base.reserveDesc}}
+                    </div>
+                </div>       
+            </div>
+        </template>
 
         <template v-if="newReserveImgData.length">
             <div class="wx-area-line"></div>
@@ -228,6 +230,7 @@
 import imgList from '../common/imgList.vue'
 import jsSdk from '../../utils/jsSdk'
 import util from '../../utils/tools'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     data () {
@@ -267,6 +270,11 @@ export default {
             jsSdk.init()
             this.getBase()
         }
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     },
     methods: {
         submitGift () {

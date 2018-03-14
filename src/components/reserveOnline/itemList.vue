@@ -6,14 +6,10 @@
                 @click="goToNext(item)"
                 v-for="(item, index) in listData">
 
-                <div v-if="item.reserveStatus == '1'" class="no-read"></div>
+                <!-- <div v-if="item.reserveStatus == '1'" class="no-read"></div> -->
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
-                         v-if="item.memberImg"
-                         :src="item.memberImg">
-                    <img class="weui-media-box__thumb"
-                         v-if="!item.memberImg"
-                         src="/static/images/head-icon.png">
+                         :src="item.reserveCover">
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.reserveTitle}}</h4>

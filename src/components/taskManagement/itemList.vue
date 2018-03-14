@@ -7,11 +7,7 @@
                 <div v-if="(item.taskReplyStatus != '2' && interface == 'getPendingTasks') || (item.taskStatus == '1' && interface == 'getSendedTasks')" class="no-read"></div>
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb"
-                         v-if="item.bgTaskImg"
-                         :src="item.bgTaskImg">
-                    <img class="weui-media-box__thumb"
-                         v-if="!item.bgTaskImg"
-                         src="/static/images/head-icon.png">
+                         :src="item.taskCover">
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.taskTitle}}</h4>
