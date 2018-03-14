@@ -1,17 +1,6 @@
 <template>
     <section class="task-detail-box">
         <div class="height-1"></div>
-        <div v-if="base.addrLink" class="mapBox">
-            <img :src="base.addrLink">
-        </div>
-        <div class="weui-cells no-margin">
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
-                <div class="weui-cell__bd">{{base.addrDetail}}</div>
-            </div>
-        </div>
-
-        <div class="wx-area-line"></div>
         <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">活动标题</label></div>
@@ -24,6 +13,11 @@
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">结束时间</label></div>
                 <div class="weui-cell__bd">{{base.planEndTime}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access" @click="goToMap">
+                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
+                <div class="weui-cell__bd">{{base.addrDetail}}</div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
 
@@ -192,7 +186,8 @@ export default {
                 addrDetail: '',
                 partyDesc: '',
                 partySummary: '',
-                partyAlbum: ''
+                partyAlbum: '',
+                addrBaiduGps: ''
             },
             couponData: [],
             attachmentData: {
@@ -476,6 +471,17 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
+        },
+        goToMap () {
+            var pathUrl = {
+                name: 'search-map',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    point: this.base.addrBaiduGps
+                }
+            }
+            this.$router.push(pathUrl)
         },
         gotoUser () {
             var formData = {

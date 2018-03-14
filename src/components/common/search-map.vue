@@ -1,6 +1,6 @@
 <template>
     <section class="select-map">
-        <div class="search-box">
+        <div class="search-box" v-if="!$route.query.point">
             <div class="weui-search-bar__form">
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
@@ -17,10 +17,6 @@
                     <span>搜索</span>
                 </label>
             </div>
-        </div>
-
-        <div class="tags-box">
-            
         </div>
         
         <div class="map-box" id="containerhouse"></div>
@@ -107,14 +103,22 @@ export default {
             var mapData = Object.assign({}, this.mapData)
             this.setMapInfo(mapData)
             
-            var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-            this.$router.replace(pathUrl)
+            this.$router.go(-1)
         },
         initMap () {
             if (!this.map) {
                 var map = new window.BMap.Map('containerhouse')
                 this.map = map
-                var point = new window.BMap.Point(116.409, 39.918)
+
+                var point = ''
+                
+                if (this.$route.query.point) {
+                    var pointArr = this.$route.query.point.split(',')
+                    point = new window.BMap.Point(pointArr[0], pointArr[1])
+                } else {
+                    point = new window.BMap.Point(116.409, 39.918)
+                }
+
                 map.centerAndZoom(point, 15)
             }
         },

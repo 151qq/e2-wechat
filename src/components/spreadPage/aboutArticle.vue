@@ -1,5 +1,5 @@
 <template>
-    <section class="user-role-list show-message-box">
+    <section class="user-role-list">
         <div class="height-1"></div>
         <div class="weui-cells no-margin no-line">
             <div class="weui-cell weui-cell_access" @click="gotoAttachment">
@@ -7,12 +7,10 @@
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个推荐
                 </div>
-                <div class="weui-cell__ft">
-                    <span class="add-btn-icon"></span>
-                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
-        <div class="weui-cells no-margin">
+        <div class="weui-cells no-margin left-padding">
             <swipeout>
                 <swipeout-item transition-mode="follow"
                                 v-for="(item, index) in attachmentData.attachmentList" :key="index">

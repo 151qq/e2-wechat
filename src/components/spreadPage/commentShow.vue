@@ -32,14 +32,13 @@
                     <img-list :img-list="item.attachments"></img-list>
                 </div>
                 <div class="response-box">
-                    <div class="top-box">
+                    <div class="top-box" @click="showSubmit(item)">
                         <span class="response"
                                 v-if="item.reportComment && item.reportComment.commentContent">
                             作者回复
                         </span>
                         <div class="comment-btn" v-if="item.status == '1'">
-                            <div class="btn-out-box"
-                                 @click="showSubmit(item)">
+                            <div class="btn-out-box">
                                 <img src="../../assets/images/edit-icon.png">
                             </div>
                         </div>
@@ -86,12 +85,11 @@
                                 </router-link>
                             </div>
                         </div>
-                        <div class="response-box">
+                        <div class="response-box" @click="deleteAuthor(item.reportComment)">
                             <div class="top-box">
                                 <span class="response"></span>
                                 <div class="comment-btn">
-                                    <div class="btn-out-box"
-                                         @click="deleteAuthor(item.reportComment)">
+                                    <div class="btn-out-box">
                                         <img src="../../assets/images/delete-icon.png">
                                     </div>
                                 </div>
@@ -131,6 +129,10 @@ export default {
     },
     methods: {
         showSubmit (item) {
+            if (item.status != '1') {
+                return false
+            }
+
             var pathUrl = {
                 name: this.commentUrl,
                 query: {

@@ -13,6 +13,9 @@ const routers = [
     name: 'registor',
     component (resolve) {
       require(["./registor.vue"], resolve)
+    },
+    meta: {
+      title: '营销精英'
     }
   },
   {
@@ -23,7 +26,7 @@ const routers = [
       require(["./registorMessage.vue"], resolve)
     },
     meta: {
-      title: '注册'
+      title: '营销精英'
     }
   },
   {
@@ -45,7 +48,7 @@ const routers = [
       require(["../../components/common/user-list.vue"], resolve)
     },
     meta: {
-      title: '选择职员'
+      title: '选择同事'
     }
   },
   {
@@ -56,7 +59,7 @@ const routers = [
       require(["../../components/common/we-chat.vue"], resolve)
     },
     meta: {
-      title: '选择职员'
+      title: '选择同事'
     }
   },
   {
@@ -80,7 +83,7 @@ const routers = [
         name: 'activity-attachment',
         component: resolve => require(["../../components/attachment/activityAttachment.vue"], resolve),
         meta: {
-          title: '活动附件'
+          title: '选择附件'
         }
       },
       {
@@ -88,7 +91,7 @@ const routers = [
         name: 'task-attachment',
         component: resolve => require(["../../components/attachment/taskAttachment.vue"], resolve),
         meta: {
-          title: '任务附件'
+          title: '选择附件'
         }
       },
       {
@@ -96,7 +99,7 @@ const routers = [
         name: 'article-attachment',
         component: resolve => require(["../../components/attachment/articleAttachment.vue"], resolve),
         meta: {
-          title: '文章附件'
+          title: '选择附件'
         }
       },
       {
@@ -104,7 +107,7 @@ const routers = [
         name: 'party-attachment',
         component: resolve => require(["../../components/attachment/partyAttachment.vue"], resolve),
         meta: {
-          title: '地推附件'
+          title: '选择附件'
         }
       },
       {
@@ -112,7 +115,7 @@ const routers = [
         name: 'product-attachment',
         component: resolve => require(["../../components/attachment/productAttachment.vue"], resolve),
         meta: {
-          title: '产品附件'
+          title: '选择附件'
         }
       },
       {
@@ -120,7 +123,7 @@ const routers = [
         name: 'coupon-attachment',
         component: resolve => require(["../../components/attachment/couponAttachment.vue"], resolve),
         meta: {
-          title: '套券附件'
+          title: '选择附件'
         }
       },
       {
@@ -128,103 +131,103 @@ const routers = [
         name: 'reserve-attachment',
         component: resolve => require(["../../components/attachment/reserveAttachment.vue"], resolve),
         meta: {
-          title: '预约附件'
+          title: '选择附件'
         }
       }
     ]
   },
-  {
-    // 产品分类
-    path: '/productCenter',
-    name: 'productCenter',
-    component (resolve) {
-      require(["../../components/productCenter/main.vue"], resolve)
-    },
-    children: [
-      {
-        path: '',
-        name: 'product-list',
-        component: resolve => require(["../../components/productCenter/itemList.vue"], resolve),
-        meta: {
-          title: '产品列表'
-        }
-      },
-      {
-        path: 'productDetail',
-        name: 'product-detail',
-        component: resolve => require(["../../components/productCenter/articleDetail.vue"], resolve),
-        meta: {
-          title: '产品详情'
-        }
-      },
-      {
-        path: 'productLog',
-        name: 'product-log',
-        component: resolve => require(["../../components/productCenter/articleLog.vue"], resolve),
-        meta: {
-          title: '产品评论'
-        }
-      },
-      {
-        path: 'productSpec',
-        name: 'product-spec',
-        component: resolve => require(["../../components/productCenter/productSpec.vue"], resolve),
-        meta: {
-          title: '产品规格'
-        }
-      },
-      {
-        path: 'productSenior',
-        name: 'product-senior',
-        component: resolve => require(["../../components/productCenter/productSenior.vue"], resolve),
-        meta: {
-          title: '产品场景'
-        }
-      },
-      {
-        path: 'productimg',
-        name: 'product-img',
-        component: resolve => require(["../../components/productCenter/imgList.vue"], resolve),
-        meta: {
-          title: '产品相册'
-        }
-      }
-    ]
-  },
-  {
-    // 企业相册
-    path: '/enterpriseAlbum',
-    name: 'enterpriseAlbum',
-    component (resolve) {
-      require(["../../components/enterpriseAlbum/main.vue"], resolve)
-    },
-    children: [
-      {
-        path: '',
-        name: 'enterprise-dirs',
-        component: resolve => require(["../../components/enterpriseAlbum/itemList.vue"], resolve),
-        meta: {
-          title: '相册目录'
-        }
-      },
-      {
-        path: 'imgList',
-        name: 'img-list',
-        component: resolve => require(["../../components/enterpriseAlbum/imgList.vue"], resolve),
-        meta: {
-          title: '图片列表'
-        }
-      },
-      {
-        path: 'mediaList',
-        name: 'media-list',
-        component: resolve => require(["../../components/enterpriseAlbum/mediaList.vue"], resolve),
-        meta: {
-          title: '视频列表'
-        }
-      }
-    ]
-  },
+  // {
+  //   // 产品分类
+  //   path: '/productCenter',
+  //   name: 'productCenter',
+  //   component (resolve) {
+  //     require(["../../components/productCenter/main.vue"], resolve)
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'product-list',
+  //       component: resolve => require(["../../components/productCenter/itemList.vue"], resolve),
+  //       meta: {
+  //         title: '产品列表'
+  //       }
+  //     },
+  //     {
+  //       path: 'productDetail',
+  //       name: 'product-detail',
+  //       component: resolve => require(["../../components/productCenter/articleDetail.vue"], resolve),
+  //       meta: {
+  //         title: '产品详情'
+  //       }
+  //     },
+  //     {
+  //       path: 'productLog',
+  //       name: 'product-log',
+  //       component: resolve => require(["../../components/productCenter/articleLog.vue"], resolve),
+  //       meta: {
+  //         title: '产品评论'
+  //       }
+  //     },
+  //     {
+  //       path: 'productSpec',
+  //       name: 'product-spec',
+  //       component: resolve => require(["../../components/productCenter/productSpec.vue"], resolve),
+  //       meta: {
+  //         title: '产品规格'
+  //       }
+  //     },
+  //     {
+  //       path: 'productSenior',
+  //       name: 'product-senior',
+  //       component: resolve => require(["../../components/productCenter/productSenior.vue"], resolve),
+  //       meta: {
+  //         title: '产品场景'
+  //       }
+  //     },
+  //     {
+  //       path: 'productimg',
+  //       name: 'product-img',
+  //       component: resolve => require(["../../components/productCenter/imgList.vue"], resolve),
+  //       meta: {
+  //         title: '产品相册'
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   // 企业相册
+  //   path: '/enterpriseAlbum',
+  //   name: 'enterpriseAlbum',
+  //   component (resolve) {
+  //     require(["../../components/enterpriseAlbum/main.vue"], resolve)
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'enterprise-dirs',
+  //       component: resolve => require(["../../components/enterpriseAlbum/itemList.vue"], resolve),
+  //       meta: {
+  //         title: '相册目录'
+  //       }
+  //     },
+  //     {
+  //       path: 'imgList',
+  //       name: 'img-list',
+  //       component: resolve => require(["../../components/enterpriseAlbum/imgList.vue"], resolve),
+  //       meta: {
+  //         title: '图片列表'
+  //       }
+  //     },
+  //     {
+  //       path: 'mediaList',
+  //       name: 'media-list',
+  //       component: resolve => require(["../../components/enterpriseAlbum/mediaList.vue"], resolve),
+  //       meta: {
+  //         title: '视频列表'
+  //       }
+  //     }
+  //   ]
+  // },
   {
     // 外呼工作
     path: '/outbandWork',
@@ -238,7 +241,7 @@ const routers = [
         name: 'noline-list',
         component: resolve => require(["../../components/outbandWork/itemList.vue"], resolve),
         meta: {
-          title: '外呼列表'
+          title: '外呼工作列表'
         }
       },
       {
@@ -246,7 +249,7 @@ const routers = [
         name: 'noline-remark',
         component: resolve => require(["../../components/outbandWork/nolineRemark.vue"], resolve),
         meta: {
-          title: '外呼详情'
+          title: '外呼工作详情'
         }
       },
       {
@@ -254,7 +257,7 @@ const routers = [
         name: 'noline-detail',
         component: resolve => require(["../../components/outbandWork/nolineDetail.vue"], resolve),
         meta: {
-          title: '外呼详情'
+          title: '外呼工作详情'
         }
       },
       {
@@ -262,7 +265,7 @@ const routers = [
         name: 'noline-qz',
         component: resolve => require(["../../components/outbandWork/nolineQz.vue"], resolve),
         meta: {
-          title: '外呼记录'
+          title: '外呼工作记录'
         }
       },
       {
@@ -270,7 +273,7 @@ const routers = [
         name: 'noline-sj',
         component: resolve => require(["../../components/outbandWork/nolineSj.vue"], resolve),
         meta: {
-          title: '外呼记录'
+          title: '外呼工作记录'
         }
       },
       {
@@ -278,7 +281,7 @@ const routers = [
         name: 'noline-comment',
         component: resolve => require(["../../components/outbandWork/nolineComment.vue"], resolve),
         meta: {
-          title: '外呼总结'
+          title: '外呼工作总结'
         }
       }
     ]
@@ -296,7 +299,7 @@ const routers = [
         name: 'article-list',
         component: resolve => require(["../../components/spreadPage/itemList.vue"], resolve),
         meta: {
-          title: '文章列表'
+          title: '推广文章列表'
         }
       },
       {
@@ -304,7 +307,7 @@ const routers = [
         name: 'article-detail',
         component: resolve => require(["../../components/spreadPage/articleDetail.vue"], resolve),
         meta: {
-          title: '文章详情'
+          title: '推广文章详情'
         }
       },
       {
@@ -312,7 +315,7 @@ const routers = [
         name: 'res-comment',
         component: resolve => require(["../../components/spreadPage/resComment.vue"], resolve),
         meta: {
-          title: '评论文章'
+          title: '推广文章评论'
         }
       },
       {
@@ -320,7 +323,7 @@ const routers = [
         name: 'oprate-message',
         component: resolve => require(["../../components/spreadPage/oprateMessage.vue"], resolve),
         meta: {
-          title: '消息编辑'
+          title: '操作信息编辑'
         }
       },
       {
@@ -328,7 +331,7 @@ const routers = [
         name: 'about-article',
         component: resolve => require(["../../components/spreadPage/aboutArticle.vue"], resolve),
         meta: {
-          title: '文章推荐'
+          title: '推广文章推荐'
         }
       },
       {
@@ -336,7 +339,7 @@ const routers = [
         name: 'submit-article',
         component: resolve => require(["../../components/spreadPage/submitArticle.vue"], resolve),
         meta: {
-          title: '发布文章'
+          title: '推广文章发布'
         }
       },
       {
@@ -344,7 +347,7 @@ const routers = [
         name: 'article-log',
         component: resolve => require(["../../components/spreadPage/articleLog.vue"], resolve),
         meta: {
-          title: '文章评论'
+          title: '推广文章评论'
         }
       }
     ]
@@ -362,7 +365,7 @@ const routers = [
         name: 'case-list',
         component: resolve => require(["../../components/couponEvent/itemList.vue"], resolve),
         meta: {
-          title: '活动列表'
+          title: '优惠活动列表'
         }
       },
       {
@@ -370,7 +373,7 @@ const routers = [
         name: 'case-detail',
         component: resolve => require(["../../components/couponEvent/caseDetail.vue"], resolve),
         meta: {
-          title: '活动详情'
+          title: '优惠活动详情'
         }
       },
       {
@@ -378,7 +381,7 @@ const routers = [
         name: 'coupon-detail',
         component: resolve => require(["../../components/couponEvent/couponDetail.vue"], resolve),
         meta: {
-          title: '券详情'
+          title: '优惠券详情'
         }
       },
       {
@@ -386,85 +389,85 @@ const routers = [
         name: 'stop-activity',
         component: resolve => require(["../../components/couponEvent/stopActivity.vue"], resolve),
         meta: {
-          title: '终止活动'
+          title: '终止优惠活动'
         }
       }
     ]
   },
-  {
-    // 营销分析
-    path: '/marketingAnalysis',
-    name: 'marketingAnalysis',
-    component (resolve) {
-      require(["../../components/marketingAnalysis/main.vue"], resolve)
-    },
-    children: [
-      {
-        path: '',
-        name: 'analyse-list',
-        component: resolve => require(["../../components/marketingAnalysis/itemList.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseNorm',
-        name: 'analyse-norm',
-        component: resolve => require(["../../components/marketingAnalysis/analyseNorm.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseCoupon',
-        name: 'analyse-coupon',
-        component: resolve => require(["../../components/marketingAnalysis/analyseCoupon.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseWx',
-        name: 'analyse-wx',
-        component: resolve => require(["../../components/marketingAnalysis/analyseWx.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseArticle',
-        name: 'analyse-article',
-        component: resolve => require(["../../components/marketingAnalysis/analyseArticle.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseOutband',
-        name: 'analyse-outband',
-        component: resolve => require(["../../components/marketingAnalysis/analyseOutband.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseParty',
-        name: 'analyse-party',
-        component: resolve => require(["../../components/marketingAnalysis/analyseParty.vue"], resolve),
-        meta: {
-          title:false
-        }
-      },
-      {
-        path: 'analyseQuestion',
-        name: 'analyse-question',
-        component: resolve => require(["../../components/marketingAnalysis/analyseQuestion.vue"], resolve),
-        meta: {
-          title:false
-        }
-      }
-    ]
-  },
+  // {
+  //   // 营销分析
+  //   path: '/marketingAnalysis',
+  //   name: 'marketingAnalysis',
+  //   component (resolve) {
+  //     require(["../../components/marketingAnalysis/main.vue"], resolve)
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'analyse-list',
+  //       component: resolve => require(["../../components/marketingAnalysis/itemList.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseNorm',
+  //       name: 'analyse-norm',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseNorm.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseCoupon',
+  //       name: 'analyse-coupon',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseCoupon.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseWx',
+  //       name: 'analyse-wx',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseWx.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseArticle',
+  //       name: 'analyse-article',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseArticle.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseOutband',
+  //       name: 'analyse-outband',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseOutband.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseParty',
+  //       name: 'analyse-party',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseParty.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     },
+  //     {
+  //       path: 'analyseQuestion',
+  //       name: 'analyse-question',
+  //       component: resolve => require(["../../components/marketingAnalysis/analyseQuestion.vue"], resolve),
+  //       meta: {
+  //         title:false
+  //       }
+  //     }
+  //   ]
+  // },
   {
     // 营销红包
     path: '/myConfig',
@@ -512,7 +515,7 @@ const routers = [
         name: 'channel-list',
         component: resolve => require(["../../components/wxPromotion/itemList.vue"], resolve),
         meta: {
-          title: '推广列表'
+          title: '会员推广列表'
         }
       },
       {
@@ -520,7 +523,7 @@ const routers = [
         name: 'channel-detail',
         component: resolve => require(["../../components/wxPromotion/channelDetail.vue"], resolve),
         meta: {
-          title: '推广详情'
+          title: '会员详情'
         }
       }
     ]
@@ -538,7 +541,7 @@ const routers = [
         name: 'reserve-list',
         component: resolve => require(["../../components/reserveOnline/itemList.vue"], resolve),
         meta: {
-          title: '预约列表'
+          title: '在线预约列表'
         }
       },
       {
@@ -546,7 +549,7 @@ const routers = [
         name: 'add-reserve',
         component: resolve => require(["../../components/reserveOnline/addReserve.vue"], resolve),
         meta: {
-          title: '编辑预约'
+          title: '在线预约编辑'
         }
       },
       {
@@ -554,7 +557,7 @@ const routers = [
         name: 'reserve-summary',
         component: resolve => require(["../../components/reserveOnline/reserveSummary.vue"], resolve),
         meta: {
-          title: '消息编辑'
+          title: '操作信息编辑'
         }
       },
       {
@@ -562,7 +565,7 @@ const routers = [
         name: 'reserve-detail',
         component: resolve => require(["../../components/reserveOnline/reserveDetail.vue"], resolve),
         meta: {
-          title: '预约详情'
+          title: '在线预约详情'
         }
       }
     ]
@@ -580,7 +583,7 @@ const routers = [
         name: 'party-list',
         component: resolve => require(["../../components/partyTool/itemList.vue"], resolve),
         meta: {
-          title: '地推列表'
+          title: '地推活动列表'
         }
       },
       {
@@ -588,7 +591,7 @@ const routers = [
         name: 'party-detail',
         component: resolve => require(["../../components/partyTool/partyDetail.vue"], resolve),
         meta: {
-          title: '地推详情'
+          title: '地推活动详情'
         }
       },
       {
@@ -596,7 +599,7 @@ const routers = [
         name: 'new-party',
         component: resolve => require(["../../components/partyTool/newParty.vue"], resolve),
         meta: {
-          title: '地推编辑'
+          title: '编辑地推活动'
         }
       },
       {
@@ -604,7 +607,7 @@ const routers = [
         name: 'stop-party',
         component: resolve => require(["../../components/partyTool/stopParty.vue"], resolve),
         meta: {
-          title: '终止地推'
+          title: '终止地推活动'
         }
       },
       {
@@ -612,7 +615,7 @@ const routers = [
         name: 'party-gift',
         component: resolve => require(["../../components/partyTool/partyGift.vue"], resolve),
         meta: {
-          title: '地推礼品'
+          title: '地推活动礼品'
         }
       },
       {
@@ -628,7 +631,7 @@ const routers = [
         name: 'gift-log',
         component: resolve => require(["../../components/partyTool/giftLog.vue"], resolve),
         meta: {
-          title: '地推记录'
+          title: '地推活动记录'
         }
       }
     ]
@@ -646,7 +649,7 @@ const routers = [
         name: 'task-list',
         component: resolve => require(["../../components/taskManagement/itemList.vue"], resolve),
         meta: {
-          title: '任务列表'
+          title: '营销任务列表'
         }
       },
       {
@@ -654,7 +657,7 @@ const routers = [
         name: 'submit-task',
         component: resolve => require(["../../components/taskManagement/submitTask.vue"], resolve),
         meta: {
-          title: '消息编辑'
+          title: '操作信息编辑'
         }
       },
       {
@@ -662,7 +665,7 @@ const routers = [
         name: 'edit-comment',
         component: resolve => require(["../../components/taskManagement/editComment.vue"], resolve),
         meta: {
-          title: '任务列表'
+          title: '营销任务列表'
         }
       },
       {

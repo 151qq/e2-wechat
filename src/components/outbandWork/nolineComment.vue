@@ -1,5 +1,5 @@
 <template>
-    <section class="member-detail-box show-message-box">
+    <section class="member-detail-box">
         <div class="wx-area-img">
             <img :src="coverImg">
         </div>
@@ -11,7 +11,7 @@
                 {{base.memberWechatNickname}}
             </div>
         </div>
-        <group class="no-margin" label-width="105px">
+        <group class="no-margin show-message-box" label-width="105px">
             <selector title="外呼结果"
                       placeholder="请选择"
                       :value-map="scenarioMap"
@@ -36,7 +36,7 @@
         </group>
         
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access no-center">
                 <div class="weui-cell__hd"><label class="weui-label">外呼备忘</label></div>
                 <div class="weui-cell__bd">
@@ -56,16 +56,14 @@
                     <div class="weui-cell__bd wx-placeholder">
                        请选择一个新预约
                     </div>
-                    <div class="weui-cell__ft">
-                        <span class="add-btn-icon"></span>
-                    </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
             </div>
             <attachment-detail :attachment-data="attachmentData"></attachment-detail>
         </template>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">
@@ -93,7 +91,7 @@
         </div>
         
         <div class="wx-area-line"></div>
-        <group class="no-margin" label-width="105px">
+        <group class="no-margin show-message-box" label-width="105px">
             <selector title="客户性别"
                       placeholder="请选择"
                       :value-map="valueMap"

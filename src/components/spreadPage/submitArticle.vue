@@ -1,7 +1,7 @@
 <template>
-    <section class="stop-activity-box show-message-box">
+    <section class="stop-activity-box">
         <div class="height-1"></div>
-        <group class="no-margin" label-width="105px">
+        <group class="no-margin show-message-box" label-width="105px">
             <selector title="文章情绪"
                     placeholder="请选择"
                     :options="tagList.content_emotion"
@@ -46,9 +46,7 @@
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个推荐
                 </div>
-                <div class="weui-cell__ft">
-                    <span class="add-btn-icon"></span>
-                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
         <attachment-detail :attachment-data="attachmentData"></attachment-detail>

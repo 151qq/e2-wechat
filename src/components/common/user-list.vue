@@ -10,7 +10,7 @@
                     <img class="small-img" :src="item.userWechatLogo">
                 </div>
                 <div class="weui-cell__bd weui-cell_primary">
-                    <div class="small-title">{{item.userName}}</div>
+                    <div>{{item.userName}}</div>
                 </div>
                 <div class="weui-cell__ft">
                     <span :class="userCodes.indexOf(item.userCode) > -1 ? 'weui-icon-success' : 'weui-icon-circle'"></span>

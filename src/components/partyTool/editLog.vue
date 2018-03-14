@@ -1,7 +1,7 @@
 <template>
     <section class="member-detail-box">
         <div class="height-1"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access no-center">
                 <div class="weui-cell__hd"><label class="weui-label">现场说明</label></div>
                 <div class="weui-cell__bd">
@@ -14,7 +14,7 @@
         </div>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">现场图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">

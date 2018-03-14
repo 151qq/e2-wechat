@@ -1,7 +1,7 @@
 <template>
-    <section class="stop-activity-box show-message-box">
+    <section class="stop-activity-box">
         <div class="height-1"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access no-center">
                 <div class="weui-cell__hd"><label class="weui-label">任务回复</label></div>
                 <div class="weui-cell__bd">
@@ -20,15 +20,13 @@
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
-                <div class="weui-cell__ft">
-                    <span class="add-btn-icon"></span>
-                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
         <attachment-detail :attachment-data="attachmentData"></attachment-detail>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">

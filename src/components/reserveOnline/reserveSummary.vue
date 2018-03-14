@@ -1,7 +1,7 @@
 <template>
-    <section class="member-detail-box show-message-box">
+    <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin" label-width="105px">
+        <group class="no-margin show-message-box" label-width="105px">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__bd">预约人</div>
                 <div class="weui-cell__ft">{{base.reserverName}}</div>
@@ -51,7 +51,7 @@
         </group>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access no-center">
                 <div class="weui-cell__hd"><label class="weui-label">接待备忘</label></div>
                 <div class="weui-cell__bd">
@@ -64,7 +64,7 @@
         </div>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">
@@ -107,16 +107,14 @@
                     <div class="weui-cell__bd wx-placeholder">
                        请添加一个新预约
                     </div>
-                    <div class="weui-cell__ft">
-                        <span class="add-btn-icon"></span>
-                    </div>
+                    <div class="weui-cell__ft"></div>
                 </div>
             </div>
             <attachment-detail :attachment-data="attachmentData"></attachment-detail>
         </template>
         
         <div class="wx-area-line"></div>
-        <group class="no-margin" label-width="105px">
+        <group class="no-margin show-message-box" label-width="105px">
             <x-input title="客户姓名"
                      v-model="formData.name"
                      placeholder="请输入"></x-input>

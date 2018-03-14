@@ -1,16 +1,21 @@
 <template>
-    <section class="member-detail-box show-message-box">
+    <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin" label-width="105px">
-            <x-input title="任务标题"
-                     v-model="formData.taskTitle"
-                     placeholder="请输入文字"></x-input>
+        <group class="no-margin show-message-box" label-width="105px">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入文字" v-model="formData.taskTitle">
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskBeginTimeD">
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell">
@@ -18,6 +23,7 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" placeholder="请选择" type="datetime-local" v-model="formData.taskEndTimeD">
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
             
             <x-number title="文章数量"
@@ -25,7 +31,7 @@
                       :class="'number-box'"
                       v-model="formData.pageNum"
                       button-style="round"
-                      :min="0"></x-number>
+                      :min="1"></x-number>
 
             <selector title="写作目的"
                       placeholder="请选择"
@@ -157,15 +163,13 @@
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
-                <div class="weui-cell__ft">
-                    <span class="add-btn-icon"></span>
-                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
         <attachment-detail :attachment-data="attachmentData"></attachment-detail>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">
@@ -191,6 +195,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line show-message-box">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">任务封面</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   请选择一张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
+            <div class="weui-cell no-line">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                         <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file"
+                                v-if="formData.taskCover"
+                                @click="showBigImage">
+                                    <img :src="formData.taskCover">
+                            </li>
+                            <li v-if="!formData.taskCover" @click="chooseImg" class="weui-uploader__input-box"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
@@ -201,6 +233,11 @@
                     :img-path="nowPath"
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
+
+        <delete-img :index="nowIndex"
+                    :img-path="nowPath"
+                    :is-show-img="isShowImage"
+                    @deleteImg="deleteImage"></delete-img>
     </section>
 </template>
 <script>
@@ -224,7 +261,7 @@ export default {
                 taskBeginTimeD: '',
                 taskEndTimeD: '',
                 taskDesc: '',
-                pageNum: 0,
+                pageNum: 1,
                 pageScenario: '',
                 pageReaderGender: '',
                 pageReaderCity: [],
@@ -239,6 +276,7 @@ export default {
                 pageReaderConsumeLevelLabel: '',
                 pageReaderCareerLabel: '',
                 pageReaderEnterpriseLabel: '',
+                taskCover: '',
                 attachmentTargetType: 'editTask',
                 localIds: [],
                 imgData: {
@@ -260,6 +298,10 @@ export default {
             isShowImg: {
                 value: false
             },
+            isShowImage: {
+                value: false
+            },
+            serverId: '',
             serverIdList: [],
             themesList: [],
             cityList: [],
@@ -349,10 +391,35 @@ export default {
                 this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
             })
         },
+        chooseImg () {
+            var num = this.formData.taskCover ? 0 : 1
+            jsSdk.chooseImage(num ,(localIds) => {
+                this.formData.taskCover = localIds[0]
+            })
+        },
         submitComment () {
+            var num = 0
+
+            var coverArr = []
+
+            if (this.formData.taskCover) {
+                coverArr = [this.formData.taskCover]
+            }
+
+            jsSdk.uploadImgs(coverArr, (serverIdList) => {
+                this.formData.taskCover = serverIdList[0]
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
+            })
+
             jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
             })
         },
         submitFn () {
@@ -394,13 +461,13 @@ export default {
             this.formData.taskBeginTime = util.formatDate(this.formData.taskBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             this.formData.taskEndTime = util.formatDate(this.formData.taskEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
-            if (!this.formData.pageScenario) {
-                this.$message({
-                    message: '请选择写作目的!',
-                    type: 'warning'
-                })
-                return false
-            }
+            // if (!this.formData.pageScenario) {
+            //     this.$message({
+            //         message: '请选择写作目的!',
+            //         type: 'warning'
+            //     })
+            //     return false
+            // }
 
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
@@ -525,6 +592,13 @@ export default {
         },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
+        },
+        showBigImage () {
+            this.nowPath = this.formData.taskCover
+            this.isShowImage.value = true
+        },
+        deleteImage () {
+            this.formData.taskCover = ''
         },
         showGenderSelect () {
             this.$refs.genderSelect.resetData()

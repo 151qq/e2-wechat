@@ -1,16 +1,21 @@
 <template>
-    <section class="member-detail-box show-message-box">
+    <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin" label-width="105px">
-            <x-input title="任务标题"
-                     v-model="formData.taskTitle"
-                     placeholder="请输入文字"></x-input>
+        <group class="no-margin show-message-box" label-width="105px">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入文字" v-model="formData.taskTitle">
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
 
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="datetime-local" v-model="formData.taskBeginTimeD">
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell">
@@ -18,6 +23,7 @@
                 <div class="weui-cell__bd">
                     <input class="weui-input" type="datetime-local" v-model="formData.taskEndTimeD">
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
         </group>
 
@@ -41,15 +47,13 @@
                 <div class="weui-cell__bd wx-placeholder">
                    已经选择了{{attachmentData.attachmentList ? attachmentData.attachmentList.length : 0}}个附件
                 </div>
-                <div class="weui-cell__ft">
-                    <span class="add-btn-icon"></span>
-                </div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
         <attachment-detail :attachment-data="attachmentData"></attachment-detail>
 
         <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line">
+        <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">本地图片</label></div>
                 <div class="weui-cell__bd wx-placeholder">
@@ -75,6 +79,34 @@
                 </div>
             </div>
         </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin no-line">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">任务封面</label></div>
+                <div class="weui-cell__bd wx-placeholder">
+                   请选择一张图片
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
+
+        <div class="weui-cells no-margin">
+            <div class="weui-cell no-line">
+                <div class="weui-uploader">
+                    <div class="weui-uploader__bd">
+                         <ul class="weui-uploader__files" id="uploaderFiles">
+                            <li class="weui-uploader__file"
+                                v-if="formData.taskCover"
+                                @click="showBigImage">
+                                    <img :src="formData.taskCover">
+                            </li>
+                            <li v-if="!formData.taskCover" @click="chooseImg" class="weui-uploader__input-box"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
@@ -85,6 +117,11 @@
                     :img-path="nowPath"
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
+
+        <delete-img :index="nowIndex"
+                    :img-path="nowPath"
+                    :is-show-img="isShowImage"
+                    @deleteImg="deleteImage"></delete-img>
     </section>
 </template>
 <script>
@@ -106,6 +143,7 @@ export default {
                 taskBeginTimeD: '',
                 taskEndTimeD: '',
                 taskDesc: '',
+                taskCover: '',
                 attachmentTargetType: 'task',
                 localIds: [],
                 imgData: {
@@ -122,6 +160,10 @@ export default {
             isShowImg: {
                 value: false
             },
+            isShowImage: {
+                value: false
+            },
+            serverId: '',
             serverIdList: []
         }
     },
@@ -156,10 +198,35 @@ export default {
                 this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
             })
         },
+        chooseImg () {
+            var num = this.formData.taskCover ? 0 : 1
+            jsSdk.chooseImage(num ,(localIds) => {
+                this.formData.taskCover = localIds[0]
+            })
+        },
         submitComment () {
+            var num = 0
+
+            var coverArr = []
+
+            if (this.formData.taskCover) {
+                coverArr = [this.formData.taskCover]
+            }
+
+            jsSdk.uploadImgs(coverArr, (serverIdList) => {
+                this.formData.taskCover = serverIdList[0]
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
+            })
+
             jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
+                num++
+                if (num == 2) {
+                    this.submitFn()
+                }
             })
         },
         submitFn () {
@@ -261,6 +328,13 @@ export default {
         },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
+        },
+        showBigImage () {
+            this.nowPath = this.formData.taskCover
+            this.isShowImage.value = true
+        },
+        deleteImage () {
+            this.formData.taskCover = ''
         }
     },
     components: {

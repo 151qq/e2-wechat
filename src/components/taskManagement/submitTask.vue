@@ -16,7 +16,7 @@
                 <div class="weui-cell__bd">
                     <textarea class="weui-textarea"
                                 placeholder="有什么要对他说..."
-                                rows="3"
+                                rows="9"
                                 v-model="formData.message"></textarea>
                 </div>
             </div>

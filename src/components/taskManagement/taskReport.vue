@@ -34,17 +34,23 @@
                 <div class="article-box" v-if="item.status == '1' && item.pageData && item.pageData.length">
                     <attachment-show :attachment-data="item" :is-comment="true"></attachment-show>
                 </div>
-                <div class="response-box">
+                <div class="response-box"
+                    v-if="userInfo.userCode && ($route.query.editType == '0' || $route.query.editType == '2') && !item.taskReportParent && item.status == '1'"
+                    @click="showSubmit('1', item.taskReportFloor, item.userCode)">
                     <div class="top-box">
                         <div class="comment-btn" v-if="item.status == '1'">
-                            <div class="btn-out-box"
-                                 @click="showSubmit('1', item.taskReportFloor, item.userCode)"
-                                 v-if="userInfo.userCode && ($route.query.editType == '0' || $route.query.editType == '2') && !item.taskReportParent">
+                            <div class="btn-out-box">
                                 <img src="../../assets/images/edit-icon.png">
                             </div>
-                            <div class="btn-out-box"
-                                 @click="deleteComment(item)"
-                                 v-if="userInfo.userCode && item.userCode == userInfo.userCode">
+                        </div>
+                    </div>
+                </div>
+                <div class="response-box"
+                    v-if="userInfo.userCode && item.userCode == userInfo.userCode && item.status == '1'"
+                    @click="deleteComment(item)">
+                    <div class="top-box">
+                        <div class="comment-btn" v-if="item.status == '1'">
+                            <div class="btn-out-box">
                                 <img src="../../assets/images/delete-icon.png">
                             </div>
                         </div>
