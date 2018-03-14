@@ -567,8 +567,6 @@ export default {
             this.$router.push(pathUrl)
         },
         gotoUser (taskCode) {
-            this.setDetail(Object.assign({}, this.formData))
-
             var urlPath = window.location.href.replace('editTask', 'editDetail')
             urlPath = urlPath + '&taskCode=' + taskCode
 

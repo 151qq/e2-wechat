@@ -303,8 +303,6 @@ export default {
             this.$router.push(pathUrl)
         },
         gotoUser (taskCode) {
-            this.setDetail(Object.assign({}, this.formData))
-
             var urlPath = window.location.href.replace('activityTask', 'activityDetail')
             urlPath = urlPath + '&taskCode=' + taskCode
 

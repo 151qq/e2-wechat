@@ -36,7 +36,7 @@ Vue.directive('scroll-load', {
                 binding.value['showMore'](function(){
                     $(el).children('.more-box').remove()
                 })
-            }    
+            }
         })
     },
     update (el, binding) {

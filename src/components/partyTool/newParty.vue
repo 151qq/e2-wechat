@@ -347,7 +347,7 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.$message({
-                      message: '恭喜你，更新成功！',
+                      message: '恭喜你，操作成功！',
                       type: 'success'
                     })
 
@@ -531,8 +531,6 @@ export default {
             this.$router.push(pathUrl)
         },
         gotoUser (partyCode) {
-            this.setDetail(Object.assign({}, this.formData))
-
             var urlPath = window.location.href.replace('newParty', 'partyDetail')
 
             if (!this.$route.query.partyCode) {
