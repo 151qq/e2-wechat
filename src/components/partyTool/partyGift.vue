@@ -2,10 +2,10 @@
     <section class="party-gift-box">
 
         <div class="ewm-box">
-            <img :src="userInfo.userInfo.userQrcode">
+            <img :src="base.userQrcode">
         </div>
         <div class="text-box">
-            {{userInfo.userWechatNickname + '-' + userInfo.userLoginAccount}}
+            {{base.userName + '-' + base.userMobile}}
         </div>
 
         <div class="btn-gigt-box">
@@ -26,7 +26,11 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            base: {}
+            base: {
+                userQrcode: '',
+                userMobile: '',
+                userName: ''
+            }
         }
     },
     mounted () {
@@ -52,7 +56,7 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    
+                    this.base = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }

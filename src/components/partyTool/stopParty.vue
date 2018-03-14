@@ -30,7 +30,7 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.mediaIdss"
+                                v-for="(item, index) in formData.mediaId"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
@@ -62,7 +62,7 @@ export default {
                 partySummary: '',
                 partyStatus: '',
                 partyAlbum: '',
-                mediaIdss: []
+                mediaId: []
             },
             nowIndex: '',
             nowPath: '',
@@ -81,13 +81,13 @@ export default {
     },
     methods: {
         chooseImage () {
-            var num = 9 - this.formData.mediaIdss.length
+            var num = 9 - this.formData.mediaId.length
             jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.mediaIdss = this.formData.mediaIdss.concat(localIds).splice(0, 9)
+                this.formData.mediaId = this.formData.mediaId.concat(localIds).splice(0, 9)
             })
         },
         submitComment () {
-            jsSdk.uploadImgs(this.formData.mediaIdss, (serverIdList) => {
+            jsSdk.uploadImgs(this.formData.mediaId, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
                 this.submitFn()
             })
@@ -96,7 +96,7 @@ export default {
             var formData = Object.assign({}, this.formData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.mediaIdss = this.serverIdList
+            formData.mediaId = this.serverIdList
             formData.partyCode = this.$route.query.partyCode
             formData.partyResult = this.$route.query.result
             formData.partyAlbum = this.$route.query.partyAlbum
@@ -124,11 +124,11 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.formData.mediaIdss[index]
+            this.nowPath = this.formData.mediaId[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
-            this.formData.mediaIdss.splice(index, 1)
+            this.formData.mediaId.splice(index, 1)
         }
     }
 }

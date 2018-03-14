@@ -205,7 +205,7 @@ export default {
                 agentId: this.$route.query.agentId,
                 partyCode: this.$route.query.partyCode,
                 userCodes: this.userCodes,
-                url: window.decodeURIComponent(this.$route.query.redirectUrl)
+                toUrl: window.decodeURIComponent(this.$route.query.redirectUrl)
             }
 
             util.request({

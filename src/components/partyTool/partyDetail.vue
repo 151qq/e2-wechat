@@ -85,7 +85,7 @@
             </div>
         </template>
 
-        <template v-if="base.partyStatus == '4'">
+        <template v-if="base.partyStatus == '4' || base.partyStatus == '5'">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
                 <div class="weui-cell weui-cell_access no-center">
@@ -208,6 +208,10 @@ export default {
         this.getAttachments()
         this.setDetail({})
 
+        if (this.isStart) {
+            this.updateStatus('3')
+        }
+
         if (!this.isEnd) {
             this.endActivity()
         }
@@ -230,6 +234,18 @@ export default {
             userInfo: 'getUserInfo',
             userData: 'getUser'
         }),
+        isStart () {
+            if (this.base.partyStatus == '1' && this.base.planBeginTime && this.base.planEndTime) {
+                var nowDateStr = new Date().getTime()
+                var startDateStr = new Date(this.base.planBeginTime).getTime()
+
+                if (nowDateStr > startDateStr) {
+                    return true
+                }
+                return false
+            }
+            return false
+        },
         isEnd () {
             if (this.base.partyStatus !== '4' && this.base.planBeginTime && this.base.planEndTime) {
                 var nowDateStr = new Date().getTime()
