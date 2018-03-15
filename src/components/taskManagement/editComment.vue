@@ -138,9 +138,9 @@ export default {
             formData.parentReportor = this.$route.query.parentReportor
 
             var url = 'http://mobile.socialmarketingcloud.com/taskManagement/'
-            var path = this.$route.query.taskType == 'eidt' ? 'editDetail' : 'activityDetail'
+            var path = this.$route.query.taskType == 'edit' ? 'editDetail' : 'activityDetail'
 
-            formData.url =url + path + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&taskCode=' + this.$route.query.taskCode
+            formData.url = url + path + '?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&taskCode=' + this.$route.query.taskCode
 
             util.request({
                 method: 'post',

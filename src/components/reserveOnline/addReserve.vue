@@ -275,9 +275,8 @@ export default {
             }
 
             jsSdk.uploadImgs(coverArr, (serverIdList) => {
-                this.formData.reserveCover = serverIdList[0]
+                this.serverId = serverIdList[0]
                 num++
-                console.log(num, 'cover')
                 if (num == 2) {
                     this.submitFn()
                 }
@@ -286,7 +285,6 @@ export default {
             jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
                 num++
-                console.log(num, 'img')
                 if (num == 2) {
                     this.submitFn()
                 }
@@ -365,6 +363,8 @@ export default {
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
             formData.reserveReceptionCode = this.userCode
             formData.reserveReceptionName = this.userName
+
+            formData.reserveCover = this.serverId
 
             if (this.mapData.point) {
                 formData.addrBaiduGps = this.mapData.point

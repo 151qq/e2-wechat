@@ -183,7 +183,8 @@ export default {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 agentId: this.$route.query.agentId,
                 roleCode: this.$route.query.roleCode,
-                userCodes: this.userCodes
+                userCodes: this.userCodes,
+                url: window.decodeURIComponent(this.$route.query.redirectUrl)
             }
 
             util.request({
@@ -192,8 +193,8 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    var pathUrl = util.formDataUrl(window.decodeURIComponent(this.$route.query.redirectUrl))
-                    this.$router.push(pathUrl)
+                    this.setUser({})
+                    this.$router.go(-1)
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -238,6 +239,7 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    this.setUser({})
                     this.$router.go(-1)
                 } else {
                     this.$message.error(res.result.message)

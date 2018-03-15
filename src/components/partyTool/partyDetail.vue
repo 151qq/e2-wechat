@@ -207,14 +207,6 @@ export default {
         this.getBase()
         this.getAttachments()
         this.setDetail({})
-
-        if (this.isStart) {
-            this.updateStatus('3')
-        }
-
-        if (!this.isEnd) {
-            this.endActivity()
-        }
     },
     watch: {
         $route () {
@@ -222,10 +214,6 @@ export default {
             this.getBase()
             this.getAttachments()
             this.setDetail({})
-
-            if (!this.isEnd) {
-                this.endActivity()
-            }
         }
     },
     computed: {
@@ -233,31 +221,7 @@ export default {
             detailData: 'getDetail',
             userInfo: 'getUserInfo',
             userData: 'getUser'
-        }),
-        isStart () {
-            if (this.base.partyStatus == '1' && this.base.planBeginTime && this.base.planEndTime) {
-                var nowDateStr = new Date().getTime()
-                var startDateStr = new Date(this.base.planBeginTime).getTime()
-
-                if (nowDateStr > startDateStr) {
-                    return true
-                }
-                return false
-            }
-            return false
-        },
-        isEnd () {
-            if (this.base.partyStatus !== '4' && this.base.planBeginTime && this.base.planEndTime) {
-                var nowDateStr = new Date().getTime()
-                var stopDateStr = new Date(this.base.planEndTime).getTime()
-
-                if (nowDateStr > stopDateStr) {
-                    return true
-                }
-                return false
-            }
-            return true
-        }
+        })
     },
     methods: {
         ...mapActions([
@@ -392,6 +356,18 @@ export default {
                     }
 
                     this.isPage = true
+                    // 检查自动启动或结束
+                    var nowDateStr = new Date().getTime()
+                    var startDateStr = util.getDate(this.base.planBeginTime).getTime()
+                    var stopDateStr = util.getDate(this.base.planEndTime).getTime()
+
+                    if (['1', '2'].indexOf(this.base.partyStatus) > -1 && nowDateStr > startDateStr) {
+                        this.updateStatus('3')
+                    }
+
+                    if (['4', '5'].indexOf(this.base.partyStatus) < 0 && nowDateStr > stopDateStr) {
+                        this.endActivity()
+                    }
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -452,6 +428,20 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    if (status == '3') {
+                        this.$message({
+                            message: '活动已启动！',
+                            type: 'success'
+                        })
+                    }
+
+                    if (status == '4') {
+                        this.$message({
+                            message: '活动已结束！',
+                            type: 'success'
+                        })
+                    }
+                    
                     this.getBase()
                     this.isShowSheet.value = false
                 } else {
@@ -584,11 +574,8 @@ export default {
                     res.result.result.forEach((item) => {
                         userCodes.push(item.userCode)
                     })
-
                     attData.userCodes = [].concat(userCodes)
-
                     attData.userCodes.push(this.base.partyOwner)
-
                     this.setUser(attData)
 
                     var urlPath = 'http://mobile.socialmarketingcloud.com/we-chat'

@@ -121,8 +121,7 @@ export default {
                 query: {
                     enterpriseCode: this.userInfo.enterpriseCode,
                     agentId: this.$route.query.agentId,
-                    taskCode: item.taskCode,
-                    interface: this.interface
+                    taskCode: item.taskCode
                 }
             }
 

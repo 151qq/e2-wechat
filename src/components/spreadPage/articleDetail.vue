@@ -87,11 +87,7 @@
             </div>
 
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '2' || articleData.pageStatus == '4'">
-                <a class="wx-nav-item-66"
-                    @click="showBtn">
-                    审核
-                </a>
-                <router-link class="wx-nav-item nav-blue"
+                <router-link class="wx-nav-item-66"
                             :to="{
                                 name: 'article-log',
                                 query: {
@@ -102,6 +98,10 @@
                             }">
                     管理日志
                 </router-link>
+                <a class="wx-nav-item nav-blue"
+                    @click="showBtn">
+                    审核
+                </a>
             </div>
 
             <div class="weui-btn-area" v-if="articleData.pageStatus == '3'">

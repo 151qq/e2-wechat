@@ -41,7 +41,7 @@ export default {
                   window.location.href = data
                 }
               } else {
-                alert(res.result.message)
+                this.$message.error(res.result.message)
               }
             })
         },

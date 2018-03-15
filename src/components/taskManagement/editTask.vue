@@ -39,12 +39,12 @@
                       :options="scenarioList"
                       v-model="formData.pageScenario"></selector>
 
-            <x-address title="所在城市"
+            <!-- <x-address title="所在城市"
                        class="add-line"
                        value-text-align="left"
                        placeholder="请选择"
                        v-model="formData.pageReaderCity"
-                       :list="addressData"></x-address>
+                       :list="addressData"></x-address> -->
 
             <div class="weui-cell weui-cell_access" @click="showGenderSelect">
                 <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
@@ -246,7 +246,7 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import checkboxList from '../common/checkbox-list.vue'
-import { Group, XInput, Selector, Datetime, XNumber, ChinaAddressV4Data, XAddress, Value2nameFilter as value2name } from 'vux'
+import { Group, XInput, Selector, Datetime, XNumber } from 'vux'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -264,7 +264,7 @@ export default {
                 pageNum: 1,
                 pageScenario: '',
                 pageReaderGender: '',
-                pageReaderCity: [],
+                // pageReaderCity: [],
                 pageReaderAge: '',
                 pageReaderEdu: '',
                 pageReaderConsumeLevel: '',
@@ -290,7 +290,7 @@ export default {
                 codes: [],
                 objectType: ''
             },
-            addressData: ChinaAddressV4Data,
+            // addressData: ChinaAddressV4Data,
             valueMap: ['tagValue', 'tagValueCname'],
             scenarioMap: ['scenario', 'scenarioKey'],
             nowIndex: '',
@@ -407,7 +407,7 @@ export default {
             }
 
             jsSdk.uploadImgs(coverArr, (serverIdList) => {
-                this.formData.taskCover = serverIdList[0]
+                this.serverId = serverIdList[0]
                 num++
                 if (num == 2) {
                     this.submitFn()
@@ -473,10 +473,11 @@ export default {
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.pageReaderCity = value2name(this.formData.pageReaderCity, ChinaAddressV4Data)
+            // formData.pageReaderCity = value2name(this.formData.pageReaderCity, ChinaAddressV4Data)
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+            formData.taskCover = this.serverId
 
             if (['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1) {
                 formData.objectType = 1
@@ -661,8 +662,7 @@ export default {
         XInput,
         Selector,
         Datetime,
-        XNumber,
-        XAddress
+        XNumber
     }
 }
 </script>

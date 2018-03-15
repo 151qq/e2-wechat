@@ -36,9 +36,9 @@ const tools = {
         }
 
         if (afterTime) {
-          theDate = new Date(beforeTime[0], beforeTime[1], beforeTime[2], afterTime[0], afterTime[1], afterTime[2])
+          theDate = new Date(beforeTime[0], beforeTime[1] - 1, beforeTime[2], afterTime[0], afterTime[1], afterTime[2])
         } else {
-          theDate = new Date(beforeTime[0], beforeTime[1], beforeTime[2])
+          theDate = new Date(beforeTime[0], beforeTime[1] - 1, beforeTime[2])
         }
       }
 
@@ -64,6 +64,39 @@ const tools = {
         }
       }
       return fmt
+  },
+  getDate (date) {
+    if (!date) {
+      return new Date()
+    }
+
+    var theDate = ''
+    if (typeof date == 'number') {
+      theDate = new Date(date)
+    } else {
+      if (date.length > 10) {
+        var dateArr = date.split(/[T\s]/)
+
+        var beforeTime = dateArr[0].split('-')
+        var afterTime = dateArr[1].split(':')
+
+        afterTime[2] = afterTime[2] ? afterTime[2] : '00'
+      } else {
+        var beforeTime = date.split('-')
+      }
+
+      if (afterTime) {
+        theDate = new Date(beforeTime[0], beforeTime[1] - 1, beforeTime[2], afterTime[0], afterTime[1], afterTime[2])
+      } else {
+        theDate = new Date(beforeTime[0], beforeTime[1] - 1, beforeTime[2])
+      }
+    }
+
+    if (!theDate) {
+      theDate = new Date()
+    }
+
+    return theDate
   },
   formDataUrl (url) {
     var a =  document.createElement('a')

@@ -36,7 +36,7 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 
 export default {
@@ -54,6 +54,9 @@ export default {
         })
     },
     methods: {
+        ...mapActions([
+          'setUser'
+        ]),
         getRoles () {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode
@@ -105,8 +108,22 @@ export default {
                 return false
             }
 
-            var urlPath = window.location.href.replace('setRole', 'submitRole')
-            urlPath = urlPath + '&roleCode=' + role.roleCode
+            var attData = {
+                userList: [],
+                userCodes: []
+            }
+
+            var userCodes = []
+            role.userInfoList.forEach((item) => {
+                userCodes.push(item.userCode)
+            })
+
+            attData.userCodes = [].concat(userCodes)
+
+            this.setUser(attData)
+
+            var pathData = window.location
+            var urlPath = pathData.origin + '/myConfig?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId
 
             var pathUrl = {
                 name: 'user-list',

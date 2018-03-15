@@ -214,7 +214,7 @@ export default {
             }
 
             jsSdk.uploadImgs(coverArr, (serverIdList) => {
-                this.formData.taskCover = serverIdList[0]
+                this.serverId = serverIdList[0]
                 num++
                 if (num == 2) {
                     this.submitFn()
@@ -275,6 +275,7 @@ export default {
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
+            formData.taskCover = this.serverId
 
             util.request({
                 method: 'post',
