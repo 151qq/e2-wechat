@@ -85,7 +85,7 @@
             </div>
         </template>
 
-        <template v-if="base.partyStatus == '4' || base.partyStatus == '5'">
+        <!-- <template v-if="base.partyStatus == '4' || base.partyStatus == '5'">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
                 <div class="weui-cell weui-cell_access no-center">
@@ -111,7 +111,7 @@
                     <img-list :img-list="partyImgs"></img-list>
                 </div>
             </template>
-        </template>
+        </template> -->
         
 
         <div class="btn-height-box"></div>
@@ -123,7 +123,7 @@
                 </a>
             </div>
         </template>
-        <template v-if="isPage && base.partyOwner == userInfo.userCode && (base.partyStatus == '4' && base.partyStatus == '5')">
+        <template v-if="isPage && base.partyOwner == userInfo.userCode && (base.partyStatus == '4' || base.partyStatus == '5')">
             <div class="wx-bottom-nav">
                 <a class="wx-nav-item-20" @click="goToChat">
                     沟通
@@ -142,7 +142,7 @@
                 </router-link>
             </div>
         </template>
-        <template v-if="isPage && base.partyOwner != userInfo.userCode && base.partyStatus != '2' && base.partyStatus != '1'">
+        <template v-if="isPage && base.partyOwner != userInfo.userCode">
             <div class="wx-bottom-nav">
                 <a class="wx-nav-item-20" @click="goToChat">
                     沟通
@@ -233,33 +233,9 @@ export default {
         },
         publistOpt (item) {
             if (item.pathName == 'close') {
-                var pathUrl = {
-                        name: 'stop-party',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            partyCode: this.$route.query.partyCode,
-                            partyAlbum: this.base.partyAlbum,
-                            partyResult: '1',
-                            partyStatus: '4'
-                        }
-                    }
-
-                this.$router.push(pathUrl)
+                this.updateStatus('4')
             } else if (item.pathName == 'end') {
-                var pathUrl = {
-                        name: 'stop-party',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            partyCode: this.$route.query.partyCode,
-                            partyAlbum: this.base.partyAlbum,
-                            partyResult: '2',
-                            partyStatus: '5'
-                        }
-                    }
-
-                this.$router.push(pathUrl)
+                this.updateStatus('5')
             } else if (item.pathName == 'start') {
                 this.updateStatus('3')
             } else if (item.pathName == 'add') {
@@ -366,7 +342,7 @@ export default {
                     }
 
                     if (['4', '5'].indexOf(this.base.partyStatus) < 0 && nowDateStr > stopDateStr) {
-                        this.endActivity()
+                        this.updateStatus('4')
                     }
                 } else {
                     this.$message.error(res.result.message)
@@ -441,38 +417,16 @@ export default {
                             type: 'success'
                         })
                     }
+
+                    if (status == '5') {
+                        this.$message({
+                            message: '活动已取消！',
+                            type: 'success'
+                        })
+                    }
                     
                     this.getBase()
                     this.isShowSheet.value = false
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        endActivity () {
-            var formData = {}
-            formData.enterpriseCode = this.$route.query.enterpriseCode
-            formData.agentId = this.$route.query.agentId
-            formData.partyCode = this.$route.query.partyCode
-            formData.partyResult = '1'
-            formData.partyStatus = '4'
-            formData.partySummary = '活动以到期，自动结束！'
-
-            util.request({
-                method: 'post',
-                interface: 'reviewInsertImage',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    var pathUrl = {
-                        name: 'party-detail',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            partyCode: this.$route.query.partyCode
-                        }
-                    }
-                    this.$router.replace(pathUrl)
                 } else {
                     this.$message.error(res.result.message)
                 }

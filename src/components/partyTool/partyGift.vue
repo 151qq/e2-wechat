@@ -12,7 +12,7 @@
             <a class="weui-btn weui-btn_primary" @click="submitLog">活动现场直播</a>
         </div>
 
-        <div class="btn-gist-box" v-if="$route.query.partyStatus == '3'">
+        <div class="btn-gist-box">
             <a class="weui-btn weui-btn_primary" @click="submitGift">赠送礼品</a>
         </div>
     </section>
@@ -76,6 +76,32 @@ export default {
             this.$router.push(pathUrl)
         },
         submitGift () {
+            var status = this.$route.query.partyStatus
+
+            if (status == '1' || status == '2') {
+                this.$message({
+                    message: '活动未启动！',
+                    type: 'success'
+                })
+                return false
+            }
+
+            if (status == '4') {
+                this.$message({
+                    message: '活动已结束！',
+                    type: 'success'
+                })
+                return false
+            }
+
+            if (status == '5') {
+                this.$message({
+                    message: '活动已取消！',
+                    type: 'success'
+                })
+                return false
+            }
+
             var link = 'http://site.socialmarketingcloud.com/receiveGift?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&partyCode=' + this.$route.query.partyCode
 
             window.wx.invoke("shareWechatMessage", {

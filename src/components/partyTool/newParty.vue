@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <div class="wx-area-line"></div>
+        <!-- <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">活动封面</label></div>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         
         <div class="btn-height-box"></div>
 
@@ -140,10 +140,10 @@
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
 
-        <delete-img :index="nowIndex"
+        <!-- <delete-img :index="nowIndex"
                     :img-path="nowPath"
                     :is-show-img="isShowImage"
-                    @deleteImg="deleteImage"></delete-img>
+                    @deleteImg="deleteImage"></delete-img> -->
     </section>
 </template>
 <script>
@@ -239,35 +239,36 @@ export default {
                 this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
             })
         },
-        chooseImg () {
-            var num = this.formData.partyCover ? 0 : 1
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.partyCover = localIds[0]
-            })
-        },
+        // chooseImg () {
+        //     var num = this.formData.partyCover ? 0 : 1
+        //     jsSdk.chooseImage(num ,(localIds) => {
+        //         this.formData.partyCover = localIds[0]
+        //     })
+        // },
         submitComment () {
-            var num = 0
+            // var num = 0
 
-            var coverArr = []
+            // var coverArr = []
 
-            if (this.formData.partyCover) {
-                coverArr = [this.formData.partyCover]
-            }
+            // if (this.formData.partyCover) {
+            //     coverArr = [this.formData.partyCover]
+            // }
 
-            jsSdk.uploadImgs(coverArr, (serverIdList) => {
-                this.serverId = serverIdList[0]
-                num++
-                if (num == 2) {
-                    this.submitFn()
-                }
-            })
+            // jsSdk.uploadImgs(coverArr, (serverIdList) => {
+            //     this.serverId = serverIdList[0]
+            //     num++
+            //     if (num == 2) {
+            //         this.submitFn()
+            //     }
+            // })
 
             jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
                 this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                num++
-                if (num == 2) {
-                    this.submitFn()
-                }
+                // num++
+                // if (num == 2) {
+                //     this.submitFn()
+                // }
+                this.submitFn()
             })
         },
         submitFn () {
@@ -597,13 +598,13 @@ export default {
             this.nowPath = this.formData.imgData.attachmentSourceCodes[index]
             this.isShowImg.value = true
         },
-        showBigImage () {
-            this.nowPath = this.formData.partyCover
-            this.isShowImage.value = true
-        },
-        deleteImage () {
-            this.formData.partyCover = ''
-        },
+        // showBigImage () {
+        //     this.nowPath = this.formData.partyCover
+        //     this.isShowImage.value = true
+        // },
+        // deleteImage () {
+        //     this.formData.partyCover = ''
+        // },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
         }
