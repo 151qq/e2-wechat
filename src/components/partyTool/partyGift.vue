@@ -1,20 +1,22 @@
 <template>
     <section class="party-gift-box">
+        <template v-if="isPage">
+            <div class="ewm-box" v-if="base.userQrcode">
+                <img :src="base.userQrcode">
+            </div>
 
-        <div class="ewm-box">
-            <img :src="base.userQrcode">
-        </div>
-        <div class="text-box">
-            {{base.userName + '-' + base.userMobile}}
-        </div>
+            <div class="null-page" v-else>
+                请上传您的微信二维码！
+            </div>
+            
+            <div class="weui-btn-area bottom-2">
+                <a class="weui-btn weui-btn_primary" @click="submitLog">活动现场直播</a>
+            </div>
 
-        <div class="btn-gigt-box">
-            <a class="weui-btn weui-btn_primary" @click="submitLog">活动现场直播</a>
-        </div>
-
-        <div class="btn-gist-box">
-            <a class="weui-btn weui-btn_primary" @click="submitGift">赠送礼品</a>
-        </div>
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" @click="submitGift">赠送礼品</a>
+            </div>
+        </template>
     </section>
 </template>
 <script>
@@ -26,6 +28,7 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
+            isPage: false,
             base: {
                 userQrcode: '',
                 userMobile: '',
@@ -56,6 +59,7 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    this.isPage = true
                     this.base = res.result.result
                 } else {
                     this.$message.error(res.result.message)
@@ -121,18 +125,14 @@ export default {
 <style lang="scss">
 .party-gift-box {
     background: #ffffff;
+    padding-bottom: 90px;
 
     .ewm-box {
-        width: 260px;
-        height: 260px;
-        margin: 15px auto;
-        border: 1px solid #f5f5f5;
-        border-radius: 3px;
+        padding: 15px;
 
         img {
             display: block;
-            width: 260px;
-            height: 260px;
+            width: 100%;
         }
     }
 
@@ -140,14 +140,6 @@ export default {
         line-height: 2;
         font-size: 16px;
         text-align: center;
-    }
-
-    .btn-gigt-box {
-        margin: 30px 15px 10px;
-    }
-
-    .btn-gist-box {
-        margin: 10px 15px 0;
     }
 }
 </style>

@@ -2,10 +2,7 @@ const routers = [
   {
     // 首页
     path: '/',
-    name: 'home',
-    component (resolve) {
-      require(["./home.vue"], resolve)
-    }
+    name: 'home'
   },
   {
     // 注册

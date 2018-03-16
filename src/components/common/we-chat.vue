@@ -1,11 +1,15 @@
 <template>
     <section>
         <div class="height-1"></div>
-        <group class="no-margin" label-width="105px">
-            <x-input title="讨论组名称"
-                     v-model="groupName"
-                     placeholder="请输入文字"></x-input>
-        </group>
+        <div class="weui-cells no-margin show-message-box">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">讨论组名称</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入文字" v-model="groupName">
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
+        </div>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
@@ -17,7 +21,6 @@
 import util from '../../utils/tools'
 import jsSdk from '../../utils/jsSdk'
 import { mapGetters, mapActions } from 'vuex'
-import { Group, XInput } from 'vux'
 
 export default {
     data () {
@@ -88,10 +91,6 @@ export default {
                 }
             })
         }
-    },
-    components: {
-        Group,
-        XInput
     }
 }
 </script>

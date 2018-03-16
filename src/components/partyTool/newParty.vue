@@ -1,7 +1,7 @@
 <template>
     <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin show-message-box" label-width="105px">
+        <div class="weui-cells no-margin show-message-box">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">活动标题</label></div>
                 <div class="weui-cell__bd">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="weui-cell__ft red-color">*</div>
             </div>
-        </group>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
@@ -152,8 +152,6 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import checkboxList from '../common/checkbox-list.vue'
-import { Group, XInput, Datetime} from 'vux'
-
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -207,8 +205,6 @@ export default {
                 this.formData.planBeginTimeD = this.detailData.planBeginTimeD
                 this.formData.planEndTimeD = this.detailData.planEndTimeD
             }, 0)
-        } else {
-            this.formData.planBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
@@ -328,7 +324,7 @@ export default {
 
             formData.couponGroupCode = this.attachmentPage.attachmentCodes
 
-            formData.partyCover = this.serverId
+            // formData.partyCover = this.serverId
 
             if (this.mapData.point) {
                 formData.addrBaiduGps = this.mapData.point
@@ -338,6 +334,7 @@ export default {
 
             if (this.$route.query.partyCode) {
                 formData.partyCode = this.$route.query.partyCode
+                formData.toUrl = window.location.href.replace('newParty', 'partyDetail')
                 interfaceName = 'updatePratyInfo'
             }
 
@@ -358,7 +355,7 @@ export default {
                     this.setMapInfo({})
 
                     if (this.$route.query.partyCode) {
-                        this.gotoUser(this.$route.query.partyCode)
+                        this.$router.go(-2)
                     } else {
                         this.gotoUser(res.result.result)
                     }
@@ -612,10 +609,7 @@ export default {
     components: {
         deleteImg,
         attachmentDetail,
-        checkboxList,
-        Group,
-        XInput,
-        Datetime
+        checkboxList
     }
 }
 </script>

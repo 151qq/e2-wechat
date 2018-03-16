@@ -1,12 +1,27 @@
 <template>
     <section class="stop-activity-box">
         <div class="height-1"></div>
-        <group class="no-margin show-message-box" label-width="105px">
+        <!-- <group class="no-margin show-message-box" label-width="105px">
             <selector title="评论情绪"
                     placeholder="请选择"
                     :options="contentEmotionList"
                     v-model="commentData.commentEmotion"></selector>
-        </group>
+        </group> -->
+        <div class="weui-cells no-margin no-line show-message-box">
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">评论情绪</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select1"
+                            v-model="commentData.commentEmotion">
+                        <option
+                            v-for="(item, index) in contentEmotionList" :key="index"
+                            :value="item.key">
+                            {{item.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
         
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line show-message-box">
@@ -78,13 +93,12 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
-import { Group, Selector} from 'vux'
 
 export default {
     data () {
         return {
             commentData: {
-                commentEmotion: '',
+                commentEmotion: '1',
                 attachmentTargetType: 'articleComment',
                 commentContent: '',
                 imgData: {
@@ -202,9 +216,7 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail,
-        Group,
-        Selector
+        attachmentDetail
     }
 }
 </script>

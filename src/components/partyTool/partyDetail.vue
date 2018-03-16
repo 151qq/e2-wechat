@@ -338,11 +338,11 @@ export default {
                     var stopDateStr = util.getDate(this.base.planEndTime).getTime()
 
                     if (['1', '2'].indexOf(this.base.partyStatus) > -1 && nowDateStr > startDateStr) {
-                        this.updateStatus('3')
+                        this.updateStatus('3', true)
                     }
 
                     if (['4', '5'].indexOf(this.base.partyStatus) < 0 && nowDateStr > stopDateStr) {
-                        this.updateStatus('4')
+                        this.updateStatus('4', true)
                     }
                 } else {
                     this.$message.error(res.result.message)
@@ -391,10 +391,12 @@ export default {
                 }
             })
         },
-        updateStatus (status) {
+        updateStatus (status, type) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 partyCode: this.$route.query.partyCode,
+                agentId: this.$route.query.agentId,
+                toUrl: window.location.href,
                 partyStatus: status
             }
 
@@ -404,21 +406,21 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    if (status == '3') {
+                    if (status == '3' && !type) {
                         this.$message({
                             message: '活动已启动！',
                             type: 'success'
                         })
                     }
 
-                    if (status == '4') {
+                    if (status == '4' && !type) {
                         this.$message({
                             message: '活动已结束！',
                             type: 'success'
                         })
                     }
 
-                    if (status == '5') {
+                    if (status == '5' && !type) {
                         this.$message({
                             message: '活动已取消！',
                             type: 'success'

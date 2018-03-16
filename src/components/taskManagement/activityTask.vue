@@ -1,7 +1,7 @@
 <template>
     <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin show-message-box" label-width="105px">
+        <div class="weui-cells no-margin show-message-box">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
                 <div class="weui-cell__bd">
@@ -25,7 +25,7 @@
                 </div>
                 <div class="weui-cell__ft red-color">*</div>
             </div>
-        </group>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
@@ -130,7 +130,6 @@ import deleteImg from '../common/deleteImg.vue'
 import jsSdk from '../../utils/jsSdk'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
-import { Group, XInput, Datetime } from 'vux'
 
 export default {
     data () {
@@ -276,7 +275,7 @@ export default {
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
-            formData.taskCover = this.serverId
+            // formData.taskCover = this.serverId
 
             util.request({
                 method: 'post',
@@ -339,10 +338,7 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail,
-        Group,
-        XInput,
-        Datetime
+        attachmentDetail
     }
 }
 </script>

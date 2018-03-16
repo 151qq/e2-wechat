@@ -1,7 +1,7 @@
 <template>
     <section class="member-detail-box">
         <div class="height-1"></div>
-        <group class="no-margin show-message-box" label-width="105px">
+        <div class="weui-cells no-margin show-message-box">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">任务标题</label></div>
                 <div class="weui-cell__bd">
@@ -25,26 +25,32 @@
                 </div>
                 <div class="weui-cell__ft red-color">*</div>
             </div>
-            
-            <x-number title="文章数量"
-                      align="left"
-                      :class="'number-box'"
-                      v-model="formData.pageNum"
-                      button-style="round"
-                      :min="1"></x-number>
 
-            <selector title="写作目的"
-                      placeholder="请选择"
-                      :value-map="scenarioMap"
-                      :options="scenarioList"
-                      v-model="formData.pageScenario"></selector>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">文章数量</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input"
+                            v-model="formData.pageNum"
+                            type="number"
+                            pattern="[0-9]*"
+                            placeholder="请输入">
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
 
-            <!-- <x-address title="所在城市"
-                       class="add-line"
-                       value-text-align="left"
-                       placeholder="请选择"
-                       v-model="formData.pageReaderCity"
-                       :list="addressData"></x-address> -->
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">写作目的</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="select1" v-model="formData.pageScenario">
+                        <option value="" selected>无</option>
+                        <option
+                            v-for="(item, index) in scenarioList" :key="index"
+                            :value="item.scenario">
+                            {{item.scenarioKey}}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
             <div class="weui-cell weui-cell_access" @click="showGenderSelect">
                 <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
@@ -141,7 +147,7 @@
                            :map-data="valueMap"
                            ref="enterpriseSelect"
                            @selectChange="enterpriseChange"></checkbox-list>     
-        </group>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
@@ -246,7 +252,6 @@ import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import checkboxList from '../common/checkbox-list.vue'
-import { Group, XInput, Selector, Datetime, XNumber } from 'vux'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -292,7 +297,6 @@ export default {
             },
             // addressData: ChinaAddressV4Data,
             valueMap: ['tagValue', 'tagValueCname'],
-            scenarioMap: ['scenario', 'scenarioKey'],
             nowIndex: '',
             nowPath: '',
             isShowImg: {
@@ -459,6 +463,14 @@ export default {
                 return false
             }
 
+            if (!this.formData.pageNum) {
+                this.$message({
+                    message: '请填写文章数量!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             this.formData.taskBeginTime = util.formatDate(this.formData.taskBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             this.formData.taskEndTime = util.formatDate(this.formData.taskEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
@@ -478,7 +490,7 @@ export default {
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
-            formData.taskCover = this.serverId
+            // formData.taskCover = this.serverId
 
             if (['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1) {
                 formData.objectType = 1
@@ -658,12 +670,7 @@ export default {
     components: {
         deleteImg,
         attachmentDetail,
-        checkboxList,
-        Group,
-        XInput,
-        Selector,
-        Datetime,
-        XNumber
+        checkboxList
     }
 }
 </script>
