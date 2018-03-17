@@ -142,7 +142,7 @@
                 </div>
                 <div class="weui-cell weui-cell_access show-message-box">
                     <div class="weui-cell__hd"><label class="weui-label">接待结果</label></div>
-                    <div class="weui-cell__bd">{{base.receptionResult}}</div>
+                    <div class="weui-cell__bd">{{base.receptionResultValue}}</div>
                 </div>
             </div>
             

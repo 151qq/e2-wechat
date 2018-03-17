@@ -297,6 +297,18 @@ export default {
                 }
             }
 
+            if (this.formData.receptionEndTimeD) {
+                formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
+            if (this.formData.receptionBeginTimeD) {
+                this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
+            if (this.formData.reserveUpdateTimeD) {
+                this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
@@ -309,18 +321,6 @@ export default {
             }
             // formData.pageData.attachmentSourceType = this.attachmentData.targetType
             // formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
-
-            if (this.formData.receptionEndTimeD) {
-                this.formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
-            }
-
-            if (this.formData.receptionBeginTimeD) {
-                this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
-            }
-
-            if (this.formData.reserveUpdateTimeD) {
-                this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
-            }
 
             util.request({
                 method: 'post',
