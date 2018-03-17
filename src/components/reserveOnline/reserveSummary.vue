@@ -287,7 +287,23 @@ export default {
             })
         },
         submitFn () {
-            if (['2','6','7'].indexOf(this.formData.receptionResult) > -1 && this.formData.receptionEndTimeD && this.formData.receptionBeginTimeD) {
+            if (['2','6','7'].indexOf(this.formData.receptionResult) > -1) {
+                if (!this.formData.receptionBeginTimeD) {
+                    this.$message({
+                        message: '请选择开始时间！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
+                if (!this.formData.receptionBeginTimeD) {
+                    this.$message({
+                        message: '请选择结束时间！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
                 if (util.getDate(this.formData.receptionBeginTimeD).getTime() > util.getDate(this.formData.receptionEndTimeD).getTime()) {
                     this.$message({
                         message: '开始应小于结束时间!',
@@ -295,17 +311,70 @@ export default {
                     })
                     return false
                 }
-            }
 
-            if (this.formData.receptionEndTimeD) {
-                formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
-            }
+                if (!this.formData.gender) {
+                    this.$message({
+                        message: '请选择客户性别！',
+                        type: 'warning'
+                    })
+                    return false
+                }
 
-            if (this.formData.receptionBeginTimeD) {
+                if (!this.formData.age) {
+                    this.$message({
+                        message: '请选择客户年龄！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
+                if (!this.formData.consumeLevel) {
+                    this.$message({
+                        message: '请选择消费能力！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
+                if (!this.formData.consumeDecisionType) {
+                    this.$message({
+                        message: '请选择消费决策！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
+                if (!this.formData.shoppingGuide) {
+                    this.$message({
+                        message: '请选择导购特征！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+
+                this.formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
                 this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
-            if (this.formData.reserveUpdateTimeD) {
+            if (['5'].indexOf(this.formData.receptionResult) > -1) {
+                if (!this.formData.reserveUpdateTimeD) {
+                    this.$message({
+                        message: '请选择取消时间！',
+                        type: 'warning'
+                    })
+                    return false
+                }
+                this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
+            }
+
+            if (['4'].indexOf(this.formData.receptionResult) > -1) {
+                if (!this.formData.reserveUpdateTimeD) {
+                    this.$message({
+                        message: '请选择更新时间！',
+                        type: 'warning'
+                    })
+                    return false
+                }
                 this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
