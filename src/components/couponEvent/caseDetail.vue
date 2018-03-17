@@ -126,6 +126,11 @@
                 </div>
             </template>
         </template>
+
+        <div class="weui-toast" v-if="isPage && isLoading">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">正在发布</p>
+        </div>
         
         <template v-if="base.eventStatus != '4' && base.eventStatus != '5'">
             <div class="btn-height-box"></div>
@@ -181,7 +186,8 @@ export default {
             couponCodeList: [],
             pageNumber: 1,
             pageSize: 20,
-            total: 0
+            total: 0,
+            isLoading: false
         }
     },
     mounted () {
@@ -297,12 +303,15 @@ export default {
                 couponCodes: this.couponCodeList
             }
 
+            this.isLoading = true
+
             util.request({
                 method: 'post',
                 interface: 'publishEvent',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
+                    this.isLoading = false
                     this.$message({
                       showClose: true,
                       message: '恭喜你，发布成功！',
@@ -310,6 +319,7 @@ export default {
                     })
                     this.getBase()
                 } else {
+                    this.isLoading = false
                     this.$message.error(res.result.message)
                 }
             })

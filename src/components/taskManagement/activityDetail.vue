@@ -93,7 +93,6 @@
 </template>
 <script>
 import imgList from '../common/imgList.vue'
-import jsSdk from '../../utils/jsSdk'
 import attachmentShow from '../common/attachmentShow.vue'
 import util from '../../utils/tools'
 import { mapGetters, mapActions } from 'vuex'
@@ -120,12 +119,10 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         this.getBase()
     },
     watch: {
         $route () {
-            jsSdk.init()
             this.getBase()
         }
     },

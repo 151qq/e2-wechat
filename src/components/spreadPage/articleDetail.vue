@@ -458,9 +458,9 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    if (res.err_msg != "shareAppMessage:ok") {
-                        this.$message.error('请更新企业微信版本！！！')
-                    }
+                    // if (res.err_msg != "shareAppMessage:ok") {
+                    //     this.$message.error('请更新企业微信版本！！！')
+                    // }
             })
         },
         // 微信分享
@@ -476,9 +476,9 @@ export default {
                 link: link,
                 imgUrl: this.articleData.pageCover
             }, (res) => {
-                    if (res.err_msg != "shareWechatMessage:ok") {
-                        this.$message.error('请更新企业微信版本！！！')
-                    }
+                    // if (res.err_msg != "shareWechatMessage:ok") {
+                    //     this.$message.error('请更新企业微信版本！！！')
+                    // }
             })
         },
         getData () {

@@ -5,7 +5,6 @@
 </template>
 <script>
 import tools from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 
 export default {
     data () {
@@ -14,7 +13,6 @@ export default {
         }
     },
     mounted () {
-        jsSdk.init()
         var code = this.$route.query.code
 
         if (!code) {

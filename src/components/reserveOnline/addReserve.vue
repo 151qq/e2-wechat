@@ -41,24 +41,34 @@
                 <div class="weui-cell__ft red-color">*</div>
             </div>
 
-            <div class="weui-cell">
+            <div class="weui-cell" @click="gotoMap">
                 <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input"
                             placeholder="请输入"
-                            v-model="mapData.address"
-                            @click="gotoMap">
+                            v-model="mapData.address">
                 </div>
             </div>
-            <div class="weui-cell">
+            <div class="weui-cell" @click="gotoUser">
                 <div class="weui-cell__hd"><label class="weui-label">预约接待</label></div>
                 <div class="weui-cell__bd">
                     <input class="weui-input"
                             placeholder="请输入"
-                            v-model="userName"
-                            @click="gotoUser">
+                            v-model="userName">
                 </div>
                 <div class="weui-cell__ft red-color">*</div>
+            </div>
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin show-message-box">
+            <div class="weui-cell" @click="gotoChannel">
+                <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input"
+                            placeholder="请输入"
+                            v-model="channelName">
+                </div>
             </div>
         </div>
 
@@ -108,7 +118,9 @@
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
-                            <li @click="chooseImage" class="weui-uploader__input-box"></li>
+                            <li @click="chooseImage"
+                                v-if="formData.imgData.attachmentSourceCodes.length < 9"
+                                class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
                 </div>
@@ -233,6 +245,7 @@ export default {
             attachmentData: 'getAttachment',
             detailData: 'getDetail',
             userData: 'getUser',
+            channelData: 'getChannel',
             mapData: 'getMapInfo'
         }),
         userName () {
@@ -242,11 +255,25 @@ export default {
                 return this.userInfo.userWechatNickname
             }
         },
+        channelName () {
+            if (this.channelData.userList && this.channelData.userList.length) {
+                return this.channelData.userList[0].memberWechatNickname
+            } else {
+                return ''
+            }
+        },
         userCode () {
             if (this.userData.userList && this.userData.userList.length) {
                 return this.userData.userList[0].userCode
             } else {
                 return this.userInfo.userCode
+            }
+        },
+        channelCode () {
+            if (this.channelData.userList && this.channelData.userList.length) {
+                return this.channelData.userList[0].memberCode
+            } else {
+                return ''
             }
         }
     },
@@ -255,6 +282,7 @@ export default {
           'setAttachment',
           'setDetail',
           'setUser',
+          'setChannel',
           'setMapInfo'
         ]),
         chooseImage () {
@@ -336,7 +364,7 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.reserveBeginTimeD).getTime() > new Date(this.formData.reserveEndTimeD).getTime()) {
+            if (util.getDate(this.formData.reserveBeginTimeD).getTime() > util.getDate(this.formData.reserveEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'
@@ -368,6 +396,7 @@ export default {
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
             formData.reserveReceptionCode = this.userCode
             formData.reserveReceptionName = this.userName
+            formData.reserveReferral = this.channelCode
 
             // formData.reserveCover = this.serverId
 
@@ -383,6 +412,7 @@ export default {
                 if (res.result.success == '1') {
                     this.setDetail({})
                     this.setUser({})
+                    this.setChannel({})
                     this.setMapInfo({})
                     this.setAttachment({})
                     var pathUrl = {
@@ -429,6 +459,19 @@ export default {
 
             var pathUrl = {
                 name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    type: 'unique'
+                }
+            }
+            this.$router.push(pathUrl)
+        },
+        gotoChannel () {
+            this.setDetail(Object.assign({}, this.formData))
+
+            var pathUrl = {
+                name: 'channel-user',
                 query: {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,

@@ -114,9 +114,9 @@ export default {
                 link: link,
                 imgUrl: this.userInfo.userWechatLogo
             }, (res) => {
-                    if (res.err_msg != "shareWechatMessage:ok") {
-                        this.$message.error('请更新企业微信版本！！！')
-                    }
+                    // if (res.err_msg != "shareWechatMessage:ok") {
+                    //     this.$message.error('请更新企业微信版本！！！')
+                    // }
             })
         }
     }

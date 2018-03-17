@@ -58,10 +58,9 @@ export default {
                 link: path,
                 imgUrl: this.enterpriseLogo
             }, (res) => {
-                    alert(res.err_msg)
-                    if (res.err_msg != "shareWechatMessage:ok") {
-                        this.$message.error('请更新企业微信版本！！！')
-                    }
+                    // if (res.err_msg != "shareWechatMessage:ok") {
+                    //     this.$message.error('请更新企业微信版本！！！')
+                    // }
             })
         }
     }

@@ -3,12 +3,12 @@
         <div class="height-1"></div>
         <group class="no-margin show-message-box" label-width="105px">
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约人</div>
-                <div class="weui-cell__ft">{{base.reserverName}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约人</label></div>
+                <div class="weui-cell__bd">{{base.reserverName}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__bd">预约手机</div>
-                <div class="weui-cell__ft">{{base.reserverMobile}}</div>
+                <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
+                <div class="weui-cell__bd">{{base.reserverMobile}}</div>
             </div>
             <selector title="接待结果"
                       placeholder="请选择"
@@ -84,7 +84,9 @@
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
-                            <li @click="chooseImage" class="weui-uploader__input-box"></li>
+                            <li @click="chooseImage"
+                                v-if="formData.imgData.attachmentSourceCodes.length < 9"
+                                class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
                 </div>
@@ -274,7 +276,7 @@ export default {
             })
         },
         submitComment () {
-            if (this.formData.receptionResult == '4' && !this.attachmentData.attachmentCodes.length) {
+            if (this.formData.receptionResult == '4' && (!this.attachmentData.attachmentCodes || !this.attachmentData.attachmentCodes.length)) {
                 this.$message.error('必须选择一个新预约！')
                 return false
             }
@@ -285,6 +287,16 @@ export default {
             })
         },
         submitFn () {
+            if (['2','6','7'].indexOf(this.formData.receptionResult) > -1 && this.formData.receptionEndTimeD && this.formData.receptionBeginTimeD) {
+                if (util.getDate(this.formData.receptionBeginTimeD).getTime() > util.getDate(this.formData.receptionEndTimeD).getTime()) {
+                    this.$message({
+                        message: '开始应小于结束时间!',
+                        type: 'warning'
+                    })
+                    return false
+                }
+            }
+
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
@@ -292,21 +304,21 @@ export default {
             formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.reserveCode = this.$route.query.reserveCode
             formData.attachmentTargetCode = this.$route.query.reserveCode
-            if (this.attachmentData.attachmentCodes.length) {
+            if (this.attachmentData.attachmentCodes && this.attachmentData.attachmentCodes.length) {
                 formData.reserveNext = this.attachmentData.attachmentCodes[0]
             }
             // formData.pageData.attachmentSourceType = this.attachmentData.targetType
             // formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
-            if (this.formData.receptionEndTime) {
+            if (this.formData.receptionEndTimeD) {
                 this.formData.receptionEndTime = util.formatDate(this.formData.receptionEndTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
-            if (this.formData.receptionBeginTime) {
+            if (this.formData.receptionBeginTimeD) {
                 this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
-            if (this.formData.reserveUpdateTime) {
+            if (this.formData.reserveUpdateTimeD) {
                 this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 

@@ -94,7 +94,9 @@
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
-                            <li @click="chooseImage" class="weui-uploader__input-box"></li>
+                            <li @click="chooseImage"
+                                v-if="formData.imgData.attachmentSourceCodes.length < 9"
+                                class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
                 </div>
@@ -292,7 +294,7 @@ export default {
                 return false
             }
 
-            if (new Date(this.formData.planBeginTimeD).getTime() > new Date(this.formData.planEndTimeD).getTime()) {
+            if (util.getDate(this.formData.planBeginTimeD).getTime() > util.getDate(this.formData.planEndTimeD).getTime()) {
                 this.$message({
                     message: '开始应小于结束时间!',
                     type: 'warning'

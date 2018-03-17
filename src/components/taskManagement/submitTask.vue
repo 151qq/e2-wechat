@@ -1,16 +1,5 @@
 <template>
     <section class="submit-comment-box">
-        <!-- <div class="weui-cells no-line no-margin">
-            <div class="wx-upload-img"
-                @click="showBigImg">
-                    <img :src="formData.mediaId">
-            </div>
-
-            <div v-if="!formData.mediaId" class="wx-uploader"></div>
-            
-            <a class="add-file-btn" @click="chooseImage">添加图片</a>
-        </div>
-        <div class="weui-cells__title">附言</div> -->
         <div class="weui-cells weui-cells_form no-line no-margin">
             <div class="weui-cell no-line">
                 <div class="weui-cell__bd">
@@ -24,18 +13,12 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发送任务</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">发送任务</a>
         </div>
-
-        <delete-img :index="nowIndex"
-                    :img-path="nowPath"
-                    :is-show-img="isShowImg"
-                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -57,9 +40,7 @@ export default {
             serverId: ''
         }
     },
-    mounted () {
-        // jsSdk.init()
-    },
+    mounted () {},
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo',
@@ -70,19 +51,6 @@ export default {
         ...mapActions([
           'setUser'
         ]),
-        chooseImage () {
-            var num = 1
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.mediaId = localIds[0]
-            })
-        },
-        submitComment () {
-            var imgList = this.formData.mediaId ? [this.formData.mediaId] : []
-            jsSdk.uploadImgs(imgList, (serverIdList) => {
-                this.serverId = serverIdList[0]
-                this.submitFn()
-            })
-        },
         submitFn () {
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
@@ -111,17 +79,7 @@ export default {
                     this.$message.error(res.result.message)
                 }
             })
-        },
-        showBigImg () {
-            this.nowPath = this.formData.mediaId
-            this.isShowImg.value = true
-        },
-        deleteImg (index) {
-            this.formData.mediaId = ''
         }
-    },
-    components: {
-        deleteImg
     }
 }
 </script>

@@ -28,6 +28,16 @@
                 <div class="weui-cell__ft"></div>
             </div>
         </div>
+
+        <template v-if="base.reserveReferralName">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
+                    <div class="weui-cell__bd">{{base.reserveReferralName}}</div>
+                </div>
+            </div>
+        </template>
         
         <template v-if="base.reserveDesc">
             <div class="wx-area-line"></div>
@@ -38,6 +48,47 @@
                        {{base.reserveDesc}}
                     </div>
                 </div>       
+            </div>
+        </template>
+
+        <template v-if="newReservePageData.length">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">相关附件</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       选择了{{newReservePageData ? newReservePageData.length : 0}}个推荐
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells no-margin left-padding">
+                <router-link class="weui-media-box weui-media-box_appmsg"
+                        v-for="(item, index) in newReservePageData"
+                        :to="{
+                                name: 'article-detail',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    pageCode: item.pageCode,
+                                    appid: item.pubWechatAppId,
+                                    templateCode: item.templateCode,
+                                    S: userInfo.userCode,
+                                    sShareTo: 'F',
+                                    C: 'N',
+                                    cShareTo: 'N',
+                                    T: userInfo.userCode,
+                                    tShareTo: 'N',
+                                    spreadType: '1'
+                                }
+                            }">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" :src="item.pageCover">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.pageTitle}}</h4>
+                        <p class="weui-media-box__desc">{{item.pageAbstract}}</p>
+                    </div>
+                </router-link>
             </div>
         </template>
 
@@ -94,33 +145,37 @@
                     <div class="weui-cell__bd">{{base.receptionResult}}</div>
                 </div>
             </div>
-
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access no-center">
-                    <div class="weui-cell__hd"><label class="weui-label">接待备忘</label></div>
-                    <div class="weui-cell__bd">
-                       {{base.receptionMemo}}
-                    </div>
-                </div>       
-            </div>
-
-            <div v-if="reservedImgData.length" class="wx-area-line"></div>
-            <div v-if="reservedImgData.length" class="weui-cells no-margin">
+            
+            <template v-if="base.receptionMemo">
                 <div class="wx-area-line"></div>
                 <div class="weui-cells no-margin no-line">
-                    <div class="weui-cell weui-cell_access">
-                        <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
-                        <div class="weui-cell__bd wx-placeholder">
-                           选择{{reservedImgData.length}}张图片
+                    <div class="weui-cell weui-cell_access no-center">
+                        <div class="weui-cell__hd"><label class="weui-label">接待备忘</label></div>
+                        <div class="weui-cell__bd">
+                           {{base.receptionMemo}}
                         </div>
-                        <div class="weui-cell__ft"></div>
                     </div>
                 </div>
-                <div class="weui-cells no-margin left-padding">
-                    <img-list :img-list="reservedImgData"></img-list>
+            </template>
+            
+            <template v-if="reservedImgData.length">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin">
+                    <div class="wx-area-line"></div>
+                    <div class="weui-cells no-margin no-line">
+                        <div class="weui-cell weui-cell_access">
+                            <div class="weui-cell__hd"><label class="weui-label">附加图片</label></div>
+                            <div class="weui-cell__bd wx-placeholder">
+                               选择{{reservedImgData.length}}张图片
+                            </div>
+                            <div class="weui-cell__ft"></div>
+                        </div>
+                    </div>
+                    <div class="weui-cells no-margin left-padding">
+                        <img-list :img-list="reservedImgData"></img-list>
+                    </div>
                 </div>
-            </div>
+            </template>
 
             <!-- <div class="weui-cells__title">体验产品</div>
             <div class="weui-cells no-margin">
@@ -144,7 +199,7 @@
                 暂无内容！
             </div> -->
 
-            <template v-if="couponData.length">
+            <template v-if="couponData && couponData.length">
                 <div class="wx-area-line"></div>
                 <div class="weui-cells no-margin no-line">
                     <div class="weui-cell weui-cell_access">
@@ -235,7 +290,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data () {
         return {
-            isPage: false,
             base: {
                 reserveTitle: '',
                 reserverName: '',
@@ -245,6 +299,8 @@ export default {
                 reserveAddr: '',
                 reserveCity: '',
                 reserveReceptionName: '',
+                reserveReferralName: '',
+                reserveReferral: '',
                 reserveDesc: '',
                 receptionBeginTime: '',
                 receptionEndTime: '',
@@ -252,23 +308,24 @@ export default {
                 receptionMemo: '',
                 addrBaiduGps: ''
             },
+            couponData: [],
             newReserveImgData: [],
             newReservePageData: [],
             reservedImgData: [],
             reservedPageData: [],
-            reserveInfoNext: {
-
-            }
+            reserveInfoNext: {}
         }
     },
     mounted () {
         jsSdk.init()
         this.getBase()
+        this.selectEscs()
     },
     watch: {
         $route () {
             jsSdk.init()
             this.getBase()
+            this.selectEscs()
         }
     },
     computed: {
@@ -278,7 +335,7 @@ export default {
     },
     methods: {
         submitGift () {
-            var link = 'http://site.socialmarketingcloud.com/reserveOnline?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&reserveCode=' + this.$route.query.reserveCode
+            var link = 'http://site.socialmarketingcloud.com/reserveOnline?enterpriseCode=' + this.$route.query.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userCode=' + this.userInfo.userCode + '&appid=' + this.userInfo.userWechatAppid + '&userId=' + this.userInfo.userWechatUserid + '&reserveCode=' + this.$route.query.reserveCode + '&channelCode=' + this.base.reserveReferral
 
             window.wx.invoke("shareWechatMessage", {
                 title: '预约邀请',
@@ -286,9 +343,9 @@ export default {
                 link: link,
                 imgUrl: this.userInfo.userWechatLogo
             }, (res) => {
-                    if (res.err_msg != "shareWechatMessage:ok") {
-                        this.$message.error('请更新企业微信版本！！！')
-                    }
+                    // if (res.err_msg != "shareWechatMessage:ok") {
+                    //     this.$message.error('请更新企业微信版本！！！')
+                    // }
             })
         },
         getBase () {
@@ -312,6 +369,21 @@ export default {
                     this.reservedPageData = data.reservedPageData
                 } else {
                     this.$message.error(res.result.message)
+                }
+            })
+        },
+        selectEscs () {
+            util.request({
+                method: 'post',
+                interface: 'groupStores',
+                data: {
+                    enterpriseCode: this.$route.query.enterpriseCode
+                }
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.couponData = res.result.result['coupon_scenario_7']
+                } else {
+                  this.$message.error(res.result.message)
                 }
             })
         },

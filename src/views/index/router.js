@@ -50,6 +50,17 @@ const routers = [
   },
   {
     // 选择用户
+    path: '/channel-user',
+    name: 'channel-user',
+    component (resolve) {
+      require(["../../components/common/channel-user.vue"], resolve)
+    },
+    meta: {
+      title: '选择推广会员'
+    }
+  },
+  {
+    // 选择用户
     path: '/we-chat',
     name: 'we-chat',
     component (resolve) {
@@ -554,7 +565,7 @@ const routers = [
         name: 'reserve-summary',
         component: resolve => require(["../../components/reserveOnline/reserveSummary.vue"], resolve),
         meta: {
-          title: '操作信息编辑'
+          title: '在线预约汇报'
         }
       },
       {

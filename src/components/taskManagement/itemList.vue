@@ -44,7 +44,6 @@
 </template>
 <script>
 import util from '../../utils/tools'
-import jsSdk from '../../utils/jsSdk'
 import sheet from '../common/sheet.vue'
 import { mapGetters } from 'vuex'
 
