@@ -2,15 +2,6 @@
     <section class="member-detail-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin show-message-box">
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">预约人</label></div>
-                <div class="weui-cell__bd">{{base.reserverName}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
-                <div class="weui-cell__bd">{{base.reserverMobile}}</div>
-            </div>
-
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">接待结果</label></div>
                 <div class="weui-cell__bd">
@@ -256,10 +247,6 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     data () {
         return {
-            base: {
-                reserverName: '',
-                reserverMobile: ''
-            },
             formData: {
                 reserveCode: '',
                 reserverName: '',
@@ -314,16 +301,11 @@ export default {
     },
     mounted () {
         jsSdk.init()
-        if (this.detailData.attachmentTargetType) {
-            this.formData = Object.assign({}, this.detailData)
-
-            setTimeout(() => {
-                this.formData.receptionEndTime = this.detailData.receptionEndTime
-                this.formData.receptionBeginTime = this.detailData.receptionBeginTime
-                this.formData.reserveUpdateTime = this.detailData.reserveUpdateTime
-            }, 0)
-        }
-        this.getData()
+        setTimeout(() => {
+            this.formData.receptionEndTime = this.detailData.receptionEndTime
+            this.formData.receptionBeginTime = this.detailData.receptionBeginTime
+            this.formData.reserveUpdateTime = this.detailData.reserveUpdateTime
+        }, 0)
         this.getSelectOut()
         this.getTags()
     },
@@ -462,24 +444,6 @@ export default {
                         }
                     }
                     this.$router.replace(pathUrl)
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        getData () {
-            var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                reserveCode: this.$route.query.reserveCode
-            }
-
-            util.request({
-                method: 'get',
-                interface: 'selectAll',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.base = res.result.result.reserveInfo
                 } else {
                     this.$message.error(res.result.message)
                 }
