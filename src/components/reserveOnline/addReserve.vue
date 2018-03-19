@@ -6,7 +6,9 @@
                 <div class="weui-cell__hd"><label class="weui-label">预约类型</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
+                            @change="reserveTypeChange"
                             v-model="formData.reserveType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in typeList" :key="index"
                             :value="item.resultType">
@@ -170,7 +172,7 @@
         </div>
 
         <!-- 附件 -->
-        <template v-if="['3'].indexOf(formData.reserveType) > -1">
+        <!-- <template v-if="['3'].indexOf(formData.reserveType) > -1">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
                 <div class="weui-cell weui-cell_access" @click="gotoAttachmentPage">
@@ -182,7 +184,7 @@
                 </div>
             </div>
             <attachment-detail :attachment-data="attachmentPage"></attachment-detail>
-        </template>
+        </template> -->
         
         <!-- 附件 -->
         <!-- <div class="weui-cells__title">预约产品</div>
@@ -267,9 +269,12 @@ export default {
                 this.formData.reserveEndTimeD = this.detailData.reserveEndTimeD
                 this.formData.reserveBeginTimeD = this.detailData.reserveBeginTimeD
             }, 0)
-        } else {
-            this.formData.reserveBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
+
+        if (this.attachmentPage.attachmentCodes && this.attachmentPage.attachmentCodes.length) {
+            this.getBase(this.attachmentPage.attachmentCodes[0])
+        }
+
         this.getTypes()
     },
     computed: {
@@ -475,6 +480,150 @@ export default {
                 }
             })
         },
+        getBase (reserveCode) {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                reserveCode: reserveCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'selectAll',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    var data = res.result.result
+                    var dataBase = data.reserveInfo
+
+                    var formData = {
+                        reserveTitle: dataBase.reserveTitle,
+                        reserverName: dataBase.reserverName,
+                        reserverMobile: dataBase.reserverMobile,
+                        enterpriseCode: dataBase.enterpriseCode,
+                        reserveReception: dataBase.reserveReception,
+                        reserveReceptionCode: dataBase.reserveReceptionCode,
+                        reserveAddr: '',
+                        reserveCity: '',
+                        reserveEndTime: '',
+                        reserveBeginTime: '',
+                        reserveEndTimeD: dataBase.reserveEndTime.replace(' ', 'T'),
+                        reserveBeginTimeD: dataBase.reserveBeginTime.replace(' ', 'T'),
+                        reserveDesc: dataBase.reserveDesc,
+                        reserveCreator: dataBase.reserveCreator,
+                        reserveCover: dataBase.reserveCover,
+                        localId: dataBase.reserveCover,
+                        addrBaiduGps: '',
+                        reserveType: '3',
+                        reserveParent: reserveCode,
+                        attachmentTargetType: 'reserve',
+                        imgData: {
+                            localIds: [],
+                            attachmentSourceType: 'attachmen_type_1',
+                            attachmentSourceCodes: []
+                        },
+                        pageData: {
+                            attachmentSourceType: 'attachmen_type_5',
+                            attachmentSourceCodes: []
+                        }
+                    }
+
+                    this.formData = formData
+
+                    if (dataBase.addrBaiduGps) {
+                        var mapData = {
+                            address: dataBase.reserveCity,
+                            url: dataBase.reserveAddr,
+                            point: dataBase.addrBaiduGps
+                        }
+
+                        this.setMapInfo(mapData)
+                    }
+
+                    if (dataBase.reserveReferralName) {
+                        var attData = {
+                            userList: [{
+                                memberWechatNickname: dataBase.reserveReferralName
+                            }],
+                            userCodes: [dataBase.reserveReferral]
+                        }
+
+                        this.setChannel(attData)
+                    }
+
+                    if (data.newReserveImgData.length) {
+                        formData.imgData.localIds = data.newReserveImgData
+                        formData.imgData.attachmentSourceCodes = data.newReserveImgData
+                    }
+
+                    if (data.newReservePageData.length) {
+                        var attachmentList = data.newReservePageData
+                        var attachmentCodes = []
+
+                        data.newReservePageData.forEach((item) => {
+                            attachmentCodes.push(item.pageCode)
+                        })
+
+                        var attData = {
+                            targetType: 'attachmen_type_5',
+                            attachmentList: attachmentList,
+                            attachmentCodes: attachmentCodes
+                        }
+
+                        this.setAttachment(attData)
+                    }
+
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        reserveTypeChange (value) {
+            console.log(value, 'value')
+
+            if (this.formData.reserveType == '3') {
+                this.gotoAttachmentPage()
+            } else {
+                this.setAttachmentPage({})
+                this.setAttachment({})
+                this.setDetail({})
+                this.setMapInfo({})
+                this.setChannel({})
+
+                var formData = {
+                    reserveTitle: '',
+                    reserverName: '',
+                    reserverMobile: '',
+                    enterpriseCode: '',
+                    reserveReception: '',
+                    reserveReceptionCode: '',
+                    reserveAddr: '',
+                    reserveCity: '',
+                    reserveEndTime: '',
+                    reserveBeginTime: '',
+                    reserveEndTimeD: '',
+                    reserveBeginTimeD: util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss'),
+                    reserveDesc: '',
+                    reserveCreator: '',
+                    reserveCover: '',
+                    localId: '',
+                    addrBaiduGps: '',
+                    reserveType: this.formData.reserveType,
+                    reserveParent: '',
+                    attachmentTargetType: 'reserve',
+                    imgData: {
+                        localIds: [],
+                        attachmentSourceType: 'attachmen_type_1',
+                        attachmentSourceCodes: []
+                    },
+                    pageData: {
+                        attachmentSourceType: 'attachmen_type_5',
+                        attachmentSourceCodes: []
+                    }
+                }
+
+                this.formData = formData
+            }
+        },
         gotoAttachment () {
             this.setDetail(Object.assign({}, this.formData))
 
@@ -498,6 +647,7 @@ export default {
                     agentId: this.$route.query.agentId,
                     isPage: '1',
                     status: '3',
+                    result: '2,3,4',
                     type: 'unique'
                 }
             }

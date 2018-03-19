@@ -131,6 +131,10 @@ export default {
                 formData.reserveStatus = this.$route.query.status
             }
 
+            if (this.$route.query.result) {
+                formData.receptionResult = this.$route.query.result
+            }
+
             util.request({
                 method: 'post',
                 interface: 'selectByReceptionCode',

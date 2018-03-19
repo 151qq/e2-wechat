@@ -7,6 +7,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.receptionResult">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in selectList" :key="index"
                             :value="item.key">
@@ -17,7 +18,7 @@
                 <div class="weui-cell__ft red-color">*</div>
             </div>
 
-            <template v-if="['2','6','7'].indexOf(formData.receptionResult) > -1">
+            <template v-if="['1','5','6'].indexOf(formData.receptionResult) > -1">
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">开始时间</label></div>
                     <div class="weui-cell__bd">
@@ -34,7 +35,7 @@
                 </div>
             </template>
 
-            <template v-if="['5'].indexOf(formData.receptionResult) > -1">
+            <template v-if="['2'].indexOf(formData.receptionResult) > -1">
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">取消时间</label></div>
                     <div class="weui-cell__bd">
@@ -44,7 +45,7 @@
                 </div>
             </template>
 
-            <template v-if="['4'].indexOf(formData.receptionResult) > -1">
+            <template v-if="['3'].indexOf(formData.receptionResult) > -1">
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">更新时间</label></div>
                     <div class="weui-cell__bd">
@@ -98,7 +99,7 @@
             </div>
         </div>
         
-        <template v-if="['2','6','7'].indexOf(formData.receptionResult) > -1">
+        <template v-if="['1','5','6'].indexOf(formData.receptionResult) > -1">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line show-message-box">
                 <div class="weui-cell">
@@ -113,6 +114,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.gender">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.gender" :key="index"
                                 :value="item.tagValue">
@@ -128,6 +130,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.age">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.age" :key="index"
                                 :value="item.tagValue">
@@ -143,6 +146,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.education">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.education" :key="index"
                                 :value="item.tagValue">
@@ -157,6 +161,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.consumeLevel">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.consume_level" :key="index"
                                 :value="item.tagValue">
@@ -172,6 +177,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.consumeDecisionType">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.consume_decision_type" :key="index"
                                 :value="item.tagValue">
@@ -187,6 +193,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.shoppingGuide">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.shopping_guide" :key="index"
                                 :value="item.tagValue">
@@ -202,6 +209,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.careerType">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.career_type" :key="index"
                                 :value="item.tagValue">
@@ -216,6 +224,7 @@
                     <div class="weui-cell__bd">
                         <select class="weui-select"
                                 v-model="formData.unitType">
+                            <option value=""></option>
                             <option
                                 v-for="(item, index) in tagList.unit_type" :key="index"
                                 :value="item.tagValue">
@@ -330,7 +339,7 @@ export default {
                 return false
             }
 
-            if (['2','6','7'].indexOf(this.formData.receptionResult) > -1) {
+            if (['1','5','6'].indexOf(this.formData.receptionResult) > -1) {
                 if (!this.formData.receptionBeginTimeD) {
                     this.$message({
                         message: '请选择开始时间！',
@@ -399,7 +408,7 @@ export default {
                 this.formData.receptionBeginTime = util.formatDate(this.formData.receptionBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
-            if (['5'].indexOf(this.formData.receptionResult) > -1) {
+            if (['2'].indexOf(this.formData.receptionResult) > -1) {
                 if (!this.formData.reserveUpdateTimeD) {
                     this.$message({
                         message: '请选择取消时间！',
@@ -410,7 +419,7 @@ export default {
                 this.formData.reserveUpdateTime = util.formatDate(this.formData.reserveUpdateTimeD, 'yyyy-MM-dd hh:mm:ss')
             }
 
-            if (['4'].indexOf(this.formData.receptionResult) > -1) {
+            if (['3'].indexOf(this.formData.receptionResult) > -1) {
                 if (!this.formData.reserveUpdateTimeD) {
                     this.$message({
                         message: '请选择更新时间！',

@@ -118,7 +118,7 @@ export default {
             }
 
             util.request({
-                method: 'get',
+                method: 'post',
                 interface: 'selectByReceptionCode',
                 data: formData
             }).then(res => {

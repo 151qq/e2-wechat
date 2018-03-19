@@ -227,6 +227,16 @@ body {
         }
     }
 
+    .weui-cell_select {
+      .weui-cell__ft {
+        width: 30px;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
+
     .red-color {
       color:  #f31818 !important;
     }
