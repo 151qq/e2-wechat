@@ -2,7 +2,7 @@
     <section class="task-detail-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin">
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">活动标题</label></div>
                 <div class="weui-cell__bd">{{base.partyTitle}}</div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="weui-cell__bd">{{base.planEndTime}}</div>
             </div>
             <div class="weui-cell weui-cell_access" @click="goToMap">
-                <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">活动地点</label></div>
                 <div class="weui-cell__bd">{{base.addrDetail}}</div>
                 <div class="weui-cell__ft"></div>
             </div>

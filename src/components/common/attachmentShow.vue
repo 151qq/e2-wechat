@@ -85,7 +85,7 @@
                                 }
                             }">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.addrLink">
+                        <img class="weui-media-box__thumb" :src="item.partyCover">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">{{item.partyTitle}}</h4>
@@ -108,7 +108,7 @@
                                 }
                             }">
                     <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="item.memberImg">
+                        <img class="weui-media-box__thumb" :src="item.reserveCover">
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">{{item.reserveTitle}}</h4>

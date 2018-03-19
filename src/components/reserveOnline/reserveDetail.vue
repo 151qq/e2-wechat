@@ -2,7 +2,11 @@
     <section class="reserve-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin">
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">预约类型</label></div>
+                <div class="weui-cell__bd">{{base.reserveTypeName}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">预约标题</label></div>
                 <div class="weui-cell__bd">{{base.reserveTitle}}</div>
             </div>
@@ -25,6 +29,11 @@
             <div class="weui-cell weui-cell_access" @click="goToMap">
                 <div class="weui-cell__hd"><label class="weui-label">预约地点</label></div>
                 <div class="weui-cell__bd">{{base.reserveCity}}</div>
+                <div class="weui-cell__ft"></div>
+            </div>
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__hd"><label class="weui-label">预约接待</label></div>
+                <div class="weui-cell__bd">{{base.reserveReceptionName}}</div>
                 <div class="weui-cell__ft"></div>
             </div>
         </div>
@@ -225,41 +234,41 @@
                     </a>
                 </div>
             </template>
+        </template>
 
-            <template v-if="base.reserveNext">
-                <div class="wx-area-line"></div>
-                <div class="weui-cells no-margin no-line">
-                    <div class="weui-cell weui-cell_access">
-                        <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
-                        <div class="weui-cell__bd wx-placeholder">
-                           新增了1个预约
-                        </div>
+        <template v-if="['3'].indexOf(base.reserveType) > -1 && base.reserveParent">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">相关预约</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       本预约修改的原预约
                     </div>
                 </div>
+            </div>
 
-                <div class="weui-cells no-line left-padding">
-                    <router-link class="weui-media-box weui-media-box_appmsg"
-                            slot="content"
-                            :to="{
-                                    name: 'reserve-detail',
-                                    query: {
-                                        enterpriseCode: $route.query.enterpriseCode,
-                                        agentId: $route.query.agentId,
-                                        reserveCode: reserveInfoNext.reserveCode
-                                    }
-                                }">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" :src="reserveInfoNext.reserveAddr">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{reserveInfoNext.reserveTitle}}</h4>
-                            <p class="weui-media-box__desc">
-                                {{reserveInfoNext.reserveBeginTime.split(' ')[0] + ' - ' + reserveInfoNext.reserveEndTime.split(' ')[0]}}
-                            </p>
-                        </div>
-                    </router-link>
-                </div>
-            </template>
+            <div class="weui-cells no-line left-padding">
+                <router-link class="weui-media-box weui-media-box_appmsg"
+                        slot="content"
+                        :to="{
+                                name: 'reserve-detail',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    reserveCode: reserveInfoNext.reserveCode
+                                }
+                            }">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" :src="reserveInfoNext.reserveCover">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{reserveInfoNext.reserveTitle}}</h4>
+                        <p class="weui-media-box__desc">
+                            {{reserveInfoNext.reserveBeginTime.split(' ')[0] + ' - ' + reserveInfoNext.reserveEndTime.split(' ')[0]}}
+                        </p>
+                    </div>
+                </router-link>
+            </div>
         </template>
         
         <div class="btn-height-box" v-if="base.reserveStatus != '3'"></div>
@@ -306,7 +315,10 @@ export default {
                 receptionEndTime: '',
                 receptionResult: '',
                 receptionMemo: '',
-                addrBaiduGps: ''
+                addrBaiduGps: '',
+                reserveType: '',
+                reserveTypeName: '',
+                reserveReceptionName: ''
             },
             couponData: [],
             newReserveImgData: [],

@@ -191,12 +191,12 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.imgData.attachmentSourceCodes"
+                                v-for="(item, index) in formData.imgData.localIds"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
                             <li @click="chooseImage"
-                                v-if="formData.imgData.attachmentSourceCodes.length < 9"
+                                v-if="formData.imgData.localIds.length < 9"
                                 class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
@@ -204,7 +204,7 @@
             </div>
         </div>
 
-        <!-- <div class="wx-area-line"></div>
+        <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">任务封面</label></div>
@@ -221,20 +221,20 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-if="formData.taskCover"
+                                v-if="formData.localId"
                                 @click="showBigImage">
-                                    <img :src="formData.taskCover">
+                                    <img :src="formData.localId">
                             </li>
-                            <li v-if="!formData.taskCover" @click="chooseImg" class="weui-uploader__input-box"></li>
+                            <li v-if="!formData.localId" @click="chooseImg" class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">分派任务</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">分派任务</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -242,10 +242,10 @@
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
 
-        <!-- <delete-img :index="nowIndex"
-                    :img-path="nowPath"
+        <delete-img :index="0"
+                    :img-path="formData.localId"
                     :is-show-img="isShowImage"
-                    @deleteImg="deleteImage"></delete-img> -->
+                    @deleteImg="deleteImage"></delete-img>
     </section>
 </template>
 <script>
@@ -284,9 +284,10 @@ export default {
                 pageReaderCareerLabel: '',
                 pageReaderEnterpriseLabel: '',
                 taskCover: '',
+                localId: '',
                 attachmentTargetType: 'editTask',
-                localIds: [],
                 imgData: {
+                    localIds: [],
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
                 },
@@ -297,7 +298,6 @@ export default {
                 codes: [],
                 objectType: ''
             },
-            // addressData: ChinaAddressV4Data,
             valueMap: ['tagValue', 'tagValueCname'],
             nowIndex: '',
             nowPath: '',
@@ -307,8 +307,6 @@ export default {
             isShowImage: {
                 value: false
             },
-            serverId: '',
-            serverIdList: [],
             themesList: [],
             cityList: [],
             scenarioList: [],
@@ -392,41 +390,15 @@ export default {
           'setDetail'
         ]),
         chooseImage () {
-            var num = 9 - this.formData.imgData.attachmentSourceCodes.length
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
+            jsSdk.chooseImage((localId ,serverId) => {
+                this.formData.imgData.localIds.push(localId)
+                this.formData.imgData.attachmentSourceCodes.push(serverId)
             })
         },
-        // chooseImg () {
-        //     var num = this.formData.taskCover ? 0 : 1
-        //     jsSdk.chooseImage(num ,(localIds) => {
-        //         this.formData.taskCover = localIds[0]
-        //     })
-        // },
-        submitComment () {
-            // var num = 0
-
-            // var coverArr = []
-
-            // if (this.formData.taskCover) {
-            //     coverArr = [this.formData.taskCover]
-            // }
-
-            // jsSdk.uploadImgs(coverArr, (serverIdList) => {
-            //     this.serverId = serverIdList[0]
-            //     num++
-            //     if (num == 2) {
-            //         this.submitFn()
-            //     }
-            // })
-
-            jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
-                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                // num++
-                // if (num == 2) {
-                //     this.submitFn()
-                // }
-                this.submitFn()
+        chooseImg () {
+            jsSdk.chooseImage((localId, serverId) => {
+                this.formData.localId = localId
+                this.formData.taskCover = serverId
             })
         },
         submitFn () {
@@ -476,23 +448,12 @@ export default {
             this.formData.taskBeginTime = util.formatDate(this.formData.taskBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             this.formData.taskEndTime = util.formatDate(this.formData.taskEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
-            // if (!this.formData.pageScenario) {
-            //     this.$message({
-            //         message: '请选择写作目的!',
-            //         type: 'warning'
-            //     })
-            //     return false
-            // }
-
             var formData = Object.assign({}, this.formData)
             formData.userCode = this.userInfo.userCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            // formData.pageReaderCity = value2name(this.formData.pageReaderCity, ChinaAddressV4Data)
-            formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
-            // formData.taskCover = this.serverId
 
             if (['XPTJ', 'CPCX'].indexOf(formData.pageScenario) > -1) {
                 formData.objectType = 1
@@ -601,19 +562,20 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.formData.imgData.attachmentSourceCodes[index]
+            this.nowPath = this.formData.imgData.localIds[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
+            this.formData.imgData.localIds.splice(index, 1)
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
         },
-        // showBigImage () {
-        //     this.nowPath = this.formData.taskCover
-        //     this.isShowImage.value = true
-        // },
-        // deleteImage () {
-        //     this.formData.taskCover = ''
-        // },
+        showBigImage () {
+            this.isShowImage.value = true
+        },
+        deleteImage () {
+            this.formData.taskCover = ''
+            this.formData.localId = ''
+        },
         showGenderSelect () {
             this.$refs.genderSelect.resetData()
             this.isGenderSheet.value = true

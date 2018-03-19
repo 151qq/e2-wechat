@@ -96,6 +96,7 @@ export default{
     selectAll: platform + 'reserveInfo/selectAll.json',
     listResponseReserveInfo: platform + 'reserveInfo/listResponseReserveInfo.json',
     updateResponseReserveInfo: platform + 'reserveInfo/updateResponseReserveInfo.json',
+    getReserveTypes: platform + 'reserveInfo/getReserveTypes.json',
     /**
     * 任务 get
     */

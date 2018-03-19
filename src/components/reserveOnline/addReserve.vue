@@ -2,6 +2,24 @@
     <section class="member-detail-box">
         <div class="height-1"></div>
         <div class="weui-cells no-margin show-message-box">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">预约类型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.reserveType">
+                        <option
+                            v-for="(item, index) in typeList" :key="index"
+                            :value="item.resultType">
+                            {{item.resultTypeName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
+        </div>
+    
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin show-message-box">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">预约标题</label></div>
                 <div class="weui-cell__bd">
@@ -21,7 +39,7 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">预约手机</label></div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入" v-model="formData.reserverMobile">
+                    <input class="weui-input" type="tel" placeholder="请输入" v-model="formData.reserverMobile">
                 </div>
                 <div class="weui-cell__ft red-color">*</div>
             </div>
@@ -49,26 +67,10 @@
                             v-model="mapData.address">
                 </div>
             </div>
-            <div class="weui-cell" @click="gotoUser">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">预约接待</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input"
-                            placeholder="请输入"
-                            v-model="userName">
-                </div>
-                <div class="weui-cell__ft red-color">*</div>
-            </div>
-        </div>
-
-        <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin show-message-box">
-            <div class="weui-cell" @click="gotoChannel">
-                <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input"
-                            placeholder="请输入"
-                            v-model="channelName">
-                </div>
+                <div class="weui-cell__bd">{{userName}}</div>
+                <div class="weui-cell__ft"></div>
             </div>
         </div>
 
@@ -114,12 +116,12 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.imgData.attachmentSourceCodes"
+                                v-for="(item, index) in formData.imgData.localIds"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
                             <li @click="chooseImage"
-                                v-if="formData.imgData.attachmentSourceCodes.length < 9"
+                                v-if="formData.imgData.localIds.length < 9"
                                 class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
@@ -127,7 +129,7 @@
             </div>
         </div>
 
-        <!-- <div class="wx-area-line"></div>
+        <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line show-message-box">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">预约封面</label></div>
@@ -144,16 +146,43 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-if="formData.reserveCover"
+                                v-if="formData.localId"
                                 @click="showBigImage">
-                                    <img :src="formData.reserveCover">
+                                    <img :src="formData.localId">
                             </li>
-                            <li v-if="!formData.reserveCover" @click="chooseImg" class="weui-uploader__input-box"></li>
+                            <li v-if="!formData.localId" @click="chooseImg" class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin show-message-box">
+            <div class="weui-cell" @click="gotoChannel">
+                <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input"
+                            placeholder="请输入"
+                            v-model="channelName">
+                </div>
+            </div>
+        </div>
+
+        <!-- 附件 -->
+        <template v-if="['3'].indexOf(formData.reserveType) > -1">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin no-line">
+                <div class="weui-cell weui-cell_access" @click="gotoAttachmentPage">
+                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
+                    <div class="weui-cell__bd wx-placeholder">
+                       请添加一个新预约
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </div>
+            </div>
+            <attachment-detail :attachment-data="attachmentPage"></attachment-detail>
+        </template>
         
         <!-- 附件 -->
         <!-- <div class="weui-cells__title">预约产品</div>
@@ -164,7 +193,7 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">提交</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">提交</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -172,10 +201,10 @@
                     :is-show-img="isShowImg"
                     @deleteImg="deleteImg"></delete-img>
 
-        <!-- <delete-img :index="nowIndex"
-                    :img-path="nowPath"
+        <delete-img :index="0"
+                    :img-path="formData.localId"
                     :is-show-img="isShowImage"
-                    @deleteImg="deleteImage"></delete-img> -->
+                    @deleteImg="deleteImage"></delete-img>
     </section>
 </template>
 <script>
@@ -203,9 +232,13 @@ export default {
                 reserveDesc: '',
                 reserveCreator: '',
                 reserveCover: '',
+                localId: '',
                 addrBaiduGps: '',
+                reserveType: '',
+                reserveParent: '',
                 attachmentTargetType: 'reserve',
                 imgData: {
+                    localIds: [],
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
                 },
@@ -214,6 +247,7 @@ export default {
                     attachmentSourceCodes: []
                 }
             },
+            typeList: [],
             nowIndex: '',
             nowPath: '',
             isShowImg: {
@@ -221,9 +255,7 @@ export default {
             },
             isShowImage: {
                 value: false
-            },
-            serverId: '',
-            serverIdList: []
+            }
         }
     },
     mounted () {
@@ -238,11 +270,13 @@ export default {
         } else {
             this.formData.reserveBeginTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         }
+        this.getTypes()
     },
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo',
             attachmentData: 'getAttachment',
+            attachmentPage: 'getAttachmentPage',
             detailData: 'getDetail',
             userData: 'getUser',
             channelData: 'getChannel',
@@ -280,47 +314,22 @@ export default {
     methods: {
         ...mapActions([
           'setAttachment',
+          'setAttachmentPage',
           'setDetail',
           'setUser',
           'setChannel',
           'setMapInfo'
         ]),
         chooseImage () {
-            var num = 9 - this.formData.imgData.attachmentSourceCodes.length
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.imgData.attachmentSourceCodes = this.formData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
+            jsSdk.chooseImage((localId ,serverId) => {
+                this.formData.imgData.localIds.push(localId)
+                this.formData.imgData.attachmentSourceCodes.push(serverId)
             })
         },
-        // chooseImg () {
-        //     var num = this.formData.reserveCover ? 0 : 1
-        //     jsSdk.chooseImage(num ,(localIds) => {
-        //         this.formData.reserveCover = localIds[0]
-        //     })
-        // },
-        submitComment () {
-            // var num = 0
-
-            // var coverArr = []
-
-            // if (this.formData.reserveCover) {
-            //     coverArr = [this.formData.reserveCover]
-            // }
-
-            // jsSdk.uploadImgs(coverArr, (serverIdList) => {
-            //     this.serverId = serverIdList[0]
-            //     num++
-            //     if (num == 2) {
-            //         this.submitFn()
-            //     }
-            // })
-
-            jsSdk.uploadImgs(this.formData.imgData.attachmentSourceCodes, (serverIdList) => {
-                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                // num++
-                // if (num == 2) {
-                //     this.submitFn()
-                // }
-                this.submitFn()
+        chooseImg () {
+            jsSdk.chooseImage((localId, serverId) => {
+                this.formData.localId = localId
+                this.formData.reserveCover = serverId
             })
         },
         submitFn () {
@@ -343,6 +352,14 @@ export default {
             if (!this.formData.reserverMobile) {
                 this.$message({
                     message: '请填写预约人手机!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!(/^1[3|4|5|8][0-9]{9}$/.test(this.formData.reserverMobile.trim()))) {
+                this.$message({
+                    message: '请填写正确格式手机号!',
                     type: 'warning'
                 })
                 return false
@@ -380,6 +397,21 @@ export default {
                 return false
             }
 
+            if (!this.formData.reserveType) {
+                this.$message({
+                    message: '请选择预约类型!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (['3'].indexOf(this.formData.reserveType) > -1) {
+                if (!this.attachmentPage.attachmentCodes || !this.attachmentPage.attachmentCodes.length) {
+                    this.$message.error('请选择一个预约！')
+                    return false
+                }
+            }
+
             this.formData.reserveBeginTime = util.formatDate(this.formData.reserveBeginTimeD, 'yyyy-MM-dd hh:mm:ss')
             this.formData.reserveEndTime = util.formatDate(this.formData.reserveEndTimeD, 'yyyy-MM-dd hh:mm:ss')
 
@@ -391,14 +423,15 @@ export default {
             formData.agentId = this.$route.query.agentId
             formData.reserveAddr = this.mapData.url ? this.mapData.url : ''
             formData.reserveCity = this.mapData.address
-            formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
             formData.reserveReceptionCode = this.userCode
             formData.reserveReceptionName = this.userName
             formData.reserveReferral = this.channelCode
 
-            // formData.reserveCover = this.serverId
+            if (['3'].indexOf(this.formData.reserveType) > -1) {
+                formData.reserveParent = this.attachmentPage.attachmentCodes[0]
+            }
 
             if (this.mapData.point) {
                 formData.addrBaiduGps = this.mapData.point
@@ -429,6 +462,19 @@ export default {
                 }
             })
         },
+        getTypes () {
+            util.request({
+                method: 'get',
+                interface: 'getReserveTypes',
+                data: {}
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.typeList = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
         gotoAttachment () {
             this.setDetail(Object.assign({}, this.formData))
 
@@ -438,6 +484,21 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     type: 'submit'
+                }
+            }
+            this.$router.push(pathUrl)
+        },
+        gotoAttachmentPage () {
+            this.setDetail(Object.assign({}, this.formData))
+
+            var pathUrl = {
+                name: 'reserve-attachment',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    isPage: '1',
+                    status: '3',
+                    type: 'unique'
                 }
             }
             this.$router.push(pathUrl)
@@ -485,18 +546,19 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.formData.imgData.attachmentSourceCodes[index]
+            this.nowPath = this.formData.imgData.localIds[index]
             this.isShowImg.value = true
         },
-        // showBigImage () {
-        //     this.nowPath = this.formData.reserveCover
-        //     this.isShowImage.value = true
-        // },
-        // deleteImage () {
-        //     this.formData.reserveCover = ''
-        // },
+        showBigImage () {
+            this.isShowImage.value = true
+        },
+        deleteImage () {
+            this.formData.reserveCover = ''
+            this.formData.localId = ''
+        },
         deleteImg (index) {
             this.formData.imgData.attachmentSourceCodes.splice(index, 1)
+            this.formData.imgData.localIds.splice(index, 1)
         }
     },
     components: {

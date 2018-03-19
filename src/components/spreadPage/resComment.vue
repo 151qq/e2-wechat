@@ -1,14 +1,8 @@
 <template>
     <section class="stop-activity-box">
         <div class="height-1"></div>
-        <!-- <group class="no-margin show-message-box" label-width="105px">
-            <selector title="评论情绪"
-                    placeholder="请选择"
-                    :options="contentEmotionList"
-                    v-model="commentData.commentEmotion"></selector>
-        </group> -->
         <div class="weui-cells no-margin no-line show-message-box">
-        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">评论情绪</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select" name="select1"
@@ -65,12 +59,12 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in commentData.imgData.attachmentSourceCodes"
+                                v-for="(item, index) in commentData.imgData.localIds"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
                             <li @click="chooseImage"
-                                v-if="commentData.imgData.attachmentSourceCodes.length < 9"
+                                v-if="commentData.imgData.localIds.length < 9"
                                 class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
@@ -80,7 +74,7 @@
         
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">发布</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">发布</a>
         </div>
 
         <delete-img :index="nowIndex"
@@ -104,6 +98,7 @@ export default {
                 attachmentTargetType: 'articleComment',
                 commentContent: '',
                 imgData: {
+                    localIds: [],
                     attachmentSourceType: 'attachmen_type_1',
                     attachmentSourceCodes: []
                 },
@@ -117,7 +112,6 @@ export default {
             isShowImg: {
                 value: false
             },
-            serverIdList: [],
             contentEmotionList: [
                 {
                     key: '1',
@@ -153,15 +147,9 @@ export default {
           'setDetail'
         ]),
         chooseImage () {
-            var num = 9 - this.commentData.imgData.attachmentSourceCodes.length
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.commentData.imgData.attachmentSourceCodes = this.commentData.imgData.attachmentSourceCodes.concat(localIds).splice(0, 9)
-            })
-        },
-        submitComment () {
-            jsSdk.uploadImgs(this.commentData.imgData.attachmentSourceCodes, (serverIdList) => {
-                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
+            jsSdk.chooseImage((localId ,serverId) => {
+                this.commentData.imgData.localIds.push(localId)
+                this.commentData.imgData.attachmentSourceCodes.push(serverId)
             })
         },
         submitFn () {
@@ -173,7 +161,6 @@ export default {
             formData.commentType = this.$route.query.commentType,
             formData.commentReplyCode = this.$route.query.commentReplyCode
             formData.memberCode = this.userInfo.userCode
-            formData.imgData.attachmentSourceCodes = this.serverIdList
             formData.pageData.attachmentSourceType = this.attachmentData.targetType
             formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
@@ -209,10 +196,11 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.commentData.imgData.attachmentSourceCodes[index]
+            this.nowPath = this.commentData.imgData.localIds[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
+            this.commentData.imgData.localIds.splice(index, 1)
             this.commentData.imgData.attachmentSourceCodes.splice(index, 1)
         }
     },

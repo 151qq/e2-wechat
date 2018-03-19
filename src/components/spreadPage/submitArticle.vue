@@ -1,43 +1,105 @@
 <template>
     <section class="stop-activity-box">
         <div class="height-1"></div>
-        <group class="no-margin show-message-box" label-width="105px">
-            <selector title="文章情绪"
-                    placeholder="请选择"
-                    :options="tagList.content_emotion"
-                    :value-map="valueMap"
-                    v-model="commentData.contentEmotion"></selector>
-            <selector title="文章调性"
-                      placeholder="请选择"
-                      :value-map="valueMap"
-                      :options="tagList.content_tonality"
-                      v-model="commentData.contentTonality"></selector>
-            <selector title="文章态度"
-                    placeholder="请选择"
-                    :options="tagList.content_attribute"
-                    :value-map="valueMap"
-                    v-model="commentData.contentAttribute"></selector>
-            <selector title="传播模型"
-                      placeholder="请选择"
-                      :value-map="valueMap"
-                      :options="tagList.content_promotion"
-                      v-model="commentData.contentPromotion"></selector>
-            <selector title="文章模型"
-                    placeholder="请选择"
-                    :options="tagList.content_style"
-                    :value-map="valueMap"
-                    v-model="commentData.contentStyle"></selector>
-            <selector title="文章题材"
-                      placeholder="请选择"
-                      :value-map="valueMap"
-                      :options="tagList.content_type"
-                      v-model="commentData.contentType"></selector>
-            <selector title="文章思想"
-                      placeholder="请选择"
-                      :value-map="valueMap"
-                      :options="tagList.content_politics"
-                      v-model="commentData.contentPolitics"></selector>
-        </group>
+        <div class="weui-cells no-margin show-message-box">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章情绪</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentEmotion">
+                        <option
+                            v-for="(item, index) in tagList.content_emotion" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章调性</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentTonality">
+                        <option
+                            v-for="(item, index) in tagList.content_tonality" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章态度</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentAttribute">
+                        <option
+                            v-for="(item, index) in tagList.content_attribute" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">传播模型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentPromotion">
+                        <option
+                            v-for="(item, index) in tagList.content_promotion" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章模型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentStyle">
+                        <option
+                            v-for="(item, index) in tagList.content_style" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章题材</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentType">
+                        <option
+                            v-for="(item, index) in tagList.content_type" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">文章思想</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="formData.contentPolitics">
+                        <option
+                            v-for="(item, index) in tagList.content_politics" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line">
@@ -62,7 +124,6 @@ import util from '../../utils/tools'
 import deleteImg from '../common/deleteImg.vue'
 import attachmentDetail from '../common/attachmentDetail.vue'
 import { mapGetters, mapActions } from 'vuex'
-import { Group, Selector} from 'vux'
 
 export default {
     data () {
@@ -77,7 +138,6 @@ export default {
                 contentPolitics: '',
                 extentsPageCodes: []
             },
-            valueMap: ['tagValue', 'tagValueCname'],
             tagList: {
                 content_emotion: [],
                 content_type: [],
@@ -162,9 +222,7 @@ export default {
     },
     components: {
         deleteImg,
-        attachmentDetail,
-        Group,
-        Selector
+        attachmentDetail
     }
 }
 </script>

@@ -30,12 +30,12 @@
                     <div class="weui-uploader__bd">
                          <ul class="weui-uploader__files" id="uploaderFiles">
                             <li class="weui-uploader__file"
-                                v-for="(item, index) in formData.mediaId"
+                                v-for="(item, index) in formData.localIds"
                                 @click="showBigImg(index)">
                                     <img :src="item">
                             </li>
                             <li @click="chooseImage"
-                                v-if="formData.mediaId.length < 9"
+                                v-if="formData.localIds.length < 9"
                                 class="weui-uploader__input-box"></li>
                         </ul>
                     </div>
@@ -46,13 +46,19 @@
         <div class="btn-height-box"></div>
 
         <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitComment">提交</a>
+            <a class="weui-btn weui-btn_primary" @click="submitFn">提交</a>
         </div>
+
+        <delete-img :index="nowIndex"
+                    :img-path="nowPath"
+                    :is-show-img="isShowImg"
+                    @deleteImg="deleteImg"></delete-img>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
 import jsSdk from '../../utils/jsSdk'
+import deleteImg from '../common/deleteImg.vue'
 
 import { mapGetters } from 'vuex'
 
@@ -64,14 +70,15 @@ export default {
                 partySummary: '',
                 partyStatus: '',
                 partyAlbum: '',
-                mediaId: []
+                mediaId: [],
+                localIds: []
             },
             nowIndex: '',
             nowPath: '',
             isShowImg: {
                 value: false
-            },
-            serverIdList: []        }
+            }
+        }
     },
     mounted () {
         jsSdk.init()
@@ -83,22 +90,15 @@ export default {
     },
     methods: {
         chooseImage () {
-            var num = 9 - this.formData.mediaId.length
-            jsSdk.chooseImage(num ,(localIds) => {
-                this.formData.mediaId = this.formData.mediaId.concat(localIds).splice(0, 9)
-            })
-        },
-        submitComment () {
-            jsSdk.uploadImgs(this.formData.mediaId, (serverIdList) => {
-                this.serverIdList = this.serverIdList.concat(serverIdList).splice(0, 9)
-                this.submitFn()
+            jsSdk.chooseImage((localId ,serverId) => {
+                this.formData.localIds.push(localId)
+                this.formData.mediaId.push(serverId)
             })
         },
         submitFn () {
             var formData = Object.assign({}, this.formData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
-            formData.mediaId = this.serverIdList
             formData.partyCode = this.$route.query.partyCode
             formData.partyResult = this.$route.query.result
             formData.partyAlbum = this.$route.query.partyAlbum
@@ -126,12 +126,16 @@ export default {
         },
         showBigImg (index) {
             this.nowIndex = index
-            this.nowPath = this.formData.mediaId[index]
+            this.nowPath = this.formData.localIds[index]
             this.isShowImg.value = true
         },
         deleteImg (index) {
             this.formData.mediaId.splice(index, 1)
+            this.formData.localIds.splice(index, 1)
         }
+    },
+    components: {
+        deleteImg
     }
 }
 </script>

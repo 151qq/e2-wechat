@@ -499,14 +499,6 @@ const routers = [
         meta: {
           title: '授权列表'
         }
-      },
-      {
-        path: 'submitRole',
-        name: 'submit-role',
-        component: resolve => require(["../../components/myConfig/submitRole.vue"], resolve),
-        meta: {
-          title: '角色授权'
-        }
       }
     ]
   },

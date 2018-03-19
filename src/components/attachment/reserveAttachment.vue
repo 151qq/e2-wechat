@@ -127,6 +127,10 @@ export default {
                 pageNumber: this.pageNumber
             }
 
+            if (this.$route.query.status) {
+                formData.reserveStatus = this.$route.query.status
+            }
+
             util.request({
                 method: 'post',
                 interface: 'selectByReceptionCode',
