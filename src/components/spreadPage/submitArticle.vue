@@ -7,6 +7,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentEmotion">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_emotion" :key="index"
                             :value="item.tagValue">
@@ -21,6 +22,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentTonality">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_tonality" :key="index"
                             :value="item.tagValue">
@@ -35,6 +37,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentAttribute">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_attribute" :key="index"
                             :value="item.tagValue">
@@ -49,6 +52,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentPromotion">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_promotion" :key="index"
                             :value="item.tagValue">
@@ -63,6 +67,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentStyle">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_style" :key="index"
                             :value="item.tagValue">
@@ -77,6 +82,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_type" :key="index"
                             :value="item.tagValue">
@@ -91,6 +97,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.contentPolitics">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_politics" :key="index"
                             :value="item.tagValue">

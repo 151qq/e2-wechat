@@ -107,6 +107,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.gender">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.gender" :key="index"
                             :value="item.tagValue">
@@ -121,6 +122,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.age">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.age" :key="index"
                             :value="item.tagValue">
@@ -135,6 +137,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.education">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.education" :key="index"
                             :value="item.tagValue">
@@ -149,6 +152,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.consumeLevel">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.consume_level" :key="index"
                             :value="item.tagValue">
@@ -163,6 +167,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.consumeDecisionType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.consume_decision_type" :key="index"
                             :value="item.tagValue">
@@ -177,6 +182,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.shoppingGuide">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.shopping_guide" :key="index"
                             :value="item.tagValue">
@@ -191,6 +197,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.careerType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.career_type" :key="index"
                             :value="item.tagValue">
@@ -205,6 +212,7 @@
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.unitType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.unit_type" :key="index"
                             :value="item.tagValue">
