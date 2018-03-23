@@ -58,7 +58,17 @@ export default {
                 if (res.result.success == '1') {
                     var data = res.result.result
 
-                    if (data) {
+                    if (data == 'noLimited') {
+                        var pathUrl = {
+                            name: 'registor-warning',
+                            query: {
+                                enterpriseCode: data.enterpriseCode,
+                                agentId: this.$route.query.agentId
+                            }
+                        }
+
+                        this.$router.replace(pathUrl)
+                    } else if (data) {
                         var pathUrl = {
                             name: 'registor-message',
                             query: {

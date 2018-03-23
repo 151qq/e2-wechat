@@ -37,6 +37,7 @@ const jsSdk = {
                     signature: res.result.result.corpJsdkSign,
                     jsApiList: [
                         'onMenuShareAppMessage',
+                        'onMenuShareTimeline',
                         'onMenuShareWechat',
                         'shareWechatMessage',
                         'shareAppMessage',

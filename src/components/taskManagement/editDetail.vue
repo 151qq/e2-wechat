@@ -114,7 +114,7 @@
                 </router-link>
             </div>
         </template>
-        <template v-if="isPage && editType != '1'">
+        <template v-if="isPage && editType != '1' && base.taskStatus != '0'">
             <div class="weui-btn-area">
                 <router-link class="weui-btn weui-btn_primary"
                                 :to="{
@@ -129,6 +129,13 @@
                                 }">
                     任务追踪
                 </router-link>
+            </div>
+        </template>
+        <template v-if="isPage && editType != '1' && base.taskStatus == '0'">
+            <div class="weui-btn-area">
+                <a class="weui-btn weui-btn_primary" @click="gotoUser">
+                    分派任务
+                </a>
             </div>
         </template>
     </section>
@@ -269,6 +276,20 @@ export default {
                 }
             }
             this.$router.push(pathUrl)
+        },
+        gotoUser () {
+            var pathUrl = {
+                name: 'user-list',
+                query: {
+                    enterpriseCode: this.$route.query.enterpriseCode,
+                    agentId: this.$route.query.agentId,
+                    taskCode: this.$route.query.taskCode,
+                    taskType: '1',
+                    taskTitle: this.base.taskTitle,
+                    redirectUrl: window.encodeURIComponent(window.location.href)
+                }
+            }
+            this.$router.replace(pathUrl)
         }
     },
     components: {

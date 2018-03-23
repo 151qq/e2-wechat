@@ -27,6 +27,17 @@ const routers = [
     }
   },
   {
+    // 注册提示页面
+    path: '/registorWarning',
+    name: 'registor-warning',
+    component (resolve) {
+      require(["./registorWarning.vue"], resolve)
+    },
+    meta: {
+      title: '营销精英'
+    }
+  },
+  {
     // 地图搜索
     path: '/search-map',
     name: 'search-map',

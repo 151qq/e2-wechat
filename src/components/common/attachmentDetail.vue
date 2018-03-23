@@ -85,7 +85,7 @@
                                             sShareTo: 'F',
                                             C: 'N',
                                             cShareTo: 'N',
-                                            T: userInfo.userCode,
+                                            T: 'N',
                                             tShareTo: 'N',
                                             spreadType: '1'
                                         }

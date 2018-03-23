@@ -42,8 +42,8 @@
         </div>
 
         <div class="btn-height-box"></div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="addMember">添加</a>
+        <div class="weui-btn-area" @click="addMember">
+            <a class="weui-btn weui-btn_primary">添加</a>
         </div>
     </section>
 </template>

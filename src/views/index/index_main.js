@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
       store.commit('setUrl', document.URL)
     }
 
-    if (!e2Token && to.name != 'registor' && to.name != 'registor-message') {
+    if (!e2Token && to.name.indexOf('registor') < 0) {
         var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
         window.location.href = path
     } else {

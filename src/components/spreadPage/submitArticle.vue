@@ -6,7 +6,7 @@
                 <div class="weui-cell__hd"><label class="weui-label">文章情绪</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentEmotion">
+                            v-model="commentData.contentEmotion">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_emotion" :key="index"
@@ -15,13 +15,14 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">文章调性</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentTonality">
+                            v-model="commentData.contentTonality">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_tonality" :key="index"
@@ -30,13 +31,14 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">文章态度</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentAttribute">
+                            v-model="commentData.contentAttribute">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_attribute" :key="index"
@@ -45,28 +47,14 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">传播模型</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">文章文风</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentPromotion">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.content_promotion" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">文章模型</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.contentStyle">
+                            v-model="commentData.contentStyle">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_style" :key="index"
@@ -75,13 +63,14 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">文章题材</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentType">
+                            v-model="commentData.contentType">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_type" :key="index"
@@ -90,16 +79,36 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
 
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">文章思想</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
-                            v-model="formData.contentPolitics">
+                            v-model="commentData.contentPolitics">
                         <option value=""></option>
                         <option
                             v-for="(item, index) in tagList.content_politics" :key="index"
+                            :value="item.tagValue">
+                            {{item.tagValueCname}}
+                        </option>
+                    </select>
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">传播模型</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="commentData.contentPromotion">
+                        <option value=""></option>
+                        <option
+                            v-for="(item, index) in tagList.content_promotion" :key="index"
                             :value="item.tagValue">
                             {{item.tagValueCname}}
                         </option>
@@ -176,6 +185,54 @@ export default {
           'setDetail'
         ]),
         submitFn () {
+            if (!this.commentData.contentEmotion) {
+                this.$message({
+                    message: '请选择文章情绪!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.commentData.contentTonality) {
+                this.$message({
+                    message: '请选择文章调性!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.commentData.contentAttribute) {
+                this.$message({
+                    message: '请选择文章态度!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.commentData.contentStyle) {
+                this.$message({
+                    message: '请选择文章文风!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.commentData.contentType) {
+                this.$message({
+                    message: '请选择文章题材!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.commentData.contentPolitics) {
+                this.$message({
+                    message: '请选择文章思想!',
+                    type: 'warning'
+                })
+                return false
+            }
+
             var formData = Object.assign({}, this.commentData)
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
