@@ -489,6 +489,7 @@ export default {
                     enterpriseCode: this.$route.query.enterpriseCode,
                     agentId: this.$route.query.agentId,
                     isPage: 1,
+                    couponGroutScenario: 'coupon_scenario_4',
                     redirectUrl: window.encodeURIComponent(window.location.href)
                 }
             }

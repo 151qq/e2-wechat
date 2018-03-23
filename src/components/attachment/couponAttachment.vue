@@ -118,7 +118,7 @@ export default {
         getList (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                couponGroutScenario: 'coupon_scenario_5',
+                couponGroutScenario: this.$route.query.couponGroutScenario,
                 pageSize: this.pageSize,
                 pageNumber: this.pageNumber
             }
