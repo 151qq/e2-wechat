@@ -5,23 +5,33 @@
         </div>
         <div class="avatar-box">
             <div class="img-box">
-                <img :src="base.promoterBaseInfoForm.memberImage">
+                <img :src="base.memberImage">
             </div>
             <div class="name-box">
-                {{base.promoterBaseInfoForm.memberName}}
+                {{base.memberName}}
             </div>
         </div>
 
-        <group title="" label-width="105px">
-            <selector title="推广身份"
-                      placeholder="请选择"
-                      :value-map="scenarioMap"
-                      :options="scenarioList"
-                      v-model="base.promoterBaseInfoForm.accuntType"></selector>
-        </group>
+        <div class="weui-cells show-message-box">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd"><label class="weui-label">推广身份</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select"
+                            v-model="base.accuntType">
+                        <option value=""></option>
+                        <option
+                            v-for="(item, index) in scenarioList" :key="index"
+                            :value="item.keyCode">
+                            {{item.keyValue}}
+                        </option>
+                    </select>
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
+        </div>
 
         <div class="btn-height-box"></div>
-        <div class="weui-btn-area" v-if="base.promoterBaseInfoForm.adChannelStatus == '0'">
+        <div class="weui-btn-area" v-if="base.adChannelStatus == '0'">
             <a class="weui-btn weui-btn_primary" @click="changeStatus">捆绑</a>
         </div>
 
@@ -33,7 +43,6 @@
 <script>
 import util from '../../utils/tools'
 import { mapGetters } from 'vuex'
-import { Group, Selector } from 'vux'
 
 export default {
     data () {
@@ -41,13 +50,11 @@ export default {
             coverImg: '',
             isPage: false,
             base: {
-                fansCountForm: {},
-                promoterBaseInfoForm: {
-                    accuntType: ''
-                },
-                promoterCountForm: {}
+                memberImage: '',
+                memberName: '',
+                accuntType: '',
+                adChannelStatus: ''
             },
-            scenarioMap: ['keyCode', 'keyValue'],
             scenarioList: []
         }
     },
@@ -74,7 +81,7 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.base = res.result.result
+                    this.base = res.result.result.promoterBaseInfoForm
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -94,7 +101,7 @@ export default {
             })
         },
         changeStatus () {
-            if (!this.base.promoterBaseInfoForm.accuntType) {
+            if (!this.base.accuntType) {
                 this.$message({
                     message: '请选择推广身份!',
                     type: 'warning'
@@ -105,7 +112,7 @@ export default {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
                 memberCode: this.$route.query.memberCode,
-                accuntType: this.base.promoterBaseInfoForm.accuntType
+                accuntType: this.base.accuntType
             }
 
             util.request({
@@ -124,10 +131,6 @@ export default {
                 }
             })
         }
-    },
-    components: {
-        Group,
-        Selector
     }
 }
 </script>
