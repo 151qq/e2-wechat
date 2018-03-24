@@ -102,13 +102,6 @@
         <template v-if="['1','5','6'].indexOf(formData.receptionResult) > -1">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line show-message-box">
-                <div class="weui-cell">
-                    <div class="weui-cell__hd"><label class="weui-label">客户姓名</label></div>
-                    <div class="weui-cell__bd">
-                        <input class="weui-input" placeholder="请输入" v-model="formData.name">
-                    </div>
-                </div>
-
                 <div class="weui-cell weui-cell_select weui-cell_select-after">
                     <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
                     <div class="weui-cell__bd">
