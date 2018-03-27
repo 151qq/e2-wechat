@@ -264,19 +264,11 @@ const routers = [
         }
       },
       {
-        path: 'nolineRemark',
-        name: 'noline-remark',
-        component: resolve => require(["../../components/outbandWork/nolineRemark.vue"], resolve),
+        path: 'chanceList',
+        name: 'chance-list',
+        component: resolve => require(["../../components/outbandWork/chanceList.vue"], resolve),
         meta: {
-          title: '外呼工作详情'
-        }
-      },
-      {
-        path: 'nolineDetail',
-        name: 'noline-detail',
-        component: resolve => require(["../../components/outbandWork/nolineDetail.vue"], resolve),
-        meta: {
-          title: '外呼工作详情'
+          title: '商机追踪列表'
         }
       },
       {
@@ -284,15 +276,7 @@ const routers = [
         name: 'noline-qz',
         component: resolve => require(["../../components/outbandWork/nolineQz.vue"], resolve),
         meta: {
-          title: '外呼工作记录'
-        }
-      },
-      {
-        path: 'nolineSj',
-        name: 'noline-sj',
-        component: resolve => require(["../../components/outbandWork/nolineSj.vue"], resolve),
-        meta: {
-          title: '外呼工作记录'
+          title: '客户行为记录'
         }
       },
       {
@@ -300,7 +284,15 @@ const routers = [
         name: 'noline-comment',
         component: resolve => require(["../../components/outbandWork/nolineComment.vue"], resolve),
         meta: {
-          title: '外呼工作总结'
+          title: '外呼汇报'
+        }
+      },
+      {
+        path: 'nolineRemark',
+        name: 'noline-remark',
+        component: resolve => require(["../../components/outbandWork/nolineRemark.vue"], resolve),
+        meta: {
+          title: '外呼结果'
         }
       }
     ]
@@ -368,6 +360,14 @@ const routers = [
         meta: {
           title: '推广文章评论'
         }
+      },
+      {
+        path: 'articleTrace',
+        name: 'article-trace',
+        component: resolve => require(["../../components/spreadPage/articleTrace.vue"], resolve),
+        meta: {
+          title: '推广文章传播链'
+        }
       }
     ]
   },
@@ -384,7 +384,7 @@ const routers = [
         name: 'case-list',
         component: resolve => require(["../../components/couponEvent/itemList.vue"], resolve),
         meta: {
-          title: '优惠活动列表'
+          title: '促销活动列表'
         }
       },
       {
@@ -392,7 +392,7 @@ const routers = [
         name: 'case-detail',
         component: resolve => require(["../../components/couponEvent/caseDetail.vue"], resolve),
         meta: {
-          title: '优惠活动详情'
+          title: '促销活动详情'
         }
       },
       {
@@ -400,7 +400,7 @@ const routers = [
         name: 'coupon-detail',
         component: resolve => require(["../../components/couponEvent/couponDetail.vue"], resolve),
         meta: {
-          title: '优惠券详情'
+          title: '促销券详情'
         }
       },
       {
@@ -408,7 +408,7 @@ const routers = [
         name: 'stop-activity',
         component: resolve => require(["../../components/couponEvent/stopActivity.vue"], resolve),
         meta: {
-          title: '终止优惠活动'
+          title: '终止促销活动'
         }
       }
     ]
@@ -497,6 +497,22 @@ const routers = [
     children: [
       {
         path: '',
+        name: 'channel-list',
+        component: resolve => require(["../../components/myConfig/itemList.vue"], resolve),
+        meta: {
+          title: '营销团队'
+        }
+      },
+      {
+        path: 'channelDetail',
+        name: 'channel-detail',
+        component: resolve => require(["../../components/myConfig/channelDetail.vue"], resolve),
+        meta: {
+          title: '推广会员详情'
+        }
+      },
+      {
+        path: 'userInfo',
         name: 'user-info',
         component: resolve => require(["../../components/myConfig/userInfo.vue"], resolve),
         meta: {
@@ -513,32 +529,32 @@ const routers = [
       }
     ]
   },
-  {
-    // 推广注册
-    path: '/wxPromotion',
-    name: 'wxPromotion',
-    component (resolve) {
-      require(["../../components/wxPromotion/main.vue"], resolve)
-    },
-    children: [
-      {
-        path: '',
-        name: 'channel-list',
-        component: resolve => require(["../../components/wxPromotion/itemList.vue"], resolve),
-        meta: {
-          title: '会员推广列表'
-        }
-      },
-      {
-        path: 'channelDetail',
-        name: 'channel-detail',
-        component: resolve => require(["../../components/wxPromotion/channelDetail.vue"], resolve),
-        meta: {
-          title: '会员详情'
-        }
-      }
-    ]
-  },
+  // {
+  //   // 推广注册
+  //   path: '/wxPromotion',
+  //   name: 'wxPromotion',
+  //   component (resolve) {
+  //     require(["../../components/wxPromotion/main.vue"], resolve)
+  //   },
+  //   children: [
+  //     {
+  //       path: '',
+  //       name: 'channel-list',
+  //       component: resolve => require(["../../components/wxPromotion/itemList.vue"], resolve),
+  //       meta: {
+  //         title: '会员推广列表'
+  //       }
+  //     },
+  //     {
+  //       path: 'channelDetail',
+  //       name: 'channel-detail',
+  //       component: resolve => require(["../../components/wxPromotion/channelDetail.vue"], resolve),
+  //       meta: {
+  //         title: '会员详情'
+  //       }
+  //     }
+  //   ]
+  // },
   {
     // 在线预约
     path: '/reserveOnline',
@@ -610,7 +626,7 @@ const routers = [
         name: 'new-party',
         component: resolve => require(["../../components/partyTool/newParty.vue"], resolve),
         meta: {
-          title: '编辑地推活动'
+          title: '新建活动'
         }
       },
       {
@@ -634,7 +650,7 @@ const routers = [
         name: 'edit-log',
         component: resolve => require(["../../components/partyTool/editLog.vue"], resolve),
         meta: {
-          title: '编辑记录'
+          title: '地推活动记录'
         }
       },
       {

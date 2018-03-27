@@ -37,7 +37,7 @@
                                 v-if="item.reportComment && item.reportComment.commentContent">
                             作者回复
                         </span>
-                        <div class="comment-btn" v-if="item.status == '1'">
+                        <div class="comment-btn" v-if="item.status == '1' && !$route.query.isFromLog">
                             <div class="btn-out-box">
                                 <img src="../../assets/images/edit-icon.png">
                             </div>
@@ -85,7 +85,9 @@
                                 </router-link>
                             </div>
                         </div>
-                        <div class="response-box" @click="deleteAuthor(item.reportComment)">
+                        <div class="response-box"
+                                v-if="!$route.query.isFromLog"
+                                @click="deleteAuthor(item.reportComment)">
                             <div class="top-box">
                                 <span class="response"></span>
                                 <div class="comment-btn">
@@ -129,7 +131,7 @@ export default {
     },
     methods: {
         showSubmit (item) {
-            if (item.status != '1') {
+            if (item.status != '1' || this.$route.query.isFromLog) {
                 return false
             }
 

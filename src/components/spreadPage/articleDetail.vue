@@ -74,7 +74,7 @@
         <div class="btn-height-box"></div>
 
         <!-- 发布状态 -->
-        <template v-if="isPublist">
+        <template v-if="isPublist && !$route.query.isFromLog">
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
                 <a class="wx-nav-item-66"
                     @click="shareWechat">
@@ -118,7 +118,7 @@
                 </router-link>
             </div>
         </template>
-        <template v-if="!isPublist && articleData.pageStatus == '1'">
+        <template v-if="!isPublist && articleData.pageStatus == '1' && !$route.query.isFromLog">
             <div class="wx-bottom-nav" v-if="articleData.pageStatus == '1'">
                 <a class="wx-nav-item-66"
                     @click="shareWechat">
@@ -137,7 +137,7 @@
                 </router-link>
             </div>
         </template>
-        <template v-if="!isPublist && articleData.pageStatus != '1'">
+        <template v-if="!isPublist && articleData.pageStatus != '1'&& !$route.query.isFromLog">
             <div class="weui-btn-area">
                 <router-link class="weui-btn weui-btn_primary"
                             :to="{
@@ -149,6 +149,21 @@
                                 }
                             }">
                     审核记录
+                </router-link>
+            </div>
+        </template>
+        <template v-if="$route.query.isFromLog && $route.query.spreadCode">
+            <div class="weui-btn-area">
+                <router-link class="weui-btn weui-btn_primary"
+                            :to="{
+                                name: 'article-trace',
+                                query: {
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId,
+                                    spreadCode: $route.query.spreadCode
+                                }
+                            }">
+                    文章传播链
                 </router-link>
             </div>
         </template>

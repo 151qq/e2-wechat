@@ -53,7 +53,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 this.isPage = true
                 var imgList = []
                 res.result.result.forEach((item) => {

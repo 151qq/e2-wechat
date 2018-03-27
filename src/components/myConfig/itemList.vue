@@ -1,16 +1,38 @@
 <template>
-    <section class="channel-list-box page__bd show-state-box">
-        <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
+    <section class="channel-list-box page__bd show-state-box" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
+        <div class="height-1"></div>
+        <div class="weui-cells no-margin">
+            <router-link  class="weui-media-box weui-media-box_appmsg"
+                        :to="{
+                            name: 'user-info',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" :src="userInfo.userWechatLogo">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{userInfo.userWechatNickname}}</h4>
+                    <p class="weui-media-box__desc">{{userInfo.userLoginAccount}}</p>
+                </div>
+            </router-link>
+        </div>
+
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <swipeout>
                 <swipeout-item transition-mode="follow"
                                 v-for="(item, index) in listData" :key="index">
 
-                    <!-- <div slot="right-menu">
+                    <div slot="right-menu">
                         <swipeout-button @click.native="deleteItem(item)" type="warn">
                             删除
                         </swipeout-button>
-                    </div> -->
+                    </div>
                     <router-link class="weui-media-box weui-media-box_appmsg"
                                 slot="content"
                                 :to="{
@@ -35,10 +57,6 @@
                     </router-link>
                 </swipeout-item>
             </swipeout>
-        </div>
-
-        <div class="null-page" v-if="!listData.length && isPage">
-            暂无内容！
         </div>
 
         <div class="btn-height-box"></div>
@@ -81,7 +99,7 @@ export default {
             this.pageNumber++
             this.getList(cb)
         },
-        addMember (type) {
+        addMember () {
             var link = 'http://site.socialmarketingcloud.com/channelRegister?enterpriseCode=' + this.userInfo.enterpriseCode + '&agentId=' + this.$route.query.agentId + '&userId=' + this.userInfo.userWechatUserid + '&appid=' + this.userInfo.userWechatAppid  + '&userCode=' + this.userInfo.userCode
 
             window.wx.invoke("shareWechatMessage", {

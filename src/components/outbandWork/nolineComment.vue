@@ -1,23 +1,13 @@
 <template>
-    <section class="member-detail-box">
-        <div class="wx-area-img">
-            <img :src="coverImg">
-        </div>
-        <div class="avatar-box">
-            <div class="img-box">
-                <img :src="base.memberImage">
-            </div>
-            <div class="name-box">
-                {{base.memberWechatNickname}}
-            </div>
-        </div>
-
+    <section class="noline-end-box">
+        <div class="height-1"></div>
         <div class="weui-cells no-margin show-message-box">
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">外呼结果</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.outbandResult">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in selectList.result" :key="index"
                             :value="item.key">
@@ -28,11 +18,20 @@
                 <div class="weui-cell__ft red-color">*</div>
             </div>
 
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">外呼时间</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" v-model="formData.outbandRealTimeD">
+                </div>
+                <div class="weui-cell__ft red-color">*</div>
+            </div>
+
             <div class="weui-cell weui-cell_select weui-cell_select-after">
                 <div class="weui-cell__hd"><label class="weui-label">外呼方式</label></div>
                 <div class="weui-cell__bd">
                     <select class="weui-select"
                             v-model="formData.outbandRealType">
+                        <option value=""></option>
                         <option
                             v-for="(item, index) in selectList.type" :key="index"
                             :value="item.key">
@@ -40,6 +39,7 @@
                         </option>
                     </select>
                 </div>
+                <div class="weui-cell__ft red-color">*</div>
             </div>
         </div>
         
@@ -55,20 +55,6 @@
                 </div>
             </div>
         </div>
-        
-        <template v-if="formData.outbandResult == '1'">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access" @click="gotoAttachment">
-                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
-                    <div class="weui-cell__bd wx-placeholder">
-                       请选择一个新预约
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </div>
-            </div>
-            <attachment-detail :attachment-data="attachmentData"></attachment-detail>
-        </template>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin no-line show-message-box">
@@ -100,129 +86,6 @@
             </div>
         </div>
         
-        <div class="wx-area-line"></div>
-        <div class="weui-cells no-margin no-line show-message-box">
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.gender">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.gender" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.age">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.age" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.education">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.education" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.consumeLevel">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.consume_level" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">消费决策</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.consumeDecisionType">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.consume_decision_type" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">导购特征</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.shoppingGuide">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.shopping_guide" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.careerType">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.career_type" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select"
-                            v-model="formData.unitType">
-                        <option value=""></option>
-                        <option
-                            v-for="(item, index) in tagList.unit_type" :key="index"
-                            :value="item.tagValue">
-                            {{item.tagValueCname}}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        
         <div class="btn-height-box"></div>
         <div class="weui-btn-area">
             <a class="weui-btn weui-btn_primary" @click="submitFn">提交</a>
@@ -238,21 +101,12 @@
 import util from '../../utils/tools'
 import jsSdk from '../../utils/jsSdk'
 import deleteImg from '../common/deleteImg.vue'
-import attachmentDetail from '../common/attachmentDetail.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
         return {
             coverImg: '',
-            base: {
-                memberImage: '',
-                memberMobile: '',
-                memberCode: '',
-                memberWechatNickname: '',
-                memberReferCode: '',
-                outbandRealType: ''
-            },
             formData: {
                 outbandResult: '',
                 outbandRealType: '',
@@ -260,16 +114,6 @@ export default {
                 outbandWorkCode: '',
                 outbandRealTime: '',
                 outbandRealTimeD: '',
-                reserveCode: '',
-                pipelineCode: '',
-                age: '',
-                consumeDecisionType: '',
-                consumeLevel: '',
-                education: '',
-                gender: '',
-                shoppingGuide: '',
-                careerType: '',
-                unitType: '',
                 attachmentTargetType: 'nolineJob',
                 attachmentTargetCode: '',
                 outbandMemo: '',
@@ -291,45 +135,21 @@ export default {
             selectList: {
                 result: [],
                 type: []
-            },
-            tagList: {
-                age: [],
-                consume_decision_type: [],
-                consume_level: [],
-                education: [],
-                gender: [],
-                shopping_guide: [],
-                career_type: [],
-                unit_type: []
             }
         }
     },
     mounted () {
-        this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         jsSdk.init()
-        if (this.detailData.attachmentTargetType) {
-            this.formData = Object.assign({}, this.detailData)
-
-            setTimeout(() => {
-                this.formData.outbandRealTimeD = this.detailData.outbandRealTimeD
-            }, 0)
-        }
-        this.getData()
+        this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
+        this.formData.outbandRealTimeD = util.formatDate(new Date().getTime(), 'yyyy-MM-ddThh:mm:ss')
         this.getSelectOut()
-        this.getTags()
     },
     computed: {
         ...mapGetters({
-            userInfo: 'getUserInfo',
-            attachmentData: 'getAttachment',
-            detailData: 'getDetail'
+            userInfo: 'getUserInfo'
         })
     },
     methods: {
-        ...mapActions([
-          'setAttachment',
-          'setDetail'
-        ]),
         chooseImage () {
             jsSdk.chooseImage((localId ,serverId) => {
                 this.formData.imgData.localIds.push(localId)
@@ -337,22 +157,40 @@ export default {
             })
         },
         submitFn () {
-            if (this.formData.outbandRealTimeD) {
-                this.formData.outbandRealTime = util.formatDate(this.formData.outbandRealTimeD, 'yyyy-MM-dd hh:mm:ss')
+            if (!this.formData.outbandResult) {
+                this.$message({
+                    message: '请选择外呼结果!',
+                    type: 'warning'
+                })
+                return false
             }
+
+            if (!this.formData.outbandRealTimeD) {
+                this.$message({
+                    message: '请填写外呼时间!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            if (!this.formData.outbandRealType) {
+                this.$message({
+                    message: '请选择外呼方式!',
+                    type: 'warning'
+                })
+                return false
+            }
+
+            this.formData.outbandRealTime = util.formatDate(this.formData.outbandRealTimeD, 'yyyy-MM-dd hh:mm:ss')
 
             var formData = Object.assign({}, this.formData)
             formData.outbandWorkType = this.$route.query.outbandWorkType
             formData.userCode = this.userInfo.userCode
-            formData.memberCode = this.base.memberCode
+            formData.memberCode = this.$route.query.memberCode
             formData.enterpriseCode = this.$route.query.enterpriseCode
             formData.agentId = this.$route.query.agentId
             formData.outbandWorkCode = this.$route.query.outbandWorkCode
-            formData.pipelineCode = this.$route.query.pipelineCode
             formData.attachmentTargetCode = this.$route.query.outbandWorkCode
-            formData.reserveCode = this.attachmentData.attachmentCodes[0]
-            // formData.pageData.attachmentSourceType = this.attachmentData.targetType
-            // formData.pageData.attachmentSourceCodes = this.attachmentData.attachmentCodes
 
             util.request({
                 method: 'post',
@@ -360,34 +198,18 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.setDetail({})
-                    this.setAttachment({})
-                    var pathUrl = {
-                        name: 'noline-detail',
-                        query: {
-                            enterpriseCode: this.$route.query.enterpriseCode,
-                            agentId: this.$route.query.agentId,
-                            outbandWorkCode: this.$route.query.outbandWorkCode
-                        }
-                    }
-                    this.$router.replace(pathUrl)
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        getData () {
-            var formData = {
-                outbandWorkCode: this.$route.query.outbandWorkCode
-            }
+                    
+                    // var pathData = {
+                    //     name: 'noline-list',
+                    //     query: {
+                    //         enterpriseCode: this.$route.query.enterpriseCode,
+                    //         agentId: this.$route.query.agentId
+                    //     }
+                    // }
 
-            util.request({
-                method: 'get',
-                interface: 'selectOutBandWork',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.base = res.result.result
+                    // this.$router.replace(pathData)
+                    
+                    this.$router.go(-2)
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -406,33 +228,6 @@ export default {
                 }
             })
         },
-        getTags () {
-            util.request({
-                method: 'get',
-                interface: 'selectAllTagDef',
-                data: {}
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.tagList = res.result.result
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        gotoAttachment () {
-            this.setDetail(Object.assign({}, this.formData))
-
-            var pathUrl = {
-                name: 'reserve-attachment',
-                query: {
-                    enterpriseCode: this.$route.query.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    targetType: 'attachmen_type_6',
-                    type: 'unique'
-                }
-            }
-            this.$router.push(pathUrl)
-        },
         showBigImg (index) {
             this.nowIndex = index
             this.nowPath = this.formData.imgData.localIds[index]
@@ -444,8 +239,7 @@ export default {
         }
     },
     components: {
-        deleteImg,
-        attachmentDetail
+        deleteImg
     }
 }
 </script>

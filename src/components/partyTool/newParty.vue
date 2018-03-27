@@ -211,6 +211,7 @@ export default {
 
         if (this.$route.query.partyCode && !this.detailData.attachmentTargetType) {
             this.getBase()
+            document.title = '更新活动'
         }
     },
     computed: {

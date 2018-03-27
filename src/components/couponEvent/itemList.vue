@@ -23,6 +23,40 @@
         <div class="null-page" v-if="!listData.length && isPage">
             暂无内容！
         </div>
+
+        <div class="btn-height-box"></div>
+        <div class="wx-bottom-nav">
+            <router-link class="wx-nav-item nav-now"
+                         :to="{
+                            name: 'case-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                促销活动
+            </router-link>
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'party-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                地推活动
+            </router-link>
+            <router-link class="wx-nav-item nav-blue"
+                         :to="{
+                            name: 'new-party',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                新建活动
+            </router-link>
+        </div>
     </section>
 </template>
 <script>
@@ -73,7 +107,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result

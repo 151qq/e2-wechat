@@ -9,18 +9,18 @@
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
                                 agentId: $route.query.agentId,
-                                memberCode: item.memberCode,
-                                outbandWorkCode: item.outbandWorkCode,
-                                outbandStatus: item.outbandStatus
+                                memberCode: item.memberCode
                             }
                         }">
-
                 <div class="weui-media-box__hd">
                     <img class="weui-media-box__thumb" :src="item.memberImage">
                 </div>
                 <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
-                    <p class="weui-media-box__desc">{{item.workBeginTime}}</p>
+                    <h4 class="weui-media-box__title">{{item.memberName}}</h4>
+                    <p class="weui-media-box__desc">{{item.memberMobile}}</p>
+                </div>
+                <div class="weui-cell__ft" v-if="item.pipelineStatus">
+                    <span class="is-doing">{{item.pipelineStatus}}</span>
                 </div>
             </router-link>
         </div>
@@ -31,7 +31,7 @@
 
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item nav-now"
+            <router-link class="wx-nav-item"
                          :to="{
                             name: 'noline-list',
                             query: {
@@ -51,7 +51,7 @@
                         }">
                 客户预约
             </router-link>
-            <router-link class="wx-nav-item"
+            <router-link class="wx-nav-item nav-now"
                          :to="{
                             name: 'chance-list',
                             query: {
@@ -114,7 +114,7 @@ export default {
 
             util.request({
                 method: 'get',
-                interface: 'outBandWorkList',
+                interface: 'outBandMemberList',
                 data: formData
             }).then(res => {
                 if (res.result.success == '0') {

@@ -1,18 +1,7 @@
 <template>
     <section class="member-detail-box">
-        <div class="wx-area-img">
-            <img :src="coverImg">
-        </div>
-        <div class="avatar-box">
-            <div class="img-box">
-                <img :src="base.memberImage">
-            </div>
-            <div class="name-box">
-                {{base.memberWechatNickname}}
-            </div>
-        </div>
-
-        <div class="weui-cells">
+        <div class="height-1"></div>
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">外呼结果</label></div>
                 <div class="weui-cell__bd">{{base.outbandResult}}</div>
@@ -53,146 +42,31 @@
                 <img-list :img-list="base.imgData"></img-list>
             </div>
         </template>
-        
-        <template v-if="base.reserveCode">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__hd"><label class="weui-label">新增预约</label></div>
-                    <div class="weui-cell__bd wx-placeholder">
-                       新增了1个预约
-                    </div>
-                </div>
-            </div>
-
-            <div class="weui-cells no-line left-padding">
-                <router-link class="weui-media-box weui-media-box_appmsg"
-                        slot="content"
-                        :to="{
-                                name: 'reserve-detail',
-                                query: {
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId,
-                                    reserveCode: reserveInfo.reserveCode
-                                }
-                            }">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb" :src="reserveInfo.reserveAddr">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{reserveInfo.reserveTitle}}</h4>
-                        <p class="weui-media-box__desc">
-                            {{reserveInfo.reserveBeginTime.split(' ')[0] + ' - ' + reserveInfo.reserveEndTime.split(' ')[0]}}
-                        </p>
-                    </div>
-                </router-link>
-            </div>
-        </template>
-
-        <!-- <div class="weui-cells__title">预约产品</div>
-        <div class="weui-cells no-margin">
-            <router-link class="weui-media-box weui-media-box_appmsg"
-                    v-for="(item, index) in base.reservePageData"
-                    :to="{name: 'case-detail', query: {
-                            enterpriseCode: $route.query.enterpriseCode,
-                            agentId: $route.query.agentId,
-                            eventCode: item.eventCode
-                        }}">
-                <div class="weui-media-box__hd">
-                    <img class="weui-media-box__thumb" :src="item.eventPlanCover">
-                </div>
-                <div class="weui-media-box__bd">
-                    <h4 class="weui-media-box__title">{{item.eventPlanTitle}}</h4>
-                    <p class="weui-media-box__desc">{{item.eventPlanDesc}}</p>
-                </div>
-            </router-link>
-        </div>
-        <div class="null-box" v-if="!base.reservePageData.length && isPage">
-            暂无内容！
-        </div> -->
-        
-        <div class="wx-area-line"></div>
-        <div class="weui-cells">
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberGender}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberAge}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberEdu}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberConsumeLevel}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">消费决策</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberConsumeDecision}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">导购特征</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberShopguide}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberCareer}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">工作单位</label></div>
-                <div class="weui-cell__bd">{{memberTap.memberUnit}}</div>
-            </div>
-        </div>
     </section>
 </template>
 <script>
 import util from '../../utils/tools'
 import imgList from '../common/imgList.vue'
-import { mapGetters } from 'vuex'
 
 export default {
     data () {
         return {
-            coverImg: '',
             base: {
-                memberImage: '',
-                memberMobile: '',
-                memberWechatNickname: '',
-                memberReferCode: '',
-                outbandRealType: '',
-                memberCode: '',
-                reserveCode: '',
                 outbandResult: '',
-                outbandRealTime: ''
-            },
-            memberTap: {
-                memberGender: '',
-                memberAge: '',
-                memberEdu: '',
-                memberConsumeLevel: '',
-                memberConsumeDecision: '',
-                memberShopguide: '',
-                memberCareer: '',
-                memberUnit: ''
-            },
-            reserveInfo: {}
+                outbandRealType: '',
+                outbandRealTime: '',
+                outbandMemo: '',
+                imgData: []
+            }
         }
     },
     mounted () {
-        this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getData()
-    },
-    computed: {
-        ...mapGetters({
-            userInfo: 'getUserInfo'
-        })
     },
     methods: {
         getData () {
             var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
                 outbandWorkCode: this.$route.query.outbandWorkCode
             }
 
@@ -203,27 +77,6 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result
-                    this.reserveInfo = res.result.result.reserveInfo
-                    this.getDetails()
-                } else {
-                    this.$message.error(res.result.message)
-                }
-            })
-        },
-        getDetails () {
-            var formData = {
-                enterpriseCode: this.$route.query.enterpriseCode,
-                outbandWorkCode: this.$route.query.outbandWorkCode,
-                memberCode: this.base.memberCode
-            }
-
-            util.request({
-                method: 'get',
-                interface: 'getDetails',
-                data: formData
-            }).then(res => {
-                if (res.result.success == '1') {
-                    this.memberTap = res.result.result.mobileMemberInfo
                 } else {
                     this.$message.error(res.result.message)
                 }

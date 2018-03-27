@@ -30,16 +30,36 @@
         </div>
 
         <div class="btn-height-box"></div>
-        <div class="weui-btn-area">
-            <router-link class="weui-btn weui-btn_primary"
-                            :to="{
-                                name: 'new-party',
-                                query: {
-                                    enterpriseCode: userInfo.enterpriseCode,
-                                    agentId: $route.query.agentId
-                                }
-                            }">
-                发起新活动
+        <div class="wx-bottom-nav">
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'case-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                促销活动
+            </router-link>
+            <router-link class="wx-nav-item nav-now"
+                         :to="{
+                            name: 'party-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                地推活动
+            </router-link>
+            <router-link class="wx-nav-item nav-blue"
+                         :to="{
+                            name: 'new-party',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                新建活动
             </router-link>
         </div>
     </section>
@@ -146,7 +166,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result

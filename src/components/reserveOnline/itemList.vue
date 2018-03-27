@@ -2,9 +2,16 @@
     <section class="product-list-box page__bd show-state-box">
         <div class="weui-cells no-margin" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
-            <div  class="weui-media-box weui-media-box_appmsg"
-                @click="goToNext(item)"
-                v-for="(item, index) in listData">
+            <router-link  class="weui-media-box weui-media-box_appmsg"
+                          v-for="(item, index) in listData"
+                          :to="{
+                            name: 'reserve-detail',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                reserveCode: item.reserveCode
+                            }
+                          }">
 
                 <!-- <div v-if="item.reserveStatus == '1'" class="no-read"></div> -->
                 <div class="weui-media-box__hd">
@@ -17,27 +24,46 @@
                         {{item.reserveBeginTime.split(' ')[0] + ' - ' + item.reserveEndTime.split(' ')[0]}}
                     </p>
                 </div>
-                <!-- <div class="weui-cell__ft" v-if="item.reserveStatus == '1'"><span class="no-done">未接</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '2'"><span class="is-waiting">确认</span></div>
-                <div class="weui-cell__ft" v-if="item.reserveStatus == '3'"><span class="is-doing">完成</span></div> -->
-            </div>
+            </router-link>
         </div>
 
         <div class="null-page" v-if="!listData.length && isPage">
             暂无内容！
         </div>
+        
 
+        <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
-            <a class="wx-nav-item"
-                :class="reserveStatus == '1,2' ? 'nav-now' : ''"
-                @click="setStatus('1,2')">
-                未接待
-            </a>
-            <a class="wx-nav-item"
-                :class="reserveStatus == '3' ? 'nav-now' : ''"
-                @click="setStatus('3')">
-                已接待
-            </a>
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'noline-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                外呼工作
+            </router-link>
+            <router-link class="wx-nav-item nav-now"
+                         :to="{
+                            name: 'reserve-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                客户预约
+            </router-link>
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'chance-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                商机追踪
+            </router-link>
             <router-link class="wx-nav-item nav-blue"
                          :to="{
                             name: 'add-reserve',
@@ -62,19 +88,11 @@ export default {
             listData: [],
             pageSize: 20,
             pageNumber: 1,
-            reserveStatus: '1,2',
             total: 0
         }
     },
     mounted () {
         this.getList()
-    },
-    watch: {
-        $route () {
-            this.pageNumber = 1
-            this.isPage = false
-            this.getList()
-        }
     },
     computed: {
         ...mapGetters({
@@ -85,34 +103,15 @@ export default {
         }
     },
     methods: {
-        goToNext (item) {
-            var pathData = {
-                name: 'reserve-detail',
-                query: {
-                    enterpriseCode: this.userInfo.enterpriseCode,
-                    agentId: this.$route.query.agentId,
-                    reserveCode: item.reserveCode
-                }
-            }
-
-            this.$router.push(pathData)
-        },
         showMore (cb) {
             this.pageNumber++
             this.getList(cb)
-        },
-        setStatus (type) {
-            if (this.reserveStatus == type) {
-                return false
-            }
-            this.reserveStatus = type
-            this.getList()
         },
         getList (cb) {
             var formData = {
                 enterpriseCode: this.userInfo.enterpriseCode,
                 userCode: this.userInfo.userCode,
-                reserveStatus: this.reserveStatus,
+                reserveStatus: '1,2',
                 pageNumber: this.pageNumber,
                 pageSize: this.pageSize
             }
@@ -127,7 +126,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 this.isPage = true
                 if (!cb) {
                     this.listData = res.result.result

@@ -135,21 +135,6 @@
                 </div>
 
                 <div class="weui-cell weui-cell_select weui-cell_select-after">
-                    <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
-                    <div class="weui-cell__bd">
-                        <select class="weui-select"
-                                v-model="formData.education">
-                            <option value=""></option>
-                            <option
-                                v-for="(item, index) in tagList.education" :key="index"
-                                :value="item.tagValue">
-                                {{item.tagValueCname}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="weui-cell weui-cell_select weui-cell_select-after">
                     <div class="weui-cell__hd"><label class="weui-label">消费能力</label></div>
                     <div class="weui-cell__bd">
                         <select class="weui-select"
@@ -198,6 +183,21 @@
                 </div>
 
                 <div class="weui-cell weui-cell_select weui-cell_select-after">
+                    <div class="weui-cell__hd"><label class="weui-label">教育背景</label></div>
+                    <div class="weui-cell__bd">
+                        <select class="weui-select"
+                                v-model="formData.education">
+                            <option value=""></option>
+                            <option
+                                v-for="(item, index) in tagList.education" :key="index"
+                                :value="item.tagValue">
+                                {{item.tagValueCname}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="weui-cell weui-cell_select weui-cell_select-after">
                     <div class="weui-cell__hd"><label class="weui-label">客户职业</label></div>
                     <div class="weui-cell__bd">
                         <select class="weui-select"
@@ -230,8 +230,8 @@
         </template>
         
         <div class="btn-height-box"></div>
-        <div class="weui-btn-area">
-            <a class="weui-btn weui-btn_primary" @click="submitFn">提交</a>
+        <div class="weui-btn-area" @click="submitFn">
+            <a class="weui-btn weui-btn_primary">提交</a>
         </div>
 
         <delete-img :index="nowIndex"

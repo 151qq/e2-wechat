@@ -270,24 +270,28 @@
                 </router-link>
             </div>
         </template>
-        
-        <div class="btn-height-box" v-if="base.reserveStatus != '3'"></div>
-        <div class="weui-btn-area" v-if="!base.receptionResult && base.reserveStatus == '2'">
-            <router-link class="weui-btn weui-btn_primary"
-                         :to="{name: 'reserve-summary', query: {
-                            reserveCode: $route.query.reserveCode,
-                            enterpriseCode: $route.query.enterpriseCode,
-                            agentId: $route.query.agentId
-                         }}">
-                汇报客户体验结果
-            </router-link>
-        </div>
 
-        <div class="weui-btn-area" v-if="!base.receptionResult && base.reserveStatus == '1'">
-            <a class="weui-btn weui-btn_primary" @click="submitGift">
-                分享
-            </a>
-        </div>
+        <template v-if="!$route.query.isFromLog">
+            <div class="btn-height-box" v-if="base.reserveStatus != '3'"></div>
+            <div class="weui-btn-area" v-if="!base.receptionResult && base.reserveStatus == '2'">
+                <router-link class="weui-btn weui-btn_primary"
+                             :to="{name: 'reserve-summary', query: {
+                                reserveCode: $route.query.reserveCode,
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId
+                             }}">
+                    汇报客户体验结果
+                </router-link>
+            </div>
+
+            <div class="weui-btn-area"
+                    @click="submitGift"
+                    v-if="!base.receptionResult && base.reserveStatus == '1'">
+                <a class="weui-btn weui-btn_primary">
+                    分享
+                </a>
+            </div>
+        </template>
     </section>
 </template>
 <script>

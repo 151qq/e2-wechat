@@ -265,7 +265,7 @@ export default {
                     return
                 }
 
-                this.total = res.result.total
+                this.total = Number(res.result.total)
                 this.isPage = true
 
                 this.couponList = res.result.result

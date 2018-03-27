@@ -74,11 +74,13 @@ export default{
     /**
     * 外呼 get
     */
+    outBandMemberInfo: platform + 'outBandWork/outBandMemberInfo.json',
+    outBandMemberList: platform + 'outBandWork/outBandMemberList.json',
+    outBandMemberLogs: platform + 'outBandWork/outBandMemberLogs.json',
     outBandWorkList: platform + 'outBandWork/list.json',
     selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
-    outBandWorkMange: platform + 'outBandWork/mange.json',
+    outBandWorkMange: platform + 'outBandWork/reportOutBand.json',
     selectOutBandWorkDetails: platform + 'outBandWork/selectOutBandWorkDetails.json',
-    selectOutBandWork: platform + 'outBandWork/selectOutBandWork.json',
     mangeReady: platform + 'outBandWork/mangeReady.json',
     selectLog: platform + 'outBandWork/selectLog.json',
     selectOutBandWork1: platform + 'outBandWork/selectOutBandWork1.json',
