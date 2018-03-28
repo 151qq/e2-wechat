@@ -3,6 +3,11 @@
         <template v-for="(item, index) in dataList">
             <div class="wx-area-line" v-if="index"></div>
             <div class="weui-cells no-margin">
+                <div class="weui-cells no-margin">
+                    <div class="weui-cell weui-cell_access">
+                        <div class="weui-cell__bd">{{item.sharaDesc}}</div>
+                    </div>
+                </div>
                 <a class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd">
                         <img class="weui-media-box__thumb"
@@ -17,14 +22,14 @@
                     </div>
                 </a>
             </div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">{{item.sharaDesc}}</div>
-                </div>
-            </div>
         </template>
         <template v-if="parentspread.channelName">
             <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">{{parentspread.sharaDesc}}</div>
+                </div>
+            </div>
             <div class="weui-cells no-margin">
                 <a class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd">
@@ -34,18 +39,19 @@
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">{{parentspread.channelName}}</h4>
+                        <p class="color999">推广会员</p>
                     </div>
                 </a>
-            </div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">{{parentspread.sharaDesc}}</div>
-                </div>
             </div>
         </template>
 
         <template v-if="parentspread.userName">
             <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">企业微信分享</div>
+                </div>
+            </div>
             <div class="weui-cells no-margin">
                 <a class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd">
@@ -55,13 +61,9 @@
                     </div>
                     <div class="weui-media-box__bd">
                         <h4 class="weui-media-box__title">{{parentspread.userName}}</h4>
+                        <p class="color999">企业员工</p>
                     </div>
                 </a>
-            </div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">企业员工分享</div>
-                </div>
             </div>
         </template>
         
