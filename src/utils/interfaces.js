@@ -26,6 +26,7 @@ export default{
     html5PageRefuseSubmit: platform + 'html5/html5PageRefuseSubmit.json',
     pageLogList: platform + 'htmlPageLog/pageLogList.json',
     html5PageSubmit: platform + 'html5/html5PageSubmit.json',
+    getTraceParentSpread: platform + 'mobile/adChannel/getTraceParentSpread.json',
     commentList: platform + 'comment/commentList.json',
     deleteComment: platform + 'comment/deleteComment.json',
     undercarriagePage: platform + 'html5/undercarriagePage.json',

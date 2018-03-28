@@ -21,6 +21,7 @@
 
         <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access"
+                :style="grayType.indexOf(item.interactionType) > -1 ? backgroundStyle : ''"
                 v-for="(item, index) in recordList"
                 :key="index"
                 @click="goToPage(item)">
@@ -74,6 +75,13 @@ export default {
                 memberTags: []
             },
             recordList: [],
+            backgroundStyle: {
+                background: '#f1f1f1'
+            },
+            grayType: [
+                'memberPipelineClose',
+                'memberPipelineOpen'
+            ],
             navType: [
                 'memberReadingRate',
                 'memberShareWechatZoneRate',
@@ -165,7 +173,7 @@ export default {
                 }
 
                 // 文章传播链专用
-                if (item.interactionType == 'memberReadingRate') {
+                if (item.interactionType == 'memberReadingRate' && item.interactionSubObject != 'N') {
                     queryData.spreadCode = item.interactionSubObject
                 }
 
@@ -216,6 +224,7 @@ export default {
         left: 0;
         height: 170px;
         padding: 0 15px;
+        overflow: hidden;
 
         .tag-box {
             display: inline-block;

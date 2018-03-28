@@ -20,7 +20,7 @@
                 </div>
                 <div class="weui-media-box__bd">
                     <h4 class="weui-media-box__title">{{item.memberWechatNickname}}</h4>
-                    <p class="weui-media-box__desc">{{item.workBeginTime}}</p>
+                    <p class="weui-media-box__desc">{{item.workBeginTime.split(' ')[0]}}</p>
                 </div>
             </router-link>
         </div>
