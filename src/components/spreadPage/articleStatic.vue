@@ -64,11 +64,11 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    background: #494b68;
+    background: #ffffff;
     overflow: auto;
 
     .chart-title {
-        color: #82849a;
+        color: #000000;
         font-size: 18px;
         line-height: 30px;
         padding-top: 10px;
@@ -79,7 +79,7 @@ export default {
             content: "";
             width: 15px;
             margin: auto;
-            border-bottom: 2px solid #ffffff;
+            border-bottom: 2px solid #e5e5e5;
         }
     }
 }

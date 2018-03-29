@@ -63,19 +63,19 @@ router.beforeEach((to, from, next) => {
     }
     
     var e2Token = jsCookie.get('socialmarketing_cloud_user')
-    next()
+    // next()
 
     // 处理jssdk签名,兼容history模式
-    // if (!store.state.iosUrl) {
-    //   store.commit('setUrl', document.URL)
-    // }
+    if (!store.state.iosUrl) {
+      store.commit('setUrl', document.URL)
+    }
 
-    // if (!e2Token && to.name.indexOf('registor') < 0) {
-    //     var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
-    //     window.location.href = path
-    // } else {
-    //     next()
-    // }
+    if (!e2Token && to.name.indexOf('registor') < 0) {
+        var path = '/registor?enterpriseCode=' + to.query.enterpriseCode + '&agentId=' + to.query.agentId + '&redirectUrl=' + window.encodeURIComponent(window.location.href)
+        window.location.href = path
+    } else {
+        next()
+    }
 })
 
 new Vue({

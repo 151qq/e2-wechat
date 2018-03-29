@@ -10,7 +10,6 @@ export default {
         return {
             totalNum: '',
             option: {
-                backgroundColor: '#494b68',
                 title: {
                     text: '',
                     left: 'center',
@@ -26,7 +25,7 @@ export default {
                     type: 'pie',
                     radius: ['42%', '50%'],
                     hoverAnimation: false,
-                    color: ['#c487ee', '#deb140', '#49dff0', '#034079', '#6f81da', '#00ffb4'],
+                    color: ['#9dc3e3', '#3276b3', '#214f77', '#203963'],
                     label: {
                         formatter: {},
                         rich: {
@@ -36,8 +35,8 @@ export default {
                                 padding: [5, 4],
                                 align: 'center'
                             },
-                            white: {
-                                color: "#fff",
+                            black: {
+                                color: "#000",
                                 align: 'center',
                                 fontSize: 14
                             },
@@ -52,6 +51,11 @@ export default {
                                 borderWidth: 1,
                                 height: 0
                             }
+                        }
+                    },
+                    labelLine: {
+                        lineStyle: {
+                            color: '#e5e5e5'
                         }
                     },
                     data: []
@@ -77,7 +81,7 @@ export default {
                 }
 
                 percent = ((params.value / total) * 100).toFixed(1)
-                return '{white|' + params.name + '}\n{yellow|' + params.value + '}{blue|' + percent + '%}'
+                return '{black|' + params.name + '}\n{black|' + params.value + '}{black|' + '-' + percent + '%}'
             }
 
             this.option.series.data = [].concat(this.numDatas)
@@ -94,5 +98,6 @@ export default {
 .chart-box {
     width: 100%;
     height: 240px;
+    margin-top: -30px;
 }
 </style>

@@ -73,6 +73,7 @@ export default{
 
     remindUserToPublishEvent: platform + 'event/remindUserToPublishEvent.json',
     getWechatCardInfomation: platform + 'getWechatCardInfomation.json',
+    getEventQuota: platform + 'event/getEventQuota.json',
 
     /**
     * 外呼 get
