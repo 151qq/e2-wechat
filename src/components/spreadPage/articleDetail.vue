@@ -422,6 +422,16 @@ export default {
                         pageCode: this.$route.query.pageCode
                     }
                 }
+            } else if (item.pathName == 'static') {
+                pathUrl = {
+                    name: 'article-static',
+                    query: {
+                        enterpriseCode: this.$route.query.enterpriseCode,
+                        agentId: this.$route.query.agentId,
+                        templateCode: this.$route.query.templateCode,
+                        pageCode: this.$route.query.pageCode
+                    }
+                }
             }
 
             this.$router.push(pathUrl)
@@ -526,6 +536,10 @@ export default {
                             {
                                 label: '管理日志',
                                 pathName: 'log'
+                            },
+                            {
+                                label: '文章统计',
+                                pathName: 'static'
                             }
                         ]
                     } else {
@@ -545,6 +559,10 @@ export default {
                             {
                                 label: '管理日志',
                                 pathName: 'log'
+                            },
+                            {
+                                label: '文章统计',
+                                pathName: 'static'
                             }
                         ]
                     }

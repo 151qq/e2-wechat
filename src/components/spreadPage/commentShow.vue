@@ -1,7 +1,9 @@
 <template>
     <section class="article-comment-box">
         <div class="head-box">
-            <span class="left">评论</span>
+            <div class="left">
+                评论<template v-if="commentList.length">（<span>{{commentList.length}}</span>）</template>
+            </div>
         </div>
         <section class="comment-b"
                     :id="'comment-' + item.commentFloor"
@@ -220,6 +222,10 @@ export default {
         .left {
             font-size: 18px;
             color: #000000;
+
+            span {
+                color: #F43530;
+            }
         }
 
         .right {

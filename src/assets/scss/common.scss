@@ -334,7 +334,8 @@ body {
   .weui-media-box_appmsg .weui-media-box__hd {
       height: 40px;
       line-height: 40px;
-      background: #f1f1f1;
+      background: url(/static/images/head-icon.png) center center no-repeat;
+      background-size: 100% 100%;
   }
 
   .weui-media-box__title {
@@ -719,7 +720,8 @@ body {
   height: 50px;
   line-height: 50px;
   overflow: hidden;
-  background: #f1f1f1;
+  background: url(/static/images/head-icon.png) center center no-repeat;
+  background-size: 100% 100%;
 
   img {
     display: block;

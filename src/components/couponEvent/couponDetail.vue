@@ -43,16 +43,50 @@
                 </div>
             </div>       
         </div>
-
-        <template v-if="productList.length">
+        
+        <template v-if="couponData.viewCnt !== ''">
             <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access no-center">
-                    <div class="weui-cell__hd"><label class="weui-label">相关产品</label></div>
-                    <div class="weui-cell__bd">
-                       {{productListNames}}
-                    </div>
-                </div>       
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">浏览次数</label></div>
+                    <div class="weui-cell__bd">{{couponData.viewCnt}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">浏览人数</label></div>
+                    <div class="weui-cell__bd">{{couponData.viewUser}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">领取次数</label></div>
+                    <div class="weui-cell__bd">{{couponData.receiveCnt}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">领取人数</label></div>
+                    <div class="weui-cell__bd">{{couponData.receiveUser}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">使用次数</label></div>
+                    <div class="weui-cell__bd">{{couponData.verifyCnt}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">使用人数</label></div>
+                    <div class="weui-cell__bd">{{couponData.verifyUser}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">转赠次数</label></div>
+                    <div class="weui-cell__bd">{{couponData.givenCnt}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">转赠人数</label></div>
+                    <div class="weui-cell__bd">{{couponData.givenUser}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">过期次数</label></div>
+                    <div class="weui-cell__bd">{{couponData.expireCnt}}</div>
+                </div>
+                <div class="weui-cell weui-cell_access show-message-box">
+                    <div class="weui-cell__hd"><label class="weui-label">过期人数</label></div>
+                    <div class="weui-cell__bd">{{couponData.expireUser}}</div>
+                </div>
             </div>
         </template>
     </section>
@@ -100,8 +134,18 @@ export default {
                 couponLeastCost: '',
                 couponReduceCost: ''
             },
-            productList: [],
-            productListNames: ''
+            couponData: {
+                viewCnt: '',
+                viewUser: '', 
+                receiveCnt: '', 
+                receiveUser: '', 
+                verifyCnt: '', 
+                verifyUser: '', 
+                givenCnt: '', 
+                givenUser: '', 
+                expireCnt: '', 
+                expireUser: ''
+            }
         }
     },
     mounted () {
@@ -121,34 +165,31 @@ export default {
                 if (res.result.success == '1') {
                     var result = res.result.result.couponInfo
 
-                    // this.getProductList(res.result.result.couponProductArray)
                     this.couponTimes = this.formDataDate(result.couponGroupBeginTimestamp, result.couponGroupEndTimestamp)
+                    
                     this.base = result
+
+                    if (result.couponStatus == '4' || result.couponStatus == '5') {
+                        this.getDatas()
+                    }
                 } else {
                     this.$message.error(res.result.message)
                 }
             })
         },
-        getProductList (codes) {
+        getDatas () {
             var formData = {
-                productCodes: codes.join(',')
+                enterpriseCode: this.$route.query.enterpriseCode,
+                couponCode: this.$route.query.couponCode
             }
 
             util.request({
                 method: 'get',
-                interface: 'eventProductList',
+                interface: 'getWechatCardInfomation',
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    var productNames = []
-
-                    res.result.result.forEach((item) => {
-                        productNames.push(item.productCname)
-                    })
-
-                    this.productListNames = productNames.join(',')
-
-                    this.productList = res.result.result
+                    this.couponData = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }

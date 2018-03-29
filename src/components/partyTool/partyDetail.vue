@@ -84,7 +84,16 @@
                 <img-list :img-list="attachmentData.imgData"></img-list>
             </div>
         </template>
-
+        <template v-if="base.partyStatus && base.partyStatus != '2' && base.partyStatus != '1'">
+            <div class="wx-area-line"></div>
+            <div class="weui-cells no-margin">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__hd"><label class="weui-label">新增会员</label></div>
+                    <div class="weui-cell__bd">{{base.partyMemberCount}}人</div>
+                </div>
+            </div>
+        </template>
+        
         <!-- <template v-if="base.partyStatus == '4' || base.partyStatus == '5'">
             <div class="wx-area-line"></div>
             <div class="weui-cells no-margin no-line">
@@ -186,7 +195,8 @@ export default {
                 partyDesc: '',
                 partySummary: '',
                 partyAlbum: '',
-                addrBaiduGps: ''
+                addrBaiduGps: '',
+                partyMemberCount: ''
             },
             couponData: [],
             attachmentData: {

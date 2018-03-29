@@ -27,6 +27,7 @@ export default{
     pageLogList: platform + 'htmlPageLog/pageLogList.json',
     html5PageSubmit: platform + 'html5/html5PageSubmit.json',
     getTraceParentSpread: platform + 'mobile/adChannel/getTraceParentSpread.json',
+    countPageHit: platform + 'html5/countPageHit.json',
     commentList: platform + 'comment/commentList.json',
     deleteComment: platform + 'comment/deleteComment.json',
     undercarriagePage: platform + 'html5/undercarriagePage.json',
@@ -71,6 +72,7 @@ export default{
     couponGroupOfPage: platform + 'couponGroup/couponGroupOfPage.json',
 
     remindUserToPublishEvent: platform + 'event/remindUserToPublishEvent.json',
+    getWechatCardInfomation: platform + 'getWechatCardInfomation.json',
 
     /**
     * 外呼 get

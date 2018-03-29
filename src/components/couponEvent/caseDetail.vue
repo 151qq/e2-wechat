@@ -70,15 +70,17 @@
         </template>
         
         <template v-if="base.eventStatus == '4'">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin no-line">
-                <div class="weui-cell weui-cell_access no-center">
-                    <div class="weui-cell__hd"><label class="weui-label">活动终止</label></div>
-                    <div class="weui-cell__bd">
-                       {{base.eventCancalMemo}}
-                    </div>
-                </div>       
-            </div>
+            <template v-if="base.eventCancalMemo">
+                <div class="wx-area-line"></div>
+                <div class="weui-cells no-margin no-line">
+                    <div class="weui-cell weui-cell_access no-center">
+                        <div class="weui-cell__hd"><label class="weui-label">活动终止</label></div>
+                        <div class="weui-cell__bd">
+                           {{base.eventCancalMemo}}
+                        </div>
+                    </div>       
+                </div>
+            </template>
             
             <template v-if="base.pageData.length">
                 <div class="wx-area-line"></div>
@@ -159,6 +161,18 @@
                                 }
                             }">
                     终止营销活动
+                </router-link>
+                <router-link class="wx-nav-item nav-blue"
+                             v-if="base.eventStatus != '1' && base.eventStatus != '2' && isRoot"
+                             :to="{
+                                name: 'case-static',
+                                query: {
+                                    eventCode: $route.query.eventCode,
+                                    enterpriseCode: $route.query.enterpriseCode,
+                                    agentId: $route.query.agentId
+                                }
+                            }">
+                    营销指标
                 </router-link>
             </div>
         </template>

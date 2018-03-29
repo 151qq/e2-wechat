@@ -368,6 +368,14 @@ const routers = [
         meta: {
           title: '推广文章传播链'
         }
+      },
+      {
+        path: 'articleStatic',
+        name: 'article-static',
+        component: resolve => require(["../../components/spreadPage/articleStatic.vue"], resolve),
+        meta: {
+          title: '推广文章统计'
+        }
       }
     ]
   },
@@ -409,6 +417,14 @@ const routers = [
         component: resolve => require(["../../components/couponEvent/stopActivity.vue"], resolve),
         meta: {
           title: '终止促销活动'
+        }
+      },
+      {
+        path: 'caseStatic',
+        name: 'case-static',
+        component: resolve => require(["../../components/couponEvent/caseStatic.vue"], resolve),
+        meta: {
+          title: '营销指标'
         }
       }
     ]
