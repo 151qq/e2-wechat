@@ -136,7 +136,9 @@ export default {
         getLog (cb) {
             var formData = {
                 enterpriseCode: this.$route.query.enterpriseCode,
-                memberCode: this.$route.query.memberCode
+                memberCode: this.$route.query.memberCode,
+                pageNumber: this.pageNumber,
+                pageSize: this.pageSize
             }
 
             util.request({

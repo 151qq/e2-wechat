@@ -1,5 +1,5 @@
 <template>
-    <section class="member-detail-box show-message-box">
+    <section class="member-detail-box">
         <div class="wx-area-img" @click="changeMobile">
             <img :src="coverImg">
             <div class="head-avatar-box">
@@ -19,33 +19,50 @@
         </div>
 
         <div class="weui-cells text-align-right">
-            <div class="weui-cell weui-cell_access show-message-box">
+            <router-link class="weui-cell weui-cell_access"
+                        :to="{
+                            name: 'user-counts',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                userCode: $route.query.userCode
+                            }
+                        }">
+                <div class="weui-cell__hd"><label class="weui-label">积分</label></div>
+                <div class="weui-cell__bd">{{countData.userIncentiveCount}}</div>
+                <!-- <div class="weui-cell__ft"></div> -->
+            </router-link>           
+        </div>
+        
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin show-message-box text-align-right">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
                 <div class="weui-cell__bd">{{countData.promoterCount}}</div>
             </div>
-            <div class="weui-cell weui-cell_access show-message-box">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">会员</label></div>
                 <div class="weui-cell__bd">{{countData.memberCount}}</div>
             </div>
-            <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">商机</label></div>
                 <div class="weui-cell__bd">
                    {{countData.pipelineCount}}
                 </div>
             </div>
-            <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">销售中</label></div>
                 <div class="weui-cell__bd">
                    {{countData.trailPipelineCount}}
                 </div>
             </div>   
-            <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">商机转换率</label></div>
                 <div class="weui-cell__bd">
                    {{countData.pipelineCVR}}
                 </div>
             </div>   
-            <div class="weui-cell weui-cell_access no-center">
+            <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__hd"><label class="weui-label">传播</label></div>
                 <div class="weui-cell__bd">
                    {{countData.userSpreadCount}}

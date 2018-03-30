@@ -536,6 +536,22 @@ const routers = [
         }
       },
       {
+        path: 'userCounts',
+        name: 'user-counts',
+        component: resolve => require(["../../components/myConfig/userCounts.vue"], resolve),
+        meta: {
+          title: '积分详情'
+        }
+      },
+      {
+        path: 'memberCounts',
+        name: 'member-counts',
+        component: resolve => require(["../../components/myConfig/memberCounts.vue"], resolve),
+        meta: {
+          title: '积分详情'
+        }
+      },
+      {
         path: 'setRole',
         name: 'set-role',
         component: resolve => require(["../../components/myConfig/setRole.vue"], resolve),

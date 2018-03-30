@@ -29,6 +29,23 @@
                 <div class="weui-cell__ft red-color">*</div>
             </div>
         </div>
+        
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin">
+            <router-link class="weui-cell weui-cell_access"
+                        :to="{
+                            name: 'member-counts',
+                            query: {
+                                enterpriseCode: $route.query.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                memberCode: $route.query.memberCode
+                            }
+                        }">
+                <div class="weui-cell__hd"><label class="weui-label">积分</label></div>
+                <div class="weui-cell__bd">{{base.promoterIncentiveCount}}</div>
+                <div class="weui-cell__ft"></div>
+            </router-link>
+        </div>
 
         <div class="wx-area-line"></div>
         <div class="weui-cells no-margin">

@@ -18,6 +18,7 @@ export default{
     getUserIds: platform + 'mobile/user/getUserIds.json',
     getUserCountInfo: platform + 'mobile/user/getUserCountInfo.json',
     getPromoterCountInfo: platform + 'organizePromoterInfo/getPromoterCountInfo.json',
+    getOrganizeIncentive: platform + 'incentive/getOrganizeIncentive.json',
     
     html5PageList: platform + 'html5/html5PageList.json',
     html5PageGet: platform + 'html5/html5PageGet.json',

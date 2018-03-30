@@ -7,7 +7,8 @@
                             name: 'user-info',
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId
+                                agentId: $route.query.agentId,
+                                userCode: userInfo.userCode
                             }
                         }">
 
