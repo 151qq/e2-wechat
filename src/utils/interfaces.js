@@ -16,6 +16,8 @@ export default{
     sendUserRoleMsg: platform + 'mobile/authorize/sendUserRoleMsg.json',
     getEnterpriseLogo: platform + 'getEnterpriseLogo.json',
     getUserIds: platform + 'mobile/user/getUserIds.json',
+    getUserCountInfo: platform + 'mobile/user/getUserCountInfo.json',
+    getPromoterCountInfo: platform + 'organizePromoterInfo/getPromoterCountInfo.json',
     
     html5PageList: platform + 'html5/html5PageList.json',
     html5PageGet: platform + 'html5/html5PageGet.json',

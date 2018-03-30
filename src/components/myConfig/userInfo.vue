@@ -18,12 +18,47 @@
             </div>
         </div>
 
+        <div class="weui-cells text-align-right">
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">推广会员</label></div>
+                <div class="weui-cell__bd">{{countData.promoterCount}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">会员</label></div>
+                <div class="weui-cell__bd">{{countData.memberCount}}</div>
+            </div>
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">商机</label></div>
+                <div class="weui-cell__bd">
+                   {{countData.pipelineCount}}
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">销售中</label></div>
+                <div class="weui-cell__bd">
+                   {{countData.trailPipelineCount}}
+                </div>
+            </div>   
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">商机转换率</label></div>
+                <div class="weui-cell__bd">
+                   {{countData.pipelineCVR}}
+                </div>
+            </div>   
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">传播</label></div>
+                <div class="weui-cell__bd">
+                   {{countData.userSpreadCount}}
+                </div>
+            </div>            
+        </div>
+
         <div class="wx-area-line"></div>
-        <div class="weui-cells">
+        <div class="weui-cells no-margin">
             <div class="weui-cell weui-cell_access show-message-box"
                 v-for="(item, index) in userInfo.securityRole"
                 :key="index">
-                <div class="weui-cell__bd">{{item.roleName}}</div>
+                <div class="weui-cell__bd"><span class="color666">{{item.roleName}}</span></div>
                 <div class="weui-cell__ft">
                     <i class="weui-icon-success"></i>
                 </div>
@@ -52,11 +87,20 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            coverImg: ''
+            coverImg: '',
+            countData: {
+                memberCount: '',
+                pipelineCVR: '',
+                pipelineCount: '',
+                promoterCount: '',
+                trailPipelineCount: '',
+                userSpreadCount: ''
+            }
         }
     },
     mounted () {
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
+        this.getCounts()
     },
     computed: {
         ...mapGetters({
@@ -72,6 +116,24 @@ export default {
         }
     },
     methods: {
+        getCounts () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                userCode: this.userInfo.userCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'getUserCountInfo',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.countData = res.result.result
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
         changeMobile () {
             var pathUrl = {
                 name: 'registor-message',

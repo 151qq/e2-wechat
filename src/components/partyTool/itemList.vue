@@ -32,11 +32,23 @@
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
+                         v-if="isRoot"
+                         :to="{
+                            name: 'case-static',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                营销指标
+            </router-link>
+            <router-link class="wx-nav-item"
                          :to="{
                             name: 'case-list',
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId
+                                agentId: $route.query.agentId,
+                                formNav: '1'
                             }
                         }">
                 促销活动
@@ -81,19 +93,20 @@ export default {
     mounted () {
         this.getList()
     },
-    watch: {
-        $route () {
-            this.pageNumber = 1
-            this.isPage = false
-            this.getList()
-        }
-    },
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
         }),
         isLoad () {
             return this.total > this.listData.length
+        },
+        isRoot () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('platform_root') > -1 || roleCodes.indexOf('enterprise_root') > -1 || roleCodes.indexOf('coupon_manager') > -1
         }
     },
     methods: {

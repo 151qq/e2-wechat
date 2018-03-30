@@ -8,14 +8,13 @@ export default {
     props: ['numDatas', 'idName'],
     data () {
         return {
-            totalNum: '',
             option: {
                 title: {
                     text: '',
                     left: 'center',
                     top: 'center',
                     textStyle: {
-                        color: '#fff',
+                        color: '#000',
                         fontSize: 20,
                         align: 'center'
                     }
@@ -69,17 +68,15 @@ export default {
                 return false
             }
 
+            var total = 0
+            this.numDatas.forEach(function(value, index, array) {
+                total += value.value;
+            })
+
+            this.option.title.text = total
+
             this.option.series.label.formatter = (params, ticket, callback) => {
                 var percent = 0
-                var total = 0
-                this.numDatas.forEach(function(value, index, array) {
-                    total += value.value;
-                })
-
-                if (!this.option.title.text) {
-                    this.option.title.text = total
-                }
-
                 percent = ((params.value / total) * 100).toFixed(1)
                 return '{black|' + params.name + '}\n{black|' + params.value + '}{black|' + '-' + percent + '%}'
             }

@@ -30,6 +30,20 @@
             </div>
         </div>
 
+        <div class="wx-area-line"></div>
+        <div class="weui-cells no-margin">
+            <div class="weui-cell weui-cell_access show-message-box">
+                <div class="weui-cell__hd"><label class="weui-label">会员</label></div>
+                <div class="weui-cell__bd">{{countData.memberCount}}</div>
+            </div>  
+            <div class="weui-cell weui-cell_access no-center">
+                <div class="weui-cell__hd"><label class="weui-label">传播</label></div>
+                <div class="weui-cell__bd">
+                   {{countData.promoterSpreadCount}}
+                </div>
+            </div>            
+        </div>
+
         <div class="btn-height-box"></div>
         <div class="weui-btn-area" v-if="base.adChannelStatus == '0'">
             <a class="weui-btn weui-btn_primary" @click="changeStatus">捆绑</a>
@@ -55,13 +69,18 @@ export default {
                 accuntType: '',
                 adChannelStatus: ''
             },
-            scenarioList: []
+            scenarioList: [],
+            countData: {
+                memberCount: '',
+                promoterSpreadCount: ''
+            }
         }
     },
     mounted () {
         this.coverImg = '/static/images/B' + Math.ceil(Math.random() * 13) + '.jpg'
         this.getBase()
         this.getTypes()
+        this.getCounts()
     },
     computed: {
         ...mapGetters({
@@ -82,6 +101,24 @@ export default {
             }).then(res => {
                 if (res.result.success == '1') {
                     this.base = res.result.result.promoterBaseInfoForm
+                } else {
+                    this.$message.error(res.result.message)
+                }
+            })
+        },
+        getCounts () {
+            var formData = {
+                enterpriseCode: this.$route.query.enterpriseCode,
+                memberCode: this.$route.query.memberCode
+            }
+
+            util.request({
+                method: 'get',
+                interface: 'getPromoterCountInfo',
+                data: formData
+            }).then(res => {
+                if (res.result.success == '1') {
+                    this.countData = res.result.result
                 } else {
                     this.$message.error(res.result.message)
                 }

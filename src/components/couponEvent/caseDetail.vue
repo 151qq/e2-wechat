@@ -162,18 +162,6 @@
                             }">
                     终止营销活动
                 </router-link>
-                <router-link class="wx-nav-item nav-blue"
-                             v-if="base.eventStatus != '1' && base.eventStatus != '2' && isRoot"
-                             :to="{
-                                name: 'case-static',
-                                query: {
-                                    eventCode: $route.query.eventCode,
-                                    enterpriseCode: $route.query.enterpriseCode,
-                                    agentId: $route.query.agentId
-                                }
-                            }">
-                    营销指标
-                </router-link>
             </div>
         </template>
     </section>

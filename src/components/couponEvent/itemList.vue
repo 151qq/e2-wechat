@@ -26,12 +26,24 @@
 
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
+            <router-link class="wx-nav-item"
+                         v-if="isRoot"
+                         :to="{
+                            name: 'case-static',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                营销指标
+            </router-link>
             <router-link class="wx-nav-item nav-now"
                          :to="{
                             name: 'case-list',
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId
+                                agentId: $route.query.agentId,
+                                formNav: '1'
                             }
                         }">
                 促销活动
@@ -74,7 +86,19 @@ export default {
         }
     },
     mounted () {
-        this.getData()
+        if (this.isRoot && !this.$route.query.formNav) {
+            var pathData = {
+                name: 'case-static',
+                query: {
+                    enterpriseCode: this.userInfo.enterpriseCode,
+                    agentId: this.$route.query.agentId
+                }
+            }
+
+            this.$router.push(pathData)
+        } else {
+            this.getData()
+        }
     },
     computed: {
         ...mapGetters({
@@ -82,6 +106,14 @@ export default {
         }),
         isLoad () {
             return this.total > this.listData.length
+        },
+        isRoot () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('platform_root') > -1 || roleCodes.indexOf('enterprise_root') > -1 || roleCodes.indexOf('coupon_manager') > -1
         }
     },
     methods: {

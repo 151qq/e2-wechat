@@ -751,3 +751,14 @@ body {
 .color999 {
   color: #999999 !important;
 }
+
+.text-align-right {
+  .weui-cell__bd {
+    padding-right: 0.2em;
+    text-align: right;
+  }
+}
+
+.color666 {
+  color: #666666;
+}

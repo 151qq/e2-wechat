@@ -1,9 +1,56 @@
 <template>
-    <section class="chart-case" id="caseStatic"></section>
+    <section class="chart-case-box">
+        <section class="chart-box" id="caseStatic"></section>
+
+        <div class="wx-bottom-nav">
+            <router-link class="wx-nav-item nav-now"
+                         :to="{
+                            name: 'case-static',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                营销指标
+            </router-link>
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'case-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId,
+                                formNav: '1'
+                            }
+                        }">
+                促销活动
+            </router-link>
+            <router-link class="wx-nav-item"
+                         :to="{
+                            name: 'party-list',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                地推活动
+            </router-link>
+            <router-link class="wx-nav-item nav-blue"
+                         :to="{
+                            name: 'new-party',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                新建活动
+            </router-link>
+        </div>
+    </section>
 </template>
 <script>
 import util from '../../utils/tools'
 import myEcharts from 'echarts'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -13,13 +60,13 @@ export default {
                 series: {
                     type: 'funnel',
                     left: '10%',
-                    width: '80%',
                     sort: 'none',
                     funnelAlign: 'left',
                     color: ['#bed7ed', '#9dc3e3', '#3276b3', '#214f77', '#203963', '#222a35'],
                     label: {
                         normal: {
                             color: '#000',
+                            fontSize: 16,
                             formatter: '{b}-{c}'
                         }
                     },
@@ -35,6 +82,11 @@ export default {
                 }
             }
         }
+    },
+    computed: {
+        ...mapGetters({
+            userInfo: 'getUserInfo'
+        })
     },
     mounted () {
         this.getData()
@@ -81,11 +133,18 @@ export default {
 }
 </script>
 <style lang="scss">
-.chart-case {
+.chart-case-box {
     position: fixed;
     left: 0;
     top: 0;
     height: 100%;
     width: 100%;
+    padding-bottom: 60px;
+    box-sizing: border-box;
+
+    .chart-box {
+        width: 100%;
+        height: 100%;
+    }
 }
 </style>

@@ -1,72 +1,26 @@
 <template>
     <section class="user-trace-list">
         <template v-for="(item, index) in dataList">
-            <div class="wx-area-line" v-if="index"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cells no-margin">
-                    <div class="weui-cell weui-cell_access">
-                        <div class="weui-cell__bd">{{item.sharaDesc}}</div>
+            <div class="item-box" :class="index % 2 == 1 ? 'reverse' : ''">
+                <div class="avatar-box">
+                    <img class="weui-media-box__thumb"
+                        v-if="item.memberWechatImg"
+                        :src="item.memberWechatImg">
+                </div>
+                <div class="font-box">
+                    <div class="name-box">
+                        {{item.memberName ? item.memberName : item.customerCode}}
+                    </div>
+                    <div class="date-box">
+                        {{item.spreadCreateTime}}
                     </div>
                 </div>
-                <a class="weui-media-box weui-media-box_appmsg">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb"
-                            v-if="item.memberWechatImg"
-                            :src="item.memberWechatImg">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">
-                            {{item.memberName ? item.memberName : item.customerCode}}
-                        </h4>
-                        <p class="color999">{{item.spreadCreateTime.split(' ')[0]}}</p>
-                    </div>
-                </a>
+            </div>
+            <div :class="index % 2 == 1 ? 'line-box-right' : 'line-box-left'"
+                 v-if="index < dataList.length - 1">
+                {{item.sharaDesc}}
             </div>
         </template>
-        <template v-if="parentspread.channelName">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">{{parentspread.sharaDesc}}</div>
-                </div>
-            </div>
-            <div class="weui-cells no-margin">
-                <a class="weui-media-box weui-media-box_appmsg">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb"
-                            v-if="parentspread.channelImage"
-                            :src="parentspread.channelImage">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{parentspread.channelName}}</h4>
-                        <p class="color999">推广会员</p>
-                    </div>
-                </a>
-            </div>
-        </template>
-
-        <template v-if="parentspread.userName">
-            <div class="wx-area-line"></div>
-            <div class="weui-cells no-margin">
-                <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">企业微信分享</div>
-                </div>
-            </div>
-            <div class="weui-cells no-margin">
-                <a class="weui-media-box weui-media-box_appmsg">
-                    <div class="weui-media-box__hd">
-                        <img class="weui-media-box__thumb"
-                            v-if="parentspread.userImage"
-                            :src="parentspread.userImage">
-                    </div>
-                    <div class="weui-media-box__bd">
-                        <h4 class="weui-media-box__title">{{parentspread.userName}}</h4>
-                        <p class="color999">企业员工</p>
-                    </div>
-                </a>
-            </div>
-        </template>
-        
     </section>
 </template>
 <script>
@@ -76,8 +30,7 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            dataList: [],
-            parentspread: {}
+            dataList: []
         }
     },
     mounted () {
@@ -101,8 +54,37 @@ export default {
                 data: formData
             }).then(res => {
                 if (res.result.success == '1') {
-                    this.dataList = res.result.result.chilrenspread
-                    this.parentspread = res.result.result.parentspread
+                    var data = res.result.result
+
+                    data.chilrenspread.forEach((item) => {
+                        item.spreadCreateTime = item.spreadCreateTime.split(' ')[0]
+                    })
+
+                    var partentData = data.parentspread
+
+                    if (partentData.channelName) {
+                        var traceData = {
+                            memberWechatImg: partentData.channelImage,
+                            memberName: partentData.channelName,
+                            spreadCreateTime: '推广会员',
+                            sharaDesc: partentData.sharaDesc
+                        }
+
+                        data.chilrenspread.unshift(traceData)
+                    }
+
+                    if (partentData.userName) {
+                        var traceData = {
+                            memberWechatImg: partentData.userImage,
+                            memberName: partentData.userName,
+                            spreadCreateTime: '企业员工',
+                            sharaDesc: '企业微信分享'
+                        }
+
+                        data.chilrenspread.unshift(traceData)
+                    }
+
+                    this.dataList = data.chilrenspread
                 } else {
                     this.$message.error(res.result.message)
                 }
@@ -111,3 +93,92 @@ export default {
     }
 }
 </script>
+<style lang="scss">
+.user-trace-list {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #f8f8f8;
+    height: 100%;
+    width: 100%;
+    padding: 15px 15px 0;
+    box-sizing: border-box;
+    overflow: auto;
+
+    .item-box {
+        display: flex;
+        margin: 0 10px;
+
+        .avatar-box {
+            height: 50px;
+            width: 50px;
+            overflow: hidden;
+            background: url(/static/images/head-icon.png) center center no-repeat;
+            background-size: 100% 100%;
+
+            img {
+                display: block;
+                width: auto !important;
+                height: 100%;
+                position: relative;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .font-box {
+            display: inline-block;
+            min-width: 60%;
+            height: 50px;
+            padding: 5px 10px;
+            background: #ffffff;
+            box-sizing: border-box;
+
+            .name-box {
+                font-size: 14px;
+                line-height: 20px;
+                color: #000000;
+            }
+
+            .date-box {
+                font-size: 14px;
+                line-height: 20px;
+                color: #999999;
+            }
+        }
+    }
+
+    .reverse {
+        flex-direction: row-reverse;
+
+        .font-box {
+            text-align: right;
+        }
+    }
+
+    .line-box-left {
+        position: relative;
+        left: 50%;
+        top: 0;
+        height: 80px;
+        border-left: 1px solid #e5e5e5;
+        line-height: 80px;
+        color: #999999;
+        font-size: 14px;
+        padding-left: 10px;
+    }
+
+    .line-box-right {
+        position: relative;
+        right: 50%;
+        top: 0;
+        height: 80px;
+        border-right: 1px solid #e5e5e5;
+        line-height: 80px;
+        color: #999999;
+        font-size: 14px;
+        padding-right: 10px;
+        text-align: right;
+    }
+}   
+</style>
