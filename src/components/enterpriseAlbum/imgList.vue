@@ -64,6 +64,7 @@ export default {
                     this.listData = imgList
                 } else {
                     this.listData = this.listData.concat(imgList)
+                    cb()
                 }
             })
         }

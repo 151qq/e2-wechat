@@ -19,7 +19,7 @@
                 <div class="weui-cell__bd">{{base.taskPageEdit.pageNum}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">文章主题</label></div>
+                <div class="weui-cell__hd"><label class="weui-label">写作目的</label></div>
                 <div class="weui-cell__bd">{{base.taskPageEdit.pageScenarioName}}</div>
             </div>
         </div>
@@ -29,10 +29,6 @@
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">客户性别</label></div>
                 <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderGender}}</div>
-            </div>
-            <div class="weui-cell weui-cell_access show-message-box">
-                <div class="weui-cell__hd"><label class="weui-label">所在城市</label></div>
-                <div class="weui-cell__bd">{{base.taskPageEdit.pageReaderCity}}</div>
             </div>
             <div class="weui-cell weui-cell_access show-message-box">
                 <div class="weui-cell__hd"><label class="weui-label">客户年龄</label></div>

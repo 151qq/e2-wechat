@@ -162,6 +162,7 @@ export default {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
+                    cb()
                 }
             })
         },

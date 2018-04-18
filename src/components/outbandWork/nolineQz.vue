@@ -157,6 +157,7 @@ export default {
                     this.recordList = res.result.result
                 } else {
                     this.recordList = this.recordList.concat(res.result.result)
+                    cb()
                 }
             })
         },

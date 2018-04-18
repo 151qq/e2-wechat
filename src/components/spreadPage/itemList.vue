@@ -1,6 +1,6 @@
 <template>
     <section class="article-list-box page__bd">
-        <div class="weui-cells no-margin show-state-box">
+        <div class="weui-cells no-margin show-state-box" v-scroll-load="{showMore:showMore, isLoad: isLoad}">
             <!-- site.socialmarketingcloud.com  localhost:8890-->
             <template v-for="(item, index) in listData">
                 <router-link class="weui-media-box weui-media-box_appmsg"
@@ -66,10 +66,17 @@ export default {
             })
 
             return roleCodes.indexOf('page_manager') > -1 ? 1 : 0
+        },
+        isLoad () {
+            return this.total > this.listData.length
         }
     },
     methods: {
-        getList (type) {
+        showMore (cb) {
+            this.pageNumber++
+            this.getList(cb)
+        },
+        getList (cb) {
             var formData = {
                 enterpriseCode: this.userInfo.enterpriseCode,
                 pageType: 'template_type_1',
@@ -89,10 +96,11 @@ export default {
 
                 this.isPage = true
                 this.total = Number(res.result.total)
-                if (!type) {
+                if (!cb) {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
+                    cb()
                 }
             })
         }

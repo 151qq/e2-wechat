@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="null-box" v-if="recordList && !recordList.length && isPage">
+        <div class="null-box" v-if="!recordList.length && isPage">
              暂无记录！
         </div>
     </section>
@@ -76,6 +76,7 @@ export default {
                     this.recordList = res.result.result
                 } else {
                     this.recordList = this.recordList.concat(res.result.result)
+                    cb()
                 }
             })
         }

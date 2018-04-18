@@ -32,23 +32,11 @@
         <div class="btn-height-box"></div>
         <div class="wx-bottom-nav">
             <router-link class="wx-nav-item"
-                         v-if="isRoot"
-                         :to="{
-                            name: 'case-static',
-                            query: {
-                                enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId
-                            }
-                        }">
-                营销指标
-            </router-link>
-            <router-link class="wx-nav-item"
                          :to="{
                             name: 'case-list',
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                formNav: '1'
+                                agentId: $route.query.agentId
                             }
                         }">
                 促销活动
@@ -62,6 +50,17 @@
                             }
                         }">
                 地推活动
+            </router-link>
+            <router-link class="wx-nav-item"
+                         v-if="isRoot"
+                         :to="{
+                            name: 'case-static',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                营销指标
             </router-link>
             <router-link class="wx-nav-item nav-blue"
                          :to="{
@@ -185,6 +184,7 @@ export default {
                     this.listData = res.result.result
                 } else {
                     this.listData = this.listData.concat(res.result.result)
+                    cb()
                 }
             })
         }

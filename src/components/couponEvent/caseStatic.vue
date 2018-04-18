@@ -3,23 +3,12 @@
         <section class="chart-box" id="caseStatic"></section>
 
         <div class="wx-bottom-nav">
-            <router-link class="wx-nav-item nav-now"
-                         :to="{
-                            name: 'case-static',
-                            query: {
-                                enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId
-                            }
-                        }">
-                营销指标
-            </router-link>
             <router-link class="wx-nav-item"
                          :to="{
                             name: 'case-list',
                             query: {
                                 enterpriseCode: userInfo.enterpriseCode,
-                                agentId: $route.query.agentId,
-                                formNav: '1'
+                                agentId: $route.query.agentId
                             }
                         }">
                 促销活动
@@ -33,6 +22,17 @@
                             }
                         }">
                 地推活动
+            </router-link>
+            <router-link class="wx-nav-item nav-now"
+                         v-if="isRoot"
+                         :to="{
+                            name: 'case-static',
+                            query: {
+                                enterpriseCode: userInfo.enterpriseCode,
+                                agentId: $route.query.agentId
+                            }
+                        }">
+                营销指标
             </router-link>
             <router-link class="wx-nav-item nav-blue"
                          :to="{
@@ -86,7 +86,15 @@ export default {
     computed: {
         ...mapGetters({
             userInfo: 'getUserInfo'
-        })
+        }),
+        isRoot () {
+            var roleCodes = []
+            this.userInfo.securityRole.forEach((item) => {
+                roleCodes.push(item.roleCode)
+            })
+
+            return roleCodes.indexOf('platform_root') > -1 || roleCodes.indexOf('enterprise_root') > -1 || roleCodes.indexOf('coupon_manager') > -1
+        }
     },
     mounted () {
         this.getData()
